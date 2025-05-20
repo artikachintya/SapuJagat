@@ -116,6 +116,12 @@ form input[type="password"] {
     background: transparent;
 }
 
+form input:focus,
+form select:focus {
+    outline: none;
+    border-bottom: 2px solid #035d1f;
+}
+
 .checkbox-group {
     display: flex;
     justify-content: space-between;
@@ -127,7 +133,7 @@ form input[type="password"] {
 .remember-me {
     display: flex;
     align-items: center;
-    gap: 8px; /* Jarak antara checkbox dan teks */
+    gap: 5px;
     font-size: 11px;
 }
 
@@ -204,13 +210,38 @@ form input[type="password"] {
 .btn-secondary {
     text-align: center;
     padding: 12px;
-    background: #f4f4f4;
+    background: #ffffff;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-weight: 600;
     color: #333;
     text-decoration: none;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.forgot-link:hover{
+    color: #003acc;
+    text-decoration: underline;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #024a18;
+    transition: background-color 0.3s ease;
+}
+
+
+.btn-google:hover {
+    background-color: #f5f5f5; 
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #f0f0f0; 
+    border-color: #999;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 @media (max-width: 889px) {

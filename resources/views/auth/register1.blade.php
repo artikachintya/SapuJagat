@@ -72,16 +72,16 @@
                         <input type="text" name="telepon" id="telepon" required>
                     </div>
 
-                    <a href="{{ route('login') }}" class="forgot-link">Masuk dengan akun?</a>
+                    <div class="btn-group">
+                        <button type="button" class="btn-google">
+                            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="height: 18px; margin-right: 8px;">
+                            Daftar dengan Google
+                        </button>
 
-                    <button type="submit" class="btn-submit">Daftar</button>
+                        <button type="submit" class="btn-daftar">Daftar</button>
 
-                    <div class="divider"><span>atau</span></div>
-
-                    <button type="button" class="btn-google">
-                        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="height: 18px; margin-right: 8px;">
-                        Daftar dengan Google
-                    </button>
+                        <a href="{{ route('login') }}" class="akun">Masuk dengan Akun</a>
+                    </div>
                 </form>
             </div>
         </div>
