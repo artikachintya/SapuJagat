@@ -3999,6 +3999,11 @@ textarea.form-control-lg {
   display: block;
 }
 
+.topborder{
+  border-top: 1px solid black;
+  padding-top:0.75rem;
+}
+
 .navbar {
   --bs-navbar-padding-x: 0;
   --bs-navbar-padding-y: 0.5rem;
