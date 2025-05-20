@@ -1,0 +1,26 @@
+
+.navbar {
+    background-color: #E5F5E0;
+}
+
+body {
+    font-family: 'Inria Sans', sans-serif;
+}
+
+.nav-link {
+    color: #005A32;
+    font-weight: bold;
+}
+
+#login-btn {
+    background-color: #005A32;
+    color: #ffffff;
+    font-weight: bold;
+    /* margin: 0px 16px; */
+}
+
+#register-btn {
+    color: #005A32;
+    border-color: #005A32;
+    font-weight: bold;
+}
