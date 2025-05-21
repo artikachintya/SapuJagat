@@ -13,11 +13,10 @@ body {
     min-height: 100vh;
 }
 
-.login-card {
+.card {
     display: flex;
     background: #fff;
     border-radius: 20px;
-    overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     width: 90%;
     max-width: 1000px;
@@ -102,6 +101,10 @@ body {
     margin-top: -15px;
 }
 
+.form-group {
+    position: relative;
+    margin-bottom: 100px; /* beri ruang agar dropdown muat di bawah */
+}
 
 form label {
     display: block;
@@ -168,6 +171,7 @@ form select:focus {
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .forgot-link {
@@ -236,6 +240,33 @@ form select:focus {
     font-weight: 600;
 }
 
+.text-error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.iti {
+    width: 100%;
+}
+
+.iti__flag-container {
+    border-bottom: 1px solid #ccc;
+}
+
+input[type="tel"] {
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+    width: 100%;
+    font-family: 'Inria Sans', sans-serif;
+}
+
+.iti--separate-dial-code .iti__selected-flag {
+    background-color: rgb(255, 255, 255);
+}
+
 .akun:hover{
     color: #003acc; /* biru lebih gelap */
     text-decoration: underline;
@@ -263,7 +294,7 @@ form select:focus {
 }
 
 @media (max-width: 768px) {
-    .login-card {
+    .card {
         flex-direction: column;
     }
 

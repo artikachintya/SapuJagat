@@ -49,9 +49,16 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'nama'         => 'required|string|max:255',
+            'email'        => 'required|email|unique:users,email',
+            'password'     => 'required|min:8',
+            'alamat'       => 'required|string|max:255',
+            'provinsi'     => 'required|string|max:100',
+            'kota'         => 'required|string|max:100',
+            'kode_pos'     => 'required|digits_between:4,6',
+            'nik'          => 'required|digits:16|unique:users,nik',
+            'kode_negara'  => 'required|string',
+            'telepon'      => 'required|digits_between:8,15',
         ]);
     }
 
@@ -64,9 +71,15 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name'      => $data['nama'],
+            'email'     => $data['email'],
+            'password'  => Hash::make($data['password']),
+            'alamat'    => $data['alamat'],
+            'provinsi'  => $data['provinsi'],
+            'kota'      => $data['kota'],
+            'kode_pos'  => $data['kode_pos'],
+            'nik'       => $data['nik'],
+            'telepon'   => $data['kode_negara'] . $data['telepon'],
         ]);
     }
 }
