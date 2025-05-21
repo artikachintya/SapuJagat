@@ -12,15 +12,84 @@ body {
     font-weight: bold;
 }
 
-#login-btn {
+#login-btn, #feature-btn {
     background-color: #005A32;
     color: #ffffff;
     font-weight: bold;
     /* margin: 0px 16px; */
 }
 
-#register-btn {
+#register-btn, #testimoni-btn {
     color: #005A32;
     border-color: #005A32;
     font-weight: bold;
+}
+
+#login-btn:hover, #feature-btn:hover {
+    color: #004d28;
+    background-color: #E5F5E0;
+    border-color: #005A32;
+}
+
+#register-btn:hover, #testimoni-btn:hover {
+    color: #E5F5E0;
+    background-color: #005A32;
+}
+
+#header-landing-page {
+    background-color: #F8F8F8;
+}
+
+#feature-section {
+    background-image: url('../images/background-feature.jpg');
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.card {
+    background-color: #005b38; /* Dark green */
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.icon-img {
+    width: 80px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-weight: 600;
+    background-color: #e4eedc;
+    color: #333;
+    /* display: inline-block; */
+    padding: 8px 16px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #e4eedc;
+    padding: 0 10px;
+}
+
+/* Optional down arrow below card body */
+
+#feature-section h1,
+#feature-section h4 {
+    font-weight: 700;
+    text-align: center;
+    color: #000;
 }
