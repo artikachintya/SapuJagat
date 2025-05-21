@@ -25,6 +25,9 @@ return new class extends Migration
             $table->string('NIK', 20);
             $table->string('email', 100)->unique();
             $table->string('address', 255);
+            $table->string('province', 255);
+            $table->string('city', 255);
+            $table->string('postal_code', 255);
             $table->string('phone_num', 20);
             $table->string('password', 255);
             $table->boolean('status')->default(false)->nullable();
