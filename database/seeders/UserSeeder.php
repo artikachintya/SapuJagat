@@ -15,7 +15,10 @@ class UserSeeder extends Seeder
             'name' => 'John Carter',
             'NIK' => '3273010101010001', // Pria, lahir 1 Jan 2001
             'email' => 'user1@example.com',
-            'address' => 'Jl. Merdeka No.1, Bandung',
+            'address' => 'CitraLand 2A',
+            'province' => 'Jawa Barat',
+            'city' => 'Bandung',
+            'postal_code' => '60232',
             'phone_num' => '081234567890',
             'password' => Hash::make('Password123'),
             'status' => true,
@@ -26,7 +29,10 @@ class UserSeeder extends Seeder
             'name' => 'Alice Moore',
             'NIK' => '3273015002010002', // Wanita, lahir 10 Feb 2001 (10+40=50)
             'email' => 'user2@example.com',
-            'address' => 'Jl. Proklamasi No.2, Bandung',
+            'address' => 'CitraHarmony 12A',
+            'province' => 'Jawa Timur',
+            'city' => 'Surabaya',
+            'postal_code' => '60110',
             'phone_num' => '081298765432',
             'password' => Hash::make('Password123'),
             'status' => true,
