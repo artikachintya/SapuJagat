@@ -244,6 +244,51 @@ form select:focus {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Overlay latar belakang gelap */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Latar belakang gelap */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1; /* Penting */
+    transition: opacity 0.5s ease; /* Transisi fade out */
+}
+
+.error-modal {
+    background-color: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    max-width: 400px;
+    font-size: 16px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.error-modal ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.error-modal li {
+    list-style: none;
+}
+
+/* Animasi menghilang */
+@keyframes fadeOutModal {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
 @media (max-width: 889px) {
     .quote-text {
         top: 40%;

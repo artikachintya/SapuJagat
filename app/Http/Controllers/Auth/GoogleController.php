@@ -3,39 +3,49 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
 {
-    public function redirectToGoogle()
+    public function redirectToGoogle(Request $request)
     {
-        return Socialite::driver('google')->redirect();
+        Session::put('google_auth_mode', $request->query('mode', 'login'));
+        return Socialite::driver('google')->stateless()->redirect();
     }
 
     public function handleGoogleCallback()
     {
-        try {
-            $googleUser = Socialite::driver('google')->user();
+        $googleUser = Socialite::driver('google')->stateless()->user();
+        $mode = Session::pull('google_auth_mode', 'login');
 
-            $user = User::where('email', $googleUser->getEmail())->first();
+        $user = User::where('email', $googleUser->email)->first();
 
-            if (!$user) {
-                $user = User::create([
-                    'name'     => $googleUser->getName(),
-                    'email'    => $googleUser->getEmail(),
-                    'password' => bcrypt(Str::random(16)), // Password acak
-                ]);
+        if ($mode === 'register') {
+            if ($user) {
+                return redirect()->route('login')->with('error', 'Email ini sudah terdaftar, silakan login.');
             }
 
-            Auth::login($user);
+            $user = User::create([
+                'name' => $googleUser->name,
+                'email' => $googleUser->email,
+                'password' => bcrypt(Str::random(16)),
+                'email_verified_at' => now(),
+            ]);
 
-            return redirect('/home'); // Atau ke halaman dashboard
-        } catch (\Exception $e) {
-            return redirect('/login')->with('error', 'Gagal login dengan Google.');
+            Auth::login($user);
+            return redirect()->intended('/pengguna');
         }
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Email Google Anda belum terdaftar.');
+        }
+
+        Auth::login($user);
+        return redirect()->intended('/pengguna');
     }
 }
-
