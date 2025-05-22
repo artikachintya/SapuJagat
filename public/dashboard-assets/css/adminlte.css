@@ -13185,6 +13185,7 @@ textarea.form-control-lg {
   background-color: var(--lte-sidebar-submenu-bg);
 }
 .sidebar-wrapper .nav-header {
+  padding:0;
   color: var(--lte-sidebar-header-color);
   background-color: inherit;
 }
@@ -14167,6 +14168,10 @@ body:not(.app-loaded) .app-footer {
     margin-right: 0.4rem;
     line-height: 10px;
   }
+}
+
+.marginzero{
+  margin:0;
 }
 
 .callout {

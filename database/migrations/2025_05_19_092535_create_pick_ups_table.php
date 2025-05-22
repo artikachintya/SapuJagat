@@ -21,9 +21,16 @@ return new class extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->unsignedBigInteger('driver_id');
+            // $table->unsignedBigInteger('driver_id');
+            // $table->foreign('driver_id')
+            //     ->references('driver_id') // sesuai nama PK di users
+            //     ->on('drivers')
+            //     ->onDelete('cascade')
+            //     ->onUpdate('cascade');
+
+            $table->string('driver_id', 5);
             $table->foreign('driver_id')
-                ->references('driver_id') // sesuai nama PK di users
+                ->references('driver_id')
                 ->on('drivers')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
