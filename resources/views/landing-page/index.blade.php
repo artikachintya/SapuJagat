@@ -10,16 +10,16 @@
         href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('landingpage/css/style.css') }}">
-    {{-- <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css"> --}}
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <title>Sapu Jagat | Landing Page</title>
 </head>
 <script src="landingpage/js/script.js"></script>
-{{-- <script src="https://unpkg.com/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> --}}
 
 <body>
 
+    {{-- navbar section --}}
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand mx-3" href="/landing-page">
@@ -55,6 +55,7 @@
         </div>
     </nav>
 
+    {{-- first section --}}
     <header id="header-landing-page">
         <div class="container-fluid px-0 mx-0">
             <div class ="row gx-0 align-items-center py-5">
@@ -101,6 +102,7 @@
         </div>
     </header>
 
+    {{-- feature section --}}
     <section id="feature-section" class="min-vh-100">
         <!-- Mobile version -->
         <h4 class="fw-bolder mt-3 mb-5 d-block d-lg-none fs-2 text-center">
@@ -141,7 +143,8 @@
 
                 <div class="col">
                     <div class="feature-card text-center">
-                        <img src="landingpage/images/tracking-icon.png" class="icon-img mb-3" alt="Tukar Sampah Icon">
+                        <img src="landingpage/images/tracking-icon.png" class="icon-img mb-3"
+                            alt="Tukar Sampah Icon">
                         <button class="feature-button mb-3">Pelacakan</button>
                         <div class="chevron" onclick="toggleDesc(this)">⌄</div>
                         <div class="feature-desc collapse">
@@ -167,6 +170,7 @@
 
     </section>
 
+    {{-- testimoni section --}}
     <section id="testimoni-section" class="min-vh-100">
         <!-- Mobile version -->
         <h4 class="fw-bolder mt-3 mb-5 d-block d-lg-none fs-2 text-center">
@@ -292,13 +296,14 @@
         </div>
     </section>
 
-    <section id="faq-section" class="min-vh-100">
+    {{-- FAQ section --}}
+    <section id="faq-section" class="min-vh-100 d-flex flex-column justify-content-center">
         <div class="container">
             <div class="row gx-0 align-items-center py-5">
                 {{-- Text content --}}
                 <div class="col-lg-5 col-xxl-5 d-flex flex-column justify-content-center align-items-start">
                     <!-- Mobile version -->
-                    <h4 class="fw-bolder tagline d-block d-lg-none fs-2 text-center mx-3">
+                    <h4 class="fw-bolder tagline d-block d-lg-none fs-2 text-center mx-3 mb-3">
                         Ada pertanyaan? Tenang, kami siap membantu!
                     </h4>
 
@@ -308,24 +313,20 @@
                     </h1>
                 </div>
 
-                <div class="col-lg-7 col-xxl-7 d-flex flex-column justify-content-center align-items-start">
+                <div class="col-lg-7 col-xxl-7 d-flex flex-column justify-content-center">
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Accordion Item #1
+                                    Apa itu Sapu Jagat?
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <strong>This is the first item’s accordion body.</strong> It is shown by default,
-                                    until the collapse plugin adds the appropriate classes that we use to style each
-                                    element. These classes control the overall appearance, as well as the showing and
-                                    hiding via CSS transitions. You can modify any of this with custom CSS or overriding
-                                    our default variables. It’s also worth noting that just about any HTML can go within
-                                    the <code>.accordion-body</code>, though the transition does limit overflow.
+                                    Sapu Jagat adalah aplikasi penukaran sampah yang memungkinkan pengguna menukar
+                                    sampah dengan imbalan tertentu. Sampah dijemput langsung oleh driver kami.
                                 </div>
                             </div>
                         </div>
@@ -333,18 +334,77 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Accordion Item #2
+                                    Bagaimana cara menggunakan Sapu Jagat?
                                 </button>
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <strong>This is the second item’s accordion body.</strong> It is hidden by default,
-                                    until the collapse plugin adds the appropriate classes that we use to style each
-                                    element. These classes control the overall appearance, as well as the showing and
-                                    hiding via CSS transitions. You can modify any of this with custom CSS or overriding
-                                    our default variables. It’s also worth noting that just about any HTML can go within
-                                    the <code>.accordion-body</code>, though the transition does limit overflow.
+                                    Cukup daftar, input jenis dan berat sampah, lalu pilih jadwal penjemputan. Driver
+                                    akan datang sesuai waktu yang dipilih.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="false"
+                                    aria-controls="collapseThree">
+                                    Apa saja jenis sampah yang bisa ditukar?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Kami menerima sampah organik dan anorganik seperti plastik, kertas, logam, daun,
+                                    sisa makanan, dll.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFour" aria-expanded="false"
+                                    aria-controls="collapseFour">
+                                    Bagaimana proses penukaran sampah dilakukan?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Setelah dijemput, sampah akan ditimbang dan diverifikasi di tempat penukaran sesuai
+                                    data yang Anda input.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFive" aria-expanded="false"
+                                    aria-controls="collapseFive">
+                                    Apa keuntungan menukar sampah di Sapu Jagat?
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Anda bisa mendapatkan imbalan berupa uang yang dapat ditarik ke rekening Anda, serta
+                                    turut menjaga lingkungan.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                    Di kota mana saja Sapu Jagat tersedia?
+                                </button>
+                            </h2>
+                            <div id="collapseSix" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Saat ini kami beroperasi di beberapa kota besar. Cek aplikasi untuk info area
+                                    layanan terbaru kami.
                                 </div>
                             </div>
                         </div>
@@ -353,6 +413,67 @@
             </div>
         </div>
     </section>
+
+    {{-- footer section --}}
+    <footer class="text-center text-lg-start" style="background-color: #E5F5E0">
+        <!-- Grid container -->
+        <div class="container">
+            <!-- Section: Links -->
+            <section class="">
+                <!--Grid row-->
+                <div class="row">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                        <h6 class="text-uppercase mb-4 fw-bold">
+                            Sapu Jagat
+                        </h6>
+                        <p>
+                            Rumah Talenta BCA Jalan Pakuan no. 3, Sumur Batu, Babakan Madang, Sentul, Indonesia
+                        </p>
+                    </div>
+
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-5 col-xl-5 mx-auto mt-5 d-flex flex-column justify-content-center">
+                        <div class="text-center">
+                            ©
+                            <a class="text-dark" href="https://mdbootstrap.com/">Sapu Jagat. Segala hak cipta
+                                dilindungi | Web Programming</a>
+                        </div>
+                    </div>
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                        <h6 class="text-uppercase mb-4 fw-bold">Ikuti Kami</h6>
+
+                        <!-- Facebook -->
+                        <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!"
+                            role="button"><i class="fab fa-facebook-f"></i></a>
+
+                        <!-- Twitter -->
+                        <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee" href="#!"
+                            role="button"><i class="fab fa-twitter"></i></a>
+
+                        <!-- Google -->
+                        <a class="btn btn-primary btn-floating m-1" style="background-color: #dd4b39" href="#!"
+                            role="button"><i class="fab fa-google"></i></a>
+
+                        <!-- Instagram -->
+                        <a class="btn btn-primary btn-floating m-1" style="background-color: #ac2bac" href="#!"
+                            role="button"><i class="fab fa-instagram"></i></a>
+
+                        <!-- Linkedin -->
+                        <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca" href="#!"
+                            role="button"><i class="fab fa-linkedin-in"></i></a>
+                        <!-- Github -->
+                        <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="#!"
+                            role="button"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <!--Grid row-->
+            </section>
+            <!-- Section: Links -->
+        </div>
+        <!-- Grid container -->
+    </footer>
 </body>
 
 </html>

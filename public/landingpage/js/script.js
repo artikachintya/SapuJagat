@@ -21,22 +21,10 @@
       el.textContent = '⌄';
     }
   }
-
-// Add this script at the end of your body or in a DOM-ready handler
+// Initialize the accordion
 document.addEventListener('DOMContentLoaded', function() {
     const accordion = document.querySelector('#accordionExample');
     const items = accordion.querySelectorAll('.accordion-item');
-
-    // Open all items temporarily to calculate full height
-    items.forEach(item => {
-        const collapse = item.querySelector('.accordion-collapse');
-        collapse.classList.add('show');
-    });
-
-    // Get the full height
-    const fullHeight = accordion.offsetHeight;
-
-    // Close all items (except any that should be open by default)
     items.forEach(item => {
         const collapse = item.querySelector('.accordion-collapse');
         if (!collapse.classList.contains('show')) {
@@ -44,6 +32,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Set the min-height
-    accordion.style.minHeight = fullHeight + 'px';
 });

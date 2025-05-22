@@ -277,8 +277,25 @@ button:focus {
     padding-bottom: 50px;
 }
 
+.accordion-button {
+    font-weight: bold;
+}
 
-#accordionExample {
-  min-height: 300px; /* Adjust this value based on your largest accordion content */
-  transition: min-height 0.3s ease;
+.accordion-button:not(.collapsed) {
+  background-color: #f0f0f0; /* Replace with your desired color */
+  color: #000; /* Optional: change text color too */
+}
+
+.accordion-button:focus {
+  box-shadow: none; /* Remove blue border shadow */
+}
+
+@media (min-width: 768px) {
+    .accordion-button {
+        font-size: 1.25rem;
+    }
+
+    .accordion-body {
+        font-size: 1.125rem;
+    }
 }
