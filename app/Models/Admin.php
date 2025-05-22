@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 class Admin extends Authenticatable
 {
     use Notifiable;
+    public $incrementing = false; // karena bukan auto-increment
+    protected $keyType = 'string'; // primary key berupa string
 
     protected $fillable = ['name', 'email', 'password'];
 

@@ -12,6 +12,9 @@ class Driver extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $primaryKey = 'driver_id'; // sesuai migration
+    
+    public $incrementing = false; // karena bukan auto-increment numeric
+    protected $keyType = 'string'; // tipe kunci utama string
 
     protected $fillable = [
         'name',
