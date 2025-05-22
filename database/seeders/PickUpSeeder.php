@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\PickUp;
 use Carbon\Carbon;
+use App\Models\Driver;
 
 class PickUpSeeder extends Seeder
 {
@@ -14,9 +15,12 @@ class PickUpSeeder extends Seeder
      */
     public function run(): void
     {
+        $drivers = Driver::pluck('driver_id')->toArray();
+
         PickUp::create([
             'order_id' => 1,     // pastikan order_id 1 ada
-            'driver_id' => 1,    // pastikan driver_id 1 ada di tabel drivers
+            // 'driver_id' => 1,    // pastikan driver_id 1 ada di tabel drivers
+            'driver_id' => $drivers[0],
             'pick_up_date' => Carbon::now(),
             'arrival_date' => Carbon::now()->addMinutes(30),
             'photos' => 'photos/pickup1.jpg',
@@ -25,7 +29,8 @@ class PickUpSeeder extends Seeder
 
         PickUp::create([
             'order_id' => 2,
-            'driver_id' => 2,
+            // 'driver_id' => 2,
+            'driver_id' => $drivers[1],
             'pick_up_date' => Carbon::now()->addHour(),
             'arrival_date' => Carbon::now()->addHours(2),
             'photos' => 'photos/pickup2.jpg',

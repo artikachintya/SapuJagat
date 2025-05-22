@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('drivers', function (Blueprint $table) {
-            $table->id('driver_id');
+            // $table->id('driver_id');
+            $table->string('driver_id', 10)->primary();
             $table->string('name',100);
             $table->string('email',100)->unique();
             $table->string('password',255);
