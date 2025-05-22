@@ -14,9 +14,15 @@ return new class extends Migration
         Schema::create('withdrawals', function (Blueprint $table) {
             $table->id('withdrawal_id');
 
-            $table->unsignedBigInteger('user_id');
+            // $table->unsignedBigInteger('user_id');
+            // $table->foreign('user_id')
+            //     ->references('user_id') // sesuai nama PK di users
+            //     ->on('users')
+            //     ->onDelete('cascade')
+            //     ->onUpdate('cascade');
+            $table->string('user_id', 10);
             $table->foreign('user_id')
-                ->references('user_id') // sesuai nama PK di users
+                ->references('user_id')
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');

@@ -67,7 +67,7 @@
         <!--begin::Menu Footer-->
         <li class="user-footer">
             <a href="#" class="btn btn-default btn-flat">Profile</a>
-            <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+            <a href="#" class="btn btn-danger btn-flat float-end">Sign out</a>
         </li>
         <!--end::Menu Footer-->
         </ul>
@@ -110,7 +110,7 @@
         role="menu"
         data-accordion="false"
     >
-        <li class="nav-header">
+        <li class="nav-header" style="padding:0;">
         <a href="#" class="nav-link">
             <img
             src="{{ asset('dashboard-assets/assets/img/SJ_logo.png')}}"

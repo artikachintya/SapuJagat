@@ -16,10 +16,21 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    public $incrementing = false;
+    protected $keyType = 'string';
+    
     protected $fillable = [
         'name',
+        'NIK',
         'email',
+        'address',
+        'province',
+        'city',
+        'postal_code',
+        'phone_num',
         'password',
+        'status',
+        'balance',
     ];
 
     /**

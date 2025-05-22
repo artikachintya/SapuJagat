@@ -20,15 +20,19 @@ return new class extends Migration
             // $table->rememberToken();
             // $table->timestamps();
 
-            $table->id('user_id'); // Primary Key
-            $table->string('name', 100);
-            $table->string('NIK', 20);
+            // $table->id('user_id'); // Primary Key
+            $table->string('user_id', 10)->primary();
+            $table->string('name', 100)->nullable();
+            $table->string('NIK', 20)->unique()->nullable();
             $table->string('email', 100)->unique();
-            $table->string('address', 255);
-            $table->string('phone_num', 20);
+            $table->string('address', 255)->nullable();
+            $table->string('province', 255)->nullable();
+            $table->string('city', 255)->nullable();
+            $table->string('postal_code', 255)->nullable();
+            $table->string('phone_num', 20)->unique()->nullable();
             $table->string('password', 255);
             $table->boolean('status')->default(false)->nullable();
-            $table->float('balance')->default(0);
+            $table->float('balance')->default(0)->nullable();
             $table->timestamps();
         });
 
