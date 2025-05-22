@@ -103,7 +103,7 @@
                     @enderror             
                 
                     <div class="btn-group">
-                        <button type="button" class="btn-google" onclick="window.location='{{ url('auth/google') }}'">
+                        <button type="button" class="btn-google" onclick="window.location='{{ route('auth.google', ['mode' => 'register']) }}'">
                             <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="height: 18px; margin-right: 8px;">
                             Daftar dengan Google
                         </button>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\GoogleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,20 +15,12 @@ Route::get('/pengguna', function () {
     return view('pengguna.dashboard');
 });
 
-use App\Http\Controllers\Auth\GoogleController;
 
-Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
-Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+// Hanya gunakan satu redirect
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 
-// Auth::routes();
+// Satu callback untuk keduanya
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Auth::routes(); 
