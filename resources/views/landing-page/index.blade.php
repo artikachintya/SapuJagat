@@ -42,7 +42,7 @@
                         <a class="nav-link" href="#faq-section">FAQ</a>
                     </li>
                     <li class="nav-item mx-3">
-                        <a class="nav-link" href="#footer">Kontak</a>
+                        <a class="nav-link" href="#footer-section">Kontak</a>
                     </li>
                 </ul>
 
@@ -415,7 +415,7 @@
     </section>
 
     {{-- footer section --}}
-    <footer class="text-center text-lg-start" style="background-color: #E5F5E0">
+    <footer class="text-center text-lg-start" style="background-color: #E5F5E0" id="footer-section">
         <!-- Grid container -->
         <div class="container">
             <!-- Section: Links -->
