@@ -36,84 +36,84 @@
                 <h2 class="form-title">Daftar</h2>
                 <form method="POST" action="{{ route('register') }}" id="form-daftar">
                     @csrf
-
+                
                     <label for="name">Nama Lengkap</label>
-                    <input type="text" name="name" id="nama" required>
-                    @error('nama')
+                    <input type="text" name="name" id="name" value="{{ old('name') }}" required>
+                    @error('name')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
-
+                
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" required>
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" required>
                     @error('email')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
-
+                
                     <label for="password">Kata Sandi</label>
                     <input type="password" name="password" id="password" required>
                     @error('password')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
-
-                    <label for="alamat">Alamat</label>
-                    <input type="text" name="address" id="alamat">
-                    @error('alamat')
+                
+                    <label for="address">Alamat</label>
+                    <input type="text" name="address" id="address" value="{{ old('address') }}">
+                    @error('address')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
-
+                
                     <div class="input-row">
                         <div class="input-group">
-                            <label for="provinsi">Provinsi</label>
-                            <select name="provinsi" id="provinsi" class="form-select">
+                            <label for="province">Provinsi</label>
+                            <select name="province" id="province" class="form-select" required>
                                 <option value="">Pilih Provinsi</option>
+                                {{-- Option akan diisi oleh JS --}}
                             </select>
-                            @error('provinsi')
+                            @error('province')
                               <div class="text-error">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="input-group mt-3">
-                            <label for="kota">Kota</label>
-                            <select name="kota" id="kota" class="form-select">
+                            <label for="city">Kota</label>
+                            <select name="city" id="city" class="form-select" required>
                                 <option value="">Pilih Kota</option>
+                                {{-- Option akan diisi oleh JS --}}
                             </select>
-                            @error('kota')
+                            @error('city')
                              <div class="text-error">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-
-                    <label for="kode_pos">Kode Pos</label>
-                    <input type="text" name="kode_pos" id="kode_pos" required>
-                    @error('kode_pos')
+                
+                    <label for="postal_code">Kode Pos</label>
+                    <input type="text" name="postal_code" id="postal_code" value="{{ old('postal_code') }}" required>
+                    @error('postal_code')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
-
-                    <label for="nik">NIK</label>
-                    <input type="text" name="NIK" id="nik" required>
-                    @error('nik')
+                
+                    <label for="NIK">NIK</label>
+                    <input type="text" name="NIK" id="NIK" value="{{ old('NIK') }}" required>
+                    @error('NIK')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
-
-                    <label for="telepon">Nomor Telepon</label>
-                    <input id="telepon" name="phone_num" type="tel" required>
-                    @error('telepon')
+                
+                    <label for="phone_num">Nomor Telepon</label>
+                    <input id="phone_num" name="phone_num" type="tel" value="{{ old('phone_num') }}" required>
+                    @error('phone_num')
                       <div class="text-error">{{ $message }}</div>
                     @enderror             
-                    @error('telepon')
-                      <div class="text-error">{{ $message }}</div>
-                    @enderror
-
+                
                     <div class="btn-group">
-                        <button type="button" class="btn-google">
+                        <button type="button" class="btn-google" onclick="window.location='{{ url('auth/google') }}'">
                             <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="height: 18px; margin-right: 8px;">
                             Daftar dengan Google
                         </button>
 
                         <button type="submit" class="btn-daftar">Daftar</button>
-
+                
                         <a href="{{ route('login') }}" class="akun">Masuk dengan Akun</a>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

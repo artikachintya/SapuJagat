@@ -131,37 +131,6 @@ form select:focus {
     border-bottom: 2px solid #035d1f;
 }
 
-.phone-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 95%;
-}
-
-.phone-code {
-    padding: 10px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    background: transparent;
-    font-family: 'Inria Sans', sans-serif;
-    font-size: 14px;
-    width: 68px;
-}
-
-.phone-group input[type="text"] {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    background: transparent;
-}
-
-.phone-group .prefix {
-    padding: 8px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-}
-
 .input-row {
     display: flex;
     gap: 10px;
