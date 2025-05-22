@@ -10,8 +10,13 @@
         href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('landingpage/css/style.css') }}">
+    {{-- <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css"> --}}
+
+
     <title>Sapu Jagat | Landing Page</title>
 </head>
+<script src="landingpage/js/script.js"></script>
+{{-- <script src="https://unpkg.com/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> --}}
 
 <body>
 
@@ -24,20 +29,20 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse fs-6 fs-sm-6 fs-md-5 fs-lg-2" id="navitems">
+            <div class="collapse navbar-collapse" id="navitems">
                 <!-- LEFT SIDE -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item mx-3">
-                        <a class="nav-link" href="/landing-page/fitur">Fitur</a>
+                        <a class="nav-link" href="#feature-section">Fitur</a>
                     </li>
                     <li class="nav-item mx-3">
-                        <a class="nav-link" href="/landing-page/about">Testimoni</a>
+                        <a class="nav-link" href="#testimoni-section">Testimoni</a>
                     </li>
                     <li class="nav-item mx-3">
-                        <a class="nav-link" href="/landing-page/faq">FAQ</a>
+                        <a class="nav-link" href="#faq-section">FAQ</a>
                     </li>
                     <li class="nav-item mx-3">
-                        <a class="nav-link" href="/landing-page/contact">Kontak</a>
+                        <a class="nav-link" href="#footer">Kontak</a>
                     </li>
                 </ul>
 
@@ -79,8 +84,8 @@
 
                     <!-- Buttons -->
                     <div class="mt-3">
-                        <a href="#fitur" class="btn btn-outline-success me-3" id="feature-btn">Fitur Kami</a>
-                        <a href="#testimoni" class="btn btn-outline-success" id="testimoni-btn">Testimoni</a>
+                        <a href="#feature-section" class="btn btn-outline-success me-3" id="feature-btn">Fitur Kami</a>
+                        <a href="#testimoni-section" class="btn btn-outline-success" id="testimoni-btn">Testimoni</a>
                     </div>
                 </div>
                 {{-- image content --}}
@@ -96,9 +101,9 @@
         </div>
     </header>
 
-    <section id="feature-section" class="min-vh-100 d-flex flex-column justify-content-center">
+    <section id="feature-section" class="min-vh-100">
         <!-- Mobile version -->
-        <h4 class="fw-bolder my-3 d-block d-lg-none fs-2 text-center">
+        <h4 class="fw-bolder mt-3 mb-5 d-block d-lg-none fs-2 text-center">
             Fitur Kami
         </h4>
 
@@ -109,47 +114,177 @@
 
         <div class="container">
             <div class="row row-cols-2 row-cols-md-4 g-4 justify-content-center">
+
                 <div class="col">
-                    <div class="card h-100">
-                        <img src="landingpage/images/trash-icon.png" class="icon-img mx-auto d-block mt-4"
-                            alt="Tukar Sampah Icon">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Tukar Sampah</h5>
-                            <p class="card-text">Pilih jenis sampahmu dan tukarkan dengan mudah. Satu langkah kecil
-                                untuk bumi, satu aksi besar dari kamu!</p>
+                    <div class="feature-card text-center">
+                        <img src="landingpage/images/trash-icon.png" class="icon-img mb-3" alt="Tukar Sampah Icon">
+                        <button class="feature-button mb-3">Tukar Sampah</button>
+                        <div class="chevron" onclick="toggleDesc(this)">⌄</div>
+                        <div class="feature-desc collapse">
+                            Pilih jenis sampahmu dan tukarkan dengan mudah. Satu langkah kecil untuk bumi, satu aksi
+                            besar dari kamu!
                         </div>
                     </div>
                 </div>
+
                 <div class="col">
-                    <div class="card h-100">
-                        <img src="landingpage/images/history-icon.png" class="icon-img mx-auto d-block mt-4"
-                            alt="Histori Icon">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Histori</h5>
-                            <p class="card-text">Lihat kembali semua aksi pedulimu. Riwayat penukaranmu tersimpan rapi,
-                                jadi kamu bisa pantau progres hijau kamu!</p>
+                    <div class="feature-card text-center">
+                        <img src="landingpage/images/history-icon.png" class="icon-img mb-3" alt="Tukar Sampah Icon">
+                        <button class="feature-button mb-3">Histori</button>
+                        <div class="chevron" onclick="toggleDesc(this)">⌄</div>
+                        <div class="feature-desc collapse">
+                            Lihat kembali semua aksi pedulimu. Riwayat penukaranmu tersimpan rapi,jadi kamu bisa pantau
+                            progres hijau kamu!
                         </div>
                     </div>
                 </div>
+
                 <div class="col">
-                    <div class="card h-100">
-                        <img src="landingpage/images/tracking-icon.png" class="icon-img mx-auto d-block mt-4"
-                            alt="Pelacakan Icon">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Pelacakan</h5>
-                            <p class="card-text">Driver on the way! Pantau perjalanan sampahmu dan pastikan semuanya
-                                aman sampai tujuan.</p>
+                    <div class="feature-card text-center">
+                        <img src="landingpage/images/tracking-icon.png" class="icon-img mb-3" alt="Tukar Sampah Icon">
+                        <button class="feature-button mb-3">Pelacakan</button>
+                        <div class="chevron" onclick="toggleDesc(this)">⌄</div>
+                        <div class="feature-desc collapse">
+                            Driver on the way! Pantau perjalanan sampahmu dan pastikan semuanya aman sampai tujuan.
                         </div>
                     </div>
                 </div>
+
                 <div class="col">
-                    <div class="card h-100">
-                        <img src="landingpage/images/report-icon.png" class="icon-img mx-auto d-block mt-4"
-                            alt="Laporan Icon">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Laporan</h5>
-                            <p class="card-text">Driver telat? Fitur error? Sampaikan di sini — kami siap bantu atasi
-                                masalahmu dengan cepat dan sigap!</p>
+                    <div class="feature-card text-center">
+                        <img src="landingpage/images/report-icon.png" class="icon-img mb-3" alt="Tukar Sampah Icon">
+                        <button class="feature-button mb-3">Laporan</button>
+                        <div class="chevron" onclick="toggleDesc(this)">⌄</div>
+                        <div class="feature-desc collapse">
+                            Driver telat? Fitur error? Sampaikan di sini — kami siap bantu atasi masalahmu dengan cepat
+                            dan sigap!
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <section id="testimoni-section" class="min-vh-100">
+        <!-- Mobile version -->
+        <h4 class="fw-bolder mt-3 mb-5 d-block d-lg-none fs-2 text-center">
+            Testimoni
+        </h4>
+
+        <!-- Desktop version -->
+        <h1 class="fw-bold my-5 d-none d-lg-block display-4 text-center">
+            Testimoni
+        </h1>
+
+        <div class="container my-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body px-4 py-5">
+                            <!-- Carousel wrapper -->
+                            <div id="carouselDarkVariant" class="carousel slide carousel-dark"
+                                data-bs-ride="carousel">
+                                <!-- Indicators -->
+                                <div class="carousel-indicators mb-0" style="bottom: -50px;">
+                                    <button type="button" data-bs-target="#carouselDarkVariant" data-bs-slide-to="0"
+                                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <button type="button" data-bs-target="#carouselDarkVariant" data-bs-slide-to="1"
+                                        aria-label="Slide 2"></button>
+                                    <button type="button" data-bs-target="#carouselDarkVariant" data-bs-slide-to="2"
+                                        aria-label="Slide 3"></button>
+                                </div>
+
+                                <!-- Inner -->
+                                <div class="carousel-inner py-2">
+                                    <!-- Single item -->
+                                    <div class="carousel-item active">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-lg-10 col-xl-8">
+                                                <div class="row">
+                                                    <div class="col-lg-4 d-flex justify-content-center">
+                                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp"
+                                                            class="rounded-circle shadow-1 mb-4 mb-lg-0"
+                                                            alt="woman avatar" width="150" height="150" />
+                                                    </div>
+                                                    <div
+                                                        class="col-9 col-md-9 col-lg-7 col-xl-8 text-center text-lg-start mx-auto mx-lg-0">
+                                                        <h4 class="mb-4">Eine Rahmawati</h4>
+                                                        <p class="mb-0 pb-3">
+                                                            Baru tahu ternyata sampah bisa jadi duit! Pakai Sapu Jagat,
+                                                            sampah di rumah dijemput langsung sama driver. Kita tinggal
+                                                            pilah dan jadwalkan. Gak ribet dan bikin rumah makin bersih!
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Single item -->
+                                    <div class="carousel-item">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-lg-10 col-xl-8">
+                                                <div class="row">
+                                                    <div class="col-lg-4 d-flex justify-content-center">
+                                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(9).webp"
+                                                            class="rounded-circle shadow-1 mb-4 mb-lg-0"
+                                                            alt="woman avatar" width="150" height="150" />
+                                                    </div>
+                                                    <div
+                                                        class="col-9 col-md-9 col-lg-7 col-xl-8 text-center text-lg-start mx-auto mx-lg-0">
+                                                        <h4 class="mb-4">Budi Setiawan</h4>
+                                                        <p class="mb-0 pb-3">
+                                                            Layanan jemput sampahnya keren! Bikin kegiatan recycle jadi
+                                                            gampang. Harga sampah transparan dan jelas. Semoga ke depan
+                                                            cakupan area jemputnya makin luas.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Single item -->
+                                    <div class="carousel-item">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-lg-10 col-xl-8">
+                                                <div class="row">
+                                                    <div class="col-lg-4 d-flex justify-content-center">
+                                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(2).webp"
+                                                            class="rounded-circle shadow-1 mb-4 mb-lg-0"
+                                                            alt="woman avatar" width="150" height="150" />
+                                                    </div>
+                                                    <div
+                                                        class="col-9 col-md-9 col-lg-7 col-xl-8 text-center text-lg-start mx-auto mx-lg-0">
+                                                        <h4 class="mb-4">Tari</h4>
+                                                        <p class="mb-0 pb-3">
+                                                            Biasanya sampah kardus dan botol numpuk gak kepakai.
+                                                            Sekarang tinggal order via Sapujagat, dijemput langsung.
+                                                            Dapat uang juga. Anak-anak jadi ikut belajar pilah sampah.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Inner -->
+
+                                <!-- Controls -->
+                                <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#carouselDarkVariant" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                    data-bs-target="#carouselDarkVariant" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                            <!-- Carousel wrapper -->
                         </div>
                     </div>
                 </div>
@@ -157,6 +292,67 @@
         </div>
     </section>
 
+    <section id="faq-section" class="min-vh-100">
+        <div class="container">
+            <div class="row gx-0 align-items-center py-5">
+                {{-- Text content --}}
+                <div class="col-lg-5 col-xxl-5 d-flex flex-column justify-content-center align-items-start">
+                    <!-- Mobile version -->
+                    <h4 class="fw-bolder tagline d-block d-lg-none fs-2 text-center mx-3">
+                        Ada pertanyaan? Tenang, kami siap membantu!
+                    </h4>
+
+                    <!-- Desktop version -->
+                    <h1 class="fw-bold tagline d-none d-lg-block display-4 mx-5">
+                        Ada pertanyaan? Tenang, kami siap membantu!
+                    </h1>
+                </div>
+
+                <div class="col-lg-7 col-xxl-7 d-flex flex-column justify-content-center align-items-start">
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Accordion Item #1
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <strong>This is the first item’s accordion body.</strong> It is shown by default,
+                                    until the collapse plugin adds the appropriate classes that we use to style each
+                                    element. These classes control the overall appearance, as well as the showing and
+                                    hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                                    our default variables. It’s also worth noting that just about any HTML can go within
+                                    the <code>.accordion-body</code>, though the transition does limit overflow.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Accordion Item #2
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <strong>This is the second item’s accordion body.</strong> It is hidden by default,
+                                    until the collapse plugin adds the appropriate classes that we use to style each
+                                    element. These classes control the overall appearance, as well as the showing and
+                                    hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                                    our default variables. It’s also worth noting that just about any HTML can go within
+                                    the <code>.accordion-body</code>, though the transition does limit overflow.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>
