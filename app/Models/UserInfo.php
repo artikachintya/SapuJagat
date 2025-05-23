@@ -5,21 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Withdrawal extends Model
+class UserInfo extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'withdrawal_id';
+    protected $table = 'users_info';
+    protected $primaryKey = 'user_id';
+    public $incrementing = false;
     protected $keyType = 'int';
-    public $incrementing = true;
-    public $timestamps = false;
+    public $timestamps = false; // karena tidak ada kolom timestamps di migration
 
     protected $fillable = [
         'user_id',
-        'withdrawal_balance',
-        'datetime',
+        'address',
+        'province',
+        'city',
+        'postal_code',
+        'balance',
     ];
 
+    // Relasi ke User
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');

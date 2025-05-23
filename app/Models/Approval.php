@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
 class Approval extends Model
 {
-    protected $table = 'approvals';
     public $timestamps = false;
+    protected $table = 'approvals';
 
     protected $fillable = [
         'order_id',
@@ -17,8 +16,8 @@ class Approval extends Model
         'notes',
     ];
 
-    public function order(): BelongsTo
+    public function order()
     {
-        return $this->belongsTo(Order::class, 'order_id', 'order_id');
+        return $this->belongsTo(Order::class, 'order_id');
     }
 }
