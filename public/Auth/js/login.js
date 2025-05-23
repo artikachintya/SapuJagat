@@ -22,3 +22,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 250); // setelah transisi selesai
     }
 });
+
+function closeOtpModal() {
+    const modal = document.getElementById('otpModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}

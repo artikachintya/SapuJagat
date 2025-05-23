@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\OtpController;
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,5 +25,7 @@ Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name(
 // Satu callback untuk keduanya
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+//Buat Route otpnya
+Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
 
 Auth::routes(); 

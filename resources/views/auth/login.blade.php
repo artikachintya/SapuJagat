@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{{ asset('Auth/css/login.css') }}">
 </head>
+
 <body>
     <div class="container">
         <div class="login-card">
@@ -20,7 +22,8 @@
                     <img src="{{ asset('Auth/images/card-image.png') }}" alt="Quote Background" class="quote-image">
                     <div class="quote-text">
                         <p>
-                            "Tidak ada tindakan kecil jika dilakukan bersama. Pilah sampah hari ini, selamatkan dunia untuk generasi esok!"
+                            "Tidak ada tindakan kecil jika dilakukan bersama. Pilah sampah hari ini, selamatkan dunia
+                            untuk generasi esok!"
                         </p>
                         <p class="author">~By Copitol~</p>
                     </div>
@@ -30,11 +33,11 @@
                 <img src="Auth/images/logo.png" class="mobile-logo" alt="Logo">
                 <h2>Masuk</h2>
                 @if (session('error'))
-                <div class="overlay" id="error-overlay">
-                    <div class="error-modal">
-                        <p>{{ session('error') }}</p>
+                    <div class="overlay" id="error-overlay">
+                        <div class="error-modal">
+                            <p>{{ session('error') }}</p>
+                        </div>
                     </div>
-                </div>
                 @endif
 
                 @if ($errors->any())
@@ -48,15 +51,15 @@
                         </div>
                     </div>
                 @endif
-                
+
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <label>Email</label>
                     <input type="email" name="email" required>
-                    
+
                     <label>Kata Sandi</label>
                     <input type="password" name="password" required>
-                    
+
                     <div class="checkbox-group">
                         <div class="remember-me">
                             <input type="checkbox" name="remember" id="remember">
@@ -64,26 +67,42 @@
                         </div>
                         <a href="{{ route('password.request') }}" class="forgot-link">Lupa kata sandi?</a>
                     </div>
-                    
+
                     <button type="submit" class="btn-primary">Masuk</button>
-                    
+
                     <div class="divider">
                         <span>atau</span>
                     </div>
-                    
+
                     <div class="btn-group">
                         <form method="GET" action="{{ route('auth.google') }}">
-                            <button type="button" class="btn-google" onclick="window.location='{{  route('auth.google', ['mode' => 'login'])  }}'">
-                                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="height: 18px; margin-right: 8px;">
+                            <button type="button" class="btn-google"
+                                onclick="window.location='{{  route('auth.google', ['mode' => 'login'])  }}'">
+                                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"
+                                    style="height: 18px; margin-right: 8px;">
                                 Masuk dengan Google
                             </button>
                         </form>
                         <a href="{{ route('register') }}" class="btn-secondary">Belum punya akun</a>
                     </div>
                 </form>
+                @if (session('otp_required') && session()->has('otp_user_id'))
+                    <div id="otpModal" class="modal" style="display:flex;">
+                        <div class="modal-content">
+                            <button class="close-btn" onclick="closeOtpModal()">×</button>
+                            <h2>Masukkan OTP</h2>
+                            <form method="POST" action="{{ route('otp.verify') }}">
+                                @csrf
+                                <input type="text" name="otp" maxlength="6" required placeholder="Kode OTP">
+                                <button type="submit" class="btn-verify">Verifikasi</button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
-<script src="{{ asset('Auth/js/login.js') }}"></script>
+    <script src="{{ asset('Auth/js/login.js') }}"></script>
 </body>
+
 </html>
