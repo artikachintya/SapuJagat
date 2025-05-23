@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleController;
+
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\HomeController;
@@ -24,9 +25,8 @@ Route::get('/pengguna', function () {
 });
 
 // Google Auth Routes
-
-Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
-Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+// Hanya gunakan satu redirect
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 
 // Laravel Default Auth Routes
 
@@ -44,3 +44,8 @@ Route::post('admin/logout', [LoginController::class, 'logout'])->name('admin.log
 Route::middleware('auth:admin')->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
+// Satu callback untuk keduanya
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+
+Auth::routes();
