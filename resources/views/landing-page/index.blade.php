@@ -61,7 +61,7 @@
             <div class ="row gx-0 align-items-center py-5">
 
                 {{-- Text content --}}
-                <div class="col-xxl-6 d-flex flex-column justify-content-center align-items-start px-5">
+                <div class="col-xxl-6 d-flex flex-column justify-content-center px-5">
                     <!-- Mobile version -->
                     <h4 class="fw-bolder mb-3 tagline d-block d-lg-none fs-2 text-center">
                         Ubah Sampah Jadi Cuan dengan Cara yang Mudah!
@@ -83,11 +83,12 @@
                         Semua dalam satu platform digital: Sapu Jagat!
                     </p>
 
-                    <!-- Buttons -->
-                    <div class="mt-3">
-                        <a href="#feature-section" class="btn btn-outline-success me-3" id="feature-btn">Fitur Kami</a>
-                        <a href="#testimoni-section" class="btn btn-outline-success" id="testimoni-btn">Testimoni</a>
-                    </div>
+                  <!-- Buttons -->
+<div class="button-header mt-3 d-flex justify-content-center justify-content-lg-start">
+    <a href="#feature-section" class="btn btn-outline-success me-3" id="feature-btn">Fitur Kami</a>
+    <a href="#testimoni-section" class="btn btn-outline-success" id="testimoni-btn">Testimoni</a>
+</div>
+
                 </div>
                 {{-- image content --}}
                 <div class="col-xxl-6 p-0 m-0 d-none d-lg-block">
