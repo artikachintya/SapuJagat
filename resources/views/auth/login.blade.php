@@ -9,6 +9,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{{ asset('Auth/css/login.css') }}">
 </head>
+@if(Auth::guard('admin')->check())
+    <p>Welcome, Admin: {{ Auth::guard('admin')->user()->email }}</p>
+@else
+    <p>You are not logged in as admin.</p>
+@endif       
 <body>
     <div class="container">
         <div class="login-card">
@@ -48,15 +53,15 @@
                         </div>
                     </div>
                 @endif
-                
+
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <label>Email</label>
                     <input type="email" name="email" required>
-                    
+
                     <label>Kata Sandi</label>
                     <input type="password" name="password" required>
-                    
+
                     <div class="checkbox-group">
                         <div class="remember-me">
                             <input type="checkbox" name="remember" id="remember">
@@ -64,13 +69,13 @@
                         </div>
                         <a href="{{ route('password.request') }}" class="forgot-link">Lupa kata sandi?</a>
                     </div>
-                    
+
                     <button type="submit" class="btn-primary">Masuk</button>
-                    
+
                     <div class="divider">
                         <span>atau</span>
                     </div>
-                    
+
                     <div class="btn-group">
                         <form method="GET" action="{{ route('auth.google') }}">
                             <button type="button" class="btn-google" onclick="window.location='{{  route('auth.google', ['mode' => 'login'])  }}'">
