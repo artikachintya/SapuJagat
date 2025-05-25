@@ -52,13 +52,16 @@
                     </div>
                 @endif
 
+
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <label>Email</label>
                     <input type="email" name="email" required>
 
+
                     <label>Kata Sandi</label>
                     <input type="password" name="password" required>
+
 
                     <div class="checkbox-group">
                         <div class="remember-me">
@@ -68,11 +71,14 @@
                         <a href="{{ route('password.request') }}" class="forgot-link">Lupa kata sandi?</a>
                     </div>
 
+
                     <button type="submit" class="btn-primary">Masuk</button>
+
 
                     <div class="divider">
                         <span>atau</span>
                     </div>
+
 
                     <div class="btn-group">
                         <form method="GET" action="{{ route('auth.google') }}">

@@ -4,27 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Response extends Model
+class UserLicense extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    protected $table = 'users_license';
+    protected $primaryKey = 'user_id';
+    public $incrementing = false;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'user_id',
-        'report_id',
-        'response_message',
+        'license_plate',
     ];
 
+    // Relasi ke User
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
-    }
-
-    public function report()
-    {
-        return $this->belongsTo(Report::class, 'report_id', 'report_id');
     }
 }

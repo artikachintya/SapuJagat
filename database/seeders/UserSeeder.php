@@ -6,91 +6,85 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-
-// class UserSeeder extends Seeder
-// {
-//     public function run(): void
-//     {
-//         User::create([
-//             'name' => 'John Carter',
-//             'NIK' => '3273010101010001', // Pria, lahir 1 Jan 2001
-//             'email' => 'user1@example.com',
-//             'address' => 'CitraLand 2A',
-//             'province' => 'Jawa Barat',
-//             'city' => 'Bandung',
-//             'postal_code' => '60232',
-//             'phone_num' => '081234567890',
-//             'password' => Hash::make('Password123'),
-//             'status' => true,
-//             'balance' => 100000,
-//         ]);
-
-//         User::create([
-//             'name' => 'Alice Moore',
-//             'NIK' => '3273015002010002', // Wanita, lahir 10 Feb 2001 (10+40=50)
-//             'email' => 'user2@example.com',
-//             'address' => 'CitraHarmony 12A',
-//             'province' => 'Jawa Timur',
-//             'city' => 'Surabaya',
-//             'postal_code' => '60110',
-//             'phone_num' => '081298765432',
-//             'password' => Hash::make('Password123'),
-//             'status' => true,
-//             'balance' => 50000,
-//         ]);
-//     }
-// }
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Ambil ID terakhir
-        $last = User::orderBy('user_id', 'desc')->first();
-        $nextNumber = $last ? ((int)substr($last->user_id, 1)) + 1 : 1;
-
-        $users = [
+        DB::table('users')->insert([
             [
-                'name' => 'John Carter',
-                'NIK' => '3273010101010001',
-                'email' => 'user1@example.com',
-                'address' => 'CitraLand 2A',
-                'province' => 'Jawa Barat',
-                'city' => 'Bandung',
-                'postal_code' => '60232',
+                'user_id'   => 1,
+                'name'      => 'John Doe',
+                'NIK'       => '3578263788989991',
+                'email'     => 'john@example.com',
                 'phone_num' => '081234567890',
-                'balance' => 100000,
+                'password'  => Hash::make('password123'),
+                'status'    => false,
+                'role'      => 1,
+                'created_at'=> now(),
+                'updated_at'=> now(),
             ],
             [
-                'name' => 'Alice Moore',
-                'NIK' => '3273015002010002',
-                'email' => 'user2@example.com',
-                'address' => 'CitraHarmony 12A',
-                'province' => 'Jawa Timur',
-                'city' => 'Surabaya',
-                'postal_code' => '60110',
-                'phone_num' => '081298765432',
-                'balance' => 50000,
+                'user_id'   => 2,
+                'name'      => 'Jane Smith',
+                'NIK'       => '3578263788989992',
+                'email'     => 'jane@example.com',
+                'phone_num' => '089876543210',
+                'password'  => Hash::make('password1'),
+                'status'    => false,
+                'role'      => 1,
+                'created_at'=> now(),
+                'updated_at'=> now(),
             ],
-        ];
-
-        foreach ($users as $index => $data) {
-            $userId = 'U' . str_pad($nextNumber + $index, 3, '0', STR_PAD_LEFT); // U001, U002, ...
-
-            User::create([
-                'user_id'     => $userId,
-                'name'        => $data['name'],
-                'NIK'         => $data['NIK'],
-                'email'       => $data['email'],
-                'address'     => $data['address'],
-                'province'    => $data['province'],
-                'city'        => $data['city'],
-                'postal_code' => $data['postal_code'],
-                'phone_num'   => $data['phone_num'],
-                'password'    => Hash::make('Password123'),
-                'status'      => true,
-                'balance'     => $data['balance'],
-            ]);
-        }
+            [
+                'user_id'   => 3,
+                'name'      => 'Admin1',
+                'NIK'       => '3578263788989993',
+                'email'     => 'admin1@example.com',
+                'phone_num' => '089876543213',
+                'password'  => Hash::make('password2'),
+                'status'    => false,
+                'role'      => 2,
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ],
+            [
+                'user_id'   => 4,
+                'name'      => 'Admin2',
+                'NIK'       => '3578263788989994',
+                'email'     => 'admin2@example.com',
+                'phone_num' => '089876543214',
+                'password'  => Hash::make('password3'),
+                'status'    => false,
+                'role'      => 2,
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ],
+            [
+                'user_id'   => 5,
+                'name'      => 'Driver1',
+                'NIK'       => '3578263788989995',
+                'email'     => 'driver1@example.com',
+                'phone_num' => '089876543216',
+                'password'  => Hash::make('password5'),
+                'status'    => false,
+                'role'      => 3,
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ],
+             [
+                'user_id'   => 6,
+                'name'      => 'Driver2',
+                'NIK'       => '3578263788989996',
+                'email'     => 'driver2@example.com',
+                'phone_num' => '089876543219',
+                'password'  => Hash::make('password6'),
+                'status'    => false,
+                'role'      => 3,
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ],
+        ]);
     }
 }

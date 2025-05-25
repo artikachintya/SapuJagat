@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\OtpController;
 
@@ -10,29 +11,19 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\HomeController;
 
-// Web Routes
-
-// Public homepage
+// Public routes
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
-
-// Landing page
-Route::get('/landing-page', function () {
-    return view('landing-page.index');
-});
-
-// Pengguna dashboard (you might want to protect this with middleware later)
 Route::get('/pengguna', function () {
     return view('pengguna.dashboard');
 });
 
-// Google Auth Routes
-// Hanya gunakan satu redirect
+// Google OAuth
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-// Laravel Default Auth Routes
-
+// Laravel user auth
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 

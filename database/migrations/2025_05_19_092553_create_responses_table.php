@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('responses', function (Blueprint $table) {
-            $table->string('admin_id', 10);
-
-            $table->foreign('admin_id')
-                ->references('admin_id')
-                ->on('admins')
+            
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('user_id') // sesuai nama PK di users
+                ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-                
+
             $table->unsignedBigInteger('report_id');
             $table->foreign('report_id')
                 ->references('report_id') // sesuai nama PK di users
