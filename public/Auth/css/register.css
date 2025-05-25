@@ -1,0 +1,309 @@
+body {
+    font-family: 'Inria Sans', sans-serif;
+    background-color: #F2F2F2;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.card {
+    display: flex;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 1000px;
+}
+
+.logo-container {
+    position: absolute;
+    top: 2px;
+    left: 30px;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+.mobile-logo {
+    display: none;
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+.left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E6F6E9;
+    padding: 30px;
+    position: relative;
+}
+
+.quote-box {
+    width: 100%;
+    max-width: 480px;
+    min-width: 320px; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.quote-image {
+    width: 100%;
+    height: auto;
+    min-width: 300px; /* or whatever minimum you want */
+    object-fit: contain;
+    display: block;
+}
+
+.quote-text {
+    position: absolute;
+    margin-top: 20px; 
+    top: 50%;
+    color: #035d1f;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-shadow: 0 1px 2px #fff;
+    max-width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+
+.quote-text .author {
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+.right {
+    flex: 1;
+    padding: 40px 30px;
+}
+
+.right h2 {
+    text-align: center;
+    color: #035d1f;
+    margin-bottom: 10px;
+    margin-top: -15px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 100px; /* beri ruang agar dropdown muat di bawah */
+}
+
+form label {
+    display: block;
+    font-weight: 600;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"],
+form select {
+    width: 93%;
+    padding: 2px;
+    margin-bottom: 2px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+    font-family: inherit;
+}
+
+form input:focus,
+form select:focus {
+    outline: none;
+    border-bottom: 2px solid #035d1f;
+}
+
+.input-row {
+    display: flex;
+    gap: 10px;
+}
+
+.input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.forgot-link {
+    color: #0052FF;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background-color: #035d1f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    min-width: 160px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-daftar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: #035d1f;
+    color: #fff;
+    border: 1px solid #035d1f;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    width: auto;
+    min-width: 160px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.akun{
+    color: #0052FF;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.text-error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.iti {
+    width: 100%;
+}
+
+.iti__flag-container {
+    border-bottom: 1px solid #ccc;
+}
+
+input[type="tel"] {
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+    width: 100%;
+    font-family: 'Inria Sans', sans-serif;
+}
+
+.iti--separate-dial-code .iti__selected-flag {
+    background-color: rgb(255, 255, 255);
+}
+
+.akun:hover{
+    color: #003acc; /* biru lebih gelap */
+    text-decoration: underline;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.btn-daftar:hover {
+    background-color: #024a18;
+    transition: background-color 0.3s ease;
+}
+
+.btn-google:hover {
+    background-color: #f5f5f5; 
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (max-width: 889px) {
+    .quote-text {
+        top: 40%;
+        font-size: 0.9rem;
+        max-width: 95%;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        flex-direction: column;
+    }
+
+    .left {
+        display: none;
+    }
+
+    .right {
+        padding: 40px 70px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+    }
+
+    .mobile-logo {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-daftar,
+    .btn-google,
+    .btn-akun {
+        width: 100%;
+    }
+}
+
+@media (max-width: 400px) {
+    .forgot-link {
+        text-align: center;
+        width: 100%;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 15px;
+        max-width: 100px;
+    }
+}

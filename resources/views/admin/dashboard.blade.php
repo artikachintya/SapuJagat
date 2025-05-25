@@ -80,7 +80,7 @@
         <!-- /.info-box -->
         </div>
         <!-- /.col -->
-        
+
         <!-- /.col -->
     </div>
     <!-- /.row -->
@@ -132,7 +132,7 @@
                         <span class="me-2 card-point"></span>
                         <span>Kertas</span>
                     </div>
-                    
+
                     <div class="col-4 mb-2 d-flex align-items-center justify-content-center">
                         <span class="me-2 card-point"></span>
                         <span>Kaleng</span>
