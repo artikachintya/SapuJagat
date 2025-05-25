@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reports', function (Blueprint $table) {
-            $table->id('report_id');
+            $table->id('report_id')-> primary();
 
-            $table->string('user_id', 10);
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
-                ->references('user_id')
+                ->references('user_id') // sesuai nama PK di users
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-                
+
             $table->dateTime('date_time_report');
             $table->string('photo',255);
             $table->string('report_message',255);

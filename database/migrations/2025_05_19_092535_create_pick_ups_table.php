@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pick_ups', function (Blueprint $table) {
-            $table->id('pick_up_id');
+
+            $table->id('pick_up_id')-> primary();
 
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')
@@ -21,22 +22,15 @@ return new class extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            // $table->unsignedBigInteger('driver_id');
-            // $table->foreign('driver_id')
-            //     ->references('driver_id') // sesuai nama PK di users
-            //     ->on('drivers')
-            //     ->onDelete('cascade')
-            //     ->onUpdate('cascade');
-
-            $table->string('driver_id', 5);
-            $table->foreign('driver_id')
-                ->references('driver_id')
-                ->on('drivers')
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('user_id') // sesuai nama PK di users
+                ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->dateTime('pick_up_date');
-            $table->datetime('arrival_date');
+            $table->dateTime('arrival_date');
             $table->string('photos',255);
             $table->string('notes',255);
         });
