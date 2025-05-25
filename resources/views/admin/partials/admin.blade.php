@@ -40,10 +40,16 @@
       crossorigin="anonymous"
     />
 </head>
+{{-- @if(Auth::guard('admin')->check())
+    <p>Welcome, Admin: {{ Auth::guard('admin')->user()->email }}</p>
+@else
+    <p>You are not logged in as admin.</p>
+@endif --}}
+
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
         @include('admin.partials.navbar') <!-- Navbar -->
-        
+
             @yield('content') <!-- Main content -->
     </div>
         @include('admin.partials.footer') <!-- Footer -->

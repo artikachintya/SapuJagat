@@ -3,11 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk - Sapu Jagat</title>
+    <title>Masuk Admin - Sapu Jagat</title>
     <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('Auth/css/login.css') }}">
 </head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'OK'
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: '{{ session('error') }}',
+            confirmButtonText: 'Coba Lagi'
+        });
+    @endif
+</script>
 <body>
     <div class="container">
         <div class="login-card">
@@ -28,7 +46,7 @@
             <div class="right">
                 <img src="Auth/images/logo.png" class="mobile-logo" alt="Logo">
                 <h2>Masuk</h2>
-                <form method="POST" action="{{ route('admin.login.submit')}}">
+                <form method="POST" action="{{ route('admin.submit')}}">
                     @csrf
                     <label>Email</label>
                     <input type="email" name="email" required>

@@ -48,7 +48,8 @@
 
                 <!-- RIGHT SIDE -->
                 <div class="d-flex gap-2">
-                    <button class="btn mx-2 w-100 px-4" type="button" id="login-btn">Masuk</button>
+                    <button class="btn mx-2 w-100 px-4" type="button" id="login-btn"
+                        onclick="window.location='{{ route('admin.login') }}'">Masuk</button>
                     <button class="btn mx-2 w-100 px-4" type="button" id="register-btn">Daftar</button>
                 </div>
             </div>
@@ -83,11 +84,11 @@
                         Semua dalam satu platform digital: Sapu Jagat!
                     </p>
 
-                  <!-- Buttons -->
-<div class="button-header mt-3 d-flex justify-content-center justify-content-lg-start">
-    <a href="#feature-section" class="btn btn-outline-success me-3" id="feature-btn">Fitur Kami</a>
-    <a href="#testimoni-section" class="btn btn-outline-success" id="testimoni-btn">Testimoni</a>
-</div>
+                    <!-- Buttons -->
+                    <div class="button-header mt-3 d-flex justify-content-center justify-content-lg-start">
+                        <a href="#feature-section" class="btn btn-outline-success me-3" id="feature-btn">Fitur Kami</a>
+                        <a href="#testimoni-section" class="btn btn-outline-success" id="testimoni-btn">Testimoni</a>
+                    </div>
 
                 </div>
                 {{-- image content --}}
