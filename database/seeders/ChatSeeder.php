@@ -2,20 +2,25 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Chat;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ChatSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        Chat::insert([
-            ['date_time_created' => Carbon::now()],
-            ['date_time_created' => Carbon::now()],
+        DB::table('chats')->insert([
+            [
+                'chat_id' => 1,
+                'date_time_created' => now(),
+            ],
+            [
+                'chat_id' => 2,
+                'date_time_created' => now(),
+            ],
         ]);
     }
 }
+

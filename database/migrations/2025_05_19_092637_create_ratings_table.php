@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ratings', function (Blueprint $table) {
-            // $table->id();
+            
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')
                 ->references('order_id') // sesuai nama PK di users
@@ -20,20 +20,13 @@ return new class extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            // $table->unsignedBigInteger('user_id');
-            // $table->foreign('user_id')
-            //     ->references('user_id') // sesuai nama PK di users
-            //     ->on('users')
-            //     ->onDelete('cascade')
-            //     ->onUpdate('cascade');
-
-            $table->string('user_id', 10);
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
-                ->references('user_id')
+                ->references('user_id') // sesuai nama PK di users
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-                
+
             $table->integer('star_rating')->default(0);
         });
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             //  PK
-            $table->id();
+            $table->id('chat_id')->primary();
             $table->dateTime('date_time_created');
         });
     }

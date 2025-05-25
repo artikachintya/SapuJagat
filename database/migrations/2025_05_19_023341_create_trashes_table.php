@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('trashes', function (Blueprint $table) {
-            $table->id('trash_id');
+            $table->id('trash_id')->primary();
             $table->string('name',255);
             $table->string('type',255);
             $table->float('price_per_kg')->default(0);

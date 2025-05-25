@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderDetail extends Model
 {
-    protected $table = 'order_details';
     public $timestamps = false;
+    protected $table = 'order_details';
 
     protected $fillable = [
         'order_id',
@@ -16,13 +16,13 @@ class OrderDetail extends Model
         'quantity',
     ];
 
-    public function order(): BelongsTo
+    public function order()
     {
-        return $this->belongsTo(Order::class, 'order_id', 'order_id');
+        return $this->belongsTo(Order::class, 'order_id');
     }
 
-    public function trash(): BelongsTo
+    public function trash()
     {
-        return $this->belongsTo(Trash::class, 'trash_id', 'trash_id');
+        return $this->belongsTo(Trash::class, 'trash_id');
     }
 }
