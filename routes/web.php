@@ -24,7 +24,7 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// Admin dashboard 
+// Admin dashboard
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
@@ -36,3 +36,8 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
 
 Auth::routes();
+
+// User Tukar Sampah
+Route::get('/user/tukarsampah1', function(){
+    return view('TukarSampah1');
+});
