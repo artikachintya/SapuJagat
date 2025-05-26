@@ -110,7 +110,9 @@
 
                         <button type="submit" class="btn-daftar">Daftar</button>
                 
-                        <a href="{{ route('login') }}" class="akun">Masuk dengan Akun</a>
+                        <button type="button" class="btn-akun" onclick="window.location='{{ route('login') }}'">Masuk dengan Akun</button>
+
+                        
                     </div>
                 </form>
 

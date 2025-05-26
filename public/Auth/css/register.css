@@ -20,6 +20,7 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     width: 90%;
     max-width: 1000px;
+    max-height: 900px;
 }
 
 .logo-container {
@@ -47,6 +48,8 @@ body {
     background-color: #E6F6E9;
     padding: 30px;
     position: relative;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 .quote-box {
@@ -169,45 +172,59 @@ form select:focus {
     justify-content: center;
 }
 
-.btn-google {
+.btn-google,
+.btn-daftar {
+    flex: 1; /* Membagi ruang sama besar */
+    padding: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    border-radius: 6px;
+}
+
+.btn-google {
     background: #fff;
     color: #333;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    text-decoration: none;
-    min-width: 160px;
-    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
 .btn-daftar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    background: #035d1f;
-    color: #fff;
+    background: #fff;
+    color: #000000;
+    border: 1px solid #ccc;
+}
+
+.btn-google img {
+    height: 18px;
+    margin-right: 8px;
+}
+
+.btn-akun {
+    background-color: #ffffff;
+    color: #000000;
     border: 1px solid #035d1f;
+    padding: 10px 20px;
+    margin-top: 10px;
     border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
     cursor: pointer;
-    width: auto;
-    min-width: 160px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 100%;
+    text-align: center;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
-.akun{
-    color: #0052FF;
-    text-decoration: none;
-    font-weight: 600;
+.btn-akun:hover {
+    background-color: #035d1f;
+    color: #ffffff;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
 }
+
 
 .text-error {
   color: red;
@@ -236,14 +253,9 @@ input[type="tel"] {
     background-color: rgb(255, 255, 255);
 }
 
-.akun:hover{
-    color: #003acc; /* biru lebih gelap */
-    text-decoration: underline;
-    transition: color 0.3s ease, text-decoration 0.3s ease;
-}
-
 .btn-daftar:hover {
-    background-color: #024a18;
+    background-color: #f5f5f5;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.15);
     transition: background-color 0.3s ease;
 }
 

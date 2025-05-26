@@ -52,7 +52,6 @@
                     </div>
                 @endif
 
-
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <label>Email</label>
@@ -69,9 +68,7 @@
                         <a href="{{ route('password.request') }}" class="forgot-link">Lupa kata sandi?</a>
                     </div>
 
-
                     <button type="submit" class="btn-primary">Masuk</button>
-
 
                     <div class="divider">
                         <span>atau</span>
