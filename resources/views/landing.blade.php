@@ -49,8 +49,9 @@
                 <!-- RIGHT SIDE -->
                 <div class="d-flex gap-2">
                     <button class="btn mx-2 w-100 px-4" type="button" id="login-btn"
-                        onclick="window.location='{{ route('admin.login') }}'">Masuk</button>
-                    <button class="btn mx-2 w-100 px-4" type="button" id="register-btn">Daftar</button>
+                        onclick="window.location='{{ route('login') }}'">Masuk</button>
+                    <button class="btn mx-2 w-100 px-4" type="button" id="register-btn"
+                        onclick="window.location='{{ route('register') }}'">Daftar</button>
                 </div>
             </div>
         </div>

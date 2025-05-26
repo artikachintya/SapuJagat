@@ -282,6 +282,97 @@ form select:focus {
     list-style: none;
 }
 
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    position: relative;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 310px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+    justify-items: center;
+}
+
+.modal-content h2 {
+    width: 50%;
+    margin-top: 0.2px;
+    margin-bottom: 1rem;
+}
+
+.modal-content input {
+    width: 60%; /* Tengah tapi tidak terlalu besar */
+    padding: 10px;
+    margin: 10px auto;
+    font-size: 18px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background: transparent;
+    text-align: center;
+    display: block;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.modal-content .alert {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.btn-verify {
+    width: 100%;
+    padding: 10px;
+    background: #4CAF50;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.close-btn {
+    width: 10%;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0);
+    border: none;
+    font-size: 40px;
+    cursor: pointer;
+    color: #333;
+    padding: 0;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+.modal-content input:focus {
+    border-bottom: 2px solid #035d1f;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
 /* Animasi menghilang */
 @keyframes fadeOutModal {
     0% { opacity: 1; }

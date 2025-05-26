@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\GoogleController;
-use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
-use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\OtpController;
+
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 
 // Public routes
@@ -23,4 +24,15 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+// Admin dashboard 
+Route::middleware('auth')->group(function () {
+    Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 
+// Satu callback untuk keduanya
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+//Buat Route otpnya
+Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
+
+Auth::routes();

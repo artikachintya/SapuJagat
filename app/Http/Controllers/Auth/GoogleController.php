@@ -35,6 +35,9 @@ class GoogleController extends Controller
                 'email' => $googleUser->email,
                 'password' => bcrypt(Str::random(16)),
                 'email_verified_at' => now(),
+                'role' => 1,
+                'NIK' => null, // jika kamu izinkan nullable
+                'phone_num' => null,
             ]);
 
             Auth::login($user);
