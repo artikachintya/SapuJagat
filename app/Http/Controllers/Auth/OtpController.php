@@ -38,6 +38,16 @@ class OtpController extends Controller
         // Bersihkan session OTP
         session()->forget(['otp_user_id', 'otp_code', 'otp_expires_at']);
 
-        return redirect('/pengguna');
+                switch ($user->role) {
+            case 1:
+                return redirect('/pengguna');
+            case 2:
+                return redirect('admin/dashboard');
+            case 3:
+                return redirect('/driver');
+            default:
+                Auth::logout();
+                return redirect()->route('login')->with('error', 'Role tidak dikenali.');
+        }
     }
 }

@@ -3,10 +3,7 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 
@@ -25,6 +22,7 @@ class OtpMail extends Mailable
     {
         return $this->subject('Kode OTP Anda')
                     ->view('auth.otp')
-                    ->with(['otp' => $this->otp]);
+                    ->with([
+                         'otp' => $this->otp]);
     }
 }

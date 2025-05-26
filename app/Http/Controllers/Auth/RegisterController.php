@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -63,7 +63,7 @@ class RegisterController extends Controller
             'city'         => 'required|string|max:100',
             'postal_code'  => 'required|digits_between:4,6',
             'NIK'          => 'required|digits:16|unique:users,nik',
-            'phone_num'    => 'required|digits_between:8,15',
+            'phone_num'    => 'required|digits_between:8,15',  
         ],
         [
             // Custom error messages
@@ -109,6 +109,7 @@ class RegisterController extends Controller
             'postal_code'  => $data['postal_code'],
             'NIK'          => $data['NIK'],
             'phone_num'    => $data['phone_num'],
+            'role'         => 1,
         ]);
     }
 }

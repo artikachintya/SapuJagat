@@ -38,25 +38,25 @@
                     @csrf
                 
                     <label for="name">Nama Lengkap</label>
-                    <input type="text" name="name" id="name" value="{{ old('name') }}" required>
+                    <input type="text" name="name" id="name" value="{{ old('name') }}" required placeholder="Masukkan nama lengkap Anda">
                     @error('name')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
                 
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" value="{{ old('email') }}" required>
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" required placeholder="Masukkan email Anda">
                     @error('email')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
                 
                     <label for="password">Kata Sandi</label>
-                    <input type="password" name="password" id="password" required>
+                    <input type="password" name="password" id="password" required placeholder="Masukkan password Anda">
                     @error('password')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
                 
                     <label for="address">Alamat</label>
-                    <input type="text" name="address" id="address" value="{{ old('address') }}">
+                    <input type="text" name="address" id="address" value="{{ old('address') }}" placeholder="Masukkan alamat Anda">
                     @error('address')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
@@ -85,19 +85,19 @@
                     </div>
                 
                     <label for="postal_code">Kode Pos</label>
-                    <input type="text" name="postal_code" id="postal_code" value="{{ old('postal_code') }}" required>
+                    <input type="text" name="postal_code" id="postal_code" value="{{ old('postal_code') }}" required placeholder="Masukkan kode pos Anda">
                     @error('postal_code')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
                 
                     <label for="NIK">NIK</label>
-                    <input type="text" name="NIK" id="NIK" value="{{ old('NIK') }}" required>
+                    <input type="text" name="NIK" id="NIK" value="{{ old('NIK') }}" required placeholder="Masukkan NIK Anda">
                     @error('NIK')
                       <div class="text-error">{{ $message }}</div>
                     @enderror
                 
                     <label for="phone_num">Nomor Telepon</label>
-                    <input id="phone_num" name="phone_num" type="tel" value="{{ old('phone_num') }}" required>
+                    <input id="phone_num" name="phone_num" type="tel" value="{{ old('phone_num') }}" required >
                     @error('phone_num')
                       <div class="text-error">{{ $message }}</div>
                     @enderror             

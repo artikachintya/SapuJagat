@@ -56,18 +56,16 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <label>Email</label>
-                    <input type="email" name="email" required>
-
+                    <input type="email" name="email" required placeholder="Masukkan email Anda"> 
 
                     <label>Kata Sandi</label>
-                    <input type="password" name="password" required>
-
+                    <input type="password" name="password" required placeholder="Masukkan password Anda">
 
                     <div class="checkbox-group">
-                        <div class="remember-me">
+                        <!-- <div class="remember-me">
                             <input type="checkbox" name="remember" id="remember">
                             <label for="remember">Ingatkan saya</label>
-                        </div>
+                        </div> -->
                         <a href="{{ route('password.request') }}" class="forgot-link">Lupa kata sandi?</a>
                     </div>
 

@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
-use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -35,12 +34,11 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        // Jangan hapus session jika sedang proses OTP
-        if (!session()->has('otp_required')) {
+        // Hapus semua session OTP saat membuka login (kecuali saat redirect setelah submit OTP)
+        if (!session()->has('otp_verification')) {
             Session::forget(['otp_required', 'otp_user_id', 'otp_code', 'otp_expires_at']);
         }
-    
-        return view('auth.login');
+            return view('auth.login');
     }
 
     /**
@@ -48,19 +46,29 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        $otp = random_int(100000, 999999);
+        if ($user->role == 1) {
+            // Jika role = 1 (pengguna biasa), kirim OTP
+            $otp = random_int(100000, 999999);
 
-        session([
-            'otp_user_id' => $user->user_id,
-            'otp_code' => $otp,
-            'otp_expires_at' => now()->addMinutes(5),
-            'otp_required' => true
-        ]);
+            session([
+                'otp_user_id' => $user->user_id,
+                'otp_code' => $otp,
+                'otp_expires_at' => now()->addMinutes(5),
+                'otp_required' => true,
+                'otp_verification' => true
+            ]);
 
-        \Mail::to($user->email)->send(new \App\Mail\OtpMail($otp));
-        Auth::logout(); // agar belum langsung masuk dashboard
+            \Mail::to($user->email)->send(new \App\Mail\OtpMail($otp));
+            Auth::logout(); // logout sementara hingga OTP diverifikasi
 
-        return redirect()->route('login');
+            return redirect()->route('login');
+        }
+
+    // Jika bukan role 1 (admin/driver), langsung masuk
+        if ($user->role == 2) {
+            return redirect()->intended('dashboard');
+        } elseif ($user->role == 3) {
+            return redirect()->intended('/driver');
+        }
     }
-
 }
