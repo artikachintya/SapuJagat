@@ -16,6 +16,10 @@ Route::get('/pengguna', function () {
     return view('pengguna.dashboard');
 });
 
+Route::get('/admin', function () {
+    return view('admin.dashboard');
+});
+
 // Google OAuth
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
@@ -24,7 +28,7 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// Admin dashboard 
+// Admin dashboard
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });

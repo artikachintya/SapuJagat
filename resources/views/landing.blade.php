@@ -20,7 +20,7 @@
 <body>
 
     {{-- navbar section --}}
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand mx-3" href="/landing-page">
                 <img class="logo" src="/landingpage/images/logo.png" alt="SapuJagat Logo" height="50">
