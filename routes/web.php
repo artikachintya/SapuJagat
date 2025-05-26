@@ -40,3 +40,8 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
 
 Auth::routes();
+
+// User Tukar Sampah
+Route::get('/user/tukarsampah1', function(){
+    return view('TukarSampah1');
+});
