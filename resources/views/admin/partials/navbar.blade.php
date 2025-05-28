@@ -122,37 +122,37 @@
         </li>
         <hr/>
         <li class="nav-item">
-        <a href="./docs/introduction.html" class="nav-link navigationbuttonactive">
+        <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Route::is('admin.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
             <i class="nav-icon bi bi-house"></i>
             <p>Dashboard</p>
         </a>
         </li>
         <li class="nav-item">
-        <a href="./docs/layout.html" class="nav-link navigationbutton">
+        <a href="{{ route('admin.jenis-sampah.index') }}" class="nav-link {{ Route::is('admin.jenis-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
             <i class="nav-icon bi bi-trash"></i>
             <p>Jenis Sampah</p>
         </a>
         </li>
         <li class="nav-item">
-        <a href="./docs/color-mode.html" class="nav-link navigationbutton">
+        <a href="{{ route('admin.histori.index') }}" class="nav-link {{ Route::is('admin.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
             <i class="nav-icon bi bi-clock-history"></i>
             <p>Histori</p>
         </a>
         </li>
         <li class="nav-item">
-        <a href="./docs/color-mode.html" class="nav-link navigationbutton">
+        <a href="{{ route('admin.persetujuan.index') }}" class="nav-link {{ Route::is('admin.persetujuan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
             <i class="nav-icon bi bi-check2-circle"></i>
             <p>Persetujuan</p>
         </a>
         </li>
         <li class="nav-item">
-        <a href="./docs/color-mode.html" class="nav-link navigationbutton">
+        <a href="{{ route('admin.laporan.index') }}" class="nav-link {{ Route::is('admin.laporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
             <i class="nav-icon bi bi-exclamation-diamond"></i>
             <p>Laporan</p>
         </a>
         </li>
         <li class="nav-item">
-        <a href="./docs/color-mode.html" class="nav-link navigationbutton">
+        <a href="{{ route('admin.print-data.index') }}" class="nav-link {{ Route::is('admin.print-data.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
             <i class="nav-icon bi bi-printer"></i>
             <p>Print Data</p>
         </a>
