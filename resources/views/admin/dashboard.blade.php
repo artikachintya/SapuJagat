@@ -10,7 +10,7 @@
     <div class="container-fluid">
     <!--begin::Row-->
     <div class="row page-title">
-        <div class="col-sm-6"><h3 class="mb-0"><b>Welcome,</b> <i>{{ Auth::check() ? Auth::user()->name : 'User' }}</i></h3></div>
+        <div class="col-sm-6"><h3 class="mb-0"><b>Welcome,</b> <i>{{ Auth::check() ? Auth::user()->name : 'Admin' }}</i></h3></div>
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-end">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
