@@ -105,31 +105,31 @@
                 </li>
                 <hr />
                 <li class="nav-item">
-                    <a href="./docs/introduction.html" class="nav-link navigationbuttonactive">
+                    <a href="{{ route('pengguna.dashboard') }}" class="nav-link {{ Route::is('pengguna.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-house"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./docs/layout.html" class="nav-link navigationbutton">
+                    <a href="{{ route('pengguna.tukar-sampah.index') }}" class="nav-link {{ Route::is('pengguna.tukar-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-trash"></i>
                         <p>Tukar Sampah</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./docs/color-mode.html" class="nav-link navigationbutton">
+                    <a href="{{ route('pengguna.histori.index') }}" class="nav-link {{ Route::is('pengguna.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-clock-history"></i>
                         <p>Histori</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./docs/color-mode.html" class="nav-link navigationbutton">
+                    <a href="{{ route('pengguna.pelacakan.index') }}" class="nav-link {{ Route::is('pengguna.pelacakan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-check2-circle"></i>
                         <p>Pelacakan</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./docs/color-mode.html" class="nav-link navigationbutton">
+                    <a href="{{ route('pengguna.laporan.index') }}" class="nav-link {{ Route::is('pengguna.pelaporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-exclamation-diamond"></i>
                         <p>Laporan</p>
                     </a>

@@ -292,6 +292,10 @@ address {
   line-height: inherit;
 }
 
+.hover-pointer:hover {
+  cursor: pointer;
+}
+
 ol,
 ul {
   padding-left: 2rem;
