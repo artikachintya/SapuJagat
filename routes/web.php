@@ -35,6 +35,9 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 //Buat Route otpnya
 Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
 
+//Route opt resend
+Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend');
+
 Auth::routes();
 
 // User Tukar Sampah

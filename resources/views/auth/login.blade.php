@@ -55,7 +55,7 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <label>Email</label>
-                    <input type="email" name="email" required placeholder="Masukkan email Anda"> 
+                    <input type="email" name="email" required placeholder="Masukkan email Anda">
 
                     <label>Kata Sandi</label>
                     <input type="password" name="password" required placeholder="Masukkan password Anda">
@@ -97,12 +97,21 @@
                                 <input type="text" name="otp" maxlength="6" required placeholder="Kode OTP">
                                 <button type="submit" class="btn-verify">Verifikasi</button>
                             </form>
+
+                            <div class="resend-otp-section">
+                                <button id="resendBtn" class="btn-resend" disabled>Kirim ulang kode (60 detik)</button>
+                            </div>
                         </div>
                     </div>
                 @endif
             </div>
         </div>
     </div>
+    <script>
+        const resendOtpUrl = "{{ route('otp.resend') }}";
+        const csrfToken = "{{ csrf_token() }}";
+    </script>
+
     <script src="{{ asset('Auth/js/login.js') }}"></script>
 </body>
 

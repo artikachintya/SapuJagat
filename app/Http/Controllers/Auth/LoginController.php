@@ -53,7 +53,7 @@ class LoginController extends Controller
             session([
                 'otp_user_id' => $user->user_id,
                 'otp_code' => $otp,
-                'otp_expires_at' => now()->addMinutes(5),
+                'otp_expires_at' => now()->addMinutes(1),
                 'otp_required' => true,
                 'otp_verification' => true
             ]);

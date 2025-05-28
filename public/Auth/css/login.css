@@ -1,4 +1,8 @@
 body {
+    background-image: url('../images/Background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     font-family: 'Inria Sans', sans-serif;
     background-color: #F2F2F2;
     margin: 0;
@@ -345,6 +349,18 @@ form select:focus {
     margin-top: 10px;
 }
 
+.btn-resend {
+    width: 100%;
+    padding: 10px;
+    background: #035d1f;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
 .close-btn {
     width: 10%;
     position: absolute;
@@ -366,6 +382,12 @@ form select:focus {
 
 .modal-content input:focus {
     border-bottom: 2px solid #035d1f;
+}
+
+.btn-resend.active:hover {
+    background-color: #4CAF50; 
+    transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
 @keyframes fadeIn {
