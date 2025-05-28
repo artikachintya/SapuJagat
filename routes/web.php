@@ -19,7 +19,6 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\OtpController;
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\TukarSampahController;
 
 // Public routes
 Route::get('/', function () {
