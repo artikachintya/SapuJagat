@@ -64,8 +64,8 @@
                         <img src="{{ asset('dashboard-assets/assets/img/LogoLong.png') }}" 
                             alt="Logo" class="position-absolute" 
                             style="top: 1rem; right: 1rem; height: 40px;">
-                        <h3 class="fw-bold mt-4">Rp102.500,00</h3>
-                        <p class="fw-semibold mb-0">User's Full Name</p>
+                        <h3 class="fw-bold mt-4">Rp{{$totalBalance}}</h3>
+                        <p class="fw-semibold mb-0">{{ Auth::check() ? Auth::user()->name : 'User' }}'s Balance</p>
                         <img src="{{ asset('dashboard-assets/assets/img/trees.png') }}" 
                             alt="Trees" class="position-absolute bottom-0 end-0" 
                             style="height: 70px; opacity: 0.9;">
@@ -82,7 +82,7 @@
                         <img src="{{ asset('dashboard-assets/assets/img/LogoLong.png') }}" 
                             alt="Logo" class="position-absolute" 
                             style="top: 1rem; right: 1rem; height: 40px;">
-                        <h3 class="fw-bold mt-4">Rp50.500,00</h3>
+                        <h3 class="fw-bold mt-4">{{$monthlyWithdrawals}}</h3>
                         <p class="fw-semibold mb-0">Minimal Penarikan Rp50.000</p>
                         <img src="{{ asset('dashboard-assets/assets/img/trees.png') }}" 
                             alt="Trees" class="position-absolute bottom-0 end-0" 
@@ -171,9 +171,9 @@
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div class="d-flex align-items-center">
                                     <span class="me-2 card-point"></span>
-                                    <span>Pengguna Aktif</span>
+                                    <span>Transaksi menunggu</span>
                                 </div>
-                                <span class="fw-bold text-dark">1,200</span>
+                                <span class="fw-bold text-dark">{{$unapprovedOrdersCount}}</span>
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -181,15 +181,15 @@
                                     <span class="me-2 card-point"></span>
                                     <span>Jenis Sampah Terbanyak</span>
                                 </div>
-                                <span class="fw-bold text-dark">Organik</span>
+                                <span class="fw-bold text-dark">{{$topTrashName}}</span>
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center">
                                     <span class="me-2 card-point"></span>
-                                    <span>Total Transaksi</span>
+                                    <span>Transaksi Disetujui</span>
                                 </div>
-                                <span class="fw-bold text-dark">560</span>
+                                <span class="fw-bold text-dark">{{$approvedOrdersCount}}</span>
                                 </div>
                                 <div class="d-flex justify-content-center topborder">
                                     <a href="javascript:void(0)" class="btn btn-sm btn-secondary">
