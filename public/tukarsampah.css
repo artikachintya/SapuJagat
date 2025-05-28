@@ -1,0 +1,48 @@
+.text-hijau-kecil {
+    color: #005A32;
+    font-size: 28px;
+}
+.text-hijau-kecil-kecil {
+    color: #005A32;
+    font-size: 20px;
+}
+.input-centered {
+    width: 90px;
+    height: 48px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    padding-left: 14px;
+}
+
+.custom-green-border {
+    border-color: #005A32 !important;
+    border-width: 1px;
+    border-radius: 0.375rem; /* biar tetap soft kaya Bootstrap */
+}
+
+.btn-outline-green {
+    color: #005A32;
+    border-color: #005A32;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-green:hover {
+    background-color: #005A32;
+    color: #fff;
+}
+
+
+.custom-input-green {
+    border: 1px solid #005A32;  /* lebih tipis dan tetap hijau */
+    border-radius: 8px;
+    color: #000;
+    transition: all 0.3s ease;
+}
+
+.custom-input-green:focus {
+    border-color: #005A32;
+    box-shadow: none;  /* kalau nggak mau ada glow pas diklik */
+}

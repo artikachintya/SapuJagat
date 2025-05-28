@@ -7,12 +7,13 @@ use App\Http\Controllers\Auth\OtpController;
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TukarSampahController;
 
 // Public routes
 Route::get('/', function () {
     return view('landing');
 });
-Route::get('/pengguna', function () {
+Route::get('/pengguna/dashboard', function () {
     return view('pengguna.dashboard');
 });
 
@@ -38,6 +39,5 @@ Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verif
 Auth::routes();
 
 // User Tukar Sampah
-Route::get('/user/tukarsampah1', function(){
-    return view('TukarSampah1');
-});
+Route::get('/pengguna/tukar-sampah', [TukarSampahController::class, 'index'])->name('TukarSampah1');
+Route::post('/pengguna/tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');

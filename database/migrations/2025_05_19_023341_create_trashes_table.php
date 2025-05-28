@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('type',255);
             $table->float('price_per_kg')->default(0);
             $table->integer('max_weight')->default(0);
+            $table->string('photos',255);
         });
     }
 

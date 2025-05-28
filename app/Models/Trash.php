@@ -20,5 +20,6 @@ class Trash extends Model
         'type',
         'price_per_kg',
         'max_weight',
+        'photos',
     ];
 }
