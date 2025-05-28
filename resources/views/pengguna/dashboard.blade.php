@@ -33,7 +33,7 @@
                     <div class="row g-0 align-items-center">
                         <!-- Left content -->
                         <div class="col-md-8 px-5 py-4">
-                            <h4 class="fw-bold">Hi, {{ $user->name ?? 'Username' }}!</h4>
+                            <h4 class="fw-bold">Hi, {{ Auth::check() ? Auth::user()->name : 'User' }}!</h4>
                             <p class="mb-4 text-muted">Yuk buang sampahmu sekarang! Mulai dari diri sendiri untuk bumi yang bersih</p>
                             <div class="d-flex gap-2">
                                 <a href="#" class="btn btn-success rounded-3">
