@@ -1,4 +1,4 @@
-@extends('pengguna.partials.pengguna')
+@extends(view: 'pengguna.partials.pengguna')
 
 @section('title', 'Dashboard')
 
@@ -25,10 +25,10 @@
 <div class="app-content">
     <!--begin::Container-->
     <div class="container-fluid">
-        
+
         <div class="row">
             <div class="container my-4">
-                <div class="card border-0 rounded-4 overflow-hidden" 
+                <div class="card border-0 rounded-4 overflow-hidden"
                     style="background: linear-gradient(90deg, #D5F5DC, #A9DFBF);">
                     <div class="row g-0 align-items-center">
                         <!-- Left content -->
@@ -47,7 +47,7 @@
 
                         <!-- Right image -->
                         <div class="col-md-4 text-end pe-5">
-                            <img src="{{ asset('dashboard-assets/assets/img/tree.png') }}" 
+                            <img src="{{ asset('dashboard-assets/assets/img/tree.png') }}"
                                 alt="Tree" class="img-fluid" style="max-height: 200px;">
                         </div>
                     </div>
@@ -57,17 +57,17 @@
         <!-- Info boxes -->
         <div class="row">
             <div class="col-12 col-sm-6 col-md-6">
-                <div class="info-box card border-0 rounded-4 text-white overflow-hidden" 
+                <div class="info-box card border-0 rounded-4 text-white overflow-hidden"
                     style="background: linear-gradient(90deg, #006837, #A8E6A1);">
                     <div class="card-body position-relative p-4">
                         <h5 class="fw-semibold">Saldo</h5>
-                        <img src="{{ asset('dashboard-assets/assets/img/LogoLong.png') }}" 
-                            alt="Logo" class="position-absolute" 
+                        <img src="{{ asset('dashboard-assets/assets/img/LogoLong.png') }}"
+                            alt="Logo" class="position-absolute"
                             style="top: 1rem; right: 1rem; height: 40px;">
                         <h3 class="fw-bold mt-4">Rp102.500,00</h3>
                         <p class="fw-semibold mb-0">User's Full Name</p>
-                        <img src="{{ asset('dashboard-assets/assets/img/trees.png') }}" 
-                            alt="Trees" class="position-absolute bottom-0 end-0" 
+                        <img src="{{ asset('dashboard-assets/assets/img/trees.png') }}"
+                            alt="Trees" class="position-absolute bottom-0 end-0"
                             style="height: 70px; opacity: 0.9;">
                     </div>
                 </div>
@@ -75,24 +75,24 @@
             </div>
             <!-- /.col -->
             <div class="col-12 col-sm-6 col-md-6">
-                <div class="info-box card border-0 rounded-4 text-white overflow-hidden" 
+                <div class="info-box card border-0 rounded-4 text-white overflow-hidden"
                     style="background: linear-gradient(90deg, #006837, #A8E6A1);">
                     <div class="card-body position-relative p-4">
                         <h5 class="fw-semibold">Total Penarikan</h5>
-                        <img src="{{ asset('dashboard-assets/assets/img/LogoLong.png') }}" 
-                            alt="Logo" class="position-absolute" 
+                        <img src="{{ asset('dashboard-assets/assets/img/LogoLong.png') }}"
+                            alt="Logo" class="position-absolute"
                             style="top: 1rem; right: 1rem; height: 40px;">
                         <h3 class="fw-bold mt-4">Rp50.500,00</h3>
                         <p class="fw-semibold mb-0">Minimal Penarikan Rp50.000</p>
-                        <img src="{{ asset('dashboard-assets/assets/img/trees.png') }}" 
-                            alt="Trees" class="position-absolute bottom-0 end-0" 
+                        <img src="{{ asset('dashboard-assets/assets/img/trees.png') }}"
+                            alt="Trees" class="position-absolute bottom-0 end-0"
                             style="height: 70px; opacity: 0.9;">
                     </div>
                 </div>
             <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            
+
             <!-- /.col -->
         </div>
         <!-- /.row -->
@@ -144,7 +144,7 @@
                                     <span class="me-2 card-point"></span>
                                     <span>Kertas</span>
                                 </div>
-                                
+
                                 <div class="col-4 mb-2 d-flex align-items-center justify-content-center">
                                     <span class="me-2 card-point"></span>
                                     <span>Kaleng</span>

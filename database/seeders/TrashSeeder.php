@@ -17,6 +17,7 @@ class TrashSeeder extends Seeder
                 'type' => 'Organik',
                 'price_per_kg' => 1000,
                 'max_weight' => 10,
+                'photos' => '1sisamakanan.jpg'
             ],
             [
                 'trash_id' => 2,
@@ -24,6 +25,7 @@ class TrashSeeder extends Seeder
                 'type' => 'Organik',
                 'price_per_kg' => 1200,
                 'max_weight' => 10,
+                'photos' => '2kulitbuah.jpg'
             ],
             [
                 'trash_id' => 3,
@@ -31,13 +33,15 @@ class TrashSeeder extends Seeder
                 'type' => 'Organik',
                 'price_per_kg' => 800,
                 'max_weight' => 10,
+                'photos' => '3daunkering.jpg'
             ],
             [
                 'trash_id' => 4,
-                'name' => 'Kulit Buah',
+                'name' => 'Kotoran Hewan',
                 'type' => 'Organik',
                 'price_per_kg' => 1200,
                 'max_weight' => 10,
+                'photos' => '4kotoranhewan.jpg'
             ],
             [
                 'trash_id' => 5,
@@ -45,6 +49,7 @@ class TrashSeeder extends Seeder
                 'type' => 'Organik',
                 'price_per_kg' => 1100,
                 'max_weight' => 10,
+                'photos' => '5cangkangtelur.jpg'
             ],
             [
                 'trash_id' => 6,
@@ -52,6 +57,7 @@ class TrashSeeder extends Seeder
                 'type' => 'Anorganik',
                 'price_per_kg' => 3000,
                 'max_weight' => 10,
+                'photos' => '6botolplastik.jpg'
             ],
             [
                 'trash_id' => 7,
@@ -59,6 +65,7 @@ class TrashSeeder extends Seeder
                 'type' => 'Anorganik',
                 'price_per_kg' => 5000,
                 'max_weight' => 10,
+                'photos' => '7kaleng.jpg'
             ],
             [
                 'trash_id' => 8,
@@ -66,6 +73,7 @@ class TrashSeeder extends Seeder
                 'type' => 'Anorganik',
                 'price_per_kg' => 2000,
                 'max_weight' => 10,
+                'photos' => '8kardus.jpg'
             ],
             [
                 'trash_id' => 9,
@@ -73,6 +81,7 @@ class TrashSeeder extends Seeder
                 'type' => 'Anorganik',
                 'price_per_kg' => 2500,
                 'max_weight' => 10,
+                'photos' => '9kacapecah.jpg'
             ],
             [
                 'trash_id' => 10,
@@ -80,6 +89,7 @@ class TrashSeeder extends Seeder
                 'type' => 'Anorganik',
                 'price_per_kg' => 1500,
                 'max_weight' => 10,
+                'photos' => '10sterefoam.jpg'
             ],
         ]);
     }
