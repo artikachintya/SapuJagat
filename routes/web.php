@@ -20,7 +20,7 @@ Route::get('/admin', function () {
     return view('admin.dashboard');
 });
 
-// Google OAuth
+// Google Auth
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
