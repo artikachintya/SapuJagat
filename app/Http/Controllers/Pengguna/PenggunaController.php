@@ -21,26 +21,34 @@ public function index()
         $totalBalance = $user->info->balance ?? 0;
 
         //Withdrawals this month
-        $monthlyWithdrawals = $user->withdrawals()
-            ->whereMonth('datetime', now()->month)
-            ->whereYear('datetime', now()->year)
-            ->sum('withdrawal_balance');
+        // $monthlyWithdrawals = $user->withdrawals()
+        //     ->whereMonth('datetime', now()->month)
+        //     ->whereYear('datetime', now()->year)
+        //     ->sum('withdrawal_balance');
+        $monthlyWithdrawals = $user
+            ? $user->withdrawals()
+                    ->whereMonth('datetime', now()->month)
+                    ->whereYear('datetime', now()->year)
+                    ->sum('withdrawal_balance')
+            :0;
 
         // Approved orders this month
-        $approvedOrdersCount = $user->orders()
+        $approvedOrdersCount = $user? $user->orders()
             ->whereHas('approval', function ($query) {
                 $query->where('approval_status', 1)
                     ->whereMonth('date_time', now()->month)
                     ->whereYear('date_time', now()->year);
             })
-            ->count();
+            ->count()
+            :0;
 
         // Unapproved orders this month
-        $unapprovedOrdersCount = $user->orders()
+        $unapprovedOrdersCount = $user? $user->orders()
             ->whereDoesntHave('approval')
             ->whereMonth('date_time_request', now()->month)
             ->whereYear('date_time_request', now()->year)
-            ->count();
+            ->count()
+            :0;
 
         //Most ordered trash type (by quantity)
         $topTrash = DB::table('orders')

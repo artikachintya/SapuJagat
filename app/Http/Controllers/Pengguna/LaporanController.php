@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Pengguna;
 use App\Http\Controllers\Controller;
 use App\Models\Report;
 
+use Carbon\Carbon;
+use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,21 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        return view('pengguna.laporan');
+
+        $oneMonthAgo = now()->subMonth();
+
+        $laporanList = Report::where('user_id', Auth::id())
+            ->where(function ($query) use ($oneMonthAgo) {
+                $query->doesntHave('response')
+                    ->orWhereHas('response', function ($q) use ($oneMonthAgo) {
+                        $q->where('date_time_response', '>=', $oneMonthAgo);
+                    });
+            })
+            ->with('latestResponse') // important: eager load the relationship
+            ->orderBy('date_time_report', 'desc')
+            ->get();
+
+        return view('pengguna.laporan', compact('laporanList'));
     }
 
     /**
@@ -22,7 +38,7 @@ class LaporanController extends Controller
      */
     public function create()
     {
-        return view('pengguna.laporan');
+        return view('pengguna.laporan-create');
     }
 
     /**
