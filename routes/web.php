@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\PrintData;
 use App\Http\Controllers\Admin\ResponLaporan;
 
 use App\Http\Controllers\Pengguna\Histori;
-use App\Http\Controllers\Pengguna\Laporan;
+use App\Http\Controllers\Pengguna\LaporanController;
 use App\Http\Controllers\Pengguna\Pelacakan;
 use App\Http\Controllers\Pengguna\PenggunaController;
 use App\Http\Controllers\Pengguna\TukarSampahController;
@@ -67,7 +67,7 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::resource('tukar-sampah', TukarSampahController::class);
     Route::resource('histori', Histori::class);
     Route::resource('pelacakan', Pelacakan::class);
-    Route::resource('laporan', Laporan::class);
+    Route::resource('laporan', LaporanController::class);
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

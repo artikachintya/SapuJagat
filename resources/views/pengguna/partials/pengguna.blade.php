@@ -33,6 +33,7 @@
     @yield('content') <!-- Main content -->
   </div>
   @include('pengguna.partials.footer') <!-- Footer -->
+  @stack('styles')
 </body>
-
+@stack('scripts')
 </html>

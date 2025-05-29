@@ -26,6 +26,7 @@ return new class extends Migration
                 ->on('reports')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+            $table->dateTime('date_time_response');
 
             $table->string('response_message',255);
         });
