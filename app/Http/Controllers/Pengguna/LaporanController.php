@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Pengguna;
 use App\Http\Controllers\Controller;
+use App\Models\Report;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-class Laporan extends Controller
+class LaporanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('pengguna.laporan');
     }
 
     /**
@@ -20,7 +22,7 @@ class Laporan extends Controller
      */
     public function create()
     {
-        //
+        return view('pengguna.laporan');
     }
 
     /**
@@ -28,7 +30,30 @@ class Laporan extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate input
+        $validated = $request->validate([
+            'laporan' => 'required|string',
+            'gambar' => 'nullable|image|max:2048',
+        ]);
+
+        // Prepare data
+        $data = [
+            'user_id' => Auth::check() ? Auth::user()->user_id : 0,
+            'date_time_report' => now(),
+            'report_message' => $validated['laporan'],
+        ];
+
+
+        // Handle image upload
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('laporan', 'public');
+            $data['photo'] = $path;
+        }
+
+        // Save to database
+        Report::create($data);
+
+        return redirect()->back()->with('success', 'Laporan berhasil dikirim.');
     }
 
     /**

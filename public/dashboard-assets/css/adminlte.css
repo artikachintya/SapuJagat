@@ -3091,6 +3091,12 @@ textarea.form-control-lg {
   --bs-btn-disabled-border-color: #0d6efd;
 }
 
+.btn-report {
+  padding:0.5rem 4rem;
+  background-color:#098322;
+  color:white;
+}
+
 .btn-secondary {
   --bs-btn-color: #fff;
   --bs-btn-bg: #41AB5D;
@@ -14539,6 +14545,14 @@ html.maximized-card {
   --lte-card-variant-color: #fff;
   --lte-card-variant-color-rgb: 255, 255, 255;
 }
+
+.card-report {
+  background-image: url("../assets/img/Card-Background.jpg");
+  background-size: cover;         /* Make image cover entire area */
+  background-repeat: no-repeat;   /* Prevent repeating */
+  background-position: center;    /* Center the image */
+}
+
 
 .card-secondary,
 .bg-secondary,
