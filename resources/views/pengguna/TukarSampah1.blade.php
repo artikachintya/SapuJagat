@@ -3,6 +3,13 @@
 @section('title', 'Dashboard')
 
 @section('content')
+
+@php
+    $sessionData = collect(session('data_tukar_sampah', []))
+        ->keyBy('trash_id')
+        ->toArray();
+@endphp
+
     <!-- Link ke file CSS khusus Tukar Sampah -->
     <link rel="stylesheet" href="{{ asset('tukarsampah.css') }}">
 
@@ -32,7 +39,7 @@
             </div>
         @endif
 
-        <form action="{{ route('tukar-sampah.submit') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('pengguna.tukar-sampah.submit') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="row">
@@ -60,7 +67,7 @@
                                         <input type="text"
                                             name="trash[{{ $item->trash_id }}][quantity]"
                                             id="qty-{{ $item->trash_id }}"
-                                            value="0"
+                                            value="{{ $sessionData[$item->trash_id]['quantity'] ?? 0 }}"
                                             class="form-control text-center input-compact custom-input-green"
                                             readonly>
                                         <span class="unit-label">kg</span>
@@ -102,7 +109,7 @@
                                         <input type="text"
                                             name="trash[{{ $item->trash_id }}][quantity]"
                                             id="qty-{{ $item->trash_id }}"
-                                            value="0"
+                                            value="{{ $sessionData[$item->trash_id]['quantity'] ?? 0 }}"
                                             class="form-control text-center input-compact custom-input-green"
                                             readonly>
                                         <span class="unit-label">kg</span>
