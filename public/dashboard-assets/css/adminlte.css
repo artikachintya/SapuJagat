@@ -292,6 +292,10 @@ address {
   line-height: inherit;
 }
 
+.hover-pointer:hover {
+  cursor: pointer;
+}
+
 ol,
 ul {
   padding-left: 2rem;
@@ -3085,6 +3089,12 @@ textarea.form-control-lg {
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #0d6efd;
   --bs-btn-disabled-border-color: #0d6efd;
+}
+
+.btn-report {
+  padding:0.5rem 4rem;
+  background-color:#098322;
+  color:white;
 }
 
 .btn-secondary {
@@ -14535,6 +14545,14 @@ html.maximized-card {
   --lte-card-variant-color: #fff;
   --lte-card-variant-color-rgb: 255, 255, 255;
 }
+
+.card-report {
+  background-image: url("../assets/img/Card-Background.jpg");
+  background-size: cover;         /* Make image cover entire area */
+  background-repeat: no-repeat;   /* Prevent repeating */
+  background-position: center;    /* Center the image */
+}
+
 
 .card-secondary,
 .bg-secondary,

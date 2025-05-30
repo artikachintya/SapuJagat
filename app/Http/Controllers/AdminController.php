@@ -10,10 +10,10 @@ class AdminController extends Controller
 {
 public function index()
     {
-        if (auth()->user()->role !== 2) {
-            abort(403, 'Unauthorized access.');
-        }
-    
+        // if (auth()->user()->role !== 2) {
+        //     abort(403, 'Unauthorized access.');
+        // }
+
         return view('admin.dashboard');
     }
 }

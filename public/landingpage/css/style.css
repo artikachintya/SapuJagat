@@ -74,20 +74,22 @@ body {
 #feature-section h4 {
     font-weight: 700;
     text-align: center;
-    color: #000;
+    color: #005A32;
 }
 
 .feature-card {
-    background-color: #005A32;
+    border-width: 2px;
+    background-color: #d2e6cc;
     border-radius: 20px;
     padding: 30px 20px;
-    color: #ffffff;
+    color: #005A32;
     height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     transition: transform 0.3s ease;
+    box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.1);
 }
 
 .feature-card:hover {
@@ -96,16 +98,9 @@ body {
     transform: scale(1.03);
 }
 
-.icon-img {
-    width: 70px;
-    height: 70px;
-    filter: brightness(0) invert(1);
-    /* if icons are black */
-}
-
 .feature-button {
-    background-color: #e4eedc;
-    color: #005A32;
+    color: #ffffff;
+    background-color: #005A32;
     cursor: default;
     font-size: 0.875rem;
     /* font-size: 1rem; */
@@ -116,18 +111,13 @@ body {
     font-weight: bold;
 }
 
-.chevron {
-    /* font-size: 1.5rem; */
-    cursor: pointer;
-    margin-bottom: 0.5rem;
-    user-select: none;
-}
-
 .feature-desc {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
-    opacity: 0;
+
+    /* transition: all 0.3s ease max-height 0.5s ease opacity 0.3s ease; */
+    /* transition: transform .2s ease-in-out; */
+    /* opacity: 0; */
 }
 
 .feature-desc:not(.collapse) {
@@ -136,9 +126,14 @@ body {
     opacity: 1;
 }
 
-.chevron.rotated {
+.chevron i {
+    transition: transform 0.3s ease;
+}
+
+.chevron i.fa-rotate-180 {
     transform: rotate(180deg);
 }
+
 
 
 
@@ -173,7 +168,9 @@ body {
 }
 
 .card {
-    box-shadow: 0px 4px 8px 0px #BDBDBD;
+    box-shadow: 0px 4px 8px 0px #bdbdbd;
+    background-color: #e4eedc
+
 }
 
 .profile-pic {
@@ -277,12 +274,26 @@ button:focus {
     padding-bottom: 50px;
 }
 
+#faq-section h1,
+#faq-section h4 {
+    font-weight: 700;
+    text-align: center;
+    color: #005A32;
+}
+
+#testimoni-section h1 {
+    font-weight: 700;
+    text-align: center;
+    color: #005A32;
+}
+
+
 .accordion-button {
     font-weight: bold;
 }
 
 .accordion-button:not(.collapsed) {
-  background-color: #f0f0f0; /* Replace with your desired color */
+  background-color: #eff7ec; /* Replace with your desired color */
   color: #000; /* Optional: change text color too */
 }
 
@@ -299,9 +310,5 @@ button:focus {
         font-size: 1.125rem;
     }
 
-   /* .button-header {
-        justify-content: start;
-    } */
 }
-
 

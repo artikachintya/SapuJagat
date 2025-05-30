@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Pickup extends Model
 {
+    protected $table = 'pick_ups';
     protected $primaryKey = 'pick_up_id';
     public $timestamps = false;
 

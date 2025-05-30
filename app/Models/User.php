@@ -55,6 +55,22 @@ class User extends Authenticatable
         ];
     }
 
+    public function withdrawals()
+    {
+        return $this->hasMany(Withdrawal::class, 'user_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function info()
+    {
+        return $this->hasOne(UserInfo::class, 'user_id', 'user_id');
+    }
+
+
     // fitur chat
     /**
      * Get all chats where this user is involved
