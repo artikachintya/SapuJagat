@@ -78,3 +78,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('laporan', ResponLaporan::class);
     Route::resource('print-data', PrintData::class);
 });
+
+Route::get('/', function () {
+    return view('landing');
+});
+
+Route::get('/driver/dashboard', function () {
+    return view('driver.dashboard');
+})->name('driver.dashboard');
