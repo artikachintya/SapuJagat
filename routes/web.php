@@ -32,7 +32,11 @@ Route::get('/pengguna/dashboard', function () {
 //     return view('pengguna.dashboard');
 // });
 
-// Google OAuth
+Route::get('/admin', function () {
+    return view('admin.dashboard');
+});
+
+// Google Auth
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
@@ -74,3 +78,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('laporan', ResponLaporan::class);
     Route::resource('print-data', PrintData::class);
 });
+
+Route::get('/', function () {
+    return view('landing');
+});
+
+Route::get('/driver/dashboard', function () {
+    return view('driver.dashboard');
+})->name('driver.dashboard');

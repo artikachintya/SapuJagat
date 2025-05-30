@@ -1,28 +1,32 @@
- function toggleDesc(el) {
-    const card = el.closest('.feature-card'); // find the nearest card
-    const desc = card.querySelector('.feature-desc'); // get only that card's desc
+
+function toggleDesc(button) {
+    const card = button.closest('.feature-card');
+    const desc = card.querySelector('.feature-desc');
+    const chevron = card.querySelector('.chevron i');  // Changed this line
     const isCollapsed = desc.classList.contains('collapse');
 
-    // First, collapse all other cards
+    // Close all other descriptions first
     document.querySelectorAll('.feature-desc').forEach(d => {
-      d.classList.add('collapse');
-      const chevron = d.previousElementSibling;
-      if (chevron && chevron.classList.contains('chevron')) {
-        chevron.textContent = '⌄';
-      }
+        if (d !== desc) {
+            d.classList.add('collapse');
+            const otherCard = d.closest('.feature-card');
+            otherCard.querySelector('.chevron i').classList.remove('fa-rotate-180');
+        }
     });
 
-    // Then toggle the clicked one
+    // Toggle current description
     if (isCollapsed) {
-      desc.classList.remove('collapse');
-      el.textContent = '⌃';
+        desc.classList.remove('collapse');
+        chevron.classList.add('fa-rotate-180');
     } else {
-      desc.classList.add('collapse');
-      el.textContent = '⌄';
+        desc.classList.add('collapse');
+        chevron.classList.remove('fa-rotate-180');
     }
-  }
+}
+
+
 // Initialize the accordion
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const accordion = document.querySelector('#accordionExample');
     const items = accordion.querySelectorAll('.accordion-item');
     items.forEach(item => {
