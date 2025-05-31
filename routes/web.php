@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\PrintData;
 use App\Http\Controllers\Admin\ResponLaporan;
 
 use App\Http\Controllers\Pengguna\Histori;
-use App\Http\Controllers\Pengguna\Laporan;
+use App\Http\Controllers\Pengguna\LaporanController;
 use App\Http\Controllers\Pengguna\Pelacakan;
 use App\Http\Controllers\Pengguna\PenggunaController;
 use App\Http\Controllers\Pengguna\TukarSampahController;
@@ -51,15 +51,34 @@ Auth::routes();
 
 
 // User Tukar Sampah
+// user step 1 : tukar sampah
 Route::get('/pengguna/tukar-sampah', [TukarSampahController::class, 'index'])->name('TukarSampah1');
 Route::post('/pengguna/tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');
+// user step 2 : ringkasan pesanan
+Route::get('/pengguna/ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
+Route::post('/pengguna/ringkasan-pesanan/jemput', [RingkasanPesananController::class,'jemput'])->name('ringkasan.jemput');
+
+// Chat routes
+// Route::prefix('chat')->middleware('auth')->group(function () {
+//     // Main chat interface
+//     Route::get('/', [ChatController::class, 'index'])->name('chat.index');
+
+//     // View specific chat
+//     Route::get('/{chatId}', [ChatController::class, 'index'])->name('chat.show');
+
+//     // Send message
+//     Route::post('/{chatId}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+
+//     // Start new chat with user
+//     Route::get('/start/{userId}', [ChatController::class, 'startChat'])->name('chat.start');
+// });
 
 Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/', [PenggunaController::class, 'index'])->name('dashboard');
     Route::resource('tukar-sampah', TukarSampahController::class);
     Route::resource('histori', Histori::class);
     Route::resource('pelacakan', Pelacakan::class);
-    Route::resource('laporan', Laporan::class);
+    Route::resource('laporan', LaporanController::class);
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -70,3 +89,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('laporan', ResponLaporan::class);
     Route::resource('print-data', PrintData::class);
 });
+
+Route::get('/', function () {
+    return view('landing');
+});
+
+Route::get('/driver/dashboard', function () {
+    return view('driver.dashboard');
+})->name('driver.dashboard');

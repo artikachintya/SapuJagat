@@ -13,23 +13,41 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             // $table->id();
+            // $table->unsignedBigInteger('order_id');
+            // $table->foreign('order_id')
+            //     ->references('order_id') // sesuai nama PK di users
+            //     ->on('orders')
+            //     ->onDelete('cascade')
+            //     ->onUpdate('cascade');
+
+            // $table->unsignedBigInteger('trash_id');
+            // $table->foreign('trash_id')
+            //     ->references('trash_id') // sesuai nama PK di users
+            //     ->on('trashes')
+            //     ->onDelete('cascade')
+            //     ->onUpdate('cascade');
+
+            // $table->integer('quantity')->default(0);
+
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')
-                ->references('order_id') // sesuai nama PK di users
+                ->references('order_id')
                 ->on('orders')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->unsignedBigInteger('trash_id');
             $table->foreign('trash_id')
-                ->references('trash_id') // sesuai nama PK di users
+                ->references('trash_id')
                 ->on('trashes')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->integer('quantity')->default(0);
 
-        });
+            // Composite Primary Key
+            $table->primary(['order_id', 'trash_id']);
+            });
     }
 
     /**

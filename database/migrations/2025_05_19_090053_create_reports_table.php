@@ -22,7 +22,7 @@ return new class extends Migration
                 ->onUpdate('cascade');
 
             $table->dateTime('date_time_report');
-            $table->string('photo',255);
+            $table->string('photo',255)->nullable();
             $table->string('report_message',255);
         });
     }

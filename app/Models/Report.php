@@ -31,4 +31,8 @@ class Report extends Model
     {
         return $this->hasOne(Response::class, 'report_id', 'report_id');
     }
+    public function latestResponse()
+    {
+        return $this->hasOne(Response::class, 'report_id', 'report_id')->latest('date_time_response');
+    }
 }

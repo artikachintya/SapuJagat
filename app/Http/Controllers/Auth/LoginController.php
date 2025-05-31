@@ -47,7 +47,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if ($user->role == 1) {
-            // Jika role = 1 (pengguna biasa), kirim OTP
+        // Jika role = 1 (pengguna biasa), kirim OTP
             $otp = random_int(100000, 999999);
 
             session([
@@ -58,7 +58,7 @@ class LoginController extends Controller
                 'otp_verification' => true
             ]);
 
-            \Mail::to($user->email)->send(new \App\Mail\OtpMail($otp));
+            Mail::to($user->email)->send(new \App\Mail\OtpMail($otp));
             Auth::logout(); // logout sementara hingga OTP diverifikasi
 
             return redirect()->route('login');
