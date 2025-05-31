@@ -13,8 +13,6 @@
                     <div class="rounded-circle bg-light px-3 py-1 border" style="border: 1px solid #005A32;">1</div>
                     <div class="border-top flex-grow-1" ></div>
                     <div class="rounded-circle bg-success text-white px-3 py-1" style="border: 1px solid #005A32;">2</div>
-                    {{-- <div class="border-top flex-grow-1"></div> --}}
-                    {{-- <div class="rounded-circle bg-light px-3 py-1 border">3</div>  --}}
                 </div>
             </div>
             <h2 class="mb-2">Ringkasan Pesanan</h2>
@@ -50,15 +48,12 @@
         </div>
 
         <!-- Estimasi total -->
-        {{-- <div class="mt-1 py-2 px-3 text-white text w-50" style="background-color: #005A32;">
-            <h5 class="mb-0 fs-5"> Estimasi Total yang Diperoleh = Rp {{ number_format($grandTotal, 2, ',', '.') }}</h5>
-        </div> --}}
         <div class="mt-1 py-2 px-3 text-white w-100 w-md-50" style="background-color: #005A32;">
             <h5 class="mb-0 px-4 text-center fs-5">Estimasi Total yang Diperoleh = Rp {{ number_format($grandTotal, 2, ',', '.') }}</h5>
         </div>
 
         <!-- Form Upload & Waktu Penjemputan -->
-        <form id="formJemput" action="{{ route('ringkasan.jemput') }}" method="POST" enctype="multipart/form-data" class="mt-4">
+        <form id="formJemput" action="{{ route('pengguna.ringkasan.jemput') }}" method="POST" enctype="multipart/form-data" class="mt-4">
             @csrf
 
             <!-- Waktu Penjemputan -->
@@ -66,9 +61,9 @@
                 <label for="pickup_time" class="form-label fw-bold">Pilih Waktu Penjemputan</label>
                <select name="pickup_time" id="pickup_time" class="form-select" required style="border: 1px solid #005A32; border-radius: 0;">
                     <option value="">-- Pilih Waktu --</option>
-                    <option value="07:00">07.00 - 09.00 WIB</option>
-                    <option value="13:00">12.00 - 14.00 WIB</option>
-                    <option value="18:00">18.00 - 20.00 WIB</option>
+                    <option value="07:00 - 09.00 WIB">07.00 - 09.00 WIB</option>
+                    <option value="12:00 - 14.00 WIB">12.00 - 14.00 WIB</option>
+                    <option value="18:00 - 20.00 WIB">18.00 - 20.00 WIB</option>
                 </select>
             </div>
 
@@ -92,14 +87,10 @@
 
                 </div>
             </div>
-            {{-- <!-- Tombol Back dan Jemput -->
-            <div class="d-flex justify-content-between">
-                <a href="{{ route('TukarSampah1') }}" class="btn btn-secondary px-5" style="background-color: #de2742; border: 1px solid #de2742;">Kembali</a>
-                <button type="submit" class="btn btn-success px-5">Jemput</button>
-            </div> --}}
+
             <!-- Tombol Back dan Jemput -->
             <div class="d-flex justify-content-between">
-                <a href="{{ route('TukarSampah1') }}" class="btn btn-secondary px-5" style="background-color: #de2742; border: 1px solid #de2742;">Kembali</a>
+                <a href="{{ route('pengguna.tukar-sampah.index') }}" class="btn btn-secondary px-5" style="background-color: #de2742; border: 1px solid #de2742;">Kembali</a>
 
                 <!-- Tombol untuk memunculkan modal -->
                 <button type="button" class="btn btn-success px-5" data-bs-toggle="modal" data-bs-target="#konfirmasiModal">Jemput</button>
@@ -110,7 +101,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Order</h5>
+                        <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Pesanan</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>
                     <div class="modal-body">
