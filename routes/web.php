@@ -20,6 +20,8 @@ use App\Http\Controllers\Auth\OtpController;
 
 use App\Http\Controllers\HomeController;
 
+use App\Http\Controllers\Driver\DashboardController;
+
 // Public routes
 Route::get('/', function () {
     return view('landing');
@@ -83,6 +85,6 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/driver/dashboard', function () {
-    return view('driver.dashboard');
-})->name('driver.dashboard');
+Route::prefix('driver')->name('driver.')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+});
