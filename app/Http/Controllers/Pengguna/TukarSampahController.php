@@ -1,65 +1,124 @@
 <?php
 
 namespace App\Http\Controllers\Pengguna;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Trash;
+
+use App\Models\Order;
+use App\Models\OrderDetail;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 class TukarSampahController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('pengguna.TukarSampah1');
+        // Ambil semua sampah berdasarkan jenis
+        $sampahOrganik = Trash::where('type', 'Organik')->get();
+        $sampahAnorganik = Trash::where('type', 'Anorganik')->get();
+        // Kirim ke view
+        return view('pengguna.TukarSampah1', compact('sampahOrganik', 'sampahAnorganik'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function submit(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'trash' => 'required|array',
+        ]);
+
+        $trashItems = $request->input('trash');
+        $data = [];
+        $totalQty = 0; // Tambahkan variabel untuk menghitung total kuantitas
+
+        foreach ($trashItems as $trashId => $item) {
+            $qty = (int) $item['quantity'];
+
+            if ($qty > 10) {
+                return back()->withErrors(['quantity' => 'Maksimal berat untuk setiap jenis sampah adalah 10 kg.'])->withInput();
+            }
+
+            if ($qty > 0) {
+                $trash = Trash::find($trashId);
+                $data[] = [
+                    'trash_id' => $trashId,
+                    'name' => $trash->name,
+                    'price' => $trash->price_per_kg,
+                    'quantity' => $qty,
+                    'total' => $trash->price_per_kg * $qty
+                ];
+                $totalQty += $qty; // Tambahkan ke total kuantitas
+            }
+        }
+
+        if (count($data) === 0) {
+            return back()->withErrors(['quantity' => 'Silakan pilih dan tentukan jumlah sampah terlebih dahulu sebelum melanjutkan proses penukaran.'])->withInput();
+        }
+
+        if ($totalQty < 3) {
+            return back()->withErrors(['quantity' => 'Mohon maaf, penukaran tidak dapat diproses. Total berat sampah harus minimal 3 kg.'])->withInput();
+        }
+
+        Session::put('data_tukar_sampah', $data);
+        return redirect()->route('pengguna.RingkasanPesanan2');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function ringkasan(){
+        $data = Session::get('data_tukar_sampah',[]);
+        $photoPath = Session::get('photo_path');
+
+        return view('pengguna.RingkasanPesanan2', compact('data','photoPath'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function jemput(Request $request)
     {
-        //
+         // Validasi dasar
+        $request->validate([
+            'pickup_time' => 'required|string',
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        // Log untuk debug sementara
+        logger('Data request: ', $request->all());
+
+        $data = Session::get('data_tukar_sampah');
+
+        if (empty($data)) {
+            return redirect()->back()->with('error', 'Data pesanan tidak ditemukan.');
+        }
+
+        // $request->validate([
+        //     'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        // ]);
+
+        $photoPath = $request->file('photo')->store('uploads', 'public');
+
+        $order = Order::create([
+            'user_id' => Auth::id(),
+            'date_time_request' => now(),
+            'photo' => $photoPath,
+            'pickup_time'=>$request->pickup_time,
+            'status' => false,
+        ]);
+
+        foreach ($data as $item) {
+            OrderDetail::create([
+                'order_id' => $order->order_id,
+                'trash_id' => $item['trash_id'],
+                'quantity' => $item['quantity']
+            ]);
+        }
+
+        Session::forget(['data_tukar_sampah']);
+
+        return redirect()->route('pengguna.tukar-sampah.index')->with('success', 'Pesanan penjemputan berhasil dikirim!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

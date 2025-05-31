@@ -12,6 +12,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'date_time_request',
+        'pickup_time',
         'photo',
         'status',
     ];
