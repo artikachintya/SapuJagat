@@ -523,6 +523,60 @@ fieldset {
   border: 0;
 }
 
+.card{
+  justify-content: center;
+}
+
+.chart-container {
+    height: 400px; /* atau sesuai kebutuhan */
+    position: relative;
+}
+
+.chart-container canvas {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.card .chart-container {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        height: 250px;
+    }
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px 12px;
+  padding: 0 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.legend-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.legend-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 1;
+}
+
 legend {
   float: left;
   width: 100%;
