@@ -1,4 +1,4 @@
-@extends(view: 'pengguna.partials.pengguna')
+@extends('pengguna.partials.pengguna')
 
 @section('title', 'Dashboard')
 

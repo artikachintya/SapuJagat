@@ -13,6 +13,8 @@ class Pelacakan extends Controller
     public function index()
     {
         //
+        $status = 2;
+        return view('pengguna.LacakDriver', compact('status'));
     }
 
     /**
@@ -21,6 +23,7 @@ class Pelacakan extends Controller
     public function create()
     {
         //
+
     }
 
     /**

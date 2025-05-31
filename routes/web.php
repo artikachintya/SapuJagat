@@ -19,7 +19,7 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\OtpController;
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\TukarSampahController;
+// use App\Http\Controllers\TukarSampahController;
 
 // Public routes
 Route::get('/', function () {
@@ -29,9 +29,6 @@ Route::get('/', function () {
 Route::get('/pengguna/dashboard', function () {
     return view('pengguna.dashboard');
 });
-// Route::get('/pengguna', function () {
-//     return view('pengguna.dashboard');
-// });
 
 // Google OAuth
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
@@ -40,11 +37,6 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 // Laravel user auth
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-// Admin dashboard
-// Route::middleware('auth')->group(function () {
-//     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-// });
 
 // Satu callback untuk keduanya
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
