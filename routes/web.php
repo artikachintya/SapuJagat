@@ -52,32 +52,24 @@ Auth::routes();
 
 // User Tukar Sampah
 // user step 1 : tukar sampah
-Route::get('/pengguna/tukar-sampah', [TukarSampahController::class, 'index'])->name('TukarSampah1');
-Route::post('/pengguna/tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');
+
 // user step 2 : ringkasan pesanan
-Route::get('/pengguna/ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
-Route::post('/pengguna/ringkasan-pesanan/jemput', [RingkasanPesananController::class,'jemput'])->name('ringkasan.jemput');
-
-// Chat routes
-// Route::prefix('chat')->middleware('auth')->group(function () {
-//     // Main chat interface
-//     Route::get('/', [ChatController::class, 'index'])->name('chat.index');
-
-//     // View specific chat
-//     Route::get('/{chatId}', [ChatController::class, 'index'])->name('chat.show');
-
-//     // Send message
-//     Route::post('/{chatId}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
-
-//     // Start new chat with user
-//     Route::get('/start/{userId}', [ChatController::class, 'startChat'])->name('chat.start');
-// });
+// Route::get('/pengguna/ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
+// Route::post('/pengguna/ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
 
 Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/', [PenggunaController::class, 'index'])->name('dashboard');
+
     Route::resource('tukar-sampah', TukarSampahController::class);
+    Route::post('tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');
+    
+    Route::get('ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
+    Route::post('ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
+
     Route::resource('histori', Histori::class);
+
     Route::resource('pelacakan', Pelacakan::class);
+
     Route::resource('laporan', LaporanController::class);
 });
 
