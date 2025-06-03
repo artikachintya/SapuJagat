@@ -23,6 +23,7 @@ use App\Http\Controllers\RingkasanPesananController;
 use App\Http\Controllers\ChatController;
 
 use App\Http\Controllers\Driver\DashboardController;
+use App\Http\Controllers\Driver\PickUpController;
 
 // Public routes
 Route::get('/', function () {
@@ -74,7 +75,7 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
 
     Route::resource('tukar-sampah', TukarSampahController::class);
     Route::post('tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');
-    
+
     Route::get('ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
     Route::post('ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
 
@@ -99,5 +100,11 @@ Route::get('/', function () {
 });
 
 Route::prefix('driver')->name('driver.')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [PickUpController::class, 'index'])->name('dashboard');
 });
+
+// Add your routes here
+
+// Add this route for updating pickup status
+Route::post('/driver/pickup/{pickup}/update-status', [PickupController::class, 'updateStatus'])->name('driver.pickup.update-status');
+Route::post('/driver/pickup/{pickup}/upload-proof', [PickupController::class, 'uploadProof'])->name('driver.pickup.upload-proof');

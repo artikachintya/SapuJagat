@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Pengguna;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class Histori extends Controller
 {
@@ -12,7 +14,8 @@ class Histori extends Controller
      */
     public function index()
     {
-        //
+        $orderlist = Order::where('user_id', Auth::id());
+        return view("pengguna.histori");
     }
 
     /**

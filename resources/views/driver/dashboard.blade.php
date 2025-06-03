@@ -1,2 +1,0 @@
-@extends('driver.partials.navbar')
-

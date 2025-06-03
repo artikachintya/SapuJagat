@@ -1,143 +1,40 @@
-<!--begin::Header-->
-<nav class="app-header navbar navbar-expand bg-body">
-    <!--begin::Container-->
-    <div class="container-fluid">
-        <!--begin::Start Navbar Links-->
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
-                    <i class="bi bi-list"></i>
-                </a>
-            </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
-        </ul>
-        <!--end::Start Navbar Links-->
-        <!--begin::End Navbar Links-->
-        <ul class="navbar-nav ms-auto">
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
 
-            <!--begin::Language Menu Dropdown-->
-            <li class="nav-item dropdown user-menu">
-                <a href="#" class="nav-link">
-                    <img src="{{ asset('dashboard-assets/assets/img/indonesia.png')}}"
-                        class="user-image rounded-circle shadow" alt="User Image" />
-                </a>
-            </li>
-            <!--end::User Menu Dropdown-->
-            <!--begin::Notifications Dropdown Menu-->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                    <i class="bi bi-bell-fill"></i>
-                    <span class="navbar-badge badge text-bg-warning">15</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="bi bi-envelope me-2"></i> 4 new messages
-                        <span class="float-end text-secondary fs-7">3 mins</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="bi bi-people-fill me-2"></i> 8 friend requests
-                        <span class="float-end text-secondary fs-7">12 hours</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                        <span class="float-end text-secondary fs-7">2 days</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
-                </div>
-            </li>
-            <!--end::Notifications Dropdown Menu-->
-            <!--begin::User Menu Dropdown-->
-            <li class="nav-item dropdown user-menu">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src="{{ asset('dashboard-assets/assets/img/user2-160x160.jpg')}}"
-                        class="user-image rounded-circle shadow" alt="User Image" />
-                </a>
-                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                    <!--begin::Menu Footer-->
-                    <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat">Profile</a>
-                        <a href="#" class="btn btn-danger btn-flat float-end">Sign out</a>
-                    </li>
-                    <!--end::Menu Footer-->
-                </ul>
-            </li>
-            <!--end::User Menu Dropdown-->
-        </ul>
-        <!--end::End Navbar Links-->
-    </div>
-    <!--end::Container-->
-</nav>
-<!--end::Header-->
+            <!-- Left Side: Avatar + Name -->
+            <div class="d-flex align-items-center">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" class="rounded-circle me-2"
+                    alt="Avatar" width="50" height="50" style="object-fit: cover;" />
+                <a class="navbar-brand fw-bold mb-0" href="#">Nama Driver</a>
+            </div>
 
-<!--begin::Sidebar-->
-<aside class="app-sidebar bg-body-secondary shadow">
-    <!--begin::Sidebar Brand-->
-    <div class="sidebar-brand">
-        <!--begin::Brand Link-->
-        <a href="./index.html" class="brand-link">
-            <!--begin::Brand Image-->
-            <img src="{{ asset('dashboard-assets/assets/img/SJ_logo.png')}}" alt="AdminLTE Logo"
-                class="brand-image opacity-75 shadow" />
-            <!--end::Brand Image-->
-            <!--begin::Brand Text-->
-            <span class="brand-text fw-light">Sapu Jagat</span>
-            <!--end::Brand Text-->
-        </a>
-        <!--end::Brand Link-->
-    </div>
-    <!--end::Sidebar Brand-->
-    <!--begin::Sidebar Wrapper-->
-    <div class="sidebar-wrapper">
-        <nav class="mt-2">
-            <!--begin::Sidebar Menu-->
-            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-                <li class="nav-header" style="padding:0;">
-                    <a href="#" class="nav-link">
-                        <img src="{{ asset('dashboard-assets/assets/img/SJ_logo.png')}}"
-                            class="user-image rounded-circle shadow profile-img" alt="User Image" />
-                        <span class="d-none d-md-inline">Nama Driver</span>
-                    </a>
+            <!-- Right Side: Hamburger Menu -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+
+        <!-- Collapsible Content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item mx-4">
+                    <a class="nav-link active fw-bold" aria-current="page" href="#">Beranda</a>
                 </li>
-                <hr />
-                <li class="nav-item">
-                    <a href="{{ route('driver.dashboard') }}" class="nav-link {{ Route::is('driver.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
-                        <i class="nav-icon bi bi-house"></i>
-                        <p>Dashboard</p>
-                    </a>
+                <li class="nav-item mx-4">
+                    <a class="nav-link" href="#">Telepon</a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('driver.histori') }}" class="nav-link {{ Route::is('pengguna.tukar-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
-                        <i class="nav-icon bi bi-trash"></i>
-                        <p>Tukar Sampah</p>
-                    </a>
+                <li class="nav-item mx-4">
+                    <a class="nav-link" href="#">Pesan</a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('pengguna.histori.index') }}" class="nav-link {{ Route::is('pengguna.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
-                        <i class="nav-icon bi bi-clock-history"></i>
-                        <p>Histori</p>
-                    </a>
+                   <li class="nav-item mx-4">
+                    <a class="nav-link" href="#">Histori</a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('pengguna.pelacakan.index') }}" class="nav-link {{ Route::is('pengguna.pelacakan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
-                        <i class="nav-icon bi bi-check2-circle"></i>
-                        <p>Pelacakan</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('pengguna.laporan.index') }}" class="nav-link {{ Route::is('pengguna.pelaporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
-                        <i class="nav-icon bi bi-exclamation-diamond"></i>
-                        <p>Laporan</p>
-                    </a>
+                   <li class="nav-item mx-4">
+                    <a class="nav-link" style="color: red" href="#">Keluar</a>
                 </li>
             </ul>
-            <!--end::Sidebar Menu-->
-        </nav>
-    </div>
-    <!--end::Sidebar Wrapper-->
-</aside>
-<!--end::Sidebar-->
+        </div>
+    </nav>
