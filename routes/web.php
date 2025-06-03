@@ -12,6 +12,7 @@ use App\Http\Controllers\Pengguna\LaporanController;
 use App\Http\Controllers\Pengguna\Pelacakan;
 use App\Http\Controllers\Pengguna\PenggunaController;
 use App\Http\Controllers\Pengguna\TukarSampahController;
+use App\Http\Controllers\Pengguna\TarikSaldoController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,7 @@ Route::post('/pengguna/tukar-sampah/submit', [TukarSampahController::class, 'sub
 
 Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/', [PenggunaController::class, 'index'])->name('dashboard');
+    Route::resource('tarik-saldo', TarikSaldoController::class);
     Route::resource('tukar-sampah', TukarSampahController::class);
     Route::resource('histori', Histori::class);
     Route::resource('pelacakan', Pelacakan::class);
