@@ -21,21 +21,29 @@
                 <div class="quote-box">
                     <img src="{{ asset('Auth/images/card-image.png') }}" alt="Quote Background" class="quote-image">
                     <div class="quote-text">
-                        <p>
-                            "Tidak ada tindakan kecil jika dilakukan bersama. Pilah sampah hari ini, selamatkan dunia
-                            untuk generasi esok!"
-                        </p>
+                        <p>"Tidak ada tindakan kecil jika dilakukan bersama. Pilah sampah hari ini, selamatkan dunia
+                            untuk generasi esok!"</p>
                         <p class="author">~By Copitol~</p>
                     </div>
                 </div>
             </div>
+
             <div class="right">
                 <img src="Auth/images/logo.png" class="mobile-logo" alt="Logo">
                 <h2>Masuk</h2>
+
                 @if (session('error'))
                     <div class="overlay" id="error-overlay">
                         <div class="error-modal">
                             <p>{{ session('error') }}</p>
+                        </div>
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="overlay" id="success-overlay">
+                        <div class="success-modal">
+                            <p>{{ session('success') }}</p>
                         </div>
                     </div>
                 @endif
@@ -61,24 +69,21 @@
                     <input type="password" name="password" required placeholder="Masukkan password Anda">
 
                     <div class="checkbox-group">
-                        <!-- <div class="remember-me">
-                            <input type="checkbox" name="remember" id="remember">
-                            <label for="remember">Ingatkan saya</label>
-                        </div> -->
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember">
+                            <span>Ingat saya</span>
+                        </label>
                         <a href="{{ route('password.request') }}" class="forgot-link">Lupa kata sandi?</a>
                     </div>
 
                     <button type="submit" class="btn-primary">Masuk</button>
 
-                    <div class="divider">
-                        <span>atau</span>
-                    </div>
-
+                    <div class="divider"><span>atau</span></div>
 
                     <div class="btn-group">
                         <form method="GET" action="{{ route('auth.google') }}">
                             <button type="button" class="btn-google"
-                                onclick="window.location='{{  route('auth.google', ['mode' => 'login'])  }}'">
+                                onclick="window.location='{{ route('auth.google', ['mode' => 'login']) }}'">
                                 <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"
                                     style="height: 18px; margin-right: 8px;">
                                 Masuk dengan Google
@@ -87,6 +92,7 @@
                         <a href="{{ route('register') }}" class="btn-secondary">Belum punya akun</a>
                     </div>
                 </form>
+
                 @if (session('otp_required') && session()->has('otp_user_id'))
                     <div id="otpModal" class="modal" style="display:flex;">
                         <div class="modal-content">
@@ -107,10 +113,14 @@
             </div>
         </div>
     </div>
+
     <script>
-        const resendOtpUrl = "{{ route('otp.resend') }}";
-        const csrfToken = "{{ csrf_token() }}";
+
     </script>
+
+    <style>
+
+    </style>
 
     <script src="{{ asset('Auth/js/login.js') }}"></script>
 </body>

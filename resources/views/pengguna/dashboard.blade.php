@@ -227,7 +227,7 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 10, // <= TAMBAHKAN INI untuk memaksa skala Y sampai 10
+                            max: 100, // <= TAMBAHKAN INI untuk memaksa skala Y sampai 10
                             ticks: {
                                 stepSize: 1 // (opsional) biar rapi: 0,1,2,...,10
                             }

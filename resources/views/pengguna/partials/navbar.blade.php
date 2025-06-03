@@ -61,7 +61,14 @@
                     <!--begin::Menu Footer-->
                     <li class="user-footer">
                         <a href="#" class="btn btn-default btn-flat">Profile</a>
-                        <a href="#" class="btn btn-danger btn-flat float-end">Sign out</a>
+                        <a href="{{ route('logout') }}" class="btn btn-danger btn-flat float-end"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Sign out
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </li>
                     <!--end::Menu Footer-->
                 </ul>
@@ -105,31 +112,36 @@
                 </li>
                 <hr />
                 <li class="nav-item">
-                    <a href="{{ route('pengguna.dashboard') }}" class="nav-link {{ Route::is('pengguna.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                    <a href="{{ route('pengguna.dashboard') }}"
+                        class="nav-link {{ Route::is('pengguna.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-house"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pengguna.tukar-sampah.index') }}" class="nav-link {{ Route::is('pengguna.tukar-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                    <a href="{{ route('pengguna.tukar-sampah.index') }}"
+                        class="nav-link {{ Route::is('pengguna.tukar-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-trash"></i>
                         <p>Tukar Sampah</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pengguna.histori.index') }}" class="nav-link {{ Route::is('pengguna.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                    <a href="{{ route('pengguna.histori.index') }}"
+                        class="nav-link {{ Route::is('pengguna.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-clock-history"></i>
                         <p>Histori</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pengguna.pelacakan.index') }}" class="nav-link {{ Route::is('pengguna.pelacakan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                    <a href="{{ route('pengguna.pelacakan.index') }}"
+                        class="nav-link {{ Route::is('pengguna.pelacakan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-check2-circle"></i>
                         <p>Pelacakan</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pengguna.laporan.index') }}" class="nav-link {{ Route::is('pengguna.pelaporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                    <a href="{{ route('pengguna.laporan.index') }}"
+                        class="nav-link {{ Route::is('pengguna.pelaporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-exclamation-diamond"></i>
                         <p>Laporan</p>
                     </a>

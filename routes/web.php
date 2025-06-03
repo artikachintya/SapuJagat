@@ -22,7 +22,19 @@ use App\Http\Controllers\HomeController;
 // use App\Http\Controllers\TukarSampahController;
 
 // Public routes
+// Route::get('/', function () {
+//     return view('landing');
+// });
+
 Route::get('/', function () {
+    if (Auth::check()) {
+        $user = Auth::user();
+        if ($user->role == 1) {
+            return redirect('/pengguna');
+        } elseif ($user->role == 2) {
+            return redirect('/admin');
+        }
+    }
     return view('landing');
 });
 
@@ -36,7 +48,7 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 
 // Laravel user auth
 Auth::routes();
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Satu callback untuk keduanya
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
@@ -47,7 +59,6 @@ Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verif
 //Route opt resend
 Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend');
 
-Auth::routes();
 
 
 // User Tukar Sampah
@@ -69,6 +80,7 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::resource('histori', Histori::class);
 
     Route::resource('pelacakan', Pelacakan::class);
+    // Route::get('/Pelacakan/{id}', [Pelacakan::class, 'showTracking'])->name('Pelacakan.show');
 
     Route::resource('laporan', LaporanController::class);
 });
@@ -80,10 +92,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('persetujuan', Persetujuan::class);
     Route::resource('laporan', ResponLaporan::class);
     Route::resource('print-data', PrintData::class);
-});
-
-Route::get('/', function () {
-    return view('landing');
 });
 
 Route::get('/driver/dashboard', function () {

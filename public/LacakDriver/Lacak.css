@@ -99,9 +99,16 @@
   z-index: 1;
 }
 
-.timeline-item.completed .timeline-icon {
-  filter: grayscale(100%);
+.timeline-item.completed {
+    opacity: 0.5;
+    filter: grayscale(100%);
 }
+
+.timeline-item.current {
+    border: 2px solid #28a745;
+    background-color: #e6fff2;
+}
+
 
 @media (max-width: 768px) {
 

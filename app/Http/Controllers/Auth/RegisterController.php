@@ -110,6 +110,7 @@ class RegisterController extends Controller
             'NIK'          => $data['NIK'],
             'phone_num'    => $data['phone_num'],
             'role'         => 1,
+            'email_verified_at' => now()
         ]);
     }
 }

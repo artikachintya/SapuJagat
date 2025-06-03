@@ -24,6 +24,10 @@ class LoginController extends Controller
     {
         return '/pengguna';
     }
+    protected function loggedOut(Request $request)
+    {
+        return redirect('/login');
+    }
 
     protected function sendFailedLoginResponse(Request $request)
     {
@@ -38,7 +42,7 @@ class LoginController extends Controller
         if (!session()->has('otp_verification')) {
             Session::forget(['otp_required', 'otp_user_id', 'otp_code', 'otp_expires_at']);
         }
-            return view('auth.login');
+        return view('auth.login');
     }
 
     /**
@@ -47,7 +51,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if ($user->role == 1) {
-        // Jika role = 1 (pengguna biasa), kirim OTP
+            // Jika role = 1 (pengguna biasa), kirim OTP
             $otp = random_int(100000, 999999);
 
             session([
@@ -55,7 +59,8 @@ class LoginController extends Controller
                 'otp_code' => $otp,
                 'otp_expires_at' => now()->addMinutes(1),
                 'otp_required' => true,
-                'otp_verification' => true
+                'otp_verification' => true,
+                'remember_me' => $request->has('remember'),
             ]);
 
             Mail::to($user->email)->send(new \App\Mail\OtpMail($otp));
@@ -64,11 +69,11 @@ class LoginController extends Controller
             return redirect()->route('login');
         }
 
-    // Jika bukan role 1 (admin/driver), langsung masuk
-        if ($user->role == 2) {
-            return redirect()->intended('dashboard');
-        } elseif ($user->role == 3) {
-            return redirect()->intended('/driver');
-        }
+        // // Jika bukan role 1 (admin/driver), langsung masuk
+        //     if ($user->role == 2) {
+        //         return redirect()->intended('/pengguna');
+        //     } elseif ($user->role == 3) {
+        //         return redirect()->intended('/driver');
+        //     }
     }
 }

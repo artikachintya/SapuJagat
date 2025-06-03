@@ -81,6 +81,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+const resendOtpUrl = "{{ route('otp.resend') }}";
+const csrfToken = "{{ csrf_token() }}";
+
+// Auto-dismiss success modal after 3 seconds
+$(document).ready(function () {
+    setTimeout(function () {
+        $('#success-overlay').fadeOut();
+    }, 3000);
+});
+
 // Fungsi untuk menutup modal OTP
 function closeOtpModal() {
     const modal = document.getElementById('otpModal');
