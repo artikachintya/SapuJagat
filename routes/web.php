@@ -31,9 +31,6 @@ Route::get('/', function () {
 Route::get('/pengguna/dashboard', function () {
     return view('pengguna.dashboard');
 });
-// Route::get('/pengguna', function () {
-//     return view('pengguna.dashboard');
-// });
 
 Route::get('/admin', function () {
     return view('admin.dashboard');
