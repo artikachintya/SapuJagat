@@ -12,6 +12,7 @@ use App\Http\Controllers\Pengguna\LaporanController;
 use App\Http\Controllers\Pengguna\Pelacakan;
 use App\Http\Controllers\Pengguna\PenggunaController;
 use App\Http\Controllers\Pengguna\TukarSampahController;
+use App\Http\Controllers\Pengguna\TarikSaldoController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RingkasanPesananController;
 use App\Http\Controllers\ChatController;
 
+use App\Http\Controllers\Driver\DashboardController;
+use App\Http\Controllers\Driver\PickUpController;
+
 // Public routes
 Route::get('/', function () {
     return view('landing');
@@ -30,9 +34,6 @@ Route::get('/', function () {
 Route::get('/pengguna/dashboard', function () {
     return view('pengguna.dashboard');
 });
-// Route::get('/pengguna', function () {
-//     return view('pengguna.dashboard');
-// });
 
 Route::get('/admin', function () {
     return view('admin.dashboard');
@@ -70,8 +71,10 @@ Auth::routes();
 Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/', [PenggunaController::class, 'index'])->name('dashboard');
 
+    Route::resource('tarik-saldo', TarikSaldoController::class);
     Route::resource('tukar-sampah', TukarSampahController::class);
     Route::post('tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');
+
 
     Route::get('ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
     Route::post('ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
@@ -102,25 +105,6 @@ Route::get('/driver/dashboard', function () {
 
 
 // Chat Routes
-// Route::prefix('pengguna')->group(function () {
-//     Route::get('/chat', [ChatController::class, 'userChat'])->name('pengguna.chat');
-//     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
-// });
-
-// Route::prefix('driver')->group(function () {
-//     Route::get('/chat', [ChatController::class, 'driverChat'])->name('driver.chat');
-//     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('driver.chat.send');
-// });
-
-// Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
-
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/chat', [ChatController::class, 'userChat']);
-// });
-
-// Route::get('/driver-chat', [ChatController::class, 'driverChat'])->middleware('auth');
-
-// Chat Routes
 Route::prefix('pengguna')->group(function () {
     Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
@@ -134,3 +118,13 @@ Route::prefix('driver')->group(function () {
 });
 
 Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
+
+Route::prefix('driver')->name('driver.')->group(function () {
+    Route::get('/', [PickUpController::class, 'index'])->name('dashboard');
+});
+
+// Add your routes here
+
+// Add this route for updating pickup status
+Route::post('/driver/pickup/{pickup}/update-status', [PickupController::class, 'updateStatus'])->name('driver.pickup.update-status');
+Route::post('/driver/pickup/{pickup}/upload-proof', [PickupController::class, 'uploadProof'])->name('driver.pickup.upload-proof');

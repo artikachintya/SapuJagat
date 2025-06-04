@@ -88,7 +88,7 @@
                             </div>
                             <div id="laporanModal" class="modal-overlay" style="display: none;">
                                 <div class="modal-content">
-                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div cla ss="d-flex justify-content-between align-items-start mb-2">
                                         <div>
                                             <span class="badge bg-success mb-1" id="modal-status">Selesai</span><br>
                                             <strong>Hari/Tgl: <span id="modal-date"></span></strong>

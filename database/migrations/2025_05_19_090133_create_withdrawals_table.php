@@ -20,6 +20,8 @@ return new class extends Migration
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+            $table->string('number',255);
+            $table->string('bank',255);
 
             $table->float('withdrawal_balance')->default(0);
             $table->dateTime('datetime');
