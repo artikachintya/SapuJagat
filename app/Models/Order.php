@@ -36,4 +36,10 @@ class Order extends Model
     {
         return $this->hasOne(Approval::class, 'order_id');
     }
+
+    // Tambahkan relasi ke driver jika belum ada
+    public function driver()
+    {
+        return $this->belongsTo(User::class, 'driver_id', 'user_id');
+    }
 }
