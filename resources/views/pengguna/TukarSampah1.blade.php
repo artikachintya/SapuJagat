@@ -11,7 +11,7 @@
 @endphp
 
     <!-- Link ke file CSS khusus Tukar Sampah -->
-    <link rel="stylesheet" href="{{ asset('tukarsampah.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/tukarsampah.css') }}">
 
     <main class="app-main container mt-4">
     <!--begin::App Content Header-->
