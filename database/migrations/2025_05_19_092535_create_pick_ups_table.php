@@ -29,10 +29,11 @@ return new class extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->dateTime('pick_up_date');
-            $table->dateTime('arrival_date');
-            $table->string('photos',255);
-            $table->string('notes',255);
+            $table->dateTime('start_time')-> nullable();
+            $table->dateTime('pick_up_date')-> nullable();
+            $table->dateTime('arrival_date')-> nullable();
+            $table->string('photos',255)-> nullable();
+            $table->string('notes',255)-> nullable();
         });
     }
 
