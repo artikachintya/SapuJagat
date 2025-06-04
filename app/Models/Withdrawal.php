@@ -16,6 +16,8 @@ class Withdrawal extends Model
 
     protected $fillable = [
         'user_id',
+        'bank',
+        'number',
         'withdrawal_balance',
         'datetime',
     ];

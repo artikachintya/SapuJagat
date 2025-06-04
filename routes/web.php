@@ -12,6 +12,7 @@ use App\Http\Controllers\Pengguna\LaporanController;
 use App\Http\Controllers\Pengguna\Pelacakan;
 use App\Http\Controllers\Pengguna\PenggunaController;
 use App\Http\Controllers\Pengguna\TukarSampahController;
+use App\Http\Controllers\Pengguna\TarikSaldoController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -33,9 +34,6 @@ Route::get('/', function () {
 Route::get('/pengguna/dashboard', function () {
     return view('pengguna.dashboard');
 });
-// Route::get('/pengguna', function () {
-//     return view('pengguna.dashboard');
-// });
 
 Route::get('/admin', function () {
     return view('admin.dashboard');
@@ -73,6 +71,7 @@ Auth::routes();
 Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/', [PenggunaController::class, 'index'])->name('dashboard');
 
+    Route::resource('tarik-saldo', TarikSaldoController::class);
     Route::resource('tukar-sampah', TukarSampahController::class);
     Route::post('tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');
 

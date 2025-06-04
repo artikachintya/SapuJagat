@@ -17,6 +17,10 @@ public function index()
 
         $user = Auth::user();
 
+        if(!Auth::user()){
+            return redirect()->back();
+        }
+
         //Total balance
         $totalBalance = $user->info->balance ?? 0;
 

@@ -36,10 +36,10 @@
                             <h4 class="fw-bold">Hi, {{ Auth::check() ? Auth::user()->name : 'User' }}!</h4>
                             <p class="mb-4 text-muted">Yuk buang sampahmu sekarang! Mulai dari diri sendiri untuk bumi yang bersih</p>
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-success rounded-3">
+                                <a href="{{ route('pengguna.tukar-sampah.index') }}" class="btn btn-success rounded-3">
                                     <i class="bi bi-trash"></i> Tukar Sampah
                                 </a>
-                                <a href="#" class="btn btn-outline-success rounded-3">
+                                <a href="{{ route('pengguna.tarik-saldo.index') }}" class="btn btn-outline-success rounded-3">
                                     Tarik Saldo
                                 </a>
                             </div>
