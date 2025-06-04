@@ -1,0 +1,27 @@
+body {
+    font-family: 'Inria Sans', sans-serif;
+    background-color: #F7FCF5;
+}
+
+.navbar {
+    background-color: #F7FCF5;
+}
+
+.navbar-brand, .nav-link{
+    color: #005A32;
+}
+
+
+#map {
+    height: 50vh;
+    width: 100%;
+    background-color: #F7FCF5;
+}
+
+.fa-location-dot {
+    color: rgb(234, 17, 17);
+}
+
+.btn-section {
+    background-color: #F7FCF5;
+}

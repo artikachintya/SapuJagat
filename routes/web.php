@@ -12,6 +12,7 @@ use App\Http\Controllers\Pengguna\LaporanController;
 use App\Http\Controllers\Pengguna\Pelacakan;
 use App\Http\Controllers\Pengguna\PenggunaController;
 use App\Http\Controllers\Pengguna\TukarSampahController;
+use App\Http\Controllers\Pengguna\TarikSaldoController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -71,9 +72,10 @@ Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend')
 Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/', [PenggunaController::class, 'index'])->name('dashboard');
 
+    Route::resource('tarik-saldo', TarikSaldoController::class);
     Route::resource('tukar-sampah', TukarSampahController::class);
     Route::post('tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');
-    
+
     Route::get('ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
     Route::post('ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
 
