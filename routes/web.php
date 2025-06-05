@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Persetujuan;
 use App\Http\Controllers\Admin\PrintData;
 use App\Http\Controllers\Admin\ResponLaporan;
 
+use App\Http\Controllers\Driver\PickUpController;
 use App\Http\Controllers\Pengguna\Histori;
 use App\Http\Controllers\Pengguna\LaporanController;
 use App\Http\Controllers\Pengguna\Pelacakan;
@@ -80,10 +81,8 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::post('ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
 
     Route::resource('histori', Histori::class);
-
+    
     Route::resource('pelacakan', Pelacakan::class);
-    // Route::get('/Pelacakan/{id}', [Pelacakan::class, 'showTracking'])->name('Pelacakan.show');
-
     Route::resource('laporan', LaporanController::class);
 });
 
@@ -96,6 +95,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('print-data', PrintData::class);
 });
 
-Route::get('/driver/dashboard', function () {
-    return view('driver.dashboard');
-})->name('driver.dashboard');
+
+Route::prefix('driver')->name('driver.')->group(function () {
+    Route::get('/', [PickUpController::class, 'index'])->name('dashboard');
+});
+
+// Add your routes here
+
+// Add this route for updating pickup status
+Route::post('/driver/pickup/{pickup}/update-status', [PickupController::class, 'updateStatus'])->name('driver.pickup.update-status');
+Route::post('/driver/pickup/{pickup}/upload-proof', [PickupController::class, 'uploadProof'])->name('driver.pickup.upload-proof');

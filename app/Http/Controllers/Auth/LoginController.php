@@ -69,11 +69,13 @@ class LoginController extends Controller
             return redirect()->route('login');
         }
 
-        // // Jika bukan role 1 (admin/driver), langsung masuk
-        //     if ($user->role == 2) {
-        //         return redirect()->intended('/pengguna');
-        //     } elseif ($user->role == 3) {
-        //         return redirect()->intended('/driver');
-        //     }
+        // Jika bukan role 1 (admin/driver), langsung masuk
+        if ($user->role == 1) {
+            return redirect()->intended('/pengguna');
+        } elseif ($user->role == 2) {
+            return redirect()->intended('/admin');
+        } elseif ($user->role == 3) {
+            return redirect()->intended('/driver');
+        }
     }
 }
