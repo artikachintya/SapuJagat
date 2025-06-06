@@ -25,6 +25,7 @@ use App\Http\Controllers\ChatController;
 
 use App\Http\Controllers\Driver\DashboardController;
 use App\Http\Controllers\Driver\PickUpController;
+use App\Http\Controllers\ProfileController;
 
 // Public routes
 Route::get('/', function () {
@@ -84,7 +85,15 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::resource('pelacakan', Pelacakan::class);
 
     Route::resource('laporan', LaporanController::class);
+
+    Route::get('/profile', [ProfileController::class,'index'])->name('profile');
+    Route::post('/profile/save', [ProfileController::class, 'save'])->name('profile.save');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
+
+
 });
+
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
@@ -94,6 +103,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('laporan', ResponLaporan::class);
     Route::resource('print-data', PrintData::class);
 });
+
+
 
 Route::get('/', function () {
     return view('landing');

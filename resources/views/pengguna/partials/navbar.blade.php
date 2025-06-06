@@ -60,7 +60,7 @@
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <!--begin::Menu Footer-->
                     <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                        <a href="{{route ('pengguna.profile') }}" class="btn btn-default btn-flat">Profile</a>
                         <a href="#" class="btn btn-danger btn-flat float-end">Sign out</a>
                     </li>
                     <!--end::Menu Footer-->
