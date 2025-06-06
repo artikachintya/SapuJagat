@@ -26,6 +26,9 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Driver\DashboardController;
 use App\Http\Controllers\Driver\PickUpController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Driver\DriverProfileController;
+use App\Http\Controllers\Driver\HistoriDriver;
 
 // Public routes
 Route::get('/', function () {
@@ -102,6 +105,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('persetujuan', Persetujuan::class);
     Route::resource('laporan', ResponLaporan::class);
     Route::resource('print-data', PrintData::class);
+    Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
+    Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');
+
 });
 
 
@@ -126,12 +133,17 @@ Route::prefix('driver')->group(function () {
     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('driver.chat.send');
     // Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
     // Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
+
 });
 
 Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
 
 Route::prefix('driver')->name('driver.')->group(function () {
     Route::get('/', [PickUpController::class, 'index'])->name('dashboard');
+    Route::get('profile', [DriverProfileController::class, 'index'])->name('profile');
+    Route::get('profile/edit', [DriverProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('profile/save', [DriverProfileController::class, 'save'])->name('profile.save');
+    Route::resource('histori', HistoriDriver::class);
 });
 
 // Add your routes here

@@ -14,7 +14,7 @@
     <!--end::Start Navbar Links-->
     <!--begin::End Navbar Links-->
     <ul class="navbar-nav ms-auto">
-    
+
     <!--begin::Language Menu Dropdown-->
     <li class="nav-item dropdown user-menu marginzero">
         <a href="#" class="nav-link">
@@ -66,7 +66,7 @@
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
         <!--begin::Menu Footer-->
         <li class="user-footer">
-            <a href="#" class="btn btn-default btn-flat">Profile</a>
+            <a href="{{ route('admin.profile') }}" class="btn btn-default btn-flat">Profile</a>
             <a href="#" class="btn btn-danger btn-flat float-end">Sign out</a>
         </li>
         <!--end::Menu Footer-->

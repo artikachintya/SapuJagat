@@ -1,6 +1,6 @@
-@extends('pengguna.partials.pengguna')
+@extends('admin.partials.admin')
 
-@section('title', 'Profile Pengguna')
+@section('title', 'Profile Admin')
 
 @push('styles')
 @push('styles')
@@ -59,7 +59,7 @@
                             </div>
 
                             <!-- Content Body -->
-                            <form action="{{ route('pengguna.profile.save') }}" method="POST"
+                            <form action="{{ route('admin.profile.save') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -102,44 +102,11 @@
                                                 value="{{ $user->email }}">
                                         </div>
 
-                                        <strong>Alamat</strong><br>
-                                        <div class="info-card">
-                                            <input type="text" name="address" class="form-control border-0 p-0"
-                                                value="{{ $user->info->address ?? '' }}">
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <strong>Provinsi</strong><br>
-                                                <div class="info-card">
-                                                    <select name="province" id="province" class="form-select" required>
-                                                        <option value="{{ $user->info->province ?? '' }}">
-                                                            {{ $user->info->province ?? 'Pilih Provinsi' }}</option>
-                                                        {{-- Option akan diisi oleh JS --}}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <strong>Kota</strong><br>
-                                                <div class="info-card">
-                                                    <select name="city" id="city" class="form-select" required>
-                                                        <option value="{{ $user->info->city ?? '' }}">
-                                                            {{ $user->info->city ?? 'Pilih Kota' }}</option>
-                                                        {{-- Option akan diisi oleh JS --}}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <strong>Nomor Telepon</strong><br>
                                         <div class="info-card">
                                             <input type="text" name="phone_num" class="form-control border-0 p-0"
                                                 value="{{ $user->phone_num }}">
                                         </div>
-
-                                        {{-- <button type="submit" class="btn btn-success mt-3">
-                                            <i class="fas fa-save me-2"></i>Simpan Perubahan
-                                        </button> --}}
 
                                         <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal"
                                             data-bs-target="#confirmModal">
@@ -171,7 +138,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn" style="border-color:black"
-                                                onclick="window.location.href='{{ route('pengguna.profile') }}'">Batal</button>
+                                                onclick="window.location.href='{{ route('admin.profile') }}'">Batal</button>
                                             <button type="button" class="btn btn-success"
                                                 onclick="document.querySelector('form').submit()">Ya, Simpan</button>
                                         </div>

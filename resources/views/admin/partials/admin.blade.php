@@ -39,6 +39,9 @@
       integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
       crossorigin="anonymous"
     />
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
 </head>
 {{-- @if(Auth::guard('admin')->check())
     <p>Welcome, Admin: {{ Auth::guard('admin')->user()->email }}</p>
@@ -53,5 +56,8 @@
             @yield('content') <!-- Main content -->
     </div>
         @include('admin.partials.footer') <!-- Footer -->
+        @stack('styles')
 </body>
+@stack('scripts')
+
 </html>
