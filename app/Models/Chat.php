@@ -20,6 +20,14 @@ class Chat extends Model
 
     public function details()
     {
-        return $this->hasMany(ChatDetail::class, 'chat_id');
+        return $this->hasMany(ChatDetail::class, 'chat_id', 'chat_id');
+    }
+    public function users()
+    {
+        return $this->hasOne(User::class, 'user_id', 'user_id');
+    }
+    public function drivers()
+    {
+        return $this->hasOne(User::class, 'user_id', 'driver_id');
     }
 }

@@ -4,156 +4,84 @@ namespace App\Http\Controllers;
 
 use App\Models\Chat;
 use App\Models\ChatDetail;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
-    // /**
-    //  * Display chat list and messages
-    //  *
-    //  * @param int|null $chatId The ID of the current chat to display
-    //  * @return \Illuminate\View\View
-    //  */
-    // public function index($chatId = null)
-    // {
-    //     $user = Auth::user();
+    public function userChat($chat_id)
+    {
+        $chat = Chat::findOrFail($chat_id);
+        if (Auth::id() !== $chat->user_id && Auth::id() !== $chat->driver_id) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki akses ke chat ini.');
+        }
 
-    //     // Get all chats where this user is involved, ordered by latest message
-    //     $chats = $user->chats()
-    //         ->with(['details' => function($query) {
-    //             $query->latest('date_time');
-    //         }])
-    //         ->get()
-    //         ->sortByDesc(function($chat) {
-    //             return $chat->details->first()->date_time ?? $chat->date_time_created;
-    //         });
+        $messages = ChatDetail::where('chat_id', $chat->chat_id)
+            ->orderBy('date_time', 'asc')
+            ->get();
 
-    //     $currentChat = null;
-    //     $otherUser = null;
+        return view('pengguna.chat.index', compact('messages', 'chat'));
+    }
 
-    //     if ($chatId) {
-    //         $currentChat = $chats->where('chat_id', $chatId)->first();
+    public function driverChat($chat_id)
+    {
+        $chat = Chat::findOrFail($chat_id);
+        if (Auth::id() !== $chat->user_id && Auth::id() !== $chat->driver_id) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki akses ke chat ini.');
+        }
 
-    //         if ($currentChat) {
-    //             // Get the other user in this chat
-    //             $otherUser = $currentChat->users->where('user_id', '!=', $user->user_id)->first();
+        $messages = ChatDetail::where('chat_id', $chat->chat_id)
+            ->orderBy('date_time', 'asc')
+            ->get();
 
-    //             // Load messages for this chat
-    //             $currentChat->load(['details.user' => function($query) {
-    //                 $query->select('user_id', 'name', 'role');
-    //             }]);
-    //         }
-    //     }
+        return view('driver.chat.index', compact('messages', 'chat'));
+    }
 
-    //     return view('chat.index', compact('chats', 'currentChat', 'otherUser'));
-    // }
+    // Kirim pesan
+    public function sendMessage(Request $request)
+    {
+        $request->validate([
+            'message' => 'required|string',
+            'chat_id' => 'required|exists:chats,chat_id',
+        ]);
 
-    // /**
-    //  * Start a new chat with another user
-    //  *
-    //  * @param int $userId The ID of the user to chat with
-    //  * @return \Illuminate\Http\RedirectResponse
-    //  */
-    // public function startChat($userId)
-    // {
-    //     $otherUser = User::findOrFail($userId);
-    //     $currentUser = Auth::user();
+        ChatDetail::create([
+            'chat_id' => $request->chat_id,
+            'user_id' => Auth::id(),
+            'detail_chat' => $request->message,
+            'photos' => '',
+            'date_time' => now(),
+        ]);
 
-    //     // Verify the other user is a driver if current user is regular
-    //     if ($currentUser->isRegularUser() && !$otherUser->isDriver()) {
-    //         abort(403, 'You can only chat with drivers');
-    //     }
+        return response()->json(['status' => 'success']);
+    }
 
-    //     // Verify the other user is regular if current user is driver
-    //     if ($currentUser->isDriver() && !$otherUser->isRegularUser()) {
-    //         abort(403, 'Drivers can only chat with regular users');
-    //     }
+    // Ambil pesan
+    public function getMessages(Request $request)
+    {
+        // $messages = ChatDetail::with('user')
+        //     ->where('chat_id', $request->chat_id)
+        //     ->orderBy('date_time', 'asc')
+        //     ->get();
 
-    //     // Check if chat already exists
-    //     $existingChat = $this->findExistingChat($currentUser, $otherUser);
+        // return response()->json($messages);
+        $messages = ChatDetail::with('user')
+            ->where('chat_id', $request->chat_id)
+            ->orderBy('date_time', 'asc')
+            ->get()
+            ->map(function ($msg) {
+                return [
+                    'user_id' => $msg->user_id,
+                    'detail_chat' => $msg->detail_chat,
+                    'date_time' => $msg->date_time->toIso8601String(), // ⬅ ini yang bikin jamnya konsisten
+                    'user' => [
+                        'name' => optional($msg->user)->name
+                    ]
+                ];
+            });
 
-    //     if (!$existingChat) {
-    //         // Create new chat
-    //         $chat = Chat::create([
-    //             'date_time_created' => now()
-    //         ]);
-
-    //         // Add initial message
-    //         $welcomeMessage = $currentUser->isDriver()
-    //             ? "Hello, I'm your driver {$currentUser->name}"
-    //             : "Hello driver, I need assistance with my order";
-
-    //         ChatDetail::create([
-    //             'chat_id' => $chat->chat_id,
-    //             'user_id' => $currentUser->user_id,
-    //             'detail_chat' => $welcomeMessage,
-    //             'date_time' => now()
-    //         ]);
-
-    //         return redirect()->route('chat.show', $chat->chat_id);
-    //     }
-
-    //     return redirect()->route('chat.show', $existingChat->chat_id);
-    // }
-
-    // /**
-    //  * Send a message in a chat
-    //  *
-    //  * @param Request $request The HTTP request
-    //  * @param int $chatId The ID of the chat
-    //  * @return \Illuminate\Http\RedirectResponse
-    //  */
-    // public function sendMessage(Request $request, $chatId)
-    // {
-    //     $request->validate([
-    //         'message' => 'required|string|max:500',
-    //         'photo' => 'nullable|image|max:2048'
-    //     ]);
-
-    //     $chat = Chat::findOrFail($chatId);
-    //     $user = Auth::user();
-
-    //     // Verify user is part of this chat
-    //     if (!$chat->users->contains($user->user_id)) {
-    //         abort(403, 'You are not part of this chat');
-    //     }
-
-    //     $photoPath = null;
-    //     if ($request->hasFile('photo')) {
-    //         $photoPath = $request->file('photo')->store('chat_photos', 'public');
-    //     }
-
-    //     $message = ChatDetail::create([
-    //         'user_id' => $user->user_id,
-    //         'chat_id' => $chat->chat_id,
-    //         'detail_chat' => $request->message,
-    //         'photos' => $photoPath,
-    //         'date_time' => now()
-    //     ]);
-
-    //     // For realtime functionality (we'll implement this later)
-    //     // broadcast(new NewMessage($message))->toOthers();
-
-    //     return back()->with('success', 'Message sent');
-    // }
-
-    // /**
-    //  * Find existing chat between two users
-    //  *
-    //  * @param User $user1 First user
-    //  * @param User $user2 Second user
-    //  * @return Chat|null The existing chat or null if not found
-    //  */
-    // protected function findExistingChat($user1, $user2)
-    // {
-    //     return Chat::whereHas('details', function($query) use ($user1) {
-    //             $query->where('user_id', $user1->user_id);
-    //         })
-    //         ->whereHas('details', function($query) use ($user2) {
-    //             $query->where('user_id', $user2->user_id);
-    //         })
-    //         ->first();
-    // }
+        return response()->json($messages);
+    }
 }

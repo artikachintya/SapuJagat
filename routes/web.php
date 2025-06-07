@@ -77,6 +77,7 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::resource('tukar-sampah', TukarSampahController::class);
     Route::post('tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');
 
+
     Route::get('ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
     Route::post('ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
 
@@ -95,6 +96,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('print-data', PrintData::class);
 });
 
+
+Route::get('/driver/dashboard', function () {
+    return view('driver.dashboard');
+})->name('driver.dashboard');
+
+
+// Chat Routes
+Route::prefix('pengguna')->group(function () {
+    Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
+});
+
+Route::prefix('driver')->group(function () {
+    Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('driver.chat');
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('driver.chat.send');
+    // Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
+    // Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
+});
+
+Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
 
 Route::prefix('driver')->name('driver.')->group(function () {
     Route::get('/', [PickUpController::class, 'index'])->name('dashboard');
