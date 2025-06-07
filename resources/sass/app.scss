@@ -1,8 +1,13 @@
 // Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans&display=swap');
 
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+.bg-reset-password {
+  background: url('/Auth/images/Background.jpg') no-repeat center center fixed;
+  background-size: cover;
+}

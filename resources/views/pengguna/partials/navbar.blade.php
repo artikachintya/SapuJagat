@@ -18,7 +18,7 @@
             <!--begin::Language Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link">
-                    <img src="{{ asset('dashboard-assets/assets/img/indonesia.png')}}"
+                    <img src="{{ asset('dashboard-assets/assets/img/indonesia.png') }}"
                         class="user-image rounded-circle shadow" alt="User Image" />
                 </a>
             </li>
@@ -54,14 +54,21 @@
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src="{{ asset('dashboard-assets/assets/img/user2-160x160.jpg')}}"
+                    <img src="{{ asset('dashboard-assets/assets/img/user2-160x160.jpg') }}"
                         class="user-image rounded-circle shadow" alt="User Image" />
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <!--begin::Menu Footer-->
                     <li class="user-footer">
-                        <a href="{{route ('pengguna.profile') }}" class="btn btn-default btn-flat">Profile</a>
-                        <a href="#" class="btn btn-danger btn-flat float-end">Sign out</a>
+                        <a href="{{ route('pengguna.profile') }}" class="btn btn-default btn-flat">Profile</a>
+                        <a href="{{ route('logout') }}" class="btn btn-danger btn-flat float-end"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Sign out
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </li>
                     <!--end::Menu Footer-->
                 </ul>
@@ -81,7 +88,7 @@
         <!--begin::Brand Link-->
         <a href="./index.html" class="brand-link">
             <!--begin::Brand Image-->
-            <img src="{{ asset('dashboard-assets/assets/img/SJ_logo.png')}}" alt="AdminLTE Logo"
+            <img src="{{ asset('dashboard-assets/assets/img/SJ_logo.png') }}" alt="AdminLTE Logo"
                 class="brand-image opacity-75 shadow" />
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
@@ -98,38 +105,43 @@
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-header" style="padding:0;">
                     <a href="#" class="nav-link">
-                        <img src="{{ asset('dashboard-assets/assets/img/SJ_logo.png')}}"
+                        <img src="{{ asset('dashboard-assets/assets/img/SJ_logo.png') }}"
                             class="user-image rounded-circle shadow profile-img" alt="User Image" />
                         <span class="d-none d-md-inline">Nama User</span>
                     </a>
                 </li>
                 <hr />
                 <li class="nav-item">
-                    <a href="{{ route('pengguna.dashboard') }}" class="nav-link {{ Route::is('pengguna.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                    <a href="{{ route('pengguna.dashboard') }}"
+                        class="nav-link {{ Route::is('pengguna.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-house"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pengguna.tukar-sampah.index') }}" class="nav-link {{ Route::is('pengguna.tukar-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                    <a href="{{ route('pengguna.tukar-sampah.index') }}"
+                        class="nav-link {{ Route::is('pengguna.tukar-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-trash"></i>
                         <p>Tukar Sampah</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pengguna.histori.index') }}" class="nav-link {{ Route::is('pengguna.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                    <a href="{{ route('pengguna.histori.index') }}"
+                        class="nav-link {{ Route::is('pengguna.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-clock-history"></i>
                         <p>Histori</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pengguna.pelacakan.index') }}" class="nav-link {{ Route::is('pengguna.pelacakan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                    <a href="{{ route('pengguna.pelacakan.index') }}"
+                        class="nav-link {{ Route::is('pengguna.pelacakan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-check2-circle"></i>
                         <p>Pelacakan</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pengguna.laporan.index') }}" class="nav-link {{ Route::is('pengguna.pelaporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                    <a href="{{ route('pengguna.laporan.index') }}"
+                        class="nav-link {{ Route::is('pengguna.pelaporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-exclamation-diamond"></i>
                         <p>Laporan</p>
                     </a>

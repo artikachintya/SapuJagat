@@ -703,6 +703,7 @@
             });
         });
     });
+    
 
     exports.CardWidget = CardWidget;
     exports.DirectChat = DirectChat;

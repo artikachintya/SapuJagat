@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Persetujuan;
 use App\Http\Controllers\Admin\PrintData;
 use App\Http\Controllers\Admin\ResponLaporan;
 
+use App\Http\Controllers\Driver\PickUpController;
 use App\Http\Controllers\Pengguna\Histori;
 use App\Http\Controllers\Pengguna\LaporanController;
 use App\Http\Controllers\Pengguna\Pelacakan;
@@ -21,18 +22,27 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\OtpController;
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RingkasanPesananController;
-use App\Http\Controllers\ChatController;
-
-use App\Http\Controllers\Driver\DashboardController;
-use App\Http\Controllers\Driver\PickUpController;
+// use App\Http\Controllers\TukarSampahController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Driver\DriverProfileController;
 use App\Http\Controllers\Driver\HistoriDriver;
+use App\Http\Controllers\ChatController;
 
 // Public routes
+// Route::get('/', function () {
+//     return view('landing');
+// });
+
 Route::get('/', function () {
+    if (Auth::check()) {
+        $user = Auth::user();
+        if ($user->role == 1) {
+            return redirect('/pengguna');
+        } elseif ($user->role == 2) {
+            return redirect('/admin');
+        }
+    }
     return view('landing');
 });
 
@@ -40,22 +50,13 @@ Route::get('/pengguna/dashboard', function () {
     return view('pengguna.dashboard');
 });
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-});
-
-// Google Auth
+// Google OAuth
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 // Laravel user auth
 Auth::routes();
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-// Admin dashboard
-// Route::middleware('auth')->group(function () {
-//     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-// });
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Satu callback untuk keduanya
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
@@ -63,7 +64,9 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 //Buat Route otpnya
 Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
 
-Auth::routes();
+//Route opt resend
+Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend');
+
 
 
 // User Tukar Sampah
@@ -87,7 +90,6 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::resource('histori', Histori::class);
 
     Route::resource('pelacakan', Pelacakan::class);
-
     Route::resource('laporan', LaporanController::class);
 
     Route::get('/profile', [ProfileController::class,'index'])->name('profile');
@@ -113,16 +115,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');
 
 });
-
-
-
-Route::get('/', function () {
-    return view('landing');
-});
-
-Route::get('/driver/dashboard', function () {
-    return view('driver.dashboard');
-})->name('driver.dashboard');
 
 
 // Chat Routes
