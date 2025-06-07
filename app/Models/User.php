@@ -84,4 +84,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ChatDetail::class, 'user_id');
     }
+
+    public function license()
+    {
+         return $this->hasOne(UserLicense::class, 'user_id', 'user_id');
+    }
 }

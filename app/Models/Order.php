@@ -45,6 +45,7 @@ class Order extends Model
             return \Carbon\Carbon::parse($this->$relation->$field)->format('d M Y - H.i') . ' WIB';
         }
         return '-';
+    }
 
     // Tambahkan relasi ke driver jika belum ada
     public function driver()
@@ -53,3 +54,6 @@ class Order extends Model
 
     }
 }
+
+
+

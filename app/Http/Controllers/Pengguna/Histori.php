@@ -14,8 +14,9 @@ class Histori extends Controller
      */
     public function index()
     {
-        $orderlist = Order::where('user_id', Auth::id());
-        return view("pengguna.histori");
+        $orderlist = Order::with('details.trash')->where('user_id', Auth::id())->get();
+
+        return view("pengguna.histori", compact('orderlist'));
     }
 
     /**
