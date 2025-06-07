@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
+@section('body-class', 'bg-reset-password')
 @section('content')
-<div class="container" style="background-color: #f6f6f6; padding: 30px; min-height: 100vh;">
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div style="background-color: #e6ffed; border: 1px solid #b7eb8f; padding: 30px; border-radius: 10px;">

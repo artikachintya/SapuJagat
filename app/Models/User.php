@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Notifications\CustomResetPassword;
 
 class User extends Authenticatable
 {
@@ -29,6 +30,8 @@ class User extends Authenticatable
         'password',
         'status',
         'role',
+        'remember_token',
+        'is_google_user',
     ];
 
     /**
@@ -53,6 +56,12 @@ class User extends Authenticatable
             'password' => 'hashed',
             'status' => 'boolean',
         ];
+    }
+
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomResetPassword($token));
     }
 
     public function withdrawals()

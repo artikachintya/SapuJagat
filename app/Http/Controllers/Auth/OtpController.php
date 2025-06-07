@@ -18,6 +18,33 @@ class OtpController extends Controller
         return view('auth.otp');
     }
 
+    public function resend(Request $request)
+    {
+        $userId = session('otp_user_id');
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['message' => 'User tidak ditemukan'], 404);
+        }
+
+        try {
+            $otp = rand(100000, 999999);
+
+            session([
+                'otp_code' => $otp,
+                'otp_expires_at' => now()->addMinutes(1)
+            ]);
+
+            \Mail::to($user->email)->send(new \App\Mail\OtpMail($otp));
+
+            return response()->json(['message' => 'OTP dikirim ulang']);
+        } catch (\Exception $e) {
+            \Log::error('Gagal kirim ulang OTP: ' . $e->getMessage());
+            return response()->json(['message' => 'Gagal mengirim ulang OTP'], 500);
+        }
+    }
+
+
     public function verifyOtp(Request $request)
     {
         $request->validate([
@@ -38,7 +65,7 @@ class OtpController extends Controller
         // Bersihkan session OTP
         session()->forget(['otp_user_id', 'otp_code', 'otp_expires_at']);
 
-                switch ($user->role) {
+        switch ($user->role) {
             case 1:
                 return redirect('/pengguna');
             case 2:

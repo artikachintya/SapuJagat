@@ -19,7 +19,7 @@
             </span>
         </div>
 
-        <p style="font-size: 14px; color: #666;">Kode ini berlaku selama <strong>5 menit</strong>.</p>
+        <p style="font-size: 14px; color: #666;">Kode ini berlaku selama <strong>1 menit</strong>.</p>
 
         <hr style="border: none; border-top: 1px solid #d9d9d9; margin: 30px 0;">
 

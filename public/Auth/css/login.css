@@ -1,4 +1,8 @@
 body {
+    background-image: url('../images/Background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     font-family: 'Inria Sans', sans-serif;
     background-color: #F2F2F2;
     margin: 0;
@@ -18,7 +22,7 @@ body {
     background: #fff;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 90%;
     max-width: 1000px;
 }
@@ -53,7 +57,7 @@ body {
 .quote-box {
     width: 100%;
     max-width: 480px;
-    min-width: 320px; 
+    min-width: 320px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -64,14 +68,15 @@ body {
 .quote-image {
     width: 100%;
     height: auto;
-    min-width: 300px; /* or whatever minimum you want */
+    min-width: 300px;
+    /* or whatever minimum you want */
     object-fit: contain;
     display: block;
 }
 
 .quote-text {
     position: absolute;
-    margin-top: 20px; 
+    margin-top: 20px;
     top: 50%;
     color: #035d1f;
     font-weight: 600;
@@ -203,7 +208,7 @@ form select:focus {
     cursor: pointer;
     font-size: 14px;
     gap: 8px;
-     box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -216,10 +221,10 @@ form select:focus {
     font-weight: 600;
     color: #333;
     text-decoration: none;
-    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.forgot-link:hover{
+.forgot-link:hover {
     color: #003acc;
     text-decoration: underline;
     transition: color 0.3s ease, text-decoration 0.3s ease;
@@ -232,13 +237,13 @@ form select:focus {
 
 
 .btn-google:hover {
-    background-color: #f5f5f5; 
+    background-color: #f5f5f5;
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.15);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-secondary:hover {
-    background-color: #f0f0f0; 
+    background-color: #f0f0f0;
     border-color: #999;
     box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.15);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -251,13 +256,16 @@ form select:focus {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Latar belakang gelap */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Latar belakang gelap */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    opacity: 1; /* Penting */
-    transition: opacity 0.5s ease; /* Transisi fade out */
+    opacity: 1;
+    /* Penting */
+    transition: opacity 0.5s ease;
+    /* Transisi fade out */
 }
 
 .error-modal {
@@ -269,7 +277,7 @@ form select:focus {
     border: 1px solid #f5c2c7;
     max-width: 400px;
     font-size: 16px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .error-modal ul {
@@ -288,7 +296,7 @@ form select:focus {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -302,7 +310,7 @@ form select:focus {
     border-radius: 10px;
     width: 100%;
     max-width: 310px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     animation: fadeIn 0.3s ease;
     justify-items: center;
@@ -315,7 +323,8 @@ form select:focus {
 }
 
 .modal-content input {
-    width: 60%; /* Tengah tapi tidak terlalu besar */
+    width: 60%;
+    /* Tengah tapi tidak terlalu besar */
     padding: 10px;
     margin: 10px auto;
     font-size: 18px;
@@ -337,6 +346,18 @@ form select:focus {
     width: 100%;
     padding: 10px;
     background: #4CAF50;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-resend {
+    width: 100%;
+    padding: 10px;
+    background: #035d1f;
     border: none;
     color: white;
     font-size: 16px;
@@ -368,16 +389,62 @@ form select:focus {
     border-bottom: 2px solid #035d1f;
 }
 
+.btn-resend.active:hover {
+    background-color: #4CAF50;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.success-modal {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #c3e6cb;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
 @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* Animasi menghilang */
 @keyframes fadeOutModal {
-    0% { opacity: 1; }
-    70% { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
+    0% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 @media (max-width: 889px) {
