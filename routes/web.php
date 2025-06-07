@@ -13,6 +13,7 @@ use App\Http\Controllers\Pengguna\Pelacakan;
 use App\Http\Controllers\Pengguna\PenggunaController;
 use App\Http\Controllers\Pengguna\TukarSampahController;
 use App\Http\Controllers\Pengguna\TarikSaldoController;
+use App\Http\Controllers\Pengguna\RatingController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +93,8 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/profile', [ProfileController::class,'index'])->name('profile');
     Route::post('/profile/save', [ProfileController::class, 'save'])->name('profile.save');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
+
 
 
 
@@ -151,3 +154,6 @@ Route::prefix('driver')->name('driver.')->group(function () {
 // Add this route for updating pickup status
 Route::post('/driver/pickup/{pickup}/update-status', [PickupController::class, 'updateStatus'])->name('driver.pickup.update-status');
 Route::post('/driver/pickup/{pickup}/upload-proof', [PickupController::class, 'uploadProof'])->name('driver.pickup.upload-proof');
+
+Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
+

@@ -4,6 +4,38 @@
 
 @push('styles')
     <link href="{{ asset('assets/css/laporan.css') }}" rel="stylesheet">
+    <style>
+        .star-rating {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .star-rating i {
+            color: #616161;
+            /* Warna default bintang kosong */
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 0 2px;
+        }
+
+        .star-rating i.selected,
+        .star-rating i:hover,
+        .star-rating i:hover~i {
+            color: #FFD700;
+            /* Warna kuning emas */
+            text-shadow: 0 0 2px rgba(255, 215, 0, 0.5);
+        }
+
+        .star-rating i.fa-star {
+            color: #FFD700;
+            /* Warna untuk bintang terisi */
+        }
+
+        .star-rating i.fa-star-o {
+            color: #616161;
+            /* Warna untuk bintang kosong */
+        }
+    </style>
 @endpush
 
 @push('scripts')
@@ -73,16 +105,26 @@
                                                         $price = $detail->trash->price_per_kg;
                                                         $subtotal = $qty * $price;
                                                         $total += $subtotal;
-                                                        $htmlSummary .= "<tr>
-                                                            <td>".($index+1)."</td>
+                                                        $htmlSummary .=
+                                                            "<tr>
+                                                            <td>" .
+                                                            ($index + 1) .
+                                                            "</td>
                                                             <td>{$detail->trash->name}</td>
                                                             <td>{$qty}</td>
-                                                            <td>Rp. ".number_format($price, 0, ',', '.')."</td>
-                                                            <td>Rp. ".number_format($subtotal, 0, ',', '.')."</td>
+                                                            <td>Rp. " .
+                                                            number_format($price, 0, ',', '.') .
+                                                            "</td>
+                                                            <td>Rp. " .
+                                                            number_format($subtotal, 0, ',', '.') .
+                                                            "</td>
                                                         </tr>";
                                                     }
-                                                    $htmlSummary .= "<tr><td colspan='4'><b>Total yang Diperoleh</b></td>
-                                                        <td><b>Rp. ".number_format($total, 0, ',', '.')."</b></td></tr>";
+                                                    $htmlSummary .=
+                                                        "<tr><td colspan='4'><b>Total yang Diperoleh</b></td>
+                                                        <td><b>Rp. " .
+                                                        number_format($total, 0, ',', '.') .
+                                                        '</b></td></tr>';
                                                     $htmlSummary .= '</tbody></table>';
                                                 @endphp
 
@@ -91,7 +133,8 @@
                                                     {{ $label }}
                                                 </span>
                                                 <span class="fw-semibold text-success">
-                                                    @if ($order->status){
+                                                    @if ($order->status)
+                                                        {
                                                         Rp{{ number_format(
                                                             $order->details->sum(function ($detail) {
                                                                 return $detail->quantity * $detail->trash->price_per_kg;
@@ -100,8 +143,9 @@
                                                             ',',
                                                             '.',
                                                         ) }}
-                                                    }
-                                                    @else Rp0
+                                                        }
+                                                    @else
+                                                        Rp0
                                                     @endif
                                                 </span>
 
@@ -124,10 +168,12 @@
                                                     </div>
                                                 </div>
                                                 <button class="btn btn-outline-success lihat-detail-btn"
-                                                data-date="{{ \Carbon\Carbon::parse($order->date_time_request)->translatedFormat('l, d M Y') }}"
-                                                data-address="{{ $order->user->info->address }}, {{ $order->user->info->city }}, {{ $order->user->info->province }}, {{ $order->user->info->postal_code }}"
-                                                data-driver="{{ $order->pickup->user->name }}"
-                                                data-summary="{!! htmlspecialchars($htmlSummary) !!}">
+                                                    data-date="{{ \Carbon\Carbon::parse($order->date_time_request)->translatedFormat('l, d M Y') }}"
+                                                    data-address="{{ $order->user->info->address }}, {{ $order->user->info->city }}, {{ $order->user->info->province }}, {{ $order->user->info->postal_code }}"
+                                                    data-driver="{{ $order->pickup->user->name }}"
+                                                    data-summary="{!! htmlspecialchars($htmlSummary) !!}"
+                                                    data-order-id="{{ $order->order_id }}"
+                                                    data-user-id="{{ auth()->id() }}">
                                                     Lihat Detail
                                                 </button>
                                             </div>
@@ -139,9 +185,11 @@
                                 {{-- POP UP DETAIL --}}
                                 <div id="historiModal" class="modal-overlay" style="display: none;">
                                     <div class="modal-content">
-                                        <div cla ss="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
                                             <div>
-                                                <span class="badge bg-success mb-1" id="modal-status">Selesai</span><br>
+                                                <span class="badge {{ $badgeClass }}">
+                                                    {{ $label }}
+                                                </span><br>
                                                 <strong>Hari/Tgl: <span id="modal-date"></span></strong><br>
                                                 <strong>Alamat: <span id="modal-address"></span></strong><br>
                                                 <strong>Pengemudi: <span id="modal-driver"></span></strong><br>
@@ -154,15 +202,26 @@
                                             <h6>Ringkasan Penukaran</h6>
                                             <div class="bg-light p-2 mb-2" id="modal-summary"></div>
                                         </div>
-                                        {{-- <div>
-                                        <h6>Foto Bukti</h6>
-                                        <img id="modal-photo" src="" alt="Foto Bukti" class="img-fluid mb-2" />
-                                        <div class="bg-light p-2" id="photo-none"></div>
-                                    </div> --}}
-                                        {{-- <div>
-                                        <h6> - <b id="response-time"></b></h6>
-                                        <div class="bg-light p-2" id="modal-response"></div>
-                                    </div> --}}
+
+                                        <div class="mb-2">
+                                            <h6>Beri Penilaian:</h6>
+                                            {{-- <div id="rating-stars" class="star-rating">
+                                                <i class="fa fa-star-o" data-value="1"></i>
+                                                <i class="fa fa-star-o" data-value="2"></i>
+                                                <i class="fa fa-star-o" data-value="3"></i>
+                                                <i class="fa fa-star-o" data-value="4"></i>
+                                                <i class="fa fa-star-o" data-value="5"></i>
+                                            </div> --}}
+                                            <div id="rating-stars" class="star-rating">
+                                                <i class="far fa-star" data-value="1"></i>
+                                                <i class="far fa-star" data-value="2"></i>
+                                                <i class="far fa-star" data-value="3"></i>
+                                                <i class="far fa-star" data-value="4"></i>
+                                                <i class="far fa-star" data-value="5"></i>
+                                            </div>
+
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
