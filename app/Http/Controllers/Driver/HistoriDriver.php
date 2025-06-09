@@ -12,10 +12,12 @@ class HistoriDriver extends Controller
 
     public function index()
     {
-        $pickuplist = Pickup::with('order')->where('user_id', Auth::id())->get();
+        $pickuplist = Pickup::with('order')
+        ->where('user_id', Auth::id())
+        ->get();
 
         return view("driver.histori", compact('pickuplist'));
     }
 
-    
+
 }
