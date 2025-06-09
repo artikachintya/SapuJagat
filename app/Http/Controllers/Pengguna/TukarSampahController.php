@@ -118,7 +118,7 @@ class TukarSampahController extends Controller
 
         Session::forget(['data_tukar_sampah']);
 
-        return redirect()->route('pengguna.tukar-sampah.index')->with('success', 'Pesanan penjemputan berhasil dikirim!');
+        return redirect()->route('pengguna.pelacakan.index')->with('success', 'Pesanan penjemputan berhasil dikirim!');
     }
 
 }
