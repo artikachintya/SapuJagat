@@ -3,7 +3,7 @@
 
             <!-- Left Side: Avatar + Name -->
             <div class="d-flex align-items-center">
-                <a href="{{ route('driver.profile') }}"><img src={{ Auth::user()->name ? asset('storage/' . Auth::user()->profile_pic): "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" }} class="rounded-circle me-2"
+                <a href="{{ route('driver.profile') }}"><img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic): "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" }} class="rounded-circle me-2"
                     alt="Avatar" width="50" height="50" style="object-fit: cover;" /></a>
                 <a class="navbar-brand fw-bold mb-0" href="#">{{ Auth::user()->name }}</a>    </div>
 

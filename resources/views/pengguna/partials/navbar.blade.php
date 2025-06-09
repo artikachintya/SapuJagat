@@ -54,7 +54,7 @@
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src="{{ asset('dashboard-assets/assets/img/user2-160x160.jpg') }}"
+                    <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic): "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" }}
                         class="user-image rounded-circle shadow" alt="User Image" />
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
