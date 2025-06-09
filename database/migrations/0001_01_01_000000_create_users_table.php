@@ -19,8 +19,10 @@ return new class extends Migration
             $table->string('phone_num', 20)->nullable()->unique();
             $table->string('password', 255);
             $table->boolean('status')->default(false);
+            $table->rememberToken();
             $table->integer('role');
-            $table->timestamps(); // created_at & updated_at
+            $table->boolean('is_google_user')->default(false);
+            $table->timestamps();
         });
         
         Schema::create('password_reset_tokens', function (Blueprint $table) {

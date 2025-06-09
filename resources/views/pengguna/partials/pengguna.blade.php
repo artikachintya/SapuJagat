@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>@yield('title', 'Pengguna Dashboard')</title>
+    <title>@yield('title', 'Pengguna Dashboard')</title>
 
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta charset="UTF-8">
@@ -24,16 +24,22 @@
   <!-- apexcharts -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
     integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
+     <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+     <!-- CSS Lacak Driver -->
+  <link rel="stylesheet" href="{{ asset('LacakDriver/Lacak.css') }}">
 </head>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
-  <div class="app-wrapper">
-    @include('pengguna.partials.navbar') <!-- Navbar -->
+    <div class="app-wrapper">
+        @include('pengguna.partials.navbar') <!-- Navbar -->
 
-    @yield('content') <!-- Main content -->
-  </div>
-  @include('pengguna.partials.footer') <!-- Footer -->
-  @stack('styles')
+        @yield('content') <!-- Main content -->
+    </div>
+    @include('pengguna.partials.footer') <!-- Footer -->
+    @stack('styles')
 </body>
 @stack('scripts')
+
 </html>

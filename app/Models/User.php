@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Notifications\CustomResetPassword;
 
 class User extends Authenticatable
 {
@@ -29,6 +30,8 @@ class User extends Authenticatable
         'password',
         'status',
         'role',
+        'remember_token',
+        'is_google_user',
     ];
 
     /**
@@ -55,6 +58,12 @@ class User extends Authenticatable
         ];
     }
 
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomResetPassword($token));
+    }
+
     public function withdrawals()
     {
         return $this->hasMany(Withdrawal::class, 'user_id');
@@ -74,5 +83,10 @@ class User extends Authenticatable
     public function sentMessages()
     {
         return $this->hasMany(ChatDetail::class, 'user_id');
+    }
+
+    public function license()
+    {
+         return $this->hasOne(UserLicense::class, 'user_id', 'user_id');
     }
 }
