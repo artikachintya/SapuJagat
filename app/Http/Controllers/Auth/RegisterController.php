@@ -46,7 +46,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -63,7 +63,7 @@ class RegisterController extends Controller
             'city'         => 'required|string|max:100',
             'postal_code'  => 'required|digits_between:4,6',
             'NIK'          => 'required|digits:16|unique:users,nik',
-            'phone_num'    => 'required|digits_between:8,15',  
+            'phone_num'    => 'required|digits_between:8,15',
         ],
         [
             // Custom error messages
@@ -110,6 +110,7 @@ class RegisterController extends Controller
             'NIK'          => $data['NIK'],
             'phone_num'    => $data['phone_num'],
             'role'         => 1,
+            'profile_pic'  => asset('assets/img/default-profile.webp'),
             'email_verified_at' => now()
         ]);
     }

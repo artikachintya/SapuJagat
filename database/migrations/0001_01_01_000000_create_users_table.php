@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email', 100)->unique();
             $table->string('phone_num', 20)->nullable()->unique();
             $table->string('password', 255);
-            $table->string('profile_pic', 255)->nullable;
+            $table->string('profile_pic', 255)->default(asset('assets/img/default-profile.webp'));
             $table->boolean('status')->default(false);
             $table->rememberToken();
             $table->integer('role');
