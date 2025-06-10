@@ -1,12 +1,11 @@
-    <nav class="navbar navbar-expand-lg sticky-top">
+    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #F7FCF5" >
         <div class="container-fluid d-flex justify-content-between align-items-center">
 
             <!-- Left Side: Avatar + Name -->
             <div class="d-flex align-items-center">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" class="rounded-circle me-2"
-                    alt="Avatar" width="50" height="50" style="object-fit: cover;" />
-                <a class="navbar-brand fw-bold mb-0" href="#">Nama Driver</a>
-            </div>
+                <a href="{{ route('driver.profile') }}"><img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic): "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" }} class="rounded-circle me-2"
+                    alt="Avatar" width="50" height="50" style="object-fit: cover;" /></a>
+                <a class="navbar-brand fw-bold mb-0" href="#">{{ Auth::user()->name }}</a>    </div>
 
             <!-- Right Side: Hamburger Menu -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -24,13 +23,10 @@
                     <a class="nav-link active fw-bold" aria-current="page" href="#">Beranda</a>
                 </li>
                 <li class="nav-item mx-4">
-                    <a class="nav-link" href="#">Telepon</a>
-                </li>
-                <li class="nav-item mx-4">
                     <a class="nav-link" href="#">Pesan</a>
                 </li>
                    <li class="nav-item mx-4">
-                    <a class="nav-link" href="#">Histori</a>
+                    <a class="nav-link" href="{{ route('driver.histori.index') }}">Histori</a>
                 </li>
                    <li class="nav-item mx-4">
                     <a class="nav-link" style="color: red" href="#">Keluar</a>

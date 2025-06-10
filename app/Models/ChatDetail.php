@@ -18,13 +18,29 @@ class ChatDetail extends Model
         'date_time',
     ];
 
-    public function chat()
-    {
-        return $this->belongsTo(Chat::class, 'chat_id');
-    }
+    protected $casts = [
+        'date_time' => 'datetime'
+    ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
+    // Add this to your ChatDetail model
+    public function getTimeAttribute()
+    {
+        return $this->date_time->format('H:i');
+    }
+
+     // Di model Chat
+    public function details()
+    {
+        return $this->hasMany(ChatDetail::class, 'chat_id');
+    }
+
+    public function chat()
+    {
+        return $this->belongsTo(Chat::class, 'chat_id');
     }
 }

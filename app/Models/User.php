@@ -79,45 +79,14 @@ class User extends Authenticatable
         return $this->hasOne(UserInfo::class, 'user_id', 'user_id');
     }
 
-
-    // fitur chat
-    /**
-     * Get all chats where this user is involved
-     */
-    public function chats()
-    {
-        return $this->belongsToMany(Chat::class, 'chat_details', 'user_id', 'chat_id');
-    }
-
-    /**
-     * Get all messages sent by this user
-     */
-    public function messages()
+    // Di model User
+    public function sentMessages()
     {
         return $this->hasMany(ChatDetail::class, 'user_id');
     }
 
-    /**
-     * Check if user is a driver
-     */
-    public function isDriver()
-    {
-        return $this->role === 3;
-    }
-
-    /**
-     * Check if user is a regular user (not admin/driver)
-     */
-    public function isRegularUser()
-    {
-        return $this->role === 1;
-    }
-
-    /**
-     * Get the driver's license information
-     */
     public function license()
     {
-        return $this->hasOne(UserLicense::class, 'user_id');
+         return $this->hasOne(UserLicense::class, 'user_id', 'user_id');
     }
 }

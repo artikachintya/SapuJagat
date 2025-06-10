@@ -24,7 +24,7 @@ return new class extends Migration
             $table->dateTime('date_time_request');
             $table->string('pickup_time',255);
             $table->string('photo',255);
-            $table->boolean('status')->default(false)->nullable();
+            $table->boolean('status')->nullable();
         });
     }
 
