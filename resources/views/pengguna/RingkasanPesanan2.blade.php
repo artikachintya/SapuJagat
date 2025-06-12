@@ -68,7 +68,7 @@
             </div>
 
             <!-- Upload Foto -->
-            <div class="mb-4 w-50">
+            {{-- <div class="mb-4 w-50">
                 <label for="photo" class="form-label fw-bold">Unggah Bukti Pesanan</label>
 
                 <div class="input-group">
@@ -86,7 +86,29 @@
                     </label>
 
                 </div>
+            </div> --}}
+            <!-- Upload Foto -->
+            <div class="mb-4 w-50">
+                <label for="photo" class="form-label fw-bold">Unggah Bukti Pesanan</label>
+
+                <div class="input-group">
+                    <input type="file" name="photo" id="photo" class="form-control" style="display: none;" required accept="image/*">
+
+                    <label for="photo"
+                        class="form-control d-flex align-items-center"
+                        id="photo-label"
+                        style="cursor: pointer; border: 1px solid #005A32; padding-left: 12px; padding-right: 1px; border-radius: 0; padding-bottom: 1px; padding-top: 1px;">
+                        <span id="photo-text" class="flex-grow-1 mb-0">Pilih File</span>
+                        <img src="{{ asset('assets/img/upload1.png') }}" alt="Upload Icon" style="height: 40px; width: 40px;" class="ms-auto">
+                    </label>
+                </div>
+
+                <!-- Preview Gambar -->
+                <div class="mt-2">
+                    <img id="photo-preview" src="#" alt="Preview Gambar" style="display: none; max-height: 200px; border: 1px solid #ccc; padding: 4px;">
+                </div>
             </div>
+
 
             <!-- Tombol Back dan Jemput -->
             <div class="d-flex justify-content-between">
@@ -108,7 +130,7 @@
                         Apakah kamu yakin untuk memesan layanan penjemputan ini?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tidak</button>
                         <!-- Tombol Submit dalam Modal -->
                         <button type="submit" class="btn btn-success" form="formJemput">Iya</button>
                     </div>
@@ -131,4 +153,28 @@
         document.querySelector('form').submit(); // Submit form utama
     });
 </script>
+
+<script>
+    const inputPhoto = document.getElementById('photo');
+    const previewImage = document.getElementById('photo-preview');
+    const photoText = document.getElementById('photo-text');
+
+    inputPhoto.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        photoText.textContent = file?.name || 'Pilih File';
+
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            previewImage.style.display = 'none';
+            previewImage.src = '#';
+        }
+    });
+</script>
+
 @endsection
