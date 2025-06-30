@@ -86,6 +86,16 @@
                                                 <div class="d-flex justify-content-between align-items-start mb-2">
 
                                                     @php
+                                                        // if (is_null($order->status) & is_null($order->pickup->arrival_date)) {
+                                                        //     $badgeClass = 'bg-secondary';
+                                                        //     $label = 'Dalam Proses'; // or any label you want
+                                                        // } elseif ($order->status) {
+                                                        //     $badgeClass = 'bg-success';
+                                                        //     $label = 'Sukses';
+                                                        // } else {
+                                                        //     $badgeClass = 'bg-danger';
+                                                        //     $label = 'Gagal';
+                                                        // }
                                                         if (is_null($order->status)) {
                                                             $badgeClass = 'bg-secondary';
                                                             $label = 'Dalam Proses'; // or any label you want

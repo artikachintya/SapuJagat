@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Pickup;
 use Illuminate\Support\Facades\Auth;
 
 class Histori extends Controller
@@ -14,10 +15,16 @@ class Histori extends Controller
      */
     public function index()
     {
-        $orderlist = Order::with('details.trash')
+        // $orderlist = Order::with('details.trash')
+        // ->where('user_id', Auth::id())
+        // ->orderBy('date_time_request', 'desc')
+        // ->get();
+
+        $orderlist = Order::with(['details.trash', 'pickup'])
         ->where('user_id', Auth::id())
         ->orderBy('date_time_request', 'desc')
         ->get();
+        // $pickup = Pickup::where('order_id', '')
 
         return view("pengguna.histori", compact('orderlist'));
     }
