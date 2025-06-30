@@ -111,7 +111,7 @@ class RegisterController extends Controller
             'NIK'          => $data['NIK'],
             'phone_num'    => $data['phone_num'],
             'role'         => 1,
-            'profile_pic'  => asset('assets/img/default-profile.webp'),
+            // 'profile_pic'  => ('assets/img/default-profile.webp'),
             'email_verified_at' => now()
         ]);
 

@@ -93,7 +93,7 @@
                                         <strong>NIK</strong><br>
                                         <div class="info-card">
                                             <input type="text" name="NIK" class="form-control border-0 p-0"
-                                                value="{{ $user->NIK }}">
+                                                value="{{ $user->NIK }}" disabled>
                                         </div>
 
                                         <strong>Email</strong><br>

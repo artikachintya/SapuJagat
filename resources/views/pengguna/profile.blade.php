@@ -55,9 +55,19 @@
                                         {{ $user->email ?? '-' }}
                                     </div>
 
-                                    <strong>Alamat</strong><br>
-                                    <div class="info-card">
-                                        {{ $user->info->address ?? '-' }}
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <strong>Alamat</strong><br>
+                                            <div class="info-card">
+                                                {{ $user->info->address ?? '-' }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <strong>Kode Pos</strong><br>
+                                            <div class="info-card">
+                                                {{ $user->info->postal_code ?? '-' }}
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row">
