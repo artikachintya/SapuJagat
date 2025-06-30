@@ -89,7 +89,7 @@
         <a href="./index.html" class="brand-link">
             <!--begin::Brand Image-->
             <img src="{{ asset('landingpage/images/logo.png') }}" alt="AdminLTE Logo"
-                class="brand-image opacity-75 shadow" />
+                class="brand-image opacity-75 shadow" style="width:100%"/>
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
             {{-- <span class="brand-text fw-light">Sapu Jagat</span> --}}

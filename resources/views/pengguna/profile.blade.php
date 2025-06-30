@@ -55,6 +55,11 @@
                                         {{ $user->email ?? '-' }}
                                     </div>
 
+                                    {{-- <strong>Password</strong><br>
+                                    <div class="info-card">
+                                        {{ $user->password ?? '-' }}
+                                    </div> --}}
+
                                     <div class="row">
                                         <div class="col-md-8">
                                             <strong>Alamat</strong><br>

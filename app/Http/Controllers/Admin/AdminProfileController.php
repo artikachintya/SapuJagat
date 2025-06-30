@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminProfileController extends Controller
 {
@@ -27,6 +28,10 @@ class AdminProfileController extends Controller
         $user->NIK = $request->NIK;
         $user->email = $request->email;
         $user->phone_num = $request->phone_num;
+
+        if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
 
         // dd($request->profile_pic);
         if ($request->hasFile('profile_pic')) {
