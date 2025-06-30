@@ -5,121 +5,125 @@
 @push('styles')
     <link href="{{ asset('assets/css/laporan.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/edit-profile.css') }}" rel="stylesheet">
-
 @endpush
 
 @push('scripts')
-    <script>
-        document.getElementById('profile_pic_upload').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('preview-image');
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+    <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
     <script src="{{ asset('Auth/js/kota.js') }}"></script>
-@endpush
 
-@push('scripts')
+    <!-- Custom Validation & Image Preview -->
     <script>
-        function showError(input, message) {
-            const errorSpan = input.parentElement.querySelector('.text-danger');
-            errorSpan.textContent = message;
-        }
-
-        function clearError(input) {
-            const errorSpan = input.parentElement.querySelector('.text-danger');
-            errorSpan.textContent = '';
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const nameInput = document.querySelector('input[name="name"]');
             const emailInput = document.querySelector('input[name="email"]');
-            const passwordInput = document.querySelector('input[name="password"]');
+            const passwordInput = document.getElementById('password');
             const phoneInput = document.querySelector('input[name="phone_num"]');
+            const profileInput = document.getElementById('profile_pic_upload');
+            const previewImg = document.getElementById('preview-image');
 
+            let passwordChanged = false;
+
+            // Image preview
+            profileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Helpers
+            function showError(input, message) {
+                const errorSpan = input.parentElement.querySelector('.text-danger');
+                errorSpan.textContent = message;
+            }
+
+            function clearError(input) {
+                const errorSpan = input.parentElement.querySelector('.text-danger');
+                errorSpan.textContent = '';
+            }
+
+            // Real-time validation
             nameInput.addEventListener('input', () => {
-                nameInput.value.trim().length < 1 ?
-                    showError(nameInput, 'Nama wajib diisi.') :
-                    clearError(nameInput);
+                nameInput.value.trim()
+                    ? clearError(nameInput)
+                    : showError(nameInput, 'Nama wajib diisi.');
             });
 
             emailInput.addEventListener('input', () => {
                 const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                !pattern.test(emailInput.value) ?
-                    showError(emailInput, 'Format email tidak valid.') :
-                    clearError(emailInput);
+                pattern.test(emailInput.value)
+                    ? clearError(emailInput)
+                    : showError(emailInput, 'Format email tidak valid.');
             });
 
             passwordInput.addEventListener('input', () => {
+                passwordChanged = true;
                 const val = passwordInput.value;
-                const valid = val.length >= 8 && /[A-Z]/.test(val) && /[!@#$%^&*(),.?":{}|<>]/.test(val);
-                (!val || valid) ?
-                clearError(passwordInput): showError(passwordInput,
-                    'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
+                const valid = val.length >= 8 &&
+                              /[A-Z]/.test(val) &&
+                              /[!@#$%^&*(),.?":{}|<>]/.test(val);
+                (!val || valid)
+                    ? clearError(passwordInput)
+                    : showError(passwordInput, 'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
             });
 
             phoneInput.addEventListener('input', () => {
-                const val = phoneInput.value;
-                const isValid = /^\d{8,15}$/.test(val);
-                isValid
-                    ?
-                    clearError(phoneInput) :
-                    showError(phoneInput, 'No. telepon harus 8-15 digit.');
+                const valid = /^\d{8,15}$/.test(phoneInput.value);
+                valid
+                    ? clearError(phoneInput)
+                    : showError(phoneInput, 'No. telepon harus 8-15 digit.');
             });
-        });
 
-        document.getElementById('confirmSaveButton').addEventListener('click', function() {
-            let isValid = true;
+            // Final validation on confirm
+            document.getElementById('confirmSaveButton').addEventListener('click', function () {
+                let isValid = true;
 
-            // Inputs
-            const name = document.querySelector('input[name="name"]');
-            const email = document.querySelector('input[name="email"]');
-            const password = document.querySelector('input[name="password"]');
-            const phone = document.querySelector('input[name="phone_num"]');
+                const nameVal = nameInput.value.trim();
+                const emailVal = emailInput.value.trim();
+                const passwordVal = passwordInput.value;
+                const phoneVal = phoneInput.value.trim();
 
-            // Validate again before saving
-            if (!name.value.trim()) {
-                showError(name, 'Nama wajib diisi.');
-                isValid = false;
-            }
+                if (!nameVal) {
+                    showError(nameInput, 'Nama wajib diisi.');
+                    isValid = false;
+                }
 
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email.value)) {
-                showError(email, 'Format email tidak valid.');
-                isValid = false;
-            }
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(emailVal)) {
+                    showError(emailInput, 'Format email tidak valid.');
+                    isValid = false;
+                }
 
-            const passVal = password.value;
-            const passValid = passVal.length >= 8 && /[A-Z]/.test(passVal) && /[!@#$%^&*(),.?":{}|<>]/.test(
-            passVal);
-            if (passVal && !passValid) {
-                showError(password, 'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
-                isValid = false;
-            }
+                if (passwordChanged && passwordVal) {
+                    const passValid = passwordVal.length >= 8 &&
+                                      /[A-Z]/.test(passwordVal) &&
+                                      /[!@#$%^&*(),.?":{}|<>]/.test(passwordVal);
+                    if (!passValid) {
+                        showError(passwordInput, 'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
+                        isValid = false;
+                    }
+                }
 
-            if (!/^\d{8,15}$/.test(phone.value)) {
-                showError(phone, 'No. telepon harus 8-15 digit.');
-                isValid = false;
-            }
+                if (!/^\d{8,15}$/.test(phoneVal)) {
+                    showError(phoneInput, 'No. telepon harus 8-15 digit.');
+                    isValid = false;
+                }
 
-            if (isValid) {
-                document.getElementById('bautai').submit();
-            }
+                if (isValid) {
+                    document.getElementById('bautai').submit();
+                }
+            });
         });
     </script>
 @endpush
-
 
 
 
@@ -177,7 +181,7 @@
                                         <div class="info-card">
                                             <input type="text" name="name" class="form-control border-0 p-2"
                                                 value="{{ $user->name }}">
-                                                 <small class="text-danger">
+                                            <small class="text-danger">
                                                 @error('name')
                                                     {{ $message }}
                                                 @enderror
@@ -194,17 +198,17 @@
                                         <div class="info-card">
                                             <input type="email" name="email" class="form-control border-0 p-2"
                                                 value="{{ $user->email }}">
-                                                 <small class="text-danger">
+                                            <small class="text-danger">
                                                 @error('email')
                                                     {{ $message }}
                                                 @enderror
                                             </small>
                                         </div>
 
-                                         <strong>Password</strong><br>
+                                        <strong>Password</strong><br>
                                         <div class="info-card">
-                                            <input type="password" name="password" class="form-control border-0 p-2"
-                                                value="********">
+                                            <input type="password" name="password" id="password" class="form-control border-0 p-2"
+                                                placeholder="********">
                                             <small class="text-danger">
                                                 @error('password')
                                                     {{ $message }}
@@ -217,11 +221,11 @@
                                         <div class="info-card">
                                             <input type="text" name="phone_num" class="form-control border-0 p-2"
                                                 value="{{ $user->phone_num }}">
-                                                  <small class="text-danger">
-                                                        @error('address')
-                                                            {{ $message }}
-                                                        @enderror
-                                                    </small>
+                                            <small class="text-danger">
+                                                @error('address')
+                                                    {{ $message }}
+                                                @enderror
+                                            </small>
                                         </div>
 
                                         <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal"
@@ -255,7 +259,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn" style="border-color:black"
                                                 onclick="window.location.href='{{ route('admin.profile') }}'">Batal</button>
-                                               <button type="button" class="btn btn-success" id="confirmSaveButton">
+                                            <button type="button" class="btn btn-success" id="confirmSaveButton">
                                                 Ya, Simpan
                                             </button>
                                         </div>

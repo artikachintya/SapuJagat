@@ -8,145 +8,135 @@
 @endpush
 
 @push('scripts')
-    <script>
-        document.getElementById('profile_pic_upload').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('preview-image');
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+<script src="{{ asset('Auth/js/kota.js') }}"></script>
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                }
-                reader.readAsDataURL(file);
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Image preview    
+    document.getElementById('profile_pic_upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('preview-image');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
             }
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
-    <script src="{{ asset('Auth/js/kota.js') }}"></script>
-@endpush
+            reader.readAsDataURL(file);
+        }
+    });
 
-@push('scripts')
-    <script>
-        function showError(input, message) {
-            const errorSpan = input.parentElement.querySelector('.text-danger');
-            errorSpan.textContent = message;
+    // Form validation
+    const nameInput = document.querySelector('input[name="name"]');
+    const emailInput = document.querySelector('input[name="email"]');
+    const passwordInput = document.getElementById('password');
+    const addressInput = document.querySelector('input[name="address"]');
+    const postalInput = document.querySelector('input[name="postal_code"]');
+    const phoneInput = document.querySelector('input[name="phone_num"]');
+
+    let passwordChanged = false;
+
+    function showError(input, message) {
+        const errorSpan = input.parentElement.querySelector('.text-danger');
+        errorSpan.textContent = message;
+    }
+
+    function clearError(input) {
+        const errorSpan = input.parentElement.querySelector('.text-danger');
+        errorSpan.textContent = '';
+    }
+
+    nameInput.addEventListener('input', () => {
+        nameInput.value.trim().length < 1 ?
+            showError(nameInput, 'Nama wajib diisi.') :
+            clearError(nameInput);
+    });
+
+    addressInput.addEventListener('input', () => {
+        addressInput.value.trim().length < 1 ?
+            showError(addressInput, 'Alamat wajib diisi.') :
+            clearError(addressInput);
+    });
+
+    emailInput.addEventListener('input', () => {
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        !pattern.test(emailInput.value) ?
+            showError(emailInput, 'Format email tidak valid.') :
+            clearError(emailInput);
+    });
+
+    passwordInput.addEventListener('input', () => {
+        passwordChanged = true;
+        const val = passwordInput.value;
+        const valid = val.length >= 8 && /[A-Z]/.test(val) && /[!@#$%^&*(),.?":{}|<>]/.test(val);
+        (!val || valid) ?
+            clearError(passwordInput) :
+            showError(passwordInput, 'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
+    });
+
+    postalInput.addEventListener('input', () => {
+        const val = postalInput.value;
+        const isValid = /^\d{4,6}$/.test(val);
+        isValid ? clearError(postalInput) : showError(postalInput, 'Kode pos harus 4-6 digit.');
+    });
+
+    phoneInput.addEventListener('input', () => {
+        const val = phoneInput.value;
+        const isValid = /^\d{8,15}$/.test(val);
+        isValid ? clearError(phoneInput) : showError(phoneInput, 'No. telepon harus 8-15 digit.');
+    });
+
+    // Confirm Save button inside modal
+    document.getElementById('confirmSaveButton').addEventListener('click', function () {
+        let isValid = true;
+
+        // Revalidate all fields before submission
+        if (!nameInput.value.trim()) {
+            showError(nameInput, 'Nama wajib diisi.');
+            isValid = false;
         }
 
-        function clearError(input) {
-            const errorSpan = input.parentElement.querySelector('.text-danger');
-            errorSpan.textContent = '';
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(emailInput.value)) {
+            showError(emailInput, 'Format email tidak valid.');
+            isValid = false;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const nameInput = document.querySelector('input[name="name"]');
-            const emailInput = document.querySelector('input[name="email"]');
-            const passwordInput = document.querySelector('input[name="password"]');
-            const addressInput = document.querySelector('input[name="address"]');
-            const postalInput = document.querySelector('input[name="postal_code"]');
-            const phoneInput = document.querySelector('input[name="phone_num"]');
-
-            nameInput.addEventListener('input', () => {
-                nameInput.value.trim().length < 1 ?
-                    showError(nameInput, 'Nama wajib diisi.') :
-                    clearError(nameInput);
-            });
-
-            addressInput.addEventListener('input', () => {
-                addressInput.value.trim().length < 1 ?
-                    showError(addressInput, 'Alamat wajib diisi.') :
-                    clearError(addressInput);
-            });
-
-            emailInput.addEventListener('input', () => {
-                const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                !pattern.test(emailInput.value) ?
-                    showError(emailInput, 'Format email tidak valid.') :
-                    clearError(emailInput);
-            });
-
-            passwordInput.addEventListener('input', () => {
-                const val = passwordInput.value;
-                const valid = val.length >= 8 && /[A-Z]/.test(val) && /[!@#$%^&*(),.?":{}|<>]/.test(val);
-                (!val || valid) ?
-                clearError(passwordInput): showError(passwordInput,
-                    'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
-            });
-
-            postalInput.addEventListener('input', () => {
-                const val = postalInput.value;
-                const isValid = /^\d{4,6}$/.test(val);
-                isValid
-                    ?
-                    clearError(postalInput) :
-                    showError(postalInput, 'Kode pos harus 4-6 digit.');
-            });
-
-            phoneInput.addEventListener('input', () => {
-                const val = phoneInput.value;
-                const isValid = /^\d{8,15}$/.test(val);
-                isValid
-                    ?
-                    clearError(phoneInput) :
-                    showError(phoneInput, 'No. telepon harus 8-15 digit.');
-            });
-        });
-
-        document.getElementById('confirmSaveButton').addEventListener('click', function() {
-            let isValid = true;
-
-            // Inputs
-            const name = document.querySelector('input[name="name"]');
-            const email = document.querySelector('input[name="email"]');
-            const password = document.querySelector('input[name="password"]');
-            const address = document.querySelector('input[name="address"]');
-            const postal = document.querySelector('input[name="postal_code"]');
-            const phone = document.querySelector('input[name="phone_num"]');
-
-            // Validate again before saving
-            if (!name.value.trim()) {
-                showError(name, 'Nama wajib diisi.');
+        const passVal = passwordInput.value;
+        if (passwordChanged && passVal) {
+            const passValid = passVal.length >= 8 && /[A-Z]/.test(passVal) && /[!@#$%^&*(),.?":{}|<>]/.test(passVal);
+            if (!passValid) {
+                showError(passwordInput, 'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
                 isValid = false;
             }
+        }
 
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email.value)) {
-                showError(email, 'Format email tidak valid.');
-                isValid = false;
-            }
+        if (!addressInput.value.trim()) {
+            showError(addressInput, 'Alamat wajib diisi.');
+            isValid = false;
+        }
 
-            const passVal = password.value;
-            const passValid = passVal.length >= 8 && /[A-Z]/.test(passVal) && /[!@#$%^&*(),.?":{}|<>]/.test(
-            passVal);
-            if (passVal && !passValid) {
-                showError(password, 'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
-                isValid = false;
-            }
+        if (!/^\d{4,6}$/.test(postalInput.value)) {
+            showError(postalInput, 'Kode pos harus 4-6 digit.');
+            isValid = false;
+        }
 
-            if (!address.value.trim()) {
-                showError(address, 'Alamat wajib diisi.');
-                isValid = false;
-            }
+        if (!/^\d{8,15}$/.test(phoneInput.value)) {
+            showError(phoneInput, 'No. telepon harus 8-15 digit.');
+            isValid = false;
+        }
 
-            if (!/^\d{4,6}$/.test(postal.value)) {
-                showError(postal, 'Kode pos harus 4-6 digit.');
-                isValid = false;
-            }
-
-            if (!/^\d{8,15}$/.test(phone.value)) {
-                showError(phone, 'No. telepon harus 8-15 digit.');
-                isValid = false;
-            }
-
-            if (isValid) {
-                document.getElementById('bautai').submit();
-            }
-        });
-    </script>
+        if (isValid) {
+            document.getElementById('bautai').submit();
+        }
+    });
+});
+</script>
 @endpush
+
 
 
 @section('content')
@@ -231,7 +221,7 @@
                                         <strong>Password</strong><br>
                                         <div class="info-card">
                                             <input type="password" name="password" class="form-control border-0 p-2"
-                                                value="********">
+                                                id="password" placeholder="********">
                                             <small class="text-danger">
                                                 @error('password')
                                                     {{ $message }}
