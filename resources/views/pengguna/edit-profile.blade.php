@@ -3,10 +3,8 @@
 @section('title', 'Profile Pengguna')
 
 @push('styles')
-@push('styles')
     <link href="{{ asset('assets/css/laporan.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/edit-profile.css') }}" rel="stylesheet">
-
 @endpush
 
 @push('scripts')
@@ -31,7 +29,124 @@
     <script src="{{ asset('Auth/js/kota.js') }}"></script>
 @endpush
 
+@push('scripts')
+    <script>
+        function showError(input, message) {
+            const errorSpan = input.parentElement.querySelector('.text-danger');
+            errorSpan.textContent = message;
+        }
 
+        function clearError(input) {
+            const errorSpan = input.parentElement.querySelector('.text-danger');
+            errorSpan.textContent = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.querySelector('input[name="name"]');
+            const emailInput = document.querySelector('input[name="email"]');
+            const passwordInput = document.querySelector('input[name="password"]');
+            const addressInput = document.querySelector('input[name="address"]');
+            const postalInput = document.querySelector('input[name="postal_code"]');
+            const phoneInput = document.querySelector('input[name="phone_num"]');
+
+            nameInput.addEventListener('input', () => {
+                nameInput.value.trim().length < 1 ?
+                    showError(nameInput, 'Nama wajib diisi.') :
+                    clearError(nameInput);
+            });
+
+            addressInput.addEventListener('input', () => {
+                addressInput.value.trim().length < 1 ?
+                    showError(addressInput, 'Alamat wajib diisi.') :
+                    clearError(addressInput);
+            });
+
+            emailInput.addEventListener('input', () => {
+                const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                !pattern.test(emailInput.value) ?
+                    showError(emailInput, 'Format email tidak valid.') :
+                    clearError(emailInput);
+            });
+
+            passwordInput.addEventListener('input', () => {
+                const val = passwordInput.value;
+                const valid = val.length >= 8 && /[A-Z]/.test(val) && /[!@#$%^&*(),.?":{}|<>]/.test(val);
+                (!val || valid) ?
+                clearError(passwordInput): showError(passwordInput,
+                    'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
+            });
+
+            postalInput.addEventListener('input', () => {
+                const val = postalInput.value;
+                const isValid = /^\d{4,6}$/.test(val);
+                isValid
+                    ?
+                    clearError(postalInput) :
+                    showError(postalInput, 'Kode pos harus 4-6 digit.');
+            });
+
+            phoneInput.addEventListener('input', () => {
+                const val = phoneInput.value;
+                const isValid = /^\d{8,15}$/.test(val);
+                isValid
+                    ?
+                    clearError(phoneInput) :
+                    showError(phoneInput, 'No. telepon harus 8-15 digit.');
+            });
+        });
+
+        document.getElementById('confirmSaveButton').addEventListener('click', function() {
+            let isValid = true;
+
+            // Inputs
+            const name = document.querySelector('input[name="name"]');
+            const email = document.querySelector('input[name="email"]');
+            const password = document.querySelector('input[name="password"]');
+            const address = document.querySelector('input[name="address"]');
+            const postal = document.querySelector('input[name="postal_code"]');
+            const phone = document.querySelector('input[name="phone_num"]');
+
+            // Validate again before saving
+            if (!name.value.trim()) {
+                showError(name, 'Nama wajib diisi.');
+                isValid = false;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email.value)) {
+                showError(email, 'Format email tidak valid.');
+                isValid = false;
+            }
+
+            const passVal = password.value;
+            const passValid = passVal.length >= 8 && /[A-Z]/.test(passVal) && /[!@#$%^&*(),.?":{}|<>]/.test(
+            passVal);
+            if (passVal && !passValid) {
+                showError(password, 'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
+                isValid = false;
+            }
+
+            if (!address.value.trim()) {
+                showError(address, 'Alamat wajib diisi.');
+                isValid = false;
+            }
+
+            if (!/^\d{4,6}$/.test(postal.value)) {
+                showError(postal, 'Kode pos harus 4-6 digit.');
+                isValid = false;
+            }
+
+            if (!/^\d{8,15}$/.test(phone.value)) {
+                showError(phone, 'No. telepon harus 8-15 digit.');
+                isValid = false;
+            }
+
+            if (isValid) {
+                document.getElementById('bautai').submit();
+            }
+        });
+    </script>
+@endpush
 
 
 @section('content')
@@ -59,7 +174,7 @@
                             </div>
 
                             <!-- Content Body -->
-                            <form action="{{ route('pengguna.profile.save') }}" method="POST"
+                            <form action="{{ route('pengguna.profile.save') }}" id="bautai" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -86,26 +201,71 @@
                                         <!-- Form Fields -->
                                         <br><strong>Nama Lengkap</strong><br>
                                         <div class="info-card">
-                                            <input type="text" name="name" class="form-control border-0 p-0"
+                                            <input type="text" name="name" class="form-control border-0 p-2"
                                                 value="{{ $user->name }}">
+                                            <small class="text-danger">
+                                                @error('name')
+                                                    {{ $message }}
+                                                @enderror
+                                            </small>
                                         </div>
 
                                         <strong>NIK</strong><br>
                                         <div class="info-card">
-                                            <input type="text" name="NIK" class="form-control border-0 p-0"
-                                                value="{{ $user->NIK }}">
+                                            <input type="text" name="NIK" class="form-control border-0 p-2"
+                                                value="{{ $user->NIK }}" disabled>
+
                                         </div>
 
                                         <strong>Email</strong><br>
                                         <div class="info-card">
-                                            <input type="email" name="email" class="form-control border-0 p-0"
+                                            <input type="email" name="email" class="form-control border-0 p-2"
                                                 value="{{ $user->email }}">
+                                            <small class="text-danger">
+                                                @error('email')
+                                                    {{ $message }}
+                                                @enderror
+                                            </small>
                                         </div>
 
-                                        <strong>Alamat</strong><br>
+                                        <strong>Password</strong><br>
                                         <div class="info-card">
-                                            <input type="text" name="address" class="form-control border-0 p-0"
-                                                value="{{ $user->info->address ?? '' }}">
+                                            <input type="password" name="password" class="form-control border-0 p-2"
+                                                value="********">
+                                            <small class="text-danger">
+                                                @error('password')
+                                                    {{ $message }}
+                                                @enderror
+                                            </small>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <strong>Alamat</strong><br>
+                                                <div class="info-card">
+                                                    <input type="text" name="address" class="form-control border-0 p-2"
+                                                        value="{{ $user->info->address ?? '-' }}">
+                                                    <small class="text-danger">
+                                                        @error('address')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <strong>Kode Pos</strong><br>
+                                                <div class="info-card">
+                                                    <input type="text" name="postal_code"
+                                                        class="form-control border-0 p-2"
+                                                        value="{{ $user->info->postal_code ?? '-' }}">
+                                                    <small class="text-danger">
+                                                        @error('postal_code')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </small>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="row">
@@ -133,18 +293,28 @@
 
                                         <strong>Nomor Telepon</strong><br>
                                         <div class="info-card">
-                                            <input type="text" name="phone_num" class="form-control border-0 p-0"
+                                            <input type="text" name="phone_num" class="form-control border-0 p-2"
                                                 value="{{ $user->phone_num }}">
+                                            <small class="text-danger">
+                                                @error('phone_num')
+                                                    {{ $message }}
+                                                @enderror
+                                            </small>
                                         </div>
 
-                                        {{-- <button type="submit" class="btn btn-success mt-3">
+                                        {{-- <button type="button" class="btn btn-success mt-3">
                                             <i class="fas fa-save me-2"></i>Simpan Perubahan
                                         </button> --}}
 
+                                        {{-- <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal"
+                                            data-bs-target="#confirmModal"> --}}
                                         <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal"
                                             data-bs-target="#confirmModal">
                                             <i class="fas fa-save me-2"></i>Simpan Perubahan
                                         </button>
+                                        {{-- <button type="submit" class="btn btn-success mt-3">
+                                            <i class="fas fa-save me-2"></i>Simpan Perubahan
+                                        </button> --}}
 
                                     </div>
 
@@ -162,7 +332,8 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Simpan Perubahan</h5>
+                                            <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Simpan Perubahan
+                                            </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -172,8 +343,17 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn" style="border-color:black"
                                                 onclick="window.location.href='{{ route('pengguna.profile') }}'">Batal</button>
-                                            <button type="button" class="btn btn-success"
-                                                onclick="document.querySelector('form').submit()">Ya, Simpan</button>
+                                            {{-- <button type="button" class="btn btn-success"
+                                                    onclick="document.getElementById('bautai').submit()">Ya, Simpan</button> --}}
+                                            {{-- <button type="button" class="btn btn-success"
+                                                onclick="event.preventDefault(); document.getElementById('bautai').submit();">
+                                                Ya, Simpan
+                                            </button> --}}
+                                            <button type="button" class="btn btn-success" id="confirmSaveButton">
+                                                Ya, Simpan
+                                            </button>
+
+                                            {{-- <button type="button" class="btn btn-success">Ya, Simpan</button> --}}
                                         </div>
                                     </div>
                                 </div>

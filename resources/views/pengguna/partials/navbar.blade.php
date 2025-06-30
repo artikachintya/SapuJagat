@@ -54,8 +54,8 @@
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic): "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" }}
-                        class="user-image rounded-circle shadow" alt="User Image" />
+                    <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic): asset('assets/img/default-profile.webp') }}
+                        class="user-image rounded-circle shadow" alt="User Image" style="object-fit: cover;"/>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <!--begin::Menu Footer-->
@@ -88,11 +88,11 @@
         <!--begin::Brand Link-->
         <a href="./index.html" class="brand-link">
             <!--begin::Brand Image-->
-            <img src="{{ asset('dashboard-assets/assets/img/SJ_logo.png') }}" alt="AdminLTE Logo"
-                class="brand-image opacity-75 shadow" />
+            <img src="{{ asset('landingpage/images/logo.png') }}" alt="AdminLTE Logo"
+                class="brand-image opacity-75 shadow" style="width:100%"/>
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
-            <span class="brand-text fw-light">Sapu Jagat</span>
+            {{-- <span class="brand-text fw-light">Sapu Jagat</span> --}}
             <!--end::Brand Text-->
         </a>
         <!--end::Brand Link-->
@@ -104,10 +104,11 @@
             <!--begin::Sidebar Menu-->
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-header" style="padding:0;">
-                    <a href="#" class="nav-link">
-                        <img src="{{ asset('dashboard-assets/assets/img/SJ_logo.png') }}"
-                            class="user-image rounded-circle shadow profile-img" alt="User Image" />
-                        <span class="d-none d-md-inline">Nama User</span>
+                    <a href="{{ route('pengguna.profile') }}" class="nav-link" >
+                        <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic): asset('assets/img/default-profile.webp') }}
+                            {{-- class="user-image rounded-circle shadow profile-img" alt="User Image" style="width: 30px; height: 30px;"/> --}}
+                            class="user-image rounded-circle shadow" alt="User Image" style="width: 30px; height: 30px;"/>
+                        <span class="ps-3 d-md-inline">{{ Auth::user()->name }}</span>
                     </a>
                 </li>
                 <hr />
