@@ -12,7 +12,7 @@ class ResponLaporan extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
