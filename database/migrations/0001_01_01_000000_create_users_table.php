@@ -18,13 +18,14 @@ return new class extends Migration
             $table->string('email', 100)->unique();
             $table->string('phone_num', 20)->nullable()->unique();
             $table->string('password', 255);
+            $table->string('profile_pic', 255)->nullable();
             $table->boolean('status')->default(false);
             $table->rememberToken();
             $table->integer('role');
             $table->boolean('is_google_user')->default(false);
             $table->timestamps();
         });
-        
+
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');

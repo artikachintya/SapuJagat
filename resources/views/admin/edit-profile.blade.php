@@ -3,34 +3,127 @@
 @section('title', 'Profile Admin')
 
 @push('styles')
-@push('styles')
     <link href="{{ asset('assets/css/laporan.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/edit-profile.css') }}" rel="stylesheet">
-
 @endpush
 
 @push('scripts')
-    <script>
-        document.getElementById('profile_pic_upload').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('preview-image');
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+    <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
     <script src="{{ asset('Auth/js/kota.js') }}"></script>
-@endpush
 
+    <!-- Custom Validation & Image Preview -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const nameInput = document.querySelector('input[name="name"]');
+            const emailInput = document.querySelector('input[name="email"]');
+            const passwordInput = document.getElementById('password');
+            const phoneInput = document.querySelector('input[name="phone_num"]');
+            const profileInput = document.getElementById('profile_pic_upload');
+            const previewImg = document.getElementById('preview-image');
+
+            let passwordChanged = false;
+
+            // Image preview
+            profileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Helpers
+            function showError(input, message) {
+                const errorSpan = input.parentElement.querySelector('.text-danger');
+                errorSpan.textContent = message;
+            }
+
+            function clearError(input) {
+                const errorSpan = input.parentElement.querySelector('.text-danger');
+                errorSpan.textContent = '';
+            }
+
+            // Real-time validation
+            nameInput.addEventListener('input', () => {
+                nameInput.value.trim()
+                    ? clearError(nameInput)
+                    : showError(nameInput, 'Nama wajib diisi.');
+            });
+
+            emailInput.addEventListener('input', () => {
+                const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                pattern.test(emailInput.value)
+                    ? clearError(emailInput)
+                    : showError(emailInput, 'Format email tidak valid.');
+            });
+
+            passwordInput.addEventListener('input', () => {
+                passwordChanged = true;
+                const val = passwordInput.value;
+                const valid = val.length >= 8 &&
+                              /[A-Z]/.test(val) &&
+                              /[!@#$%^&*(),.?":{}|<>]/.test(val);
+                (!val || valid)
+                    ? clearError(passwordInput)
+                    : showError(passwordInput, 'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
+            });
+
+            phoneInput.addEventListener('input', () => {
+                const valid = /^\d{8,15}$/.test(phoneInput.value);
+                valid
+                    ? clearError(phoneInput)
+                    : showError(phoneInput, 'No. telepon harus 8-15 digit.');
+            });
+
+            // Final validation on confirm
+            document.getElementById('confirmSaveButton').addEventListener('click', function () {
+                let isValid = true;
+
+                const nameVal = nameInput.value.trim();
+                const emailVal = emailInput.value.trim();
+                const passwordVal = passwordInput.value;
+                const phoneVal = phoneInput.value.trim();
+
+                if (!nameVal) {
+                    showError(nameInput, 'Nama wajib diisi.');
+                    isValid = false;
+                }
+
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(emailVal)) {
+                    showError(emailInput, 'Format email tidak valid.');
+                    isValid = false;
+                }
+
+                if (passwordChanged && passwordVal) {
+                    const passValid = passwordVal.length >= 8 &&
+                                      /[A-Z]/.test(passwordVal) &&
+                                      /[!@#$%^&*(),.?":{}|<>]/.test(passwordVal);
+                    if (!passValid) {
+                        showError(passwordInput, 'Minimal 8 karakter, 1 huruf besar & 1 simbol.');
+                        isValid = false;
+                    }
+                }
+
+                if (!/^\d{8,15}$/.test(phoneVal)) {
+                    showError(phoneInput, 'No. telepon harus 8-15 digit.');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    document.getElementById('bautai').submit();
+                }
+            });
+        });
+    </script>
+@endpush
 
 
 
@@ -59,7 +152,7 @@
                             </div>
 
                             <!-- Content Body -->
-                            <form action="{{ route('admin.profile.save') }}" method="POST"
+                            <form action="{{ route('admin.profile.save') }}" id="bautai" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -86,26 +179,53 @@
                                         <!-- Form Fields -->
                                         <br><strong>Nama Lengkap</strong><br>
                                         <div class="info-card">
-                                            <input type="text" name="name" class="form-control border-0 p-0"
+                                            <input type="text" name="name" class="form-control border-0 p-2"
                                                 value="{{ $user->name }}">
+                                            <small class="text-danger">
+                                                @error('name')
+                                                    {{ $message }}
+                                                @enderror
+                                            </small>
                                         </div>
 
                                         <strong>NIK</strong><br>
                                         <div class="info-card">
-                                            <input type="text" name="NIK" class="form-control border-0 p-0"
-                                                value="{{ $user->NIK }}">
+                                            <input type="text" name="NIK" class="form-control border-0 p-2"
+                                                value="{{ $user->NIK }}" disabled>
                                         </div>
 
                                         <strong>Email</strong><br>
                                         <div class="info-card">
-                                            <input type="email" name="email" class="form-control border-0 p-0"
+                                            <input type="email" name="email" class="form-control border-0 p-2"
                                                 value="{{ $user->email }}">
+                                            <small class="text-danger">
+                                                @error('email')
+                                                    {{ $message }}
+                                                @enderror
+                                            </small>
                                         </div>
+
+                                        <strong>Password</strong><br>
+                                        <div class="info-card">
+                                            <input type="password" name="password" id="password" class="form-control border-0 p-2"
+                                                placeholder="********">
+                                            <small class="text-danger">
+                                                @error('password')
+                                                    {{ $message }}
+                                                @enderror
+                                            </small>
+                                        </div>
+
 
                                         <strong>Nomor Telepon</strong><br>
                                         <div class="info-card">
-                                            <input type="text" name="phone_num" class="form-control border-0 p-0"
+                                            <input type="text" name="phone_num" class="form-control border-0 p-2"
                                                 value="{{ $user->phone_num }}">
+                                            <small class="text-danger">
+                                                @error('address')
+                                                    {{ $message }}
+                                                @enderror
+                                            </small>
                                         </div>
 
                                         <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal"
@@ -139,8 +259,9 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn" style="border-color:black"
                                                 onclick="window.location.href='{{ route('admin.profile') }}'">Batal</button>
-                                            <button type="button" class="btn btn-success"
-                                                onclick="document.querySelector('form').submit()">Ya, Simpan</button>
+                                            <button type="button" class="btn btn-success" id="confirmSaveButton">
+                                                Ya, Simpan
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

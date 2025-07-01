@@ -111,6 +111,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('histori', HistoriAdmin::class);
     Route::resource('persetujuan', Persetujuan::class);
     Route::resource('laporan', ResponLaporan::class);
+    Route::post('laporan/{report_id}/respond', [ResponLaporan::class, 'respond'])->name('laporan.respond');
+
     Route::resource('print-data', PrintData::class);
     Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
