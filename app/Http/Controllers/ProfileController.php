@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 use Illuminate\Http\Request;
 
@@ -22,19 +25,92 @@ public function edit() {
     return view('pengguna.edit-profile', compact('user'));
 }
 
+protected function updateValidator(array $data, $userId)
+{
+    return Validator::make($data, [
+        'name'         => 'required|string|max:255',
+        'email'        => 'required|email:dns|unique:users,email,' . $userId . ',user_id',
+        'password'     => [
+            'nullable', // Optional during update
+            'min:8',
+            'regex:/[A-Z]/',
+            'regex:/[!@#$%^&*(),.?":{}|<>]/'
+        ],
+        'address'      => 'required|string|max:255',
+        'province'     => 'required|string|max:100',
+        'city'         => 'required|string|max:100',
+        'postal_code'  => 'required|digits_between:4,6',
+        'phone_num'    => 'required|digits_between:8,15',
+    ],
+    [
+        // Custom error messages (same as before)
+        'name.required'        => 'Nama lengkap wajib diisi.',
+        'email.required'       => 'Email wajib diisi.',
+        'email.email'          => 'Format email tidak valid.',
+        'email.unique'         => 'Email sudah terdaftar.',
+        'password.min'         => 'Kata sandi harus terdiri dari minimal 8 karakter dan mengandung setidaknya 1 huruf besar serta 1 karakter spesial.',
+        'password.regex'       => 'Kata sandi harus terdiri dari minimal 8 karakter dan mengandung setidaknya 1 huruf besar serta 1 karakter spesial.',
+        'address.required'     => 'Alamat wajib diisi.',
+        'province.required'    => 'Provinsi wajib dipilih.',
+        'city.required'        => 'Kota wajib dipilih.',
+        'postal_code.required' => 'Kode pos wajib diisi.',
+        'postal_code.digits_between' => 'Kode pos harus terdiri dari 4 hingga 6 digit.',
+        'phone_num.required'   => 'Nomor telepon wajib diisi.',
+        'phone_num.digits_between' => 'Nomor telepon harus terdiri dari 8 hingga 15 digit.'
+    ]);
+}
+
+
+// public function save(Request $request)
+// {
+//     // dd($request);
+//     $user = Auth::user();
+//     $user->name = $request->name;
+//     $user->NIK = $request->NIK;
+//     $user->email = $request->email;
+//     $user->phone_num = $request->phone_num;
+
+//     if ($request->filled('password')) {
+//     $user->password = Hash::make($request->password);
+// }
+//     if ($request->hasFile('profile_pic')) {
+//         $path = $request->file('profile_pic')->store('profile_pictures', 'public');
+//         $user->profile_pic = $path;
+//     }
+
+//     $user->save();
+
+//     // Update or create the related user info
+//     $info = $user->info ?? new \App\Models\UserInfo();
+//     $info->user_id = $user->user_id; // make sure this matches your key
+//     if (!$user->info) {
+//         $info->balance = 0;
+//     }
+//     $info->address = $request->address;
+//     $info->city = $request->city;
+//     $info->province = $request->province;
+//     $info->postal_code = $request->postal_code;
+//     $info->save();
+
+//     return redirect()->route('pengguna.profile');
+// }
+
 public function save(Request $request)
 {
+    // ✅ Validate first
+    $this->updateValidator($request->all(), Auth::user()->user_id)->validate();
+
+    // ✅ Save user data
     $user = Auth::user();
     $user->name = $request->name;
     $user->NIK = $request->NIK;
     $user->email = $request->email;
     $user->phone_num = $request->phone_num;
 
-    $user->info->address = $request->address;
-    $user->info->city = $request->city;
-    $user->info->province = $request->province;
-    $user->info->save();
-    // dd($request->profile_pic);
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
+
     if ($request->hasFile('profile_pic')) {
         $path = $request->file('profile_pic')->store('profile_pictures', 'public');
         $user->profile_pic = $path;
@@ -42,8 +118,23 @@ public function save(Request $request)
 
     $user->save();
 
-    return redirect()->route('pengguna.profile');
+    // ✅ Update user info
+    $info = $user->info ?? new \App\Models\UserInfo();
+    $info->user_id = $user->user_id;
+
+    if (!$user->info) {
+        $info->balance = 0;
+    }
+
+    $info->address     = $request->address;
+    $info->city        = $request->city;
+    $info->province    = $request->province;
+    $info->postal_code = $request->postal_code;
+    $info->save();
+
+    return redirect()->route('pengguna.profile')->with('success', 'Profil berhasil diperbarui.');
 }
+
 
 }
 
