@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\HistoriAdmin;
 use App\Http\Controllers\Admin\JenisSampahController;
 use App\Http\Controllers\Admin\PenugasanController;
-use App\Http\Controllers\Admin\Persetujuan;
+use App\Http\Controllers\Admin\PersetujuanController;
 use App\Http\Controllers\Admin\PrintData;
 use App\Http\Controllers\Admin\ResponLaporan;
 
@@ -109,7 +109,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('jenis-sampah', JenisSampahController::class);
     Route::resource('penugasan', PenugasanController::class);
     Route::resource('histori', HistoriAdmin::class);
-    Route::resource('persetujuan', Persetujuan::class);
+    Route::resource('persetujuan', PersetujuanController::class);
     Route::resource('laporan', ResponLaporan::class);
     Route::post('laporan/{report_id}/respond', [ResponLaporan::class, 'respond'])->name('laporan.respond');
 

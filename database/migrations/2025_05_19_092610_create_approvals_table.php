@@ -11,17 +11,32 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('approvals', function (Blueprint $table) {
-            // $table->id();
+            // PRIMARY KEY
+            $table->bigIncrements('approval_id');      // primary key
+
+            // FOREIGN KEY – order
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')
-                ->references('order_id') // sesuai nama PK di users
+                ->references('order_id')
                 ->on('orders')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
+            // FOREIGN KEY – user
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('user_id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            // OTHER COLUMNS
             $table->dateTime('date_time');
-            $table->Integer('approval_status')->default(0);
-            $table->string('notes', 255);
+            $table->integer('approval_status')->default(0);
+            $table->string('notes', 255)->nullable();
+
+            // OPTIONAL: created_at / updated_at
+            // $table->timestamps();
         });
     }
 
