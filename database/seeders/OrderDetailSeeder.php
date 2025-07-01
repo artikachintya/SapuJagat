@@ -27,6 +27,16 @@ class OrderDetailSeeder extends Seeder
                 'trash_id' => 6,
                 'quantity' => 1,
             ],
+            [
+                'order_id' => 3,
+                'trash_id' => 6,
+                'quantity' => 1,
+            ],
+            [
+                'order_id' => 4,
+                'trash_id' => 6,
+                'quantity' => 1,
+            ],
         ]);
     }
 }

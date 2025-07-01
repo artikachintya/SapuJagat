@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\HistoriAdmin;
 use App\Http\Controllers\Admin\JenisSampahController;
+use App\Http\Controllers\Admin\PenugasanController;
 use App\Http\Controllers\Admin\Persetujuan;
 use App\Http\Controllers\Admin\PrintData;
 use App\Http\Controllers\Admin\ResponLaporan;
@@ -106,6 +107,7 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('jenis-sampah', JenisSampahController::class);
+    Route::resource('penugasan', PenugasanController::class);
     Route::resource('histori', HistoriAdmin::class);
     Route::resource('persetujuan', Persetujuan::class);
     Route::resource('laporan', ResponLaporan::class);
