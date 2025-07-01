@@ -96,10 +96,6 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::post('/profile/save', [ProfileController::class, 'save'])->name('profile.save');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
-
-
-
-
 });
 
 
