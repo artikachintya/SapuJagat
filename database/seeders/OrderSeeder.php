@@ -25,6 +25,20 @@ class OrderSeeder extends Seeder
                 'pickup_time' => '07.00 - 09.00 WIB',
                 'status' => false,
             ],
+            [
+                'user_id' => 3,
+                'date_time_request' => now(),
+                'photo' => 'photo2.jpg',
+                'pickup_time' => '07.00 - 09.00 WIB',
+                'status' => false,
+            ],
+            [
+                'user_id' => 4,
+                'date_time_request' => now(),
+                'photo' => 'photo2.jpg',
+                'pickup_time' => '07.00 - 09.00 WIB',
+                'status' => false,
+            ],
         ]);
     }
 }

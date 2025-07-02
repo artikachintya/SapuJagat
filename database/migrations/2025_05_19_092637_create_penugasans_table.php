@@ -4,39 +4,38 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('approvals', function (Blueprint $table) {
-            // PRIMARY KEY
-            $table->bigIncrements('approval_id');      // primary key
+        Schema::create('penugasans', function (Blueprint $table) {
+            
+            $table->bigIncrements('penugasan_id'); // Auto-increment primary key
 
-            // FOREIGN KEY – order
+            // Other columns
             $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamp('created_at')->useCurrent();
+            $table->integer('status');
+
+            // Foreign keys
             $table->foreign('order_id')
                 ->references('order_id')
                 ->on('orders')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            // FOREIGN KEY – user
-            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('user_id')
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            // OTHER COLUMNS
-            $table->dateTime('date_time');
-            $table->integer('approval_status')->default(0);
-            $table->string('notes', 255)->nullable();
-
-            // OPTIONAL: created_at / updated_at
-            // $table->timestamps();
+            // Optional: ensure uniqueness across these columns
+            $table->unique(['order_id', 'user_id', 'created_at']);
         });
     }
 
@@ -45,6 +44,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('approvals');
+        Schema::dropIfExists('penugasans');
     }
 };
