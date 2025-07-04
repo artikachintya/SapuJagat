@@ -98,9 +98,6 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
 
-
-
-
 });
 
 
@@ -117,7 +114,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');
-
 });
 
 

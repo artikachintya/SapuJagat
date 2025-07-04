@@ -86,7 +86,7 @@
                                                 <div class="d-flex justify-content-between align-items-start mb-2">
 
                                                     @php
-                                                        // if (is_null($order->status) & is_null($order->pickup->arrival_date)) {
+                                                        // if (is_null($order->status)) {
                                                         //     $badgeClass = 'bg-secondary';
                                                         //     $label = 'Dalam Proses'; // or any label you want
                                                         // } elseif ($order->status) {
@@ -96,15 +96,26 @@
                                                         //     $badgeClass = 'bg-danger';
                                                         //     $label = 'Gagal';
                                                         // }
-                                                        if (is_null($order->status)) {
+
+                                                        if (!isset($order->approval)) {
                                                             $badgeClass = 'bg-secondary';
-                                                            $label = 'Dalam Proses'; // or any label you want
-                                                        } elseif ($order->status) {
-                                                            $badgeClass = 'bg-success';
-                                                            $label = 'Sukses';
+                                                            $label = 'Belum Ada Persetujuan';
                                                         } else {
-                                                            $badgeClass = 'bg-danger';
-                                                            $label = 'Gagal';
+                                                            $status = $order->approval->status;
+
+                                                            if (is_null($status)) {
+                                                                $badgeClass = 'bg-secondary';
+                                                                $label = 'Dalam Proses';
+                                                            } elseif ($status === 1) {
+                                                                $badgeClass = 'bg-success';
+                                                                $label = 'Disetujui';
+                                                            } elseif ($status === 0) {
+                                                                $badgeClass = 'bg-danger';
+                                                                $label = 'Ditolak';
+                                                            } else {
+                                                                $badgeClass = 'bg-warning text-dark';
+                                                                $label = 'Status Tidak Dikenal';
+                                                            }
                                                         }
 
                                                         $htmlSummary = '<table class="table table-bordered text-sm"><thead><tr>

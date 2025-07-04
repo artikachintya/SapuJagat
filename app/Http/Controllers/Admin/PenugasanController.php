@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Order;
 use App\Models\Penugasan;
+use App\Models\Pickup;
 use App\Models\Trash;
 use App\Models\User;
 use App\Models\Withdrawal;
@@ -21,7 +22,7 @@ class PenugasanController extends Controller
     public function index()
     {
         $penugasans = Order::with('user:user_id,name')
-               ->where('status', 0)
+               ->where('status', NULL)
                ->get();
 
         $drivers=User::where('role',3)->get();
@@ -58,6 +59,13 @@ class PenugasanController extends Controller
             'created_at' => Carbon::now(),     // kolom created_at
         ]);
 
+          // 3. Simpan juga ke tabel pick_ups
+        Pickup::create([
+            'order_id' => $data['order_id'],
+            'user_id'  => $data['user_id'],
+            // tambahkan kolom lain yang dibutuhkan jika ada (misalnya status awal)
+        ]);
+
         // 3. Redirect back + flash
         return redirect()
             ->back()
@@ -85,7 +93,7 @@ class PenugasanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
     }
 
 
