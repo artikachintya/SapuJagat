@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\HistoriAdmin;
 use App\Http\Controllers\Admin\JenisSampahController;
 use App\Http\Controllers\Admin\Persetujuan;
-use App\Http\Controllers\Admin\PrintData;
+use App\Http\Controllers\Admin\PrintDataController;
 use App\Http\Controllers\Admin\ResponLaporan;
 
 use App\Http\Controllers\Driver\PickUpController;
@@ -84,15 +84,15 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::post('tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');
 
 
-    Route::get('ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
-    Route::post('ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
+    Route::get('ringkasan-pesanan', [TukarSampahController::class, 'ringkasan'])->name('RingkasanPesanan2');
+    Route::post('ringkasan-pesanan/jemput', [TukarSampahController::class, 'jemput'])->name('ringkasan.jemput');
 
     Route::resource('histori', Histori::class);
 
     Route::resource('pelacakan', Pelacakan::class);
     Route::resource('laporan', LaporanController::class);
 
-    Route::get('/profile', [ProfileController::class,'index'])->name('profile');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/profile/save', [ProfileController::class, 'save'])->name('profile.save');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
@@ -105,13 +105,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('histori', HistoriAdmin::class);
     Route::resource('persetujuan', Persetujuan::class);
     Route::resource('laporan', ResponLaporan::class);
-    Route::resource('print-data', PrintData::class);
+    Route::resource('print-data', PrintDataController::class);
+    Route::post('print-data/filter', [PrintDataController::class, 'filter'])->name('print-data.filter');
+    Route::post('print-data/pdf', [PrintDataController::class, 'generatePdf'])->name('print-data.pdf');
+        // ✅ Tambahkan redirect untuk akses GET manual ke PDF
+    Route::get('print-data/pdf', function () {
+        return redirect()->route('admin.print-data.index')
+            ->with('error', 'Akses langsung ke halaman PDF tidak diperbolehkan.');
+    });
+    
     Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');
-
 });
-
 
 // Chat Routes
 Route::prefix('pengguna')->group(function () {

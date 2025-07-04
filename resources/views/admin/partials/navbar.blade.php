@@ -54,8 +54,8 @@
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu marginzero">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic):  asset('assets/img/default-profile.webp') }}
-                        class="user-image rounded-circle shadow" alt="User Image" style="object-fit: cover;"/>
+                    <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic) : asset('assets/img/default-profile.webp') }} class="user-image rounded-circle shadow"
+                        alt="User Image" style="object-fit: cover;" />
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <!--begin::Menu Footer-->
@@ -65,6 +65,9 @@
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             Sign out
                         </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </li>
                     <!--end::Menu Footer-->
                 </ul>
@@ -101,8 +104,8 @@
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-header" style="padding:0;">
                     <a href="{{ route('admin.profile') }}" class="nav-link">
-                        <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic):  asset('assets/img/default-profile.webp') }}
-                            class="user-image rounded-circle shadow" alt="User Image" style="width: 30px; height: 30px;" />
+                        <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic) : asset('assets/img/default-profile.webp') }} class="user-image rounded-circle shadow"
+                            alt="User Image" style="width: 30px; height: 30px;" />
                         <span class="ps-3 d-md-inline">{{ Auth::user()->name }}</span>
                     </a>
                 </li>
