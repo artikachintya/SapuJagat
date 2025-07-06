@@ -21,10 +21,21 @@ class PenugasanController extends Controller
      */
     public function index()
     {
-        $penugasans = Order::with('user:user_id,name')
-               ->where('status', NULL)
-               ->get();
-
+        $penugasans = Order::with([
+            'user:user_id,name',
+            'penugasan:penugasan_id,order_id,status,user_id'
+        ])
+        // ── keep orders whose penugasan is status 0 OR no penugasan at all
+        ->where(fn ($q) =>
+            $q->whereRelation('penugasan', 'status', 0)
+            ->orDoesntHave('penugasan')
+        )
+        // ── drop orders that have an approval row with status 0 or 1
+        ->whereDoesntHave('approval', fn ($q) =>
+            $q->whereIn('approval_status', [0, 1])
+        )
+        ->get();
+        
         $drivers=User::where('role',3)->get();
 
         //  Return to Blade (or JSON if you prefer an API)

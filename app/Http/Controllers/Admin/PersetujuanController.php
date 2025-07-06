@@ -24,6 +24,7 @@ class PersetujuanController extends Controller
                      });
                })
                ->get();
+        
         $transaksidisetujui = Order::whereHas('approval', function ($query) {
             $query->where('approval_status', 1);
         })->count();
