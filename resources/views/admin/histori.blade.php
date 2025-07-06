@@ -96,10 +96,16 @@
                                     <td class="text-center">{{ $order->pickup->arrival_date ?? '-' }}</td>
                                     <td class="text-center">{{ $order->approval->date_time ?? '-' }}</td>
                                     <td class="text-center">
-                                        @if ($order->status)
-                                            <span class="badge bg-success">Selesai</span>
+                                        @if ($order->approval)
+                                            @if ($order->approval->status === 1)
+                                                <span class="badge bg-success">Selesai</span>
+                                            @elseif($order->approval->status === 0)
+                                                <span class="badge bg-danger">Ditolak</span>
+                                            @else
+                                                <span class="badge bg-warning text-dark">Dalam Proses</span>
+                                            @endif
                                         @else
-                                            <span class="badge bg-warning text-dark">Dalam Proses</span>
+                                            <span class="badge bg-secondary">Belum Ada Persetujuan</span>
                                         @endif
                                     </td>
                                     <td class="text-center">
