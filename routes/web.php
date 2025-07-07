@@ -148,6 +148,7 @@ Route::prefix('driver')->name('driver.')->group(function () {
     Route::get('profile/edit', [DriverProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile/save', [DriverProfileController::class, 'save'])->name('profile.save');
     Route::resource('histori', HistoriDriver::class);
+    Route::get('/pickup/{id}', [PickupController::class, 'show'])->name('pickup.detail');
 });
 
 // Add your routes here
