@@ -74,7 +74,6 @@ class PersetujuanController extends Controller
             2       => 'Menunggu',
             default => 'Diproses',
         };
-
         /** ───── Buat pesan flash ───── */
         $message = "Order #{$data['order_id']} telah direspons: {$statusLabel}.";
 
