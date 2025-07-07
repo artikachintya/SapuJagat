@@ -91,6 +91,19 @@ class UserSeeder extends Seeder
                 'created_at'=> now(),
                 'updated_at'=> now(),
             ],
+            [
+                'user_id'   => 7,
+                'name'      => 'Kreasi',
+                'NIK'       => '3578263788989881',
+                'email'     => 'kreasipxk1@gmail.com',
+                'phone_num' => '081234567823',
+                'password'  => Hash::make('Kreasiaja!'),
+                'profile_pic' => '',
+                'status'    => false,
+                'role'      => 1,
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ],
         ]);
     }
 }

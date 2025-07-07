@@ -135,9 +135,9 @@
             });
         });
 
-        function setApprovalStatus(status) {
-            document.getElementById('approval_status').value = status;
-        }
+        //function setApprovalStatus(status) {
+         //   document.getElementById('approval_status').value = status;
+        //}
     
     </script>
 @endpush
@@ -405,9 +405,9 @@
                                                     </div>
 
                                                     <div class="d-flex justify-content-around">
-                                                        <button type="submit" class="btn px-4" style="background-color: #006B4F; color: white;" onclick="setApprovalStatus(1)">Setujui</button>
-                                                        <button type="submit" class="btn px-4" style="background-color: #5C2E00; color: white;" onclick="setApprovalStatus(0)">Tolak</button>
-                                                        <button type="submit" class="btn px-4" style="background-color: #777000; color: white;" onclick="setApprovalStatus(2)">Pending</button>
+                                                        <button type="submit" class="btn px-4" style="background-color: #006B4F; color: white;" name="approval_status" value="1">Setujui</button>
+                                                        <button type="submit" class="btn px-4" style="background-color: #5C2E00; color: white;" name="approval_status" value="0">Tolak</button>
+                                                        <button type="submit" class="btn px-4" style="background-color: #777000; color: white;" name="approval_status" value="2">Pending</button>
                                                     </div>
                                                 </form>
 
