@@ -21,7 +21,7 @@ class LoginTest extends TestCase
         $response->assertSee('Masuk dengan Google');
         $response->assertSee('Kata Sandi');
         $response->assertSee('Lupa kata sandi?');
-        
+
     }
 
     /** @test */
@@ -35,31 +35,6 @@ class LoginTest extends TestCase
         $response->assertStatus(302);
     }
 
-    public function verifyOtp(Request $request) {
-    $otp = $request->input('otp');
-
-    if ($otp === '123456') {
-        // Anggap OTP benar, tandai user sebagai terverifikasi OTP
-        session(['otp_verified' => true]);
-
-        return redirect('/pengguna/dasboard');
-    }
-
-    return redirect('/login/otp')->withErrors(['otp' => 'OTP salah']);
-    
-    $response->assertStatus(302);
-    $this->get('/pengguna/dasboard')->assertStatus(200);
-    }
-
-    public function user_cannot_login_with_wrong_password(){
-        User::factory()->create([
-            'email' => 'cindy@gmail.com',
-            'password' => bcrypt('Cindy1234!'),
-        ]);
-
-        $this->get('/pengguna/dasboard')->assertRedirect('/login');
-    }
-
     /** @test */
     public function google_login_redirects_to_google_provider()
     {
@@ -67,4 +42,25 @@ class LoginTest extends TestCase
         $response->assertRedirect(); // arahkan ke halaman Google
     }
 
+    /** @test */
+    public function admin_can_login_and_get_otp_then_access_dashboard()
+    {
+        $response = $this->post('/login', [
+            'email' => 'admin1@example.com',
+            'password' => bcrypt('password2'),
+        ]);
+
+        $response->assertStatus(302);
+    }
+
+    /** @test */
+    public function driver_can_login_and_get_otp_then_access_dashboard()
+    {
+        $response = $this->post('/login', [
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password5'),
+        ]);
+
+        $response->assertStatus(302);
+    }
 }

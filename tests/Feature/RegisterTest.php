@@ -9,9 +9,16 @@ use Tests\TestCase;
 class RegisterTest extends TestCase
 {
     /** @test */
+    public function register_page_is_accessible()
+    {
+        $response = $this->get('/register');
+        $response->assertStatus(200);
+    }
+
+
+    /** @test */
     public function user_can_register_and_redirect_to_login(): void
     {
-        // buka halaman /register
         $response = $this->post('/register', [
             'name' => 'John Doe',
             'email' => 'jhon@gmail.com',
@@ -23,7 +30,6 @@ class RegisterTest extends TestCase
             'nik' => '1234567890123456',
             'telepon' => '08123456789',
         ]);
-        // pastikan halamannya bisa di buka
         $response->assertStatus(302);
         $this->get('/login')->assertStatus(200);
     }
@@ -31,7 +37,6 @@ class RegisterTest extends TestCase
     /** @test */
     public function user_can_not_register_with_existing_email(): void
     {
-        // buat user dengan email yang sudah ada
         $response = $this->from('/register')->post('/register', [
             'email' => 'not-an-email',
             'name' => 'Jane Doe',
