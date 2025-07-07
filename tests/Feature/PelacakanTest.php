@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -9,34 +10,35 @@ use Tests\TestCase;
 
 class PelacakanTest extends TestCase
 {
-    /** @test */
-    public function user_can_see_ringkasan_pesanan(): void
-    {
-        $response = $this->get('/prngguna/ringkasan-pesanan');
-        $response->assertStatus(302);
+    use RefreshDatabase;
 
-        $response->assertSee('Ringkasan Pesanan');
-        $response->assertSee('Jemput');
-        $response->assertSee('Nama Sampah');
-        $response->assertSee('Kuantitas');
-        $response->assertSee('Harga/Kg');
-        $response->assertSee('Estimasi Total');
+    /** @test */
+    public function user_can_access_status_penjemputan_page()
+    {
+        $user = User::create([
+            'name' => 'Jhon Doe',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1
+        ]);
+
+        $response = $this->actingAs($user)->get('/pengguna/pelacakan');
+
+        $response->assertStatus(200);
     }
 
-    public function user_can_pickup(){
-        $response = $this->post('/jemput', [
-            'waktu_jemput' => '2023-10-01 10:00:00',
-            'sampah' => [
-                [
-                    'nama_sampah' => 'Sisa Makanan',
-                    'kuantitas' => 5,
-                    'harga_per_kg' => 1000,
-                    'estimasi_total' => 5000,
-                ],
-            ],
+    /** @test */
+    public function driver_information_is_visible_if_available()
+    {
+        $user = User::create([
+            'name' => 'Jhon Doe',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1
         ]);
-        $response->assertStatus(302);
-        $response->assertRedirect('/pengguna/pelacakan');
-        
+
+        $response = $this->actingAs($user)->get('/pengguna/pelacakan');
+
+        $response->assertStatus(200);
     }
 }

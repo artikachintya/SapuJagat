@@ -105,7 +105,7 @@ class TukarSampahController extends Controller
             'date_time_request' => now(),
             'photo' => $photoPath,
             'pickup_time'=>$request->pickup_time,
-            'status' => false,
+            // 'status' => false,
         ]);
 
         foreach ($data as $item) {

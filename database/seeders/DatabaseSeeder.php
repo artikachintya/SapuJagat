@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             ApprovalSeeder::class,
             OrderDetailSeeder::class,
             RatingSeeder::class,
+            PenugasanSeeder::class,
         ]);
     }
 }

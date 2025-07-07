@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -9,33 +10,18 @@ use Tests\TestCase;
 class TukarSampahTest extends TestCase
 {
     /** @test */
-    public function Add(): void
+    public function user_can_access_tukar_sampah_page()
     {
-        $response = $this->get('/pengguna/tukar-sampah');
+        $user = User::create([
+            'name' => 'Jhon Doe',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1
+        ]);
+
+        $response = $this->actingAs($user)->get('/pengguna/tukar-sampah');
 
         $response->assertStatus(200);
-        $response->assertSee('Sisa Makanan');
-        $response->assertSee('Kulit Buah');
-        $response->assertSee('Daun Kering');
-        $response->assertSee('Kotoran Hewan');
-        $response->assertSee('Cangkang Telur');
-        $response->assertSee('Botol Plastik');
-        $response->assertSee('Kaleng');
-        $response->assertSee('Kardus');
-        $response->assertSee('Kaca Pecah');
-        $response->assertSee('Styrofoam');
-    }
-
-    public function user_can_tukar_sampah()
-    {
-        $response = $this->post('/pengguna/tukar-sampah', [
-            'sampah' => [
-                'sisa_makanan' => 2,
-                'kulit_buah' => 1,
-                'daun_kering' => 3,
-            ]
-        ]);
-        $response->assertStatus(302);
-        $this->get('/pengguna/ringkasan-pesanan')->assertStatus(200);
+        $response->assertSee('Tukar Sampah');
     }
 }

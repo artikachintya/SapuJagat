@@ -3,7 +3,8 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\HistoriAdmin;
 use App\Http\Controllers\Admin\JenisSampahController;
-use App\Http\Controllers\Admin\Persetujuan;
+use App\Http\Controllers\Admin\PenugasanController;
+use App\Http\Controllers\Admin\PersetujuanController;
 use App\Http\Controllers\Admin\PrintDataController;
 use App\Http\Controllers\Admin\ResponLaporan;
 
@@ -96,24 +97,30 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::post('/profile/save', [ProfileController::class, 'save'])->name('profile.save');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
+
+
+
+
 });
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('jenis-sampah', JenisSampahController::class);
+    Route::resource('penugasan', PenugasanController::class);
     Route::resource('histori', HistoriAdmin::class);
-    Route::resource('persetujuan', Persetujuan::class);
+    Route::resource('persetujuan', PersetujuanController::class);
     Route::resource('laporan', ResponLaporan::class);
+    Route::post('laporan/{report_id}/respond', [ResponLaporan::class, 'respond'])->name('laporan.respond');
     Route::resource('print-data', PrintDataController::class);
     Route::post('print-data/filter', [PrintDataController::class, 'filter'])->name('print-data.filter');
     Route::post('print-data/pdf', [PrintDataController::class, 'generatePdf'])->name('print-data.pdf');
-        // ✅ Tambahkan redirect untuk akses GET manual ke PDF
+    // ✅ Tambahkan redirect untuk akses GET manual ke PDF
     Route::get('print-data/pdf', function () {
         return redirect()->route('admin.print-data.index')
             ->with('error', 'Akses langsung ke halaman PDF tidak diperbolehkan.');
     });
-    
+
     Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');

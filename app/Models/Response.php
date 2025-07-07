@@ -16,6 +16,7 @@ class Response extends Model
         'user_id',
         'report_id',
         'response_message',
+        'date_time_response',
     ];
 
     public function user()

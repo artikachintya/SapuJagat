@@ -53,6 +53,12 @@ class Order extends Model
         return $this->belongsTo(User::class, 'driver_id', 'user_id');
 
     }
+    
+    public function penugasan()
+    {
+        return $this->hasMany(Penugasan::class, 'order_id', 'order_id');
+
+    }
 }
 
 

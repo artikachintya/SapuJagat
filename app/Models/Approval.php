@@ -8,9 +8,11 @@ class Approval extends Model
 {
     public $timestamps = false;
     protected $table = 'approvals';
+    protected $primaryKey = 'approval_id';
 
     protected $fillable = [
         'order_id',
+        'user_id',
         'date_time',
         'approval_status',
         'notes',

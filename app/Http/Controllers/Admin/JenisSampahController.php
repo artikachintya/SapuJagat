@@ -146,6 +146,7 @@ class JenisSampahController extends Controller
             File::exists(public_path("assets/img/{$trash->photos}"))) {
             File::delete(public_path("assets/img/{$trash->photos}"));
         }
+        
 
         $trash->delete();   // soft‑delete if model uses SoftDeletes, otherwise hard
 
