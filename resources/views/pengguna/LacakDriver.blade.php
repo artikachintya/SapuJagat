@@ -4,13 +4,30 @@
 
 @section('content')
 <main class="app-main container mt-4">
+
+    {{-- ✅ Flash Notification --}}
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Berhasil:</strong> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Perhatian:</strong> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    {{-- ✅ Konten utama pelacakan --}}
     @if (!$order)
         <div class="card-body text-center py-5 " style="background-color: #E5F5E0; border-radius: 20px">
             <i class="bi bi-exclamation-octagon-fill text-danger" style="font-size: 200px;"></i>
             <h3 class="fw-bold" style="font-family:'Inria Sans', sans-serif;">Belum ada Pesanan</h3>
             <p style="font-family: 'Inria Sans', sans-serif;">Silahkan buat pesanan terlebih dahulu untuk melacak prosesnya</p>
         </div>
-    @elseif ($order->status == 0)
+    @elseif (!$order->sudah_dapat_driver)
         <div class="card loading-card text-center">
             <div class="loading-spinner-wrapper">
                 <div class="spinner-border text-success loading-spinner" role="status">
@@ -77,13 +94,19 @@
                             <div class="timeline-text">
                                 <strong>
                                     @if($approval)
-                                        @if($approval->approval_status == 0)
-                                            Menunggu Konfirmasi Admin
-                                        @elseif($approval->approval_status == 1)
-                                            Penukaran Berhasil
-                                        @elseif($approval->approval_status == 2)
-                                            Penukaran Ditolak
-                                        @endif
+                                        @switch($approval->approval_status)
+                                            @case(0)
+                                                Penukaran Ditolak
+                                                @break
+                                            @case(1)
+                                                Penukaran Berhasil
+                                                @break
+                                            @case(2)
+                                                Menunggu
+                                                @break
+                                            @default
+                                                Menunggu Konfirmasi Admin
+                                        @endswitch
                                     @else
                                         Menunggu Konfirmasi Admin
                                     @endif

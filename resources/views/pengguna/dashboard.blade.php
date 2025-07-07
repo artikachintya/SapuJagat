@@ -166,11 +166,6 @@
                                                 </div>
                                                 <span class="fw-bold text-dark">{{$approvedOrdersCount}}</span>
                                             </div>
-                                            <div class="d-flex justify-content-center topborder">
-                                                <a href="javascript:void(0)" class="btn btn-sm btn-secondary">
-                                                    Unduh Laporan Bulanan
-                                                </a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
