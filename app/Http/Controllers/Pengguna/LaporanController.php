@@ -69,7 +69,7 @@ class LaporanController extends Controller
         // Save to database
         Report::create($data);
 
-        return redirect()->back()->with('success', 'Laporan berhasil dikirim.');
+        return redirect()->route('pengguna.laporan.index') ->with('success', 'Laporan berhasil dikirim.');
     }
 
     /**
