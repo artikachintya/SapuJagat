@@ -96,10 +96,16 @@
                                     <td class="text-center">{{ $order->pickup->arrival_date ?? '-' }}</td>
                                     <td class="text-center">{{ $order->approval->date_time ?? '-' }}</td>
                                     <td class="text-center">
-                                        @if ($order->status)
-                                            <span class="badge bg-success">Selesai</span>
+                                        @if ($order->approval)
+                                            @if ($order->approval->status === 1)
+                                                <span class="badge bg-success">Selesai</span>
+                                            @elseif($order->approval->status === 0)
+                                                <span class="badge bg-danger">Ditolak</span>
+                                            @else
+                                                <span class="badge bg-warning text-dark">Dalam Proses</span>
+                                            @endif
                                         @else
-                                            <span class="badge bg-warning text-dark">Dalam Proses</span>
+                                            <span class="badge bg-secondary">Belum Ada Persetujuan</span>
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -133,7 +139,8 @@
                                 <p><strong>Tanggal/Waktu Permintaan:</strong> {{ $order->date_time_request }}</p>
                                 <p><strong>Tanggal/Waktu Penjemputan:</strong> {{ $order->pickup->pick_up_date ?? '-' }}
                                 </p>
-                                <p><strong>Tanggal/Waktu Selesai Penjemputan:</strong> {{ $order->arrival_date ?? '-' }}
+                                <p><strong>Tanggal/Waktu Selesai Penjemputan:</strong>
+                                    {{ $order->pickup->arrival_date ?? '-' }}
                                 </p>
                                 <p><strong>Tanggal Pengecekan:</strong>
                                     @if ($order->approval && $order->approval->status != 2)
@@ -192,19 +199,40 @@
 
                                 {!! $htmlSummary !!}
 
-                                <p><strong>Bukti Pengguna:</strong></p>
-                                <div>
-                                    <img src="{{ asset('storage/' . $order->photo) }}" alt="" style="width:350px">
+                                <div style="display: flex; gap: 20px;">
+                                    <div>
+                                        <p><strong>Bukti Pengguna:</strong></p>
+                                        <img src="{{ asset('storage/' . $order->photo) }}" alt="Bukti Pengguna"
+                                            style="width: 350px; height: auto;">
+                                    </div>
+
+                                    <div>
+                                        <p><strong>Bukti Pengantaran Driver:</strong></p>
+                                        @if (!empty($order->pickup->photos))
+                                            <img src="{{ asset('storage/' . $order->pickup->photos) }}"
+                                                alt="Bukti Pengantaran" style="width: 350px; height: auto;">
+                                        @else
+                                            <p>Tidak ada foto.</p>
+                                        @endif
+                                    </div>
                                 </div>
-                                <p><strong>Bukti Pengantaran Driver:</strong></p>
-                                <div>
-                                    @if (!empty($order->pickup->photos))
-                                        <img src="{{ asset($order->pickup->photos) }}" alt="Bukti Foto"
-                                            style="max-width: 100%; height: auto;">
-                                    @else
-                                        <p>Tidak ada foto.</p>
-                                    @endif
+
+                                <div style="display: flex; gap: 20px;">
+                                    <div class="mt-3"style="flex: 1;">
+                                        <p><strong>Respon Admin:</strong><br>
+                                            {{ $order->approval->notes ?? '-' }}
+                                        </p>
+                                    </div>
+
+                                    <div class="mt-3" style="flex: 1;">
+                                        <p><strong>Catatan Driver:</strong><br>
+                                            {{ $order->pickup->notes ?? '-' }}
+                                        </p>
+                                    </div>
                                 </div>
+
+                                {{-- <a class="btn btn-warning" role="button" aria-disabled="true">Arsipkan</a> --}}
+
                             </div>
                         </div>
                     </div>
