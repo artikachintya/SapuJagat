@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Driver;
 
 use App\Http\Controllers\Controller;
+use App\Models\Penugasan;
 use Illuminate\Http\Request;
 use App\Models\Pickup;
 use Illuminate\Support\Facades\Auth;
@@ -171,14 +172,20 @@ public function updateStatus(PickUp $pickup, Request $request)
         $path = $request->file('photo')->store('proofs', 'public');
         $pickup->photos = $path;
 
+
         // Tandai penugasan selesai
-        DB::table('penugasans')
-            ->where('order_id', $pickup->order_id)
-            ->where('user_id', $pickup->user_id)
-            ->update([
-                'status' => 1,
-                // 'updated_at' => now()
-            ]);
+        // DB::table('penugasans')
+        //     ->where('order_id', $pickup->order_id)
+        //     ->where('user_id', $pickup->user_id)
+        //     ->update([
+        //         'status' => 1,
+        //         // 'updated_at' => now()
+        //     ]);
+
+        Penugasan::where('order_id', $pickup->order_id)
+    ->where('user_id', $pickup->user_id)
+    ->update(['status' => 1]);
+
     }
 
     $pickup->save();
