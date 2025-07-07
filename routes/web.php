@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\ResponLaporan;
 use App\Http\Controllers\Driver\PickUpController;
 use App\Http\Controllers\Pengguna\Histori;
 use App\Http\Controllers\Pengguna\LaporanController;
-use App\Http\Controllers\Pengguna\Pelacakan;
+use App\Http\Controllers\Pengguna\PelacakanController;
 use App\Http\Controllers\Pengguna\PenggunaController;
 use App\Http\Controllers\Pengguna\TukarSampahController;
 use App\Http\Controllers\Pengguna\TarikSaldoController;
@@ -90,7 +90,7 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
 
     Route::resource('histori', Histori::class);
 
-    Route::resource('pelacakan', Pelacakan::class);
+    Route::resource('pelacakan', PelacakanController::class);
     Route::resource('laporan', LaporanController::class);
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
