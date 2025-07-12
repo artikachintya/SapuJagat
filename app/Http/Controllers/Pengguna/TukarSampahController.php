@@ -70,16 +70,31 @@ class TukarSampahController extends Controller
         return redirect()->route('pengguna.RingkasanPesanan2');
     }
 
-    public function ringkasan(){
-        $data = Session::get('data_tukar_sampah',[]);
+    public function ringkasan()
+    {
+        $data = Session::get('data_tukar_sampah', []);
         $photoPath = Session::get('photo_path');
 
-        return view('pengguna.RingkasanPesanan2', compact('data','photoPath'));
+        return view('pengguna.RingkasanPesanan2', compact('data', 'photoPath'));
     }
 
     public function jemput(Request $request)
     {
-         // Validasi dasar
+        $existingOrder = Order::where('user_id', Auth::id())
+            ->where('status', false)
+            ->whereDoesntHave('approval', function ($q) {
+                $q->whereNotNull('approval_status'); // Hanya anggap aktif jika belum ada approval
+            })
+            ->latest('date_time_request')
+            ->first();
+
+        // Jika masih ada pesanan aktif, redirect ke pelacakan + notifikasi
+        if ($existingOrder) {
+            return redirect()->route('pengguna.pelacakan.index')
+                ->with('error', 'Anda masih memiliki pesanan yang sedang diproses.');
+        }
+
+        // Validasi dasar
         $request->validate([
             'pickup_time' => 'required|string',
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -104,8 +119,8 @@ class TukarSampahController extends Controller
             'user_id' => Auth::id(),
             'date_time_request' => now(),
             'photo' => $photoPath,
-            'pickup_time'=>$request->pickup_time,
-            // 'status' => false,
+            'pickup_time' => $request->pickup_time,
+            'status' => false,
         ]);
 
         foreach ($data as $item) {
@@ -120,5 +135,18 @@ class TukarSampahController extends Controller
 
         return redirect()->route('pengguna.pelacakan.index')->with('success', 'Pesanan penjemputan berhasil dikirim!');
     }
+
+    // public function store(Request $request)
+    // {
+    //     // Buat order baru
+    //     $order = new Order();
+    //     $order->user_id = Auth::id();
+    //     $order->status = false; // aktif
+    //     $order->date_time_request = now();
+    //     $order->save();
+
+    //     return redirect()->route('pengguna.pelacakan.index')
+    //         ->with('success', 'Pesanan berhasil dibuat.');
+    // }
 
 }

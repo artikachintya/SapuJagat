@@ -30,7 +30,7 @@ class Order extends Model
 
     public function pickup()
     {
-        return $this->hasOne(Pickup::class, 'order_id', 'order_id');
+        return $this->hasOne(Pickup::class, 'order_id')->orderByDesc('pick_up_id');
     }
 
     public function approval()
@@ -53,7 +53,7 @@ class Order extends Model
         return $this->belongsTo(User::class, 'driver_id', 'user_id');
 
     }
-    
+
     public function penugasan()
     {
         return $this->hasMany(Penugasan::class, 'order_id', 'order_id');
