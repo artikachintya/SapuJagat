@@ -107,6 +107,13 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('jenis-sampah', JenisSampahController::class);
+    // soft delete
+    Route::get('jenis-sampah-arsip', [JenisSampahController::class, 'archive'])->name('jenis-sampah.arsip');
+    Route::post('jenis-sampah-restore/{id}', [JenisSampahController::class, 'restore'])->name('jenis-sampah.restore');
+   // forcedelete
+   Route::delete('jenis-sampah/{id}/force-delete', [JenisSampahController::class, 'forceDelete'])->name('jenis-sampah.force-delete');
+
+
     Route::resource('penugasan', PenugasanController::class);
     Route::resource('histori', HistoriAdmin::class);
     Route::resource('persetujuan', PersetujuanController::class);
