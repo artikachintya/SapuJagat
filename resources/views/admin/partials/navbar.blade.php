@@ -136,6 +136,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('admin.penugasan.index') }}"
+                        class="nav-link {{ Route::is('admin.penugasan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                        <i class="nav-icon bi bi-check2-circle"></i>
+                        <p>Penugasan</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.laporan.index') }}"
                         class="nav-link {{ Route::is('admin.laporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-exclamation-diamond"></i>

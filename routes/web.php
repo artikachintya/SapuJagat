@@ -98,9 +98,6 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
 
-
-
-
 });
 
 
@@ -124,7 +121,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');
-
 });
 
 
@@ -150,6 +146,7 @@ Route::prefix('driver')->name('driver.')->group(function () {
     Route::get('profile/edit', [DriverProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile/save', [DriverProfileController::class, 'save'])->name('profile.save');
     Route::resource('histori', HistoriDriver::class);
+    Route::get('/pickup/{id}', [PickupController::class, 'show'])->name('pickup.detail');
 });
 
 // Add your routes here
