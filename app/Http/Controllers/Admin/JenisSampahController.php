@@ -143,10 +143,10 @@ class JenisSampahController extends Controller
     {
         $trash=Trash::findOrFail($id);
         if ($trash->photos &&
-            File::exists(public_path("assets/img/{$trash->photos}"))) {
+            File645e::exists(public_path("assets/img/{$trash->photos}"))) {
             File::delete(public_path("assets/img/{$trash->photos}"));
         }
-        
+
 
         $trash->delete();   // soft‑delete if model uses SoftDeletes, otherwise hard
 
