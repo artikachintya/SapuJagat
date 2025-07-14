@@ -5,13 +5,13 @@ use App\Http\Controllers\Admin\HistoriAdmin;
 use App\Http\Controllers\Admin\JenisSampahController;
 use App\Http\Controllers\Admin\PenugasanController;
 use App\Http\Controllers\Admin\PersetujuanController;
-use App\Http\Controllers\Admin\PrintData;
+use App\Http\Controllers\Admin\PrintDataController;
 use App\Http\Controllers\Admin\ResponLaporan;
 
 use App\Http\Controllers\Driver\PickUpController;
 use App\Http\Controllers\Pengguna\Histori;
 use App\Http\Controllers\Pengguna\LaporanController;
-use App\Http\Controllers\Pengguna\Pelacakan;
+use App\Http\Controllers\Pengguna\PelacakanController;
 use App\Http\Controllers\Pengguna\PenggunaController;
 use App\Http\Controllers\Pengguna\TukarSampahController;
 use App\Http\Controllers\Pengguna\TarikSaldoController;
@@ -85,19 +85,18 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
     Route::post('tukar-sampah/submit', [TukarSampahController::class, 'submit'])->name('tukar-sampah.submit');
 
 
-    Route::get('ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
-    Route::post('ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
+    Route::get('ringkasan-pesanan', [TukarSampahController::class, 'ringkasan'])->name('RingkasanPesanan2');
+    Route::post('ringkasan-pesanan/jemput', [TukarSampahController::class, 'jemput'])->name('ringkasan.jemput');
 
     Route::resource('histori', Histori::class);
 
-    Route::resource('pelacakan', Pelacakan::class);
+    Route::resource('pelacakan', PelacakanController::class);
     Route::resource('laporan', LaporanController::class);
 
-    Route::get('/profile', [ProfileController::class,'index'])->name('profile');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/profile/save', [ProfileController::class, 'save'])->name('profile.save');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
-
 });
 
 
@@ -116,13 +115,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('persetujuan', PersetujuanController::class);
     Route::resource('laporan', ResponLaporan::class);
     Route::post('laporan/{report_id}/respond', [ResponLaporan::class, 'respond'])->name('laporan.respond');
+    Route::resource('print-data', PrintDataController::class);
+    Route::post('print-data/filter', [PrintDataController::class, 'filter'])->name('print-data.filter');
+    Route::post('print-data/pdf', [PrintDataController::class, 'generatePdf'])->name('print-data.pdf');
+    // ✅ Tambahkan redirect untuk akses GET manual ke PDF
+    Route::get('print-data/pdf', function () {
+        return redirect()->route('admin.print-data.index')
+            ->with('error', 'Akses langsung ke halaman PDF tidak diperbolehkan.');
+    });
 
-    Route::resource('print-data', PrintData::class);
     Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');
 });
-
 
 // Chat Routes
 Route::prefix('pengguna')->group(function () {

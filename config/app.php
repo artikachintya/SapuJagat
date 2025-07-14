@@ -80,7 +80,7 @@ return [
 
     'locale' => env('id'),
 
-    'fallback_locale' => ( 'id'),
+    'fallback_locale' => ('id'),
 
     'faker_locale' => ('id'),
 
@@ -122,5 +122,4 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
 ];

@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('pengguna.dashboard')}}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                         </ol>
                     </div>
@@ -39,10 +39,10 @@
                                     <p class="mb-4 text-muted">Yuk buang sampahmu sekarang! Mulai dari diri sendiri untuk
                                         bumi yang bersih</p>
                                     <div class="d-flex gap-2">
-                                        <a href="#" class="btn btn-success rounded-3">
+                                        <a href="{{ route('pengguna.tukar-sampah.index') }}" class="btn btn-success rounded-3">
                                             <i class="bi bi-trash"></i> Tukar Sampah
                                         </a>
-                                        <a href="#" class="btn btn-outline-success rounded-3">
+                                        <a href="{{ route('pengguna.tarik-saldo.index') }}" class="btn btn-outline-success rounded-3">
                                             Tarik Saldo
                                         </a>
                                     </div>
@@ -165,11 +165,6 @@
                                                     <span>Transaksi Disetujui</span>
                                                 </div>
                                                 <span class="fw-bold text-dark">{{$approvedOrdersCount}}</span>
-                                            </div>
-                                            <div class="d-flex justify-content-center topborder">
-                                                <a href="javascript:void(0)" class="btn btn-sm btn-secondary">
-                                                    Unduh Laporan Bulanan
-                                                </a>
                                             </div>
                                         </div>
                                     </div>
