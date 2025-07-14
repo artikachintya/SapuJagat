@@ -15,12 +15,19 @@ class JenisSampahController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+    //     $trashes=Trash::get();
+
+    //     return view('admin.jenis', compact('trashes'));
+    // }
+    // soft delete
     public function index()
     {
-        $trashes=Trash::get();
-
+        $trashes = Trash::all(); // soft delete otomatis tidak tampil
         return view('admin.jenis', compact('trashes'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -142,14 +149,46 @@ class JenisSampahController extends Controller
     public function destroy(string $id)
     {
         $trash=Trash::findOrFail($id);
-        if ($trash->photos &&
-            File::exists(public_path("assets/img/{$trash->photos}"))) {
-            File::delete(public_path("assets/img/{$trash->photos}"));
-        }
-        
+        // if ($trash->photos &&
+        //     File::exists(public_path("assets/img/{$trash->photos}"))) {
+        //     File::delete(public_path("assets/img/{$trash->photos}"));
+        // }
+
 
         $trash->delete();   // soft‑delete if model uses SoftDeletes, otherwise hard
 
         return back()->with('success', 'Jenis sampah berhasil dihapus.');
     }
+
+    // Tampilkan yang sudah dihapus
+    public function archive()
+    {
+        $trashes = Trash::onlyTrashed()->get();
+        return view('admin.trash-archive', compact('trashes'));
+    }
+
+    // Pulihkan data
+    public function restore($id)
+    {
+        $trash = Trash::onlyTrashed()->findOrFail($id);
+        $trash->restore();
+        return redirect()->route('admin.jenis-sampah.index')->with('success', 'Data berhasil dipulihkan.');
+    }
+
+
+    // forcedelete untuk permanent
+    public function forceDelete($id)
+    {
+        $trash = Trash::onlyTrashed()->findOrFail($id);
+
+        // Hapus file foto jika ada
+        if ($trash->photos && File::exists(public_path("assets/img/{$trash->photos}"))) {
+            File::delete(public_path("assets/img/{$trash->photos}"));
+        }
+
+        $trash->forceDelete();
+
+        return back()->with('success', 'Data dihapus permanen.');
+    }
+
 }
