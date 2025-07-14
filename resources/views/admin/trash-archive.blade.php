@@ -83,7 +83,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center text-muted">Tidak ada data terhapus.</td>
+                                    <td colspan="6" class="text-center text-muted">Tidak ada data terhapus</td>
                                 </tr>
                             @endforelse
                         </tbody>
