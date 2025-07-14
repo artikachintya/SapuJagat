@@ -130,6 +130,34 @@
                 <button type="submit" class="btn btn-success" style="width: 150px;">Lanjut</button>
             </div>
         </form>
+
+        {{-- Modal popup untuk alamat belum lengkap --}}
+        @if(session('incomplete_address'))
+        <script>
+            window.onload = function () {
+                var myModal = new bootstrap.Modal(document.getElementById('alamatModal'));
+                myModal.show();
+            };
+        </script>
+
+        <!-- Modal untuk alamat belum lengkap -->
+        <div class="modal fade" id="alamatModal" tabindex="-1" aria-labelledby="alamatModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center">
+              <div class="modal-header">
+                <h5 class="modal-title" id="alamatModalLabel">Lengkapi Alamat Terlebih Dahulu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+              </div>
+              <div class="modal-body">
+                Mohon lengkapi informasi alamat Anda (alamat lengkap, provinsi, kota, dan kode pos) terlebih dahulu untuk melanjutkan proses penukaran sampah.
+              </div>
+              <div class="modal-footer justify-content-center">
+                <a href="{{ route('pengguna.profile.edit') }}" class="btn btn-success">Atur Profil</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endif
     </main>
 
     <script>
