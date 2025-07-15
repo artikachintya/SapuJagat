@@ -95,10 +95,6 @@ class PersetujuanController extends Controller
             DB::table('users_info')->updateOrInsert(
                 ['user_id' => $userId],
                 [
-                    'address'     => '-',
-                    'province'    => '-',
-                    'city'        => '-',
-                    'postal_code' => '-',
                     'balance'     => DB::raw("COALESCE(balance, 0) + $totalBalance")
                 ]
             );
