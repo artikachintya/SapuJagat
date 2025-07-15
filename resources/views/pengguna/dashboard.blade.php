@@ -82,7 +82,7 @@
                                 <h5 class="fw-semibold">Total Penarikan</h5>
                                 <img src="{{ asset('dashboard-assets/assets/img/LogoLong.png') }}" alt="Logo"
                                     class="position-absolute" style="top: 1rem; right: 1rem; height: 40px;">
-                                <h3 class="fw-bold mt-4">{{$monthlyWithdrawals}}</h3>
+                                <h3 class="fw-bold mt-4">Rp{{$monthlyWithdrawals}}</h3>
                                 <p class="fw-semibold mb-0">Minimal Penarikan Rp50.000</p>
                                 <img src="{{ asset('dashboard-assets/assets/img/trees.png') }}" alt="Trees"
                                     class="position-absolute bottom-0 end-0" style="height: 70px; opacity: 0.9;">
