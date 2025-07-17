@@ -43,7 +43,7 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_login_and_get_otp_then_access_dashboard()
+    public function admin_can_login_and_then_access_dashboard()
     {
         $response = $this->post('/login', [
             'email' => 'admin1@example.com',
@@ -54,7 +54,7 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    public function driver_can_login_and_get_otp_then_access_dashboard()
+    public function driver_can_login_and_then_access_dashboard()
     {
         $response = $this->post('/login', [
             'email' => 'driver1@example.com',

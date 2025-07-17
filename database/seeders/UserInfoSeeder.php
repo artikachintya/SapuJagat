@@ -31,6 +31,14 @@ class UserInfoSeeder extends Seeder
                 'postal_code'=> '40234',
                 'balance'    => 100000,
             ],
+            [
+                'user_id'    => 7,
+                'address'    => 'Jl. Kekanak-kanakan No.2',
+                'province'   => 'Jawa Timur',
+                'city'       => 'Jambi',
+                'postal_code'=> '40382',
+                'balance'    => 1000000,
+            ],
         ]);
     }
 }

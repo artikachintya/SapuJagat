@@ -78,7 +78,7 @@ class UserSeeder extends Seeder
                 'created_at'=> now(),
                 'updated_at'=> now(),
             ],
-             [
+            [
                 'user_id'   => 6,
                 'name'      => 'Driver2',
                 'NIK'       => '3578263788989996',

@@ -6,7 +6,7 @@
     <script src="{{ asset('assets/js/tarik-saldo.js') }}"></script>
 @endpush
 <script>
-    
+
     const assetBasePath = "{{ asset('dashboard-assets/assets/img') }}";
 </script>
 @section('content')
@@ -45,8 +45,8 @@
                             style="top: 1rem; right: 1rem; height: 40px;">
                         <h3 class="fw-bold mt-4">Rp{{$totalBalance}}</h3>
                         <p class="fw-semibold mb-0">{{ Auth::check() ? Auth::user()->name : 'User' }}'s Balance</p>
-                        <img src="{{ asset('dashboard-assets/assets/img/trees.png') }}" 
-                            alt="Trees" class="position-absolute bottom-0 end-0" 
+                        <img src="{{ asset('dashboard-assets/assets/img/trees.png') }}"
+                            alt="Trees" class="position-absolute bottom-0 end-0"
                             style="height: 70px; opacity: 0.9;">
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                             <!-- Nominal Penarikan -->
                             <div class="col-md-6">
                             <h5 class="text-center fw-bold text-success">Nominal Penarikan</h5>
-                            <input type="text" name="amount" class="form-control border border-success" placeholder="RpMinimum 100.000" value="{{ old('amount') }}" required>
+                            <input type="text" name="amount" class="form-control border border-success" placeholder="Rp Minimum 50.000" value="{{ old('amount') }}" required>
                             <div class="alert alert-success d-flex align-items-center mt-3 p-2" role="alert" style="background-color: #D5F5DC;">
                                 <i class="bi bi-info-circle-fill me-2"></i>
                                 <small class="m-0">Dana dari penjualan sampah akan masuk ke rekening maksimal dalam 3 hari kerja.</small>
