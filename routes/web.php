@@ -30,6 +30,8 @@ use App\Http\Controllers\Driver\DriverProfileController;
 use App\Http\Controllers\Driver\HistoriDriver;
 use App\Http\Controllers\ChatController;
 
+use App\Http\Middleware\AdminOnly;
+
 // Public routes
 // Route::get('/', function () {
 //     return view('landing');
@@ -47,9 +49,9 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/pengguna/dashboard', function () {
-    return view('pengguna.dashboard');
-});
+// Route::get('/pengguna/dashboard', function () {
+//     return view('pengguna.dashboard');
+// });
 
 // Google OAuth
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
@@ -77,8 +79,10 @@ Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend')
 // Route::get('/pengguna/ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
 // Route::post('/pengguna/ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
 
-Route::prefix('pengguna')->name('pengguna.')->group(function () {
+Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/', [PenggunaController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [PenggunaController::class, 'index'])->name('dashboard');
+    
 
     Route::resource('tarik-saldo', TarikSaldoController::class);
     Route::resource('tukar-sampah', TukarSampahController::class);
@@ -100,7 +104,7 @@ Route::prefix('pengguna')->name('pengguna.')->group(function () {
 });
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('jenis-sampah', JenisSampahController::class);
     // soft delete
@@ -130,12 +134,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 // Chat Routes
-Route::prefix('pengguna')->group(function () {
+Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
 });
 
-Route::prefix('driver')->group(function () {
+Route::middleware(['auth','driver'])->prefix('driver')->name('driver.')->group(function () {
     Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('driver.chat');
     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('driver.chat.send');
     // Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
@@ -145,7 +149,7 @@ Route::prefix('driver')->group(function () {
 
 Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
 
-Route::prefix('driver')->name('driver.')->group(function () {
+Route::middleware(['auth','driver'])->prefix('driver')->name('driver.')->group(function () {
     Route::get('/', [PickUpController::class, 'index'])->name('dashboard');
     Route::get('profile', [DriverProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [DriverProfileController::class, 'edit'])->name('profile.edit');

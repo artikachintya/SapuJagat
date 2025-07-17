@@ -4,27 +4,34 @@ namespace Tests\Feature;
 
 use App\Models\Order;
 use App\Models\User;
+use Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class DashboardAdminTest extends TestCase
 {
+    use RefreshDatabase;
 
     /** @test */
-    public function halaman_dashboard_dapat_diload()
+    public function test_halaman_dashboard_dapat_diload()
     {
-        $admin = User::create([
-            'name' => 'Tester',
-            'email' => 'tester@example.com',
-            'password' => bcrypt('password'),
-            'role' => 2,
+        // Create a new admin user manually
+        $admin = User::factory()->create([
+            'name' => 'Admin1',
+            'email' => 'admin1@example.com',
+            'role' => 2, // if your app checks for this
         ]);
 
+        // Act as that admin
         $response = $this->actingAs($admin)->get('/admin');
 
+
+        // Assert content visible on dashboard
+        $this->assertAuthenticated(); // generic check
+        $this->assertAuthenticatedAs($admin);
         $response->assertStatus(200);
-        $response->assertSee('Welcome, Admin1');
+        $response->assertSee('<h3 class="mb-0"><b>Welcome,</b> <i>Admin1</i></h3>', false);
         $response->assertSee('Penukaran Hari Ini');
         $response->assertSee('Uang Keluar');
         $response->assertSee('Pesanan Diproses');
@@ -33,19 +40,16 @@ class DashboardAdminTest extends TestCase
     /** @test */
     public function kartu_penukaran_hari_ini_menampilkan_jumlah_transaksi()
     {
-
-        $admin = User::create([
-            'name' => 'Tester',
-            'email' => 'tester@example.com',
-            'password' => bcrypt('password'),
-            'role' => 2,
+        $admin = User::factory()->create([
+            'email' => 'admin5@example.com'
         ]);
 
-        Order::factory()->count(5)->create([
-            'created_at' => now()
-        ]);
+        // Orders from random users — NOT the admin
+        Order::factory()->count(5)->create();
 
+        // Login as admin
         $response = $this->actingAs($admin)->get('/admin');
+
         $response->assertStatus(200);
         $response->assertSee('5 Transaksi');
     }
