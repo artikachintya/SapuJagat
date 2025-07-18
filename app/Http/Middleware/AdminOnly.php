@@ -13,6 +13,6 @@ class AdminOnly
             return $next($request);
         }
 
-        abort(403, 'Unauthorized');
+        abort(403, 'Unauthorized - Admin Only');
     }
 }

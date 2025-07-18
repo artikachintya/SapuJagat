@@ -10,6 +10,9 @@ class Order extends Model
 {
     use HasFactory;
     protected $primaryKey = 'order_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     public $timestamps = false;
 
     protected $fillable = [

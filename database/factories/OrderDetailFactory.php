@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Trash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,8 +19,8 @@ class OrderDetailFactory extends Factory
     {
         return [
             'order_id' => Order::factory(),
-            'trash_id' => $this->faker->numberBetween(1, 10), // adjust as needed
-            'quantity' => $this->faker->numberBetween(1, 5),
+            'trash_id' => Trash::factory(),
+            'quantity' => $this->faker->numberBetween(1, 100),
         ];
     }
 }
