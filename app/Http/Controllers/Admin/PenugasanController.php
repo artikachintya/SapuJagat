@@ -35,7 +35,7 @@ class PenugasanController extends Controller
             $q->whereIn('approval_status', [0, 1])
         )
         ->get();
-        
+
         $drivers=User::where('role',3)->get();
 
         //  Return to Blade (or JSON if you prefer an API)
@@ -115,6 +115,11 @@ class PenugasanController extends Controller
     {
         $penugasan=Penugasan::findOrFail($id);
         $penugasan->delete();   // soft‑delete if model uses SoftDeletes, otherwise hard
+
+          // Delete corresponding pickup(s)
+        Pickup::where('order_id', $penugasan->order_id)
+          ->where('user_id', $penugasan->user_id)
+          ->delete();
 
         return back()->with('success', 'Penugasan berhasil dihapus.');
     }

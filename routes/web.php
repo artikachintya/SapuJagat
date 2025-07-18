@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\PrintDataController;
 use App\Http\Controllers\Admin\ResponLaporan;
 
 use App\Http\Controllers\Driver\PickUpController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Pengguna\Histori;
 use App\Http\Controllers\Pengguna\LaporanController;
 use App\Http\Controllers\Pengguna\PelacakanController;
@@ -165,4 +166,7 @@ Route::post('/driver/pickup/{pickup}/update-status', [PickupController::class, '
 Route::post('/driver/pickup/{pickup}/upload-proof', [PickupController::class, 'uploadProof'])->name('driver.pickup.upload-proof');
 
 Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
+
+
+Route::post('/lang', LanguageController::class);
 

@@ -25,13 +25,18 @@ class AdminProfileController extends Controller
     {
         $user = Auth::user();
         $user->name = $request->name;
-        $user->NIK = $request->NIK;
+        // $user->NIK = $request->NIK;
         $user->email = $request->email;
         $user->phone_num = $request->phone_num;
+        // dd($request);
+
+        if ($request->filled('NIK')) {
+            $user->NIK = $request->NIK;
+        }
 
         if ($request->filled('password')) {
-        $user->password = Hash::make($request->password);
-    }
+            $user->password = Hash::make($request->password);
+        }
 
         // dd($request->profile_pic);
         if ($request->hasFile('profile_pic')) {

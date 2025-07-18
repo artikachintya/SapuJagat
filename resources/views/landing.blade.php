@@ -1,5 +1,11 @@
 <html lang="en">
 
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
+
+
 <head>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <meta charset="UTF-8">
@@ -28,29 +34,38 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <form action="/lang" method="POST">
+                @csrf
+                <select name="lang" id="lang" onchange="this.form.submit()">
+                    <option value="en" {{-- jika app punya local english maka akan di selected, app akan secara default mengarah ke option english --}} @if (app()->getLocale() === 'en') selected @endif>
+                        English</option>
+                    <option value="id" @if (app()->getLocale() === 'id') selected @endif>Indonesia</option>
+                </select>
+            </form>
+
             <div class="collapse navbar-collapse" id="navitems">
                 <!-- LEFT SIDE -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item mx-3">
-                        <a class="nav-link" href="#feature-section">Fitur</a>
+                        <a class="nav-link" href="#feature-section">{{ __('landing.fitur') }}</a>
                     </li>
                     <li class="nav-item mx-3">
-                        <a class="nav-link" href="#testimoni-section">Testimoni</a>
+                        <a class="nav-link" href="#testimoni-section">{{ __('landing.testimoni') }}</a>
                     </li>
                     <li class="nav-item mx-3">
-                        <a class="nav-link" href="#faq-section">FAQ</a>
+                        <a class="nav-link" href="#faq-section">{{ __('landing.faq') }}</a>
                     </li>
                     <li class="nav-item mx-3">
-                        <a class="nav-link" href="#footer-section">Kontak</a>
+                        <a class="nav-link" href="#footer-section">{{ __('landing.kontak') }}</a>
                     </li>
                 </ul>
 
                 <!-- RIGHT SIDE -->
                 <div class="d-flex gap-2">
                     <button class="btn mx-2 w-100 px-4" type="button" id="login-btn"
-                        onclick="window.location='{{ route('login') }}'">Masuk</button>
+                        onclick="window.location='{{ route('login') }}'">{{ __('landing.masuk') }}</button>
                     <button class="btn mx-2 w-100 px-4" type="button" id="register-btn"
-                        onclick="window.location='{{ route('register') }}'">Daftar</button>
+                        onclick="window.location='{{ route('register') }}'">{{ __('landing.daftar') }}</button>
                 </div>
             </div>
         </div>
@@ -65,23 +80,25 @@
                 <div class="col-xxl-6 d-flex flex-column justify-content-center px-5">
                     <!-- Mobile version -->
                     <h4 class="fw-bolder mb-3 tagline d-block d-lg-none fs-2 text-center">
-                        Ubah Sampah Jadi Cuan dengan Cara yang Mudah!
+                        {{ __('landing.judul') }}
                     </h4>
 
                     <!-- Desktop version -->
                     <h1 class="fw-bold mb-3 tagline d-none d-lg-block display-4">
-                        Ubah Sampah Jadi Cuan dengan Cara yang Mudah!
+                        {{ __('landing.judul') }}
                     </h1>
                     <!-- Mobile version: small, normal weight -->
                     <p class="desc-landing-page fw-normal d-block d-lg-none fs-6 text-center">
-                        Kelola sampahmu langsung dari rumah, dapat poin, tukar hadiah, dan tarik saldo ke rekening.
-                        Semua dalam satu platform digital: Sapu Jagat!
+                        {{ __('landing.subjudul') }}
+                         <br>
+                        {{ __('landing.subjudul2') }}
                     </p>
 
                     <!-- Desktop version: larger, normal weight -->
                     <p class="desc-landing-page fw-normal d-none d-lg-block fs-4">
-                        Kelola sampahmu langsung dari rumah, dapat poin, tukar hadiah, dan tarik saldo ke rekening.
-                        Semua dalam satu platform digital: Sapu Jagat!
+                        {{ __('landing.subjudul') }}
+                        <br>
+                        {{ __('landing.subjudul2') }}
                     </p>
 
                 </div>
@@ -102,41 +119,37 @@
     <section id="feature-section" class="min-vh-100">
         <!-- Mobile version -->
         <h4 class="fw-bolder mt-3 mb-5 d-block d-lg-none fs-2 text-center">
-            Fitur Kami
+            {{ __('landing.fiturkami') }}
         </h4>
 
         <!-- Desktop version -->
         <h1 class="fw-bold my-5 d-none d-lg-block display-4 text-center">
-            Fitur Kami
+            {{ __('landing.fiturkami') }}
         </h1>
 
         <div class="container">
             <div class="row row-cols-2 row-cols-md-4 g-4 justify-content-center">
                 @include('feature-card', [
                     'icon' => 'fa-solid fa-trash-can fa-7x',
-                    'title' => 'Tukar Sampah',
-                    'description' =>
-                        'Pilih jenis sampahmu dan tukarkan dengan mudah. Satu langkah kecil untuk bumi, satu aksi besar dari kamu!',
+                    'title' => __('landing.fitur_tukar_sampah_judul'),
+                    'description' => __('landing.fitur_tukar_sampah_desc') ,
                 ])
                 @include('feature-card', [
                     'icon' => 'fa-solid fa-clock-rotate-left fa-7x',
-                    'title' => 'Histori',
-                    'description' =>
-                        'Lihat kembali semua aksi pedulimu. Jadi kamu bisa pantau progres hijau kamu!',
+                    'title' => __('landing.fitur_histori_judul'),
+                    'description' => __('landing.fitur_histori_desc') ,
                 ])
 
                 @include('feature-card', [
                     'icon' => 'fa-solid fa-circle-check fa-7x',
-                    'title' => 'Pelacakan',
-                    'description' =>
-                        'Driver on the way! Pantau perjalanan sampahmu dan pastikan semuanya aman sampai tujuan.',
+                    'title' => __('landing.fitur_pelacakan_judul'),
+                    'description' => __('landing.fitur_pelacakan_desc') ,
                 ])
 
                 @include('feature-card', [
                     'icon' => 'fa-solid fa-circle-exclamation fa-7x',
-                    'title' => 'Laporan',
-                    'description' =>
-                        'Driver telat? Fitur error? Sampaikan di sini — kami siap bantu atasi masalahmu dengan cepat dan sigap!',
+                    'title' => __('landing.fitur_laporan_judul'),
+                    'description' => __('landing.fitur_laporan_desc') ,
                 ])
             </div>
         </div>
@@ -147,12 +160,12 @@
     <section id="testimoni-section" class="min-vh-100">
         <!-- Mobile version -->
         <h4 class="fw-bolder mt-3 mb-5 d-block d-lg-none fs-2 text-center">
-            Testimoni
+            {{ __('landing.testimoni') }}
         </h4>
 
         <!-- Desktop version -->
         <h1 class="fw-bold my-5 d-none d-lg-block display-4 text-center">
-            Testimoni
+            {{ __('landing.testimoni') }}
         </h1>
 
         <div class="container my-5">
@@ -181,7 +194,7 @@
                                             'https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp',
                                         'name' => 'Eine Rahmawati',
                                         'testimonial_text' =>
-                                            'Baru tahu ternyata sampah bisa jadi duit! Pakai Sapu Jagat, sampah di rumah dijemput langsung sama driver. Kita tinggal pilah dan jadwalkan. Gak ribet dan bikin rumah makin bersih!',
+                                            __('landing.testi_1_teks'),
                                     ])
 
                                     @include('testimonial-item', [
@@ -190,7 +203,7 @@
                                             'https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(9).webp',
                                         'name' => 'Budi Santoso',
                                         'testimonial_text' =>
-                                            ' Layanan jemput sampahnya keren! Bikin kegiatan recycle jadi gampang. Harga sampah transparan dan jelas. Semoga ke depan cakupan area jemputnya makin luas.',
+                                            __('landing.testi_2_teks'),
                                     ])
 
                                     @include('testimonial-item', [
@@ -199,7 +212,7 @@
                                             'https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(2).webp',
                                         'name' => 'Evelina Sari',
                                         'testimonial_text' =>
-                                            'Biasanya sampah kardus dan botol numpuk gak kepakai. Sekarang tinggal order via Sapujagat, dijemput langsung. Dapat uang juga. Anak-anak jadi ikut belajar pilah sampah.',
+                                             __('landing.testi_3_teks'),
                                     ])
                                     <!-- Inner -->
 
@@ -246,54 +259,48 @@
                             @include('faq-section', [
                                 'expanded' => true,
                                 'target' => 'collapseOne',
-                                'title' => 'Apa itu Sapu Jagat?',
-                                'content' =>
-                                    'Sapu Jagat adalah aplikasi penukaran sampah yang memungkinkan pengguna menukar sampah dengan imbalan tertentu. Sampah dijemput langsung oleh driver kami.',
+                                'title' => __('landing.faq_1_q'),
+                                'content' => __('landing.faq_1_a'),
                                 'parent' => 'accordionExample',
                             ])
 
                             @include('faq-section', [
                                 'expanded' => false,
                                 'target' => 'collapseTwo',
-                                'title' => 'Bagaimana cara menggunakan Sapu Jagat?',
-                                'content' =>
-                                    'Cukup daftar, input jenis dan berat sampah, lalu pilih jadwal penjemputan. Driver akan datang sesuai waktu yang dipilih.',
+                                'title' => __('landing.faq_2_q'),
+                                'content' => __('landing.faq_2_a'),
                                 'parent' => 'accordionExample',
                             ])
 
                             @include('faq-section', [
                                 'expanded' => false,
                                 'target' => 'collapseThree',
-                                'title' => 'Apa saja jenis sampah yang bisa ditukar?',
-                                'content' =>
-                                    'Kami menerima sampah organik dan anorganik seperti plastik, kertas, logam, daun, sisa makanan, dll.',
+                                'title' => __('landing.faq_3_q'),
+                                'content' => __('landing.faq_3_a'),
                                 'parent' => 'accordionExample',
                             ])
 
                             @include('faq-section', [
                                 'expanded' => false,
                                 'target' => 'collapseFour',
-                                'title' => 'Bagaimana proses penukaran sampah dilakukan?',
-                                'content' =>
-                                    'Setelah dijemput, sampah akan ditimbang dan diverifikasi di tempat penukaran sesuai data yang Anda input.',
+                                'title' => __('landing.faq_4_q'),
+                                'content' => __('landing.faq_4_a'),
                                 'parent' => 'accordionExample',
                             ])
 
                             @include('faq-section', [
                                 'expanded' => false,
                                 'target' => 'collapseFive',
-                                'title' => 'Apa keuntungan menukar sampah di Sapu Jagat?',
-                                'content' =>
-                                    'Anda bisa mendapatkan imbalan berupa uang yang dapat ditarik ke rekening Anda, serta turut menjaga lingkungan.',
+                                'title' => __('landing.faq_5_q'),
+                                'content' => __('landing.faq_5_a'),
                                 'parent' => 'accordionExample',
                             ])
 
                             @include('faq-section', [
                                 'expanded' => false,
                                 'target' => 'collapseSix',
-                                'title' => 'Di kota mana saja Sapu Jagat tersedia?',
-                                'content' =>
-                                    'Saat ini kami beroperasi di beberapa kota besar. Cek aplikasi untuk info area layanan terbaru kami.',
+                                'title' => __('landing.faq_6_q'),
+                                'content' => __('landing.faq_6_a'),
                                 'parent' => 'accordionExample',
                             ])
                         </div>
@@ -321,13 +328,12 @@
                 <div class="col-md-4 col-lg-5 col-xl-5 mx-auto my-auto d-flex flex-column justify-content-center">
                     <div class="text-center">
                         ©
-                        <p class="text-dark">Sapu Jagat. Segala hak cipta
-                            dilindungi | Web Programming</p>
+                        <p class="text-dark">{{__('landing.copyright')}}</p>
                     </div>
                 </div>
                 <!-- Grid column -->
                 <div class="col-md-3 col-lg-3 col-xl-3 mx-auto my-auto">
-                    <h6 class="text-uppercase fw-bold">Ikuti Kami</h6>
+                    <h6 class="text-uppercase fw-bold">{{__('landing.follow_us')}}</h6>
 
                     <!-- Facebook -->
                     <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!"

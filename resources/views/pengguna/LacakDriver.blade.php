@@ -46,7 +46,12 @@
                     <div class="driver-details">
                         <h2>{{ $order->pickup?->user?->name ?? 'Nama Driver Tidak Diketahui' }}</h2>
                         <p>{{ $order->pickup?->user?->license?->license_plate ?? 'Plat Nomor Tidak Diketahui' }}</p>
-                        <button class="contact-button">Hubungi Driver</button>
+                        {{-- <button class="contact-button">Hubungi Driver</button> --}}
+                        @if ($chat)
+                            <a href="{{ route('pengguna.chat', $chat->chat_id) }}" class="contact-button">
+                                Hubungi Driver
+                            </a>
+                        @endif
                     </div>
                 </div>
 
@@ -54,7 +59,7 @@
                     <!-- LEFT SIDE -->
                     <div class="timeline-side">
                         <!-- Item 1: Dalam Penjemputan -->
-                        <div class="timeline-item 
+                        <div class="timeline-item
                             {{ $order->pickup?->pick_up_date ? 'completed' : ($order->pickup?->start_time ? 'current' : '') }}">
                             <img src="{{ asset('LacakDriver/assets/otwJemput.png') }}" alt="Dalam Penjemputan" class="timeline-icon" />
                             <div class="timeline-text">
@@ -65,7 +70,7 @@
                         <div class="timeline-line"></div>
 
                         <!-- Item 2: Pengambilan Sampah -->
-                        <div class="timeline-item 
+                        <div class="timeline-item
                             {{ $order->pickup?->arrival_date ? 'completed' : ($order->pickup?->pick_up_date ? 'current' : '') }}">
                             <img src="{{ asset('LacakDriver/assets/pickUp.png') }}" alt="Pengambilan Sampah" class="timeline-icon" />
                             <div class="timeline-text">
@@ -78,7 +83,7 @@
                     <!-- RIGHT SIDE -->
                     <div class="timeline-side">
                         <!-- Item 3: Pengecekan Sampah -->
-                        <div class="timeline-item 
+                        <div class="timeline-item
                             {{ $approval ? 'completed' : ($order->pickup?->arrival_date ? 'current' : '') }}">
                             <img src="{{ asset('LacakDriver/assets/checkingProcess.png') }}" alt="Pengecekan Sampah" class="timeline-icon" />
                             <div class="timeline-text">
