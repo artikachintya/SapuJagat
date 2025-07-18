@@ -23,10 +23,13 @@ public function save(Request $request)
 {
     $user = Auth::user();
     $user->name = $request->name;
-    $user->NIK = $request->NIK;
+
     $user->email = $request->email;
     $user->phone_num = $request->phone_num;
 
+    if ($request->filled('NIK')) {
+             $user->NIK = $request->NIK;
+     }
     $user->license->license_plate = $request->license_plate;
     $user->license->save();
     // dd($request->profile_pic);

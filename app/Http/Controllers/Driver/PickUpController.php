@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Penugasan;
 use Illuminate\Http\Request;
 use App\Models\Pickup;
+use App\Models\Chat;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -32,7 +33,26 @@ class PickUpController extends Controller
         ->where('pick_up_id', $id)
         ->firstOrFail();
 
-        return view('driver.pickup', compact('pickup'));
+        $pickup = PickUp::with(['order.user.info'])->where('pick_up_id', $id)->firstOrFail();
+
+        $chat = null;
+        if ($pickup->order && $pickup->order->user_id) {
+            $driverId = Auth::id();
+            $userId = $pickup->order->user_id;
+
+            // $driverId = Auth::guard('driver')->id();
+            // if (!$driverId) {
+            //     abort(403, 'Driver belum login');
+            // }
+
+
+            $chat = Chat::firstOrCreate(
+                    ['user_id' => $userId, 'driver_id' => $driverId],
+                    ['date_time_created' => now()]
+                );
+        }
+
+        return view('driver.pickup', compact('pickup', 'chat'));
     }
 
 // public function updateStatus(PickUp $pickup, Request $request)

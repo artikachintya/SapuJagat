@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PenugasanController;
 use App\Http\Controllers\Controller;
 use App\Models\Approval;
 use App\Models\Order;
+use App\Models\Chat;
 use App\Models\Penugasan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,7 @@ class PelacakanController extends Controller
             switch ($approval->approval_status) {
                 case 0:
                     $approval_icon = 'rejected.png';
-                    
+
                     break;
                 case 1:
                     $approval_icon = 'successCheck.png';
@@ -46,7 +47,7 @@ class PelacakanController extends Controller
                     $approval_icon = 'waiting.png';
                     break;
                 default:
-                    $approval_icon = 'waiting.png'; 
+                    $approval_icon = 'waiting.png';
             }
         }
 
@@ -64,7 +65,18 @@ class PelacakanController extends Controller
             $order->sudah_dapat_driver = $sudah_dapat_driver;
         }
 
-        return view('pengguna.LacakDriver', compact('order', 'approval', 'approval_icon'));
+        $chat = null;
+        if ($order && $order->pickup && $order->pickup->user_id) {
+            $userId = Auth::id();
+            $driverId = $order->pickup->user_id;
+
+            $chat = Chat::firstOrCreate(
+                ['user_id' => $userId, 'driver_id' => $driverId],
+                ['date_time_created' => now()]
+            );
+        }
+
+        return view('pengguna.LacakDriver', compact('order', 'approval', 'approval_icon', 'chat'));
     }
     /**
      * Show the form for creating a new resource.
