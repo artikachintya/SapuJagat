@@ -123,7 +123,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('print-data', PrintDataController::class);
     Route::post('print-data/filter', [PrintDataController::class, 'filter'])->name('print-data.filter');
     Route::post('print-data/pdf', [PrintDataController::class, 'generatePdf'])->name('print-data.pdf');
-    // ✅ Tambahkan redirect untuk akses GET manual ke PDF
+
     Route::get('print-data/pdf', function () {
         return redirect()->route('admin.print-data.index')
             ->with('error', 'Akses langsung ke halaman PDF tidak diperbolehkan.');
