@@ -9,7 +9,7 @@
         <div class="chat-container">
 
             <div class="back-section px-1 py-3 mb-2" style="border-bottom:1px solid rgb(237, 237, 237);">
-                <a href="#" class="back-link" style="color:black; font-weight: normal;">
+                <a href="{{ route('pengguna.pelacakan.index')}}" class="back-link" style="color:black; font-weight: normal;">
                     <img src="{{ asset('assets/img/panah.png') }}" alt="Back" class="back-arrow" style="width:18px;height:18px;">
                     Kembali
                 </a>

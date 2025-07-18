@@ -30,9 +30,17 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn btn-success rounded-circle" style="width: 60px; height: 60px;">
+                    {{-- <button class="btn btn-success rounded-circle" style="width: 60px; height: 60px;">
                         <i class="fa-solid fa-comments fa-xl"></i>
-                    </button>
+                    </button> --}}
+                    @if ($chat)
+                        <a href="{{ route('driver.chat', $chat->chat_id) }}"
+                        class="btn btn-success rounded-circle d-flex justify-content-center align-items-center"
+                        style="width: 60px; height: 60px; position: relative; z-index: 999;"
+                        title="Buka Chat">
+                            <i class="fa-solid fa-comments fa-xl text-white"></i>
+                        </a>
+                    @endif
                 </div>
             </div>
 

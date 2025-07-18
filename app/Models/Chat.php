@@ -15,6 +15,8 @@ class Chat extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'user_id',
+        'driver_id',
         'date_time_created',
     ];
 
