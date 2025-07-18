@@ -12,6 +12,7 @@ class Penugasan extends Model
 
     protected $table = 'penugasans';          // pivot table name
     protected $primaryKey = 'penugasan_id';
+    public $incrementing = true; // default, should be true
     public $timestamps  = false;              // we keep created_at manually
 
     // OPTIONAL: Mass‑assignable fields
@@ -22,6 +23,10 @@ class Penugasan extends Model
      * Override save query for composite key (order_id, user_id, created_at)
      * so update() calls work.
      */
+    public function getRouteKeyName()
+    {
+        return 'penugasan_id';
+    }
     protected function setKeysForSaveQuery($query)
     {
         return $query->where('order_id', $this->order_id)

@@ -15,6 +15,7 @@ class Pickup extends Model
     protected $fillable = [
         'order_id',
         'user_id',
+        'penugasan_id',
         'start_time',
         'pick_up_date',
         'arrival_date',

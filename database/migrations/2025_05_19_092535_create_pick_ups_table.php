@@ -29,6 +29,14 @@ return new class extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
+            $table->unsignedBigInteger('penugasan_id')->nullable();
+            $table->foreign('penugasan_id')
+                ->references('penugasan_id')
+                ->on('penugasans')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+
             $table->dateTime('start_time')-> nullable();
             $table->dateTime('pick_up_date')-> nullable();
             $table->dateTime('arrival_date')-> nullable();

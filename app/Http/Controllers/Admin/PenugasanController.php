@@ -74,6 +74,7 @@ class PenugasanController extends Controller
         Pickup::create([
             'order_id' => $data['order_id'],
             'user_id'  => $data['user_id'],
+            'penugasan_id'  => $penugasan->penugasan_id,
             // tambahkan kolom lain yang dibutuhkan jika ada (misalnya status awal)
         ]);
 
@@ -113,13 +114,13 @@ class PenugasanController extends Controller
      */
     public function destroy(string $id)
     {
-        $penugasan=Penugasan::findOrFail($id);
-        $penugasan->delete();   // soft‑delete if model uses SoftDeletes, otherwise hard
+        $penugasan = Penugasan::findOrFail($id);
 
-          // Delete corresponding pickup(s)
-        Pickup::where('order_id', $penugasan->order_id)
-          ->where('user_id', $penugasan->user_id)
-          ->delete();
+        // Hapus terlebih dahulu Pickup yang berelasi dengan penugasan ini
+        Pickup::where('penugasan_id', $penugasan->penugasan_id)->delete();
+
+        // Lalu hapus penugasannya
+        $penugasan->delete();
 
         return back()->with('success', 'Penugasan berhasil dihapus.');
     }
