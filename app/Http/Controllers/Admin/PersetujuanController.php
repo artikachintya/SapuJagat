@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Approval;
 use App\Models\Order;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 
 class PersetujuanController extends Controller
@@ -67,6 +68,38 @@ class PersetujuanController extends Controller
                 'notes'           => $data['notes'],
             ]
         );
+
+        // ─── Tambah balance hanya jika status disetujui (1) ───
+        if ((int) $data['approval_status'] === 1) {
+            $orderId = $data['order_id'];
+            $userId = $data['user_id'];
+
+            // Ambil semua detail pesanan untuk hitung total harga
+            $orderDetails = DB::table('order_details')
+                ->where('order_id', $orderId)
+                ->get();
+
+            $totalBalance = 0;
+
+            foreach ($orderDetails as $detail) {
+                $trash = DB::table('trashes')
+                    ->where('trash_id', $detail->trash_id)
+                    ->first();
+
+                if ($trash) {
+                    $totalBalance += $trash->price_per_kg * $detail->quantity;
+                }
+            }
+
+            // Simpan atau update ke users_info
+            DB::table('users_info')->updateOrInsert(
+                ['user_id' => $userId],
+                [
+                    'balance'     => DB::raw("COALESCE(balance, 0) + $totalBalance")
+                ]
+            );
+        }
+
         /** ───── Tentukan teks status ───── */
         $statusLabel = match ((int) $data['approval_status']) {
             0       => 'Ditolak',

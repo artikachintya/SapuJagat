@@ -42,7 +42,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const table = document.querySelector('#jenis-sampah');
@@ -97,7 +97,7 @@
                 form.price_per_kg.value     = btn.dataset.price_per_kg;
                 form.max_weight.value       = btn.dataset.max_weight;
                 form.type.value  = btn.dataset.type;
-                
+
                 const photoPreview = document.getElementById('photoPreview');
                 const filename     = btn.dataset.photo;
 
@@ -134,7 +134,7 @@
                 form.action = btn.dataset.action;   // ← uses the route() URL passed from Blade
             });
         });
-    
+
     </script>
 @endpush
 
@@ -184,6 +184,12 @@
                                 data-bs-target="#createTrashModal">
                             Buat Sampah
                         </button>
+
+                        {{-- soft delete --}}
+                        <a href="{{ route('admin.jenis-sampah.arsip') }}" class="btn btn-warning btn-sm">
+                            Arsip Sampah
+                        </a>
+
                         {{-- <a href="{{route('admin.jenis-sampah.create')}}" class="btn btn-success">Buat Sampah</a> --}}
                         <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
                         <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -208,7 +214,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($trashes as $trash)    
+                            @foreach ($trashes as $trash)
                             <tr>
                                 <td>{{$trash->trash_id}}</td>
                                 <td><img src="{{ asset('assets/img/' . $trash->photos) }}" alt="Foto Sampah" class="img-fluid" style="max-height: 150px;"></td>
@@ -375,7 +381,7 @@
                                             <div class="modal-body">
                                                 <i class="bi bi-exclamation-triangle-fill display-3 text-danger"></i>
                                                 <h2 class="fw-bold mt-2">HAPUS DATA</h2>
-                                                <p>Apakah Anda yakin ingin menghapus data ini?<br>Data ini tidak dapat dikembalikan</p>
+                                                <p>Apakah Anda yakin ingin menghapus data ini?</p>
 
                                                 <div class="d-flex justify-content-center gap-3">
                                                     <button class="btn btn-light btn-lg px-5" data-bs-dismiss="modal">Batalkan</button>

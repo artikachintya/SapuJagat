@@ -143,7 +143,7 @@
                         <tbody>
                             @foreach ($penugasans as $penugasan)    
                             <tr>
-                                <td><img src="{{ asset('assets/img/' . $penugasan->photo) }}" alt="Foto Sampah" class="img-fluid" style="max-height: 150px;"></td>
+                                <td><img src="{{ asset('storage/' . $penugasan->photo) }}" alt="Foto Sampah" class="img-fluid" style="max-height: 150px;"></td>
                                 <td>{{$penugasan->order_id}}</td>
                                 <td>{{$penugasan->user->name}}</td>
                                 <td>Made: {{ $penugasan->date_time_request}}

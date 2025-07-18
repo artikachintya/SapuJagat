@@ -30,6 +30,23 @@ class TukarSampahController extends Controller
 
     public function submit(Request $request)
     {
+         // 🔒 Cek alamat user dulu
+            $user = Auth::user();
+
+            if ($user->role === 1) {
+                $info = $user->info;
+
+                if (
+                    empty($info?->address) ||
+                    empty($info?->province) ||
+                    empty($info?->city) ||
+                    empty($info?->postal_code)
+                ) {
+                    // Kalau alamat belum lengkap, redirect balik dengan flag session
+                    return redirect()->back()->with('incomplete_address', true);
+                }
+            }
+
         $validated = $request->validate([
             'trash' => 'required|array',
         ]);
