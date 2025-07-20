@@ -34,7 +34,8 @@
                         <i class="fa-solid fa-comments fa-xl"></i>
                     </button> --}}
                     @if ($chat)
-                        <a href="{{ route('driver.chat', $chat->chat_id) }}"
+                        {{-- <a href="{{ route('driver.chat', $chat->chat_id) }}" --}}
+                        <a href="{{ route('driver.chat', ['chat_id' => $chat->chat_id, 'pickup_id' => $pickup->pick_up_id]) }}"
                         class="btn btn-success rounded-circle d-flex justify-content-center align-items-center"
                         style="width: 60px; height: 60px; position: relative; z-index: 999;"
                         title="Buka Chat">

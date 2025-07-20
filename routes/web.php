@@ -116,6 +116,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 
     Route::resource('penugasan', PenugasanController::class);
+    Route::get('penugasan-arsip', [PenugasanController::class, 'archive'])->name('penugasan.archive');
+    Route::post('penugasan/{id}/restore', [PenugasanController::class, 'restore'])->name('penugasan.restore');
+    Route::delete('penugasan/{id}/force', [PenugasanController::class, 'forceDelete'])->name('penugasan.forceDelete');
+
     Route::resource('histori', HistoriAdmin::class);
     Route::resource('persetujuan', PersetujuanController::class);
     Route::resource('laporan', ResponLaporan::class);
@@ -157,6 +161,8 @@ Route::middleware(['auth','driver'])->prefix('driver')->name('driver.')->group(f
     Route::post('profile/save', [DriverProfileController::class, 'save'])->name('profile.save');
     Route::resource('histori', HistoriDriver::class);
     Route::get('/pickup/{id}', [PickupController::class, 'show'])->name('pickup.detail');
+    Route::get('/chat', [ChatController::class, 'driverChatList'])->name('chat.list');
+
 });
 
 // Add your routes here

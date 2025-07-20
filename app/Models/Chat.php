@@ -32,4 +32,23 @@ class Chat extends Model
     {
         return $this->hasOne(User::class, 'user_id', 'driver_id');
     }
+
+    // relasi ke user (pengirim pesan)
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
+    // relasi ke driver
+    public function driver()
+    {
+        return $this->belongsTo(User::class, 'driver_id', 'user_id');
+    }
+    // tombol back
+    // app/Models/Chat.php
+    // Chat.php
+    // public function pickup()
+    // {
+    //     return $this->belongsTo(\App\Models\PickUp::class, 'pick_up_id');
+    // }
 }

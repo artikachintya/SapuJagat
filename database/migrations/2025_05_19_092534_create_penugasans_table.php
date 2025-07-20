@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('penugasans', function (Blueprint $table) {
-            
+
             $table->bigIncrements('penugasan_id'); // Auto-increment primary key
 
             // Other columns
@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->timestamp('created_at')->useCurrent();
             $table->integer('status');
+            // $table->softDeletes();
 
             // Foreign keys
             $table->foreign('order_id')

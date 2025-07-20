@@ -19,13 +19,18 @@
     <!-- Collapsible Content -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item mx-4">
+            {{-- <li class="nav-item mx-4">
                 <a class="nav-link active fw-bold" aria-current="page"
                     href="{{ route('driver.dashboard') }}">Beranda</a>
-            </li>
+            </li> --}}
             <li class="nav-item mx-4">
-                <a class="nav-link" href="#">Pesan</a>
+                <a class="nav-link {{ request()->routeIs('driver.dashboard') ? 'active fw-bold' : '' }}" href="{{ route('driver.dashboard') }}">Beranda</a>
             </li>
+            
+            <li class="nav-item mx-4">
+                <a class="nav-link {{ request()->routeIs('driver.chat.list') ? 'active fw-bold' : '' }}" href="{{ route('driver.chat.list') }}">Pesan</a>
+            </li>
+
             <li class="nav-item mx-4">
                 <a class="nav-link" href="{{ route('driver.histori.index') }}">Histori</a>
             </li>
