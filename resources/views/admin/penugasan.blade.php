@@ -42,7 +42,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const table = document.querySelector('#jenis-sampah');
@@ -73,7 +73,7 @@
                 form.action = btn.dataset.action;   // ← uses the route() URL passed from Blade
             });
         });
-    
+
     </script>
 @endpush
 
@@ -117,11 +117,16 @@
                 <div class="card-header">
                     <h5 class="card-title">Penugasan</h5>
                     <div class="card-tools">
+                        <a href="{{ route('admin.penugasan.archive') }}" class="btn btn-warning btn-sm">
+                            Arsip Penugasan
+                        </a>
+                        
                         {{-- <a href="{{route('admin.jenis-sampah.create')}}" class="btn btn-success">Buat Sampah</a> --}}
                         <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
                         <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
                         <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
                         </button>
+
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -141,7 +146,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($penugasans as $penugasan)    
+                            @foreach ($penugasans as $penugasan)
                             <tr>
                                 <td><img src="{{ asset('storage/' . $penugasan->photo) }}" alt="Foto Sampah" class="img-fluid" style="max-height: 150px;"></td>
                                 <td>{{$penugasan->order_id}}</td>

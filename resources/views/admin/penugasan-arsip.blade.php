@@ -8,10 +8,10 @@
         <div class="container-fluid">
             <div class="row page-title">
                 <div class="col-sm">
-                    <a href="{{ route('admin.jenis-sampah.index') }}" class="btn btn-danger">Kembali</a>
+                    <a href="{{ route('admin.penugasan.index') }}" class="btn btn-danger">Kembali</a>
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Sampah Terhapus</li>
+                        <li class="breadcrumb-item active" aria-current="page">Penugasan Terhapus</li>
                     </ol>
                 </div>
             </div>
@@ -22,7 +22,7 @@
         <div class="container-fluid">
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title m-0">Sampah yang Dihapus</h5>
+                    <h5 class="card-title m-0">Penugasan yang Dihapus</h5>
                 </div>
                 <div class="card-body">
                     @if (session('success'))
@@ -34,42 +34,39 @@
 
                     <table class="table table-striped align-middle">
                         <colgroup>
-                            <col style="width: 5%;">    {{-- ID --}}
-                            <col style="width: 20%;">   {{-- Nama --}}
-                            <col style="width: 15%;">   {{-- Jenis --}}
-                            <col style="width: 15%;">   {{-- Harga --}}
-                            <col style="width: 15%;">   {{-- Maksimal --}}
-                            <col style="width: 30%;">   {{-- Aksi --}}
+                            <col style="width: 5%;">    {{-- No --}}
+                            <col style="width: 30%;">   {{-- Judul --}}
+                            <col style="width: 25%;">   {{-- Lokasi --}}
+                            <col style="width: 20%;">   {{-- Waktu --}}
+                            <col style="width: 20%;">   {{-- Aksi --}}
                         </colgroup>
 
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Nama</th>
-                                <th>Jenis</th>
-                                <th>Harga</th>
-                                <th>Maksimal</th>
+                                <th>No</th>
+                                <th>Order ID</th>
+                                <th>Nama Pengguna</th>
+                                <th>Driver</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($trashes as $trash)
+                            @forelse ($penugasans as $item)
                                 <tr>
-                                    <td>{{ $trash->trash_id }}</td>
-                                    <td>{{ $trash->name }}</td>
-                                    <td>{{ $trash->type }}</td>
-                                    <td>{{ $trash->price_per_kg }}</td>
-                                    <td >{{ $trash->max_weight }} kg</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>#{{ $item->order->order_id ?? '-' }}</td>
+                                    <td>{{ $item->order->user->name ?? '-' }}</td>
+                                    <td>{{ $item->user->name ?? '-' }}</td>
                                     <td style="width: 1%; white-space: nowrap;">
                                         <div class="d-flex gap-2">
-                                            <form method="POST" action="{{ route('admin.jenis-sampah.restore', $trash->trash_id) }}" style="display: inline;">
+                                            <form action="{{ route('admin.penugasan.restore', $item->penugasan_id) }}" method="POST" style="display: inline;">
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm">
                                                     <i class="bi bi-arrow-clockwise"></i> Pulihkan
                                                 </button>
                                             </form>
 
-                                            <form method="POST" action="{{ route('admin.jenis-sampah.force-delete', $trash->trash_id) }}" onsubmit="return confirm('Yakin hapus permanen?')" style="display: inline;">
+                                            <form action="{{ route('admin.penugasan.forceDelete', $item->penugasan_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus permanen data ini?')" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">
@@ -78,12 +75,10 @@
                                             </form>
                                         </div>
                                     </td>
-
-
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center text-white">Tidak ada data terhapus</td>
+                                    <td colspan="5" class="text-center text-white">Tidak ada data terhapus</td>
                                 </tr>
                             @endforelse
                         </tbody>
