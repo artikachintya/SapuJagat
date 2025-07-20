@@ -83,7 +83,7 @@ Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend')
 Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/', [PenggunaController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [PenggunaController::class, 'index'])->name('dashboard');
-    
+
 
     Route::resource('tarik-saldo', TarikSaldoController::class);
     Route::resource('tukar-sampah', TukarSampahController::class);
@@ -136,13 +136,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 // Chat Routes
 Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->group(function () {
-    Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
-    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
+    Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('chat');
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 });
 
 Route::middleware(['auth','driver'])->prefix('driver')->name('driver.')->group(function () {
-    Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('driver.chat');
-    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('driver.chat.send');
+    Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('chat');
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
     // Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
     // Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
 
