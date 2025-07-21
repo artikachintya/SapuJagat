@@ -14,28 +14,60 @@ use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\UserLicense;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-          // 80 users biasa
-        User::factory()->count(80)->create();
+        //   // 80 users biasa
+        // User::factory()->count(80)->create();
 
-        // 10 Admins dengan nama Admin1..Admin10 dan user info
+        // // 10 Admins dengan nama Admin1..Admin10 dan user info
+        // for ($i = 1; $i <= 10; $i++) {
+        //     $admin = User::factory()->admin()->create([
+        //         'name' => "Admin{$i}",
+        //         'email' => "admin{$i}@example.com",
+        //     ]);
+
+        //     $admin->info()->create(
+        //         \Database\Factories\UserInfoFactory::new()->make()->toArray()
+        //     );
+        // }
+
+        // // 10 Drivers dengan nama Driver1..Driver10 dan user license
+        // for ($i = 1; $i <= 10; $i++) {
+        //     $driver = User::factory()->driver()->create([
+        //         'name' => "Driver{$i}",
+        //         'email' => "driver{$i}@example.com",
+        //     ]);
+
+        //     $driver->license()->create(
+        //         \Database\Factories\UserLicenseFactory::new()->make()->toArray()
+        //     );
+        // }
+
+
+        // 80 user biasa (role 1) dengan info
+        User::factory()
+            ->count(80)
+            ->create(['role' => 1])
+            ->each(function ($user) {
+                $user->info()->create(
+                    \Database\Factories\UserInfoFactory::new()->make()->toArray()
+                );
+            });
+
+        // 10 Admins (role 2) dengan nama Admin1..Admin10
         for ($i = 1; $i <= 10; $i++) {
-            $admin = User::factory()->admin()->create([
+            User::factory()->admin()->create([
                 'name' => "Admin{$i}",
                 'email' => "admin{$i}@example.com",
             ]);
-
-            $admin->info()->create(
-                \Database\Factories\UserInfoFactory::new()->make()->toArray()
-            );
         }
 
-        // 10 Drivers dengan nama Driver1..Driver10 dan user license
+        // 10 Drivers (role 3) dengan nama Driver1..Driver10 dan license
         for ($i = 1; $i <= 10; $i++) {
             $driver = User::factory()->driver()->create([
                 'name' => "Driver{$i}",
