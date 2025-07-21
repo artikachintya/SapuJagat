@@ -15,7 +15,8 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            // 'user_id' => User::factory(),
+            'user_id' => User::where('role', 1)->inRandomOrder()->first()->user_id,
             'date_time_request' => $this->faker->dateTimeThisMonth(),
             'pickup_time' => $this->faker->dateTimeBetween('+1 hour', '+2 days'),
             'photo' => 'default.jpg',
