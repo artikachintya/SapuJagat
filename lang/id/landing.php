@@ -33,6 +33,8 @@ return[
     'testi_2_teks' => 'Layanan jemput sampahnya keren! Bikin kegiatan recycle jadi gampang. Harga sampah transparan dan jelas. Semoga ke depan cakupan area jemputnya makin luas.',
     'testi_3_teks' => 'Biasanya sampah kardus dan botol numpuk gak kepakai. Sekarang tinggal order via Sapujagat, dijemput langsung. Dapat uang juga. Anak-anak jadi ikut belajar pilah sampah.',
 
+    'teks_FAQ' =>  'Ada pertanyaan? tenang! kami siap bantu',
+
     //FAQ
     'faq_1_q' => 'Apa itu Sapu Jagat?',
     'faq_1_a' => 'Sapu Jagat adalah aplikasi penukaran sampah yang memungkinkan pengguna menukar sampah dengan imbalan tertentu. Sampah dijemput langsung oleh driver kami.',

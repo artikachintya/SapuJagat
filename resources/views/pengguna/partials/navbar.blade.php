@@ -1,3 +1,8 @@
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
+
 <!--begin::Header-->
 <nav class="app-header navbar navbar-expand bg-body">
     <!--begin::Container-->
@@ -9,19 +14,30 @@
                     <i class="bi bi-list"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
+            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">{{__('navbar.common.dashboard')}}</a></li>
         </ul>
         <!--end::Start Navbar Links-->
         <!--begin::End Navbar Links-->
         <ul class="navbar-nav ms-auto">
 
             <!--begin::Language Menu Dropdown-->
-            <li class="nav-item dropdown user-menu">
+
+            <form action="/lang" method="POST">
+                @csrf
+                <select name="lang" id="lang" onchange="this.form.submit()">
+                    <option value="en" {{-- jika app punya local english maka akan di selected, app akan secara default mengarah ke option english --}} @if (app()->getLocale() === 'en') selected @endif>
+                        <img src="{{ asset('dashboard-assets/assets/img/indonesia.png') }}"
+                        class="user-image rounded-circle shadow" alt="User Image" /></option>
+                    <option value="id" @if (app()->getLocale() === 'id') selected @endif>Indonesia</option>
+                </select>
+            </form>
+
+            {{-- <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link">
                     <img src="{{ asset('dashboard-assets/assets/img/indonesia.png') }}"
                         class="user-image rounded-circle shadow" alt="User Image" />
                 </a>
-            </li>
+            </li> --}}
             <!--end::User Menu Dropdown-->
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
@@ -32,10 +48,10 @@
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <!--begin::Menu Footer-->
                     <li class="user-footer">
-                        <a href="{{ route('pengguna.profile') }}" class="btn btn-default btn-flat">Profile</a>
+                        <a href="{{ route('pengguna.profile') }}" class="btn btn-default btn-flat">{{__('navbar.common.profile')}}</a>
                         <a href="{{ route('logout') }}" class="btn btn-danger btn-flat float-end"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Sign out
+                            {{__('navbar.common.sign_out')}}
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -88,35 +104,35 @@
                     <a href="{{ route('pengguna.dashboard') }}"
                         class="nav-link {{ Route::is('pengguna.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-house"></i>
-                        <p>Dashboard</p>
+                        <p>{{__('navbar.common.dashboard')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('pengguna.tukar-sampah.index') }}"
                         class="nav-link {{ Route::is('pengguna.tukar-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-trash"></i>
-                        <p>Tukar Sampah</p>
+                        <p>{{__('navbar.user.exchange_waste')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('pengguna.histori.index') }}"
                         class="nav-link {{ Route::is('pengguna.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-clock-history"></i>
-                        <p>Histori</p>
+                        <p>{{__('navbar.common.history')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('pengguna.pelacakan.index') }}"
                         class="nav-link {{ Route::is('pengguna.pelacakan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-check2-circle"></i>
-                        <p>Pelacakan</p>
+                        <p>{{__('navbar.user.tracking')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('pengguna.laporan.index') }}"
                         class="nav-link {{ Route::is('pengguna.pelaporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-exclamation-diamond"></i>
-                        <p>Laporan</p>
+                        <p>{{__('navbar.common.reports')}}</p>
                     </a>
                 </li>
             </ul>

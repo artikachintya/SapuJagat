@@ -244,12 +244,12 @@
                 <div class="col-lg-5 col-xxl-5 d-flex flex-column justify-content-center align-items-start">
                     <!-- Mobile version -->
                     <h4 class="fw-bolder tagline d-block d-lg-none fs-2 text-center mx-3 mb-3">
-                        Ada pertanyaan? Tenang, kami siap membantu!
+                        {{ __('landing.teks_FAQ') }}
                     </h4>
 
                     <!-- Desktop version -->
                     <h1 class="fw-bold tagline d-none d-lg-block display-4 mx-5">
-                        Ada pertanyaan? Tenang, kami siap membantu!
+                        {{ __('landing.teks_FAQ') }}
                     </h1>
                 </div>
 
