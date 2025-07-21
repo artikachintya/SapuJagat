@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\UserInfo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -37,6 +39,16 @@ class UserFactory extends Factory
             'role' => 2, // ← Add this line
         ];
     }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            UserInfo::factory()->create([
+                'user_id' => $user->user_id,
+            ]);
+        });
+    }
+
 
     /**
      * Indicate that the model's email address should be unverified.
