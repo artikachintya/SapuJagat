@@ -1,16 +1,14 @@
 <?php
 
 namespace Database\Factories;
-use App\Models\Report;
 use App\Models\User;
-use Illuminate\Support\Carbon;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Report>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Withdrawal>
  */
-class ReportFactory extends Factory
+class WithdrawalFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -22,9 +20,10 @@ class ReportFactory extends Factory
         return [
             // 'user_id' => User::inRandomOrder()->first()->id,
             'user_id' => User::factory(),
-            'date_time_report' => $this->faker->dateTimeBetween('-1 week', 'now'),
-            'photo' => $this->faker->imageUrl(),
-            'report_message' => $this->faker->sentence,
+            'withdrawal_balance' => $this->faker->numberBetween(50000, 200000),
+            'number' => $this->faker->bankAccountNumber,
+            'bank' => $this->faker->randomElement(['BCA', 'Mandiri', 'BRI', 'BNI']),
+            'datetime' => now(),
         ];
     }
 }
