@@ -59,6 +59,9 @@ class PersetujuanController extends Controller
             'approval_status' => 'required|in:0,1,2',
         ]);
 
+        $order = Order::with('user')->where('order_id', $data['order_id'])->firstOrFail();
+        $custId = $order->user->user_id;
+
         Approval::updateOrCreate(
         ['order_id' => $data['order_id']],   // kolom pencarian
             [
@@ -93,7 +96,7 @@ class PersetujuanController extends Controller
 
             // Simpan atau update ke users_info
             DB::table('users_info')->updateOrInsert(
-                ['user_id' => $userId],
+                ['user_id' => $custId],
                 [
                     'balance'     => DB::raw("COALESCE(balance, 0) + $totalBalance")
                 ]

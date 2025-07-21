@@ -41,7 +41,7 @@
                 @endif
 
                 @if (session('success'))
-                    <div class="overlay" id="success-overlay">
+                    <div class="overlay" id="success-overlay" onclick="closeSuccessPopup()">
                         <div class="success-modal">
                             <p>{{ session('success') }}</p>
                         </div>
@@ -63,10 +63,10 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <label>Email</label>
-                    <input type="email" name="email" required placeholder="Masukkan email Anda">
+                    <input type="email" name="email" value={{ old('email') }} required placeholder="Masukkan email Anda">
 
                     <label>Kata Sandi</label>
-                    <input type="password" name="password" required placeholder="Masukkan password Anda">
+                    <input type="password" name="password" value={{ old('password') }} required placeholder="Masukkan password Anda">
 
                     <div class="checkbox-group">
                         <label class="remember-me">
@@ -123,6 +123,11 @@
     </style>
 
     <script src="{{ asset('Auth/js/login.js') }}"></script>
+    <script>
+        function closeSuccessPopup() {
+            document.getElementById('success-overlay').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>
