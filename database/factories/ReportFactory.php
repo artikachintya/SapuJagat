@@ -22,7 +22,7 @@ class ReportFactory extends Factory
         return [
             // 'user_id' => User::inRandomOrder()->first()->id,
             'user_id' => User::factory(),
-            'date_time_report' => now(),
+            'date_time_report' => $this->faker->dateTimeBetween('-1 week', 'now'),
             'photo' => $this->faker->imageUrl(),
             'report_message' => $this->faker->sentence,
         ];
