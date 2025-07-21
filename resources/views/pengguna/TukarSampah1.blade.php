@@ -5,6 +5,12 @@
 @section('content')
 
 @php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
+
+
+@php
     $sessionData = collect(session('data_tukar_sampah', []))
         ->keyBy('trash_id')
         ->toArray();
@@ -27,7 +33,7 @@
                     <div class="rounded-circle bg-light px-3 py-1 border">3</div> --}}
                 </div>
             </div>
-        <h2 class="text-hijau-kecil mb-4" style="padding-left: 8px;">Pilih Sampah yang Ingin Ditukar</h2>
+        <h2 class="text-hijau-kecil mb-4" style="padding-left: 8px;">{{__('trash_exchange.labels.select_trash')}}</h2>
 
         @if ($errors->any())
             <div class="alert alert-danger mx-3">
@@ -43,7 +49,7 @@
             @csrf
 
             <div class="row">
-                <h4 class="text-hijau-kecil-kecil mb-3" style="padding-left: 20px;"><u>Organik</u></h4>
+                <h4 class="text-hijau-kecil-kecil mb-3" style="padding-left: 20px;"><u>{{__('trash_exchange.headers.organic')}}</u></h4>
                 @foreach ($sampahOrganik as $item)
                     <div class="col-md-4 mb-3" style="padding-left: 20px;">
                         <div class="card text-center border custom-green-border">
@@ -86,7 +92,7 @@
             </div>
 
             <div class="row mt-4">
-                <h4 class="text-hijau-kecil-kecil mb-3" style="padding-left: 20px;"><u>Anorganik</u></h4>
+                <h4 class="text-hijau-kecil-kecil mb-3" style="padding-left: 20px;"><u>{{__('trash_exchange.headers.inorganic')}}</u></h4>
                 @foreach ($sampahAnorganik as $item)
                     <div class="col-md-4 mb-3" style="padding-left: 20px;">
                         <div class="card text-center border custom-green-border">
@@ -127,7 +133,7 @@
             </div>
 
             <div class="text-end mt-3 mb-3">
-                <button type="submit" class="btn btn-success" style="width: 150px;">Lanjut</button>
+                <button type="submit" class="btn btn-success" style="width: 150px;">{{__('trash_exchange.labels.next_button')}}</button>
             </div>
         </form>
 
@@ -145,14 +151,14 @@
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-center">
               <div class="modal-header">
-                <h5 class="modal-title" id="alamatModalLabel">Lengkapi Alamat Terlebih Dahulu</h5>
+                <h5 class="modal-title" id="alamatModalLabel">{{__('trash_exchange.address_modal.title')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
               </div>
               <div class="modal-body">
-                Mohon lengkapi informasi alamat Anda (alamat lengkap, provinsi, kota, dan kode pos) terlebih dahulu untuk melanjutkan proses penukaran sampah.
+                {{__('trash_exchange.address_modal.message')}}
               </div>
               <div class="modal-footer justify-content-center">
-                <a href="{{ route('pengguna.profile.edit') }}" class="btn btn-success">Atur Profil</a>
+                <a href="{{ route('pengguna.profile.edit') }}" class="btn btn-success">{{__('trash_exchange.address_modal.button')}}</a>
               </div>
             </div>
           </div>

@@ -24,19 +24,19 @@
                     href="{{ route('driver.dashboard') }}">Beranda</a>
             </li> --}}
             <li class="nav-item mx-4">
-                <a class="nav-link {{ request()->routeIs('driver.dashboard') ? 'active fw-bold' : '' }}" href="{{ route('driver.dashboard') }}">Beranda</a>
-            </li>
-            
-            <li class="nav-item mx-4">
-                <a class="nav-link {{ request()->routeIs('driver.chat.list') ? 'active fw-bold' : '' }}" href="{{ route('driver.chat.list') }}">Pesan</a>
+                <a class="nav-link {{ request()->routeIs('driver.dashboard') ? 'active fw-bold' : '' }}" href="{{ route('driver.dashboard') }}">{{__('navbar.common.dashboard')}}</a>
             </li>
 
             <li class="nav-item mx-4">
-                <a class="nav-link" href="{{ route('driver.histori.index') }}">Histori</a>
+                <a class="nav-link {{ request()->routeIs('driver.chat.list') ? 'active fw-bold' : '' }}" href="{{ route('driver.chat.list') }}">{{__('navbar.driver.messages')}}</a>
+            </li>
+
+            <li class="nav-item mx-4">
+                <a class="nav-link" href="{{ route('driver.histori.index') }}">{{__('navbar.common.history')}}</a>
             </li>
             <li class="nav-item mx-4">
                 <a class="nav-link" style="color: red" href="{{ route('logout') }}"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Keluar</a>
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('navbar.common.sign_out')}}</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                 </form>

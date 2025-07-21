@@ -26,8 +26,7 @@
                 @csrf
                 <select name="lang" id="lang" onchange="this.form.submit()">
                     <option value="en" {{-- jika app punya local english maka akan di selected, app akan secara default mengarah ke option english --}} @if (app()->getLocale() === 'en') selected @endif>
-                        <img src="{{ asset('dashboard-assets/assets/img/indonesia.png') }}"
-                        class="user-image rounded-circle shadow" alt="User Image" /></option>
+                        English</option>
                     <option value="id" @if (app()->getLocale() === 'id') selected @endif>Indonesia</option>
                 </select>
             </form>

@@ -9,7 +9,7 @@
                     <i class="bi bi-list"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-md-block marginzero"><a href="#" class="nav-link">Home</a></li>
+            <li class="nav-item d-none d-md-block marginzero"><a href="#" class="nav-link">{{__('navbar.common.dashboard')}}</a></li>
         </ul>
         <!--end::Start Navbar Links-->
         <!--begin::End Navbar Links-->
@@ -22,6 +22,15 @@
                         class="user-image rounded-circle shadow" alt="User Image" />
                 </a>
             </li>
+
+             <form action="/lang" method="POST">
+                @csrf
+                <select name="lang" id="lang" onchange="this.form.submit()">
+                    <option value="en" {{-- jika app punya local english maka akan di selected, app akan secara default mengarah ke option english --}} @if (app()->getLocale() === 'en') selected @endif>
+                        English</option>
+                    <option value="id" @if (app()->getLocale() === 'id') selected @endif>Indonesia</option>
+                </select>
+            </form>
             <!--end::User Menu Dropdown-->
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu marginzero">
@@ -32,10 +41,10 @@
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <!--begin::Menu Footer-->
                     <li class="user-footer">
-                        <a href="{{ route('admin.profile') }}" class="btn btn-default btn-flat">Profile</a>
+                        <a href="{{ route('admin.profile') }}" class="btn btn-default btn-flat">{{__('navbar.common.profile')}}</a>
                         <a href="{{ route('logout') }}" class="btn btn-danger btn-flat float-end"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Sign out
+                            {{__('navbar.common.sign_out')}}
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
@@ -86,49 +95,49 @@
                     <a href="{{ route('admin.dashboard') }}"
                         class="nav-link {{ Route::is('admin.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-house"></i>
-                        <p>Dashboard</p>
+                        <p>{{__('navbar.common.dashboard')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.jenis-sampah.index') }}"
                         class="nav-link {{ Route::is('admin.jenis-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-trash"></i>
-                        <p>Jenis Sampah</p>
+                        <p>{{__('navbar.admin.waste_types')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.histori.index') }}"
                         class="nav-link {{ Route::is('admin.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-clock-history"></i>
-                        <p>Histori</p>
+                        <p>{{__('navbar.common.history')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.persetujuan.index') }}"
                         class="nav-link {{ Route::is('admin.persetujuan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-check2-circle"></i>
-                        <p>Persetujuan</p>
+                        <p>{{__('navbar.admin.approval')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.penugasan.index') }}"
                         class="nav-link {{ Route::is('admin.penugasan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-check2-circle"></i>
-                        <p>Penugasan</p>
+                        <p>{{__('navbar.admin.assignment')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.laporan.index') }}"
                         class="nav-link {{ Route::is('admin.laporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-exclamation-diamond"></i>
-                        <p>Laporan</p>
+                        <p>{{__('navbar.common.reports')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.print-data.index') }}"
                         class="nav-link {{ Route::is('admin.print-data.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-printer"></i>
-                        <p>Print Data</p>
+                        <p>{{__('navbar.admin.print_data')}}</p>
                     </a>
                 </li>
             </ul>

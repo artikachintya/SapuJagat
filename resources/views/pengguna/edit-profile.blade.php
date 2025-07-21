@@ -7,6 +7,12 @@
     <link href="{{ asset('assets/css/edit-profile.css') }}" rel="stylesheet">
 @endpush
 
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
+
+
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -16,7 +22,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Image preview    
+    // Image preview
     document.getElementById('profile_pic_upload').addEventListener('change', function(event) {
         const file = event.target.files[0];
         const preview = document.getElementById('preview-image');
@@ -146,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3 class="mb-0"><b>Profile Saya</b></h3>
+                        <h3 class="mb-0"><b> {{__('profile.title')}} </b></h3>
                     </div>
                 </div>
             </div>
@@ -160,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="card card-report p-4">
                             <!-- Card Title -->
                             <div class="card-title mb-4">
-                                <h5><b>Edit Profil</b></h5>
+                                <h5><b> {{__('profile.edit_title')}} </b></h5>
                             </div>
 
                             <!-- Content Body -->
@@ -189,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                                         <!-- Form Fields -->
-                                        <br><strong>Nama Lengkap</strong><br>
+                                        <br><strong>{{__('profile.fields.full_name')}}</strong><br>
                                         <div class="info-card">
                                             <input type="text" name="name" class="form-control border-0 p-2"
                                                 value="{{ $user->name }}">
@@ -200,14 +206,14 @@ document.addEventListener('DOMContentLoaded', function () {
                                             </small>
                                         </div>
 
-                                        <strong>NIK</strong><br>
+                                        <strong>{{__('profile.fields.nik')}}</strong><br>
                                         <div class="info-card">
                                             <input type="text" name="NIK" class="form-control border-0 p-2"
                                                 value="{{ $user->NIK }}" disabled>
 
                                         </div>
 
-                                        <strong>Email</strong><br>
+                                        <strong>{{__('profile.fields.email')}}</strong><br>
                                         <div class="info-card">
                                             <input type="email" name="email" class="form-control border-0 p-2"
                                                 value="{{ $user->email }}">
@@ -218,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                             </small>
                                         </div>
 
-                                        <strong>Password</strong><br>
+                                        <strong>{{__('profile.fields.password')}}</strong><br>
                                         <div class="info-card">
                                             <input type="password" name="password" class="form-control border-0 p-2"
                                                 id="password" placeholder="********">
@@ -232,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                                         <div class="row">
                                             <div class="col-md-8">
-                                                <strong>Alamat</strong><br>
+                                                <strong>{{__('profile.fields.address')}}</strong><br>
                                                 <div class="info-card">
                                                     <input type="text" name="address" class="form-control border-0 p-2"
                                                         value="{{ $user->info->address ?? '-' }}">
@@ -244,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <strong>Kode Pos</strong><br>
+                                                <strong>{{__('profile.fields.postal_code')}}</strong><br>
                                                 <div class="info-card">
                                                     <input type="text" name="postal_code"
                                                         class="form-control border-0 p-2"
@@ -260,28 +266,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <strong>Provinsi</strong><br>
+                                                <strong>{{__('profile.fields.province')}}</strong><br>
                                                 <div class="info-card">
                                                     <select name="province" id="province" class="form-select" required>
                                                         <option value="{{ $user->info->province ?? '' }}">
-                                                            {{ $user->info->province ?? 'Pilih Provinsi' }}</option>
+                                                            {{ $user->info->province ?? __('profile.placeholders.province') }}</option>
                                                         {{-- Option akan diisi oleh JS --}}
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <strong>Kota</strong><br>
+                                                <strong>{{__('profile.fields.city')}}</strong><br>
                                                 <div class="info-card">
                                                     <select name="city" id="city" class="form-select" required>
                                                         <option value="{{ $user->info->city ?? '' }}">
-                                                            {{ $user->info->city ?? 'Pilih Kota' }}</option>
+                                                            {{ $user->info->city ?? __('profile.placeholders.city')}}</option>
                                                         {{-- Option akan diisi oleh JS --}}
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <strong>Nomor Telepon</strong><br>
+                                        <strong>{{__('profile.fields.phone')}}</strong><br>
                                         <div class="info-card">
                                             <input type="text" name="phone_num" class="form-control border-0 p-2"
                                                 value="{{ $user->phone_num }}">
@@ -300,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                             data-bs-target="#confirmModal"> --}}
                                         <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal"
                                             data-bs-target="#confirmModal">
-                                            <i class="fas fa-save me-2"></i>Simpan Perubahan
+                                            <i class="fas fa-save me-2"></i>{{__('profile.buttons.save')}}
                                         </button>
                                         {{-- <button type="submit" class="btn btn-success mt-3">
                                             <i class="fas fa-save me-2"></i>Simpan Perubahan
@@ -322,28 +328,20 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Simpan Perubahan
+                                            <h5 class="modal-title" id="confirmModalLabel">{{__('profile.modal.title')}}
                                             </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            Apakah Anda yakin ingin menyimpan perubahan ini?
+                                            {{__('profile.modal.body')}}
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn" style="border-color:black"
-                                                onclick="window.location.href='{{ route('pengguna.profile') }}'">Batal</button>
-                                            {{-- <button type="button" class="btn btn-success"
-                                                    onclick="document.getElementById('bautai').submit()">Ya, Simpan</button> --}}
-                                            {{-- <button type="button" class="btn btn-success"
-                                                onclick="event.preventDefault(); document.getElementById('bautai').submit();">
-                                                Ya, Simpan
-                                            </button> --}}
+                                                onclick="window.location.href='{{ route('pengguna.profile') }}'">{{__('profile.buttons.cancel')}}</button>
                                             <button type="button" class="btn btn-success" id="confirmSaveButton">
-                                                Ya, Simpan
+                                                {{__('profile.buttons.confirm')}}
                                             </button>
-
-                                            {{-- <button type="button" class="btn btn-success">Ya, Simpan</button> --}}
                                         </div>
                                     </div>
                                 </div>
