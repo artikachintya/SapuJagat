@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // 80 users biasa
+          // 80 users biasa
         User::factory()->count(80)->create();
 
         // 10 Admins dengan nama Admin1..Admin10 dan user info
