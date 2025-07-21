@@ -45,7 +45,7 @@
                 @endif
 
                 @if (session('success'))
-                    <div class="overlay" id="success-overlay">
+                    <div class="overlay" id="success-overlay" onclick="closeSuccessPopup()">
                         <div class="success-modal">
                             <p>{{ session('success') }}</p>
                         </div>
@@ -127,6 +127,11 @@
     </style>
 
     <script src="{{ asset('Auth/js/login.js') }}"></script>
+    <script>
+        function closeSuccessPopup() {
+            document.getElementById('success-overlay').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>

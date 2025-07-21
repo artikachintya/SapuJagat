@@ -6,37 +6,23 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\OrderDetail;
+use App\Models\Trash;
+use App\Models\Order;
 
 class OrderDetailSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('order_details')->insert([
-            [
-                'order_id' => 1,
-                'trash_id' => 1,
-                'quantity' => 5,
-            ],
-            [
-                'order_id' => 1,
-                'trash_id' => 2,
-                'quantity' => 3,
-            ],
-            [
-                'order_id' => 2,
-                'trash_id' => 6,
-                'quantity' => 1,
-            ],
-            [
-                'order_id' => 3,
-                'trash_id' => 6,
-                'quantity' => 1,
-            ],
-            [
-                'order_id' => 4,
-                'trash_id' => 6,
-                'quantity' => 1,
-            ],
-        ]);
+        // Pastikan sudah ada Trash dan Order dulu
+        if (Trash::count() === 0) {
+            \App\Models\Trash::factory()->count(10)->create();
+        }
+
+        if (Order::count() === 0) {
+            \App\Models\Order::factory()->count(20)->create();
+        }
+
+        // Seed order_detail
+        OrderDetail::factory()->count(50)->create();
     }
 }
