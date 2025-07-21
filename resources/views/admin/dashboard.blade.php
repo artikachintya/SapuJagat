@@ -147,7 +147,7 @@
                                                     <span class="me-2 card-point"></span>
                                                     <span>Jenis Sampah Terbanyak</span>
                                                 </div>
-                                                <span class="fw-bold text-dark">{{$mostOrderedTrash->name}}</span>
+                                                <span class="fw-bold text-dark">{{ $mostOrderedTrash->name ?? '-' }}</span>
                                             </div>
 
                                             <div class="d-flex justify-content-between align-items-center">

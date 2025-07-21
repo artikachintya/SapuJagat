@@ -1,11 +1,13 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Pickup extends Model
 {
+    use HasFactory;
     protected $table = 'pick_ups';
     protected $primaryKey = 'pick_up_id';
     public $timestamps = false;
@@ -13,6 +15,7 @@ class Pickup extends Model
     protected $fillable = [
         'order_id',
         'user_id',
+        'penugasan_id',
         'start_time',
         'pick_up_date',
         'arrival_date',

@@ -7,6 +7,38 @@
     <link rel="stylesheet" href="{{ asset('assets/css/indexdriver.css') }}">
 </head>
 <body>
+    {{-- <div class="back-section px-1 py-5 mb-2"
+        style="height:50px; border-bottom:1px solid rgb(255, 255, 255); padding:10px; background-color:#0f2900;">
+
+        <a href="{{ $pickupId ? url('/driver/pickup/' . $pickupId) : url('/driver/pickup') }}" class="back-link d-flex align-items-center gap-2"
+        style="color:rgb(255, 255, 255); font-weight: normal; text-decoration: none; padding:5px; height:100%;">
+
+            <img src="{{ asset('assets/img/panah.png') }}"
+                alt="Back"
+                style="width:18px; height:20px; object-fit: contain;">
+
+            <span style="line-height: 1; font-size: 16px;">Kembali</span>
+        </a>
+    </div> --}}
+
+    @php
+        $pickupId = request('pickup_id');
+    @endphp
+
+    <div class="back-section px-1 py-5 mb-2"
+        style="height:50px; border-bottom:1px solid rgb(255, 255, 255); padding:10px; background-color:#0f2900;">
+
+        <a href="{{ $pickupId ? url('/driver/pickup/' . $pickupId) : route('driver.chat.list') }}"
+            class="back-link d-flex align-items-center gap-2"
+            style="color:rgb(255, 255, 255); font-weight: normal; text-decoration: none; padding:5px; height:100%;">
+
+            <img src="{{ asset('assets/img/panah.png') }}"
+                alt="Back"
+                style="width:18px; height:20px; object-fit: contain;">
+
+            <span style="line-height: 1; font-size: 16px;">Kembali</span>
+        </a>
+    </div>
 
     <div class="chat-messages" id="chat-messages">
         @foreach($messages as $message)

@@ -35,8 +35,9 @@ class ChatController extends Controller
         $messages = ChatDetail::where('chat_id', $chat->chat_id)
             ->orderBy('date_time', 'asc')
             ->get();
+        $pickupId = request('pickup_id');
 
-        return view('driver.chat.index', compact('messages', 'chat'));
+        return view('driver.chat.index', compact('messages', 'chat','pickupId'));
     }
 
     // Kirim pesan
@@ -84,4 +85,17 @@ class ChatController extends Controller
 
         return response()->json($messages);
     }
+
+    public function driverChatList()
+    {
+        $driverId = Auth::id(); // Ambil ID driver yang sedang login
+
+        $chats = Chat::with(['user']) // relasi user buat nampilin nama user
+            ->where('driver_id', $driverId)
+            ->orderBy('date_time_created', 'desc')
+            ->get();
+
+        return view('driver.chat.list', compact('chats'));
+    }
+
 }

@@ -83,7 +83,7 @@ Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend')
 Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/', [PenggunaController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [PenggunaController::class, 'index'])->name('dashboard');
-    
+
 
     Route::resource('tarik-saldo', TarikSaldoController::class);
     Route::resource('tukar-sampah', TukarSampahController::class);
@@ -116,6 +116,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 
     Route::resource('penugasan', PenugasanController::class);
+    Route::get('penugasan-arsip', [PenugasanController::class, 'archive'])->name('penugasan.archive');
+    Route::post('penugasan/{id}/restore', [PenugasanController::class, 'restore'])->name('penugasan.restore');
+    Route::delete('penugasan/{id}/force', [PenugasanController::class, 'forceDelete'])->name('penugasan.forceDelete');
+
     Route::resource('histori', HistoriAdmin::class);
     Route::resource('persetujuan', PersetujuanController::class);
     Route::resource('laporan', ResponLaporan::class);
@@ -123,7 +127,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('print-data', PrintDataController::class);
     Route::post('print-data/filter', [PrintDataController::class, 'filter'])->name('print-data.filter');
     Route::post('print-data/pdf', [PrintDataController::class, 'generatePdf'])->name('print-data.pdf');
-    // ✅ Tambahkan redirect untuk akses GET manual ke PDF
+
     Route::get('print-data/pdf', function () {
         return redirect()->route('admin.print-data.index')
             ->with('error', 'Akses langsung ke halaman PDF tidak diperbolehkan.');
@@ -136,13 +140,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 // Chat Routes
 Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->group(function () {
-    Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
-    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
+    Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('chat');
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 });
 
 Route::middleware(['auth','driver'])->prefix('driver')->name('driver.')->group(function () {
-    Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('driver.chat');
-    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('driver.chat.send');
+    Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('chat');
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
     // Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
     // Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
 
@@ -157,6 +161,8 @@ Route::middleware(['auth','driver'])->prefix('driver')->name('driver.')->group(f
     Route::post('profile/save', [DriverProfileController::class, 'save'])->name('profile.save');
     Route::resource('histori', HistoriDriver::class);
     Route::get('/pickup/{id}', [PickupController::class, 'show'])->name('pickup.detail');
+    Route::get('/chat', [ChatController::class, 'driverChatList'])->name('chat.list');
+
 });
 
 // Add your routes here
