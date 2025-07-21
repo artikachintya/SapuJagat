@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
                 'user_id'   => 1,
                 'name'      => 'John Doe',
                 'NIK'       => '3578263788989991',
-                'email'     => '/',
+                'email'     => 'j@gmail.com',
                 'phone_num' => '081234567890',
                 'password'  => Hash::make('password123'),
                 'profile_pic' => '',
