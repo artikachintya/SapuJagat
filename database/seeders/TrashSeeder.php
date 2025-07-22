@@ -92,5 +92,8 @@ class TrashSeeder extends Seeder
                 'photos' => '10sterefoam.jpg'
             ],
         ]);
+
+         // Faker 10 tambahan
+        \App\Models\Trash::factory(10)->create();
     }
 }

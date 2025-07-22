@@ -7,19 +7,21 @@ use Illuminate\Database\Seeder;
 use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Models\Penugasan;
 
 class PenugasanSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('penugasans')->insert([
-            [
-                'order_id' => 3,
-                'user_id' => 5,
-                'created_at' => now(),
-                'status'=>0,
-            ],
-        ]);
+        // DB::table('penugasans')->insert([
+        //     [
+        //         'order_id' => 3,
+        //         'user_id' => 5,
+        //         'created_at' => now(),
+        //         'status'=>0,
+        //     ],
+        // ]);
+        Penugasan::factory(10)->create();
     }
 }
 
