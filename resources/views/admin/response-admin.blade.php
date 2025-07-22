@@ -69,6 +69,15 @@
                 {{ __('response_admin.alerts.success', ['message' => session('success')]) }}
             </div>
         @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <div class="card mt-1">
             <div class="card-header text-white" style="background-color: #0e6b3b">

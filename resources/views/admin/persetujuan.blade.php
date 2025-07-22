@@ -242,9 +242,18 @@
                 @endif
                 <div class="row">
                     <div class="col-md-12">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="card mb-4 recap">
                             <div class="card-header">
-                                <h5 class="card-title">Daftar Transaksi</h5>
+                                <h5 class="card-title">{{__('persetujuan.transaction_list')}}</h5>
                                 <div class="card-tools">
                                     {{-- <a href="{{route('admin.jenis-sampah.create')}}" class="btn btn-success">Buat Sampah</a> --}}
                                     <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
@@ -308,7 +317,7 @@
                                                             <button type="button" class="btn btn-sm"
                                                                 style="background-color: #E5F5E0" data-bs-toggle="modal"
                                                                 data-bs-target="#detailModal{{ $order->order_id }}">
-                                                                Respon
+                                                                {{__('persetujuan.respond')}}
                                                             </button>
                                                         </div>
                                                     </td>
@@ -370,16 +379,20 @@
                                                                             <p><strong>{{ __('persetujuan.trash_weight') }}:</strong>
                                                                                 {{ $order->details->sum('quantity') }} KG
                                                                             </p>
-                                                                            <p><strong>{{ __('persetujuan.total_price') }}:</strong> Rp
+                                                                            <p><strong>{{ __('persetujuan.total_price') }}:</strong>
+                                                                                Rp
                                                                                 {{ number_format($total, 0, ',', '.') }}
                                                                             </p>
-                                                                            <p><strong>{{ __('persetujuan.collector_notes') }}:</strong></p>
+                                                                            <p><strong>{{ __('persetujuan.collector_notes') }}:</strong>
+                                                                            </p>
                                                                             <div
                                                                                 class="bg-success-subtle text-dark p-2 rounded">
                                                                                 {{ $order->pickup->notes ?? '-' }}</div>
                                                                             <p class="mt-3"><strong>Status:</strong></p>
                                                                             @php
-                                                                                $statusText = __('persetujuan.no_response');
+                                                                                $statusText = __(
+                                                                                    'persetujuan.no_response',
+                                                                                );
                                                                                 $statusColor = 'bg-secondary-subtle';
 
                                                                                 if ($order->approval) {
@@ -388,17 +401,23 @@
                                                                                             ->approval_status
                                                                                     ) {
                                                                                         case 0:
-                                                                                            $statusText = __('persetujuan.rejected');
+                                                                                            $statusText = __(
+                                                                                                'persetujuan.rejected',
+                                                                                            );
                                                                                             $statusColor =
                                                                                                 'bg-danger-subtle text-danger';
                                                                                             break;
                                                                                         case 1:
-                                                                                            $statusText = __('persetujuan.approved');
+                                                                                            $statusText = __(
+                                                                                                'persetujuan.approved',
+                                                                                            );
                                                                                             $statusColor =
                                                                                                 'bg-success-subtle text-success';
                                                                                             break;
                                                                                         case 2:
-                                                                                            $statusText = __('persetujuan.waiting');
+                                                                                            $statusText = __(
+                                                                                                'persetujuan.waiting',
+                                                                                            );
                                                                                             $statusColor =
                                                                                                 'bg-warning-subtle text-warning';
                                                                                             break;
@@ -416,7 +435,8 @@
 
                                                                     <div class="row mb-4 text-center">
                                                                         <div class="col-md-6">
-                                                                            <p class="fw-bold">{{ __('persetujuan.user_evidence') }}</p>
+                                                                            <p class="fw-bold">
+                                                                                {{ __('persetujuan.user_evidence') }}</p>
                                                                             @if ($order->photo)
                                                                                 <img src="{{ asset('storage/' . $order->photo) }}"
                                                                                     class="img-fluid rounded shadow"
@@ -426,7 +446,9 @@
                                                                             @endif
                                                                         </div>
                                                                         <div class="col-md-6">
-                                                                            <p class="fw-bold">{{ __('persetujuan.collector_evidence') }}</p>
+                                                                            <p class="fw-bold">
+                                                                                {{ __('persetujuan.collector_evidence') }}
+                                                                            </p>
                                                                             @if ($order->pickup_photos)
                                                                                 <img src="{{ asset('storage/' . $order->pickup_photos) }}"
                                                                                     class="img-fluid rounded shadow"
@@ -439,7 +461,8 @@
 
                                                                     @if ($order->approval)
                                                                         <hr>
-                                                                        <p><strong>{{ __('persetujuan.previous_admin_response') }}</strong></p>
+                                                                        <p><strong>{{ __('persetujuan.previous_admin_response') }}</strong>
+                                                                        </p>
                                                                         <div class="bg-light border p-2 rounded">
                                                                             {{ $order->approval->notes }}
                                                                         </div>
@@ -460,8 +483,8 @@
                                                                         <div class="mb-3">
                                                                             <label for="notes"
                                                                                 class="form-label fw-bold">{{ __('persetujuan.write_admin_response') }}</label>
-                                                                            <textarea name="notes" class="form-control bg-success-subtle" rows="4" placeholder="{{ __('persetujuan.response_placeholder') }}"
-                                                                                required></textarea>
+                                                                            <textarea name="notes" class="form-control bg-success-subtle" rows="4"
+                                                                                placeholder="{{ __('persetujuan.response_placeholder') }}" required></textarea>
                                                                         </div>
 
                                                                         <div class="d-flex justify-content-around">

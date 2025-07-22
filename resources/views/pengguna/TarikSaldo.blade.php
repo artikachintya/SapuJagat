@@ -99,7 +99,7 @@
                                 data-bs-toggle="modal" data-bs-target="#bankModal" style="cursor: pointer;">
                                 <img id="bankLogo"  src="{{ asset('dashboard-assets/assets/img/bca.png') }}" alt="BCA" style="height: 50px;" class="me-3">
                                 <div>
-                                <div>Bank: <strong id="displayBankName">Nama Bank</strong></div>
+                                <div>Bank: <strong id="displayBankName">{{__('withdrawal.modal.fields.bank_name.label')}}</strong></div>
                                 <div>{{__('withdrawal.form.transfer_to.account_number')}}<b id="displayAccountNumber">xxxxxxxx</b></div>
                                 </div>
                             </div>
