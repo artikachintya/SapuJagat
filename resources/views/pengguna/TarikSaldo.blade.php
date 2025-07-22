@@ -80,7 +80,7 @@
                             <!-- Nominal Penarikan -->
                             <div class="col-md-6">
                             <h5 class="text-center fw-bold text-success">Nominal Penarikan</h5>
-                            <input type="text" name="amount" class="form-control border border-success" placeholder="Rp Minimum 50.000" value="{{ old('amount') }}" required>
+                            <input type="number" name="amount" class="form-control border border-success" placeholder="Rp Minimum 50.000" value="{{ old('amount') }}" required>
                             <div class="alert alert-success d-flex align-items-center mt-3 p-2" role="alert" style="background-color: #D5F5DC;">
                                 <i class="bi bi-info-circle-fill me-2"></i>
                                 <small class="m-0">Dana dari penjualan sampah akan masuk ke rekening maksimal dalam 3 hari kerja.</small>
