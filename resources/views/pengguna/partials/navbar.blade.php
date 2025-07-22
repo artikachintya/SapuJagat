@@ -1,3 +1,8 @@
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
+
 <!--begin::Header-->
 <nav class="app-header navbar navbar-expand bg-body">
     <!--begin::Container-->
@@ -9,20 +14,51 @@
                     <i class="bi bi-list"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
+            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">{{__('navbar.common.dashboard')}}</a></li>
         </ul>
         <!--end::Start Navbar Links-->
         <!--begin::End Navbar Links-->
         <ul class="navbar-nav ms-auto">
 
-            <!--begin::Language Menu Dropdown-->
-            <li class="nav-item dropdown user-menu">
-                <a href="#" class="nav-link">
-                    <img src="{{ asset('dashboard-assets/assets/img/indonesia.png') }}"
-                        class="user-image rounded-circle shadow" alt="User Image" />
-                </a>
-            </li>
-            <!--end::User Menu Dropdown-->
+                 <!--begin::Language Dropdown-->
+            <form action="/lang" method="POST" id="lang-form">
+                @csrf
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        {{-- Tombol bendera sesuai bahasa aktif --}}
+                        <a href="#" class="nav-link dropdown-toggle p-0" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img src="{{ asset(app()->getLocale() === 'en' ? 'assets/img/uk.png' : 'assets/img/indonesia.png') }}"
+                                class="rounded-circle shadow border" alt="Language Flag" width="32" height="32">
+                        </a>
+
+                        {{-- Dropdown pilihan bahasa --}}
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="min-width: 160px;">
+                            {{-- English --}}
+                            <li>
+                                <button type="submit" name="lang" value="en"
+                                    class="dropdown-item d-flex align-items-center gap-2">
+                                    <img src="{{ asset('assets/img/uk.png') }}" alt="English" width="20"
+                                        height="20">
+                                    English
+                                </button>
+                            </li>
+
+                            {{-- Indonesia --}}
+                            <li>
+                                <button type="submit" name="lang" value="id"
+                                    class="dropdown-item d-flex align-items-center gap-2">
+                                    <img src="{{ asset('assets/img/indonesia.png') }}" alt="Indonesia" width="20"
+                                        height="20">
+                                    Indonesia
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </form>
+            <!--end::Language Dropdown-->
+
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -32,10 +68,10 @@
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <!--begin::Menu Footer-->
                     <li class="user-footer">
-                        <a href="{{ route('pengguna.profile') }}" class="btn btn-default btn-flat">Profile</a>
+                        <a href="{{ route('pengguna.profile') }}" class="btn btn-default btn-flat">{{__('navbar.common.profile')}}</a>
                         <a href="{{ route('logout') }}" class="btn btn-danger btn-flat float-end"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Sign out
+                            {{__('navbar.common.sign_out')}}
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -88,35 +124,35 @@
                     <a href="{{ route('pengguna.dashboard') }}"
                         class="nav-link {{ Route::is('pengguna.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-house"></i>
-                        <p>Dashboard</p>
+                        <p>{{__('navbar.common.dashboard')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('pengguna.tukar-sampah.index') }}"
                         class="nav-link {{ Route::is('pengguna.tukar-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-trash"></i>
-                        <p>Tukar Sampah</p>
+                        <p>{{__('navbar.user.exchange_waste')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('pengguna.histori.index') }}"
                         class="nav-link {{ Route::is('pengguna.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-clock-history"></i>
-                        <p>Histori</p>
+                        <p>{{__('navbar.common.history')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('pengguna.pelacakan.index') }}"
                         class="nav-link {{ Route::is('pengguna.pelacakan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-check2-circle"></i>
-                        <p>Pelacakan</p>
+                        <p>{{__('navbar.user.tracking')}}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('pengguna.laporan.index') }}"
                         class="nav-link {{ Route::is('pengguna.pelaporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-exclamation-diamond"></i>
-                        <p>Laporan</p>
+                        <p>{{__('navbar.common.reports')}}</p>
                     </a>
                 </li>
             </ul>

@@ -45,13 +45,19 @@
     </script>
 @endpush
 
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
+
+
 @section('content')
     <main class="app-main">
         <div class="container-fluid">
             <div class="app-content-header">
                 <div class="row page-title">
                     <div class="col-sm mt-3 mb-0">
-                        <h3>Histori Penukaran Pengguna</h3>
+                        <h3>{{ __('history_admin.title') }}</h3>
                     </div>
                 </div>
             </div>
@@ -67,15 +73,15 @@
                     <table id="laporanTable" class="table table-striped">
                         <thead>
                             <tr>
-                                <th class="text-center">ID Order</th>
-                                <th class="text-center">ID User</th>
-                                <th class="text-center">Jenis Sampah</th>
-                                <th class="text-center">Kuantiti</th>
-                                <th class="text-center">Biaya</th>
-                                <th class="text-center">Tanggal Selesai</th>
-                                <th class="text-center">Tanggal Disetujui</th>
+                                <th class="text-center">{{ __('history_admin.table.columns.order_id') }}</th>
+                                <th class="text-center">{{ __('history_admin.table.columns.user_id') }}</th>
+                                <th class="text-center">{{ __('history_admin.table.columns.trash_type') }}</th>
+                                <th class="text-center">{{ __('history_admin.table.columns.quantity') }}</th>
+                                <th class="text-center">{{ __('history_admin.table.columns.cost') }}</th>
+                                <th class="text-center">{{ __('history_admin.table.columns.completion_date') }}</th>
+                                <th class="text-center">{{ __('history_admin.table.columns.approval_date') }}</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center">Aksi</th>
+                                <th class="text-center">{{ __('history_admin.table.columns.action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -98,20 +104,24 @@
                                     <td class="text-center">
                                         @if ($order->approval)
                                             @if ($order->approval->status === 1)
-                                                <span class="badge bg-success">Selesai</span>
+                                                <span
+                                                    class="badge bg-success">{{ __('history_admin.table.statuses.completed') }}</span>
                                             @elseif($order->approval->status === 0)
-                                                <span class="badge bg-danger">Ditolak</span>
+                                                <span
+                                                    class="badge bg-danger">{{ __('history_admin.table.statuses.rejected') }}</span>
                                             @else
-                                                <span class="badge bg-warning text-dark">Dalam Proses</span>
+                                                <span
+                                                    class="badge bg-warning text-dark">{{ __('history_admin.table.statuses.in_process') }}</span>
                                             @endif
                                         @else
-                                            <span class="badge bg-secondary">Belum Ada Persetujuan</span>
+                                            <span
+                                                class="badge bg-secondary">{{ __('history_admin.table.statuses.no_approval') }}</span>
                                         @endif
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#detailModal{{ $order->order_id }}">
-                                            Detail
+                                            {{ __('history_admin.table.buttons.details') }}
                                         </button>
                                     </td>
                                 </tr>
@@ -128,21 +138,26 @@
                     <div class="modal-dialog modal-dialog-scrollable modal-lg">
                         <div class="modal-content">
                             <div class="modal-header bg-success text-white">
-                                <h5 class="modal-title" id="modalLabel{{ $order->order_id }}">Detail Order
+                                <h5 class="modal-title" id="modalLabel{{ $order->order_id }}">
+                                    {{ __('history_admin.modal.title') }}
                                     #{{ $order->order_id }}</h5>
                                 <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body text-dark">
-                                <p><strong>ID User:</strong> {{ $order->user->user_id ?? '-' }}</p>
-                                <p><strong>Nama Pelanggan:</strong> {{ $order->user->name ?? '-' }}</p>
-                                <p><strong>Tanggal/Waktu Permintaan:</strong> {{ $order->date_time_request }}</p>
-                                <p><strong>Tanggal/Waktu Penjemputan:</strong> {{ $order->pickup->pick_up_date ?? '-' }}
+                                <p><strong>{{ __('history_admin.modal.fields.user_id') }}</strong>
+                                    {{ $order->user->user_id ?? '-' }}</p>
+                                <p><strong>{{ __('history_admin.modal.fields.customer_name') }}</strong>
+                                    {{ $order->user->name ?? '-' }}</p>
+                                <p><strong>{{ __('history_admin.modal.fields.request_datetime') }}</strong>
+                                    {{ $order->date_time_request }}</p>
+                                <p><strong>{{ __('history_admin.modal.fields.pickup_datetime') }}</strong>
+                                    {{ $order->pickup->pick_up_date ?? '-' }}
                                 </p>
-                                <p><strong>Tanggal/Waktu Selesai Penjemputan:</strong>
+                                <p><strong>{{ __('history_admin.modal.fields.completion_datetime') }}</strong>
                                     {{ $order->pickup->arrival_date ?? '-' }}
                                 </p>
-                                <p><strong>Tanggal Pengecekan:</strong>
+                                <p><strong>{{ __('history_admin.modal.fields.inspection_date') }}</strong>
                                     @if ($order->approval && $order->approval->status != 2)
                                         {{ $order->approval->date_time }}
                                     @else
@@ -152,21 +167,40 @@
                                 <p><strong>Status:</strong>
                                     @if ($order->approval)
                                         @if ($order->approval->status === 1)
-                                            <span class="badge bg-success">Selesai</span>
+                                            <span
+                                                class="badge bg-success">{{ __('history_admin.table.statuses.completed') }}</span>
                                         @elseif($order->approval->status === 0)
-                                            <span class="badge bg-danger">Ditolak</span>
+                                            <span
+                                                class="badge bg-danger">{{ __('history_admin.table.statuses.rejected') }}</span>
                                         @else
-                                            <span class="badge bg-warning text-dark">Dalam Proses</span>
+                                            <span
+                                                class="badge bg-warning text-dark">{{ __('history_admin.table.statuses.in_process') }}</span>
                                         @endif
                                     @else
-                                        <span class="badge bg-secondary">Belum Ada Persetujuan</span>
+                                        <span
+                                            class="badge bg-secondary">{{ __('history_admin.table.statuses.no_approval') }}</span>
                                     @endif
                                 </p>
 
                                 {{-- Summary Table --}}
                                 @php
-                                    $htmlSummary = '<table class="table table-bordered text-sm"><thead><tr>
-                                    <th>No</th><th>Nama Sampah</th><th>Kuantitas</th><th>Harga/kg</th><th>Total</th>
+                                    $htmlSummary =
+                                        '<table class="table table-bordered text-sm"><thead><tr>
+                                      <th>' .
+                                        __('history_user.table.no') .
+                                        '</th>
+                                                <th>' .
+                                        __('history_user.table.trash_name') .
+                                        '</th>
+                                                <th>' .
+                                        __('history_user.table.quantity') .
+                                        '</th>
+                                                <th>' .
+                                        __('history_user.table.price_per_kg') .
+                                        '</th>
+                                                <th>' .
+                                        __('history_user.table.total') .
+                                        '</th>
                                 </tr></thead><tbody>';
                                     $total = 0;
                                     foreach ($order->details as $index => $detail) {
@@ -201,31 +235,31 @@
 
                                 <div style="display: flex; gap: 20px;">
                                     <div>
-                                        <p><strong>Bukti Pengguna:</strong></p>
+                                        <p><strong>{{ __('history_admin.modal.fields.user_proof') }}</strong></p>
                                         <img src="{{ asset('storage/' . $order->photo) }}" alt="Bukti Pengguna"
                                             style="width: 350px; height: auto;">
                                     </div>
 
                                     <div>
-                                        <p><strong>Bukti Pengantaran Driver:</strong></p>
+                                        <p><strong>{{ __('history_admin.modal.fields.driver_proof') }}</strong></p>
                                         @if (!empty($order->pickup->photos))
                                             <img src="{{ asset('storage/' . $order->pickup->photos) }}"
                                                 alt="Bukti Pengantaran" style="width: 350px; height: auto;">
                                         @else
-                                            <p>Tidak ada foto.</p>
+                                            <p>{{ __('history_admin.modal.no_photo') }}</p>
                                         @endif
                                     </div>
                                 </div>
 
                                 <div style="display: flex; gap: 20px;">
                                     <div class="mt-3"style="flex: 1;">
-                                        <p><strong>Respon Admin:</strong><br>
+                                        <p><strong>{{ __('history_admin.modal.fields.admin_response') }}</strong><br>
                                             {{ $order->approval->notes ?? '-' }}
                                         </p>
                                     </div>
 
                                     <div class="mt-3" style="flex: 1;">
-                                        <p><strong>Catatan Driver:</strong><br>
+                                        <p><strong>{{ __('history_admin.modal.fields.driver_notes') }}</strong><br>
                                             {{ $order->pickup->notes ?? '-' }}
                                         </p>
                                     </div>

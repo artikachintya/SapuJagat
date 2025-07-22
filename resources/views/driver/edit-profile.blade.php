@@ -140,22 +140,16 @@
     </script>
 @endpush
 
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
+
 
 
 @section('content')
     <main class="app-main">
-        <!-- Header Section -->
-        {{-- <div class="app-content-header">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h3 class="mb-0"><b>Profile Saya</b></h3>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
-        <!-- Main Content -->
+      <!-- Main Content -->
         <div class="app-content">
             <div class="container-fluid">
                 <div class="row">
@@ -163,7 +157,7 @@
                         <div class="card card-report p-4">
                             <!-- Card Title -->
                             <div class="card-title mb-4">
-                                <h5><b>Edit Profil</b></h5>
+                                <h5><b>{{__('profile.edit_title')}}</b></h5>
                             </div>
 
                             <!-- Content Body -->
@@ -192,7 +186,7 @@
 
 
                                         <!-- Form Fields -->
-                                        <br><strong>Nama Lengkap</strong><br>
+                                        <br><strong>{{__('profile.fields.full_name')}}</strong><br>
                                         <div class="info-card">
                                             <input type="text" name="name" class="form-control border-0 p-2"
                                                 value="{{ $user->name }}">
@@ -203,13 +197,13 @@
                                             </small>
                                         </div>
 
-                                        <strong>NIK</strong><br>
+                                        <strong>{{__('profile.fields.nik')}}</strong><br>
                                         <div class="info-card">
                                             <input type="text" name="NIK" class="form-control border-0 p-2"
                                                 value="{{ $user->NIK }}">
                                         </div>
 
-                                        <strong>Email</strong><br>
+                                        <strong>{{__('profile.fields.email')}}</strong><br>
                                         <div class="info-card">
                                             <input type="email" name="email" class="form-control border-0 p-2"
                                                 value="{{ $user->email }}">
@@ -220,7 +214,7 @@
                                             </small>
                                         </div>
 
-                                        <strong>Password</strong><br>
+                                        <strong>{{__('profile.fields.password')}}</strong><br>
                                         <div class="info-card">
                                             <input type="password" name="password" id="password" class="form-control border-0 p-2"
                                                 placeholder="********">
@@ -231,7 +225,7 @@
                                             </small>
                                         </div>
 
-                                        <strong>Nomor Telepon</strong><br>
+                                        <strong>{{__('profile.fields.phone')}}</strong><br>
                                         <div class="info-card">
                                             <input type="text" name="phone_num" class="form-control border-0 p-2"
                                                 value="{{ $user->phone_num }}">
@@ -242,7 +236,7 @@
                                             </small>
                                         </div>
 
-                                        <strong>Plat Kendaraan</strong><br>
+                                        <strong>{{__('profile.fields.license_plate')}}</strong><br>
                                         <div class="info-card">
                                             <input type="text" name="license_plate" class="form-control border-0 p-2"
                                                 value="{{ $user->license->license_plate }}">
@@ -255,7 +249,7 @@
 
                                         <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal"
                                             data-bs-target="#confirmModal">
-                                            <i class="fas fa-save me-2"></i>Simpan Perubahan
+                                            <i class="fas fa-save me-2"></i>{{__('profile.buttons.save')}}
                                         </button>
 
                                     </div>
@@ -274,18 +268,18 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Simpan Perubahan</h5>
+                                            <h5 class="modal-title" id="confirmModalLabel">{{__('profile.modal.title')}}</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            Apakah Anda yakin ingin menyimpan perubahan ini?
+                                            {{__('profile.modal.body')}}
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn" style="border-color:black"
-                                                onclick="window.location.href='{{ route('driver.profile') }}'">Batal</button>
+                                                onclick="window.location.href='{{ route('driver.profile') }}'">{{__('profile.buttons.cancel')}}</button>
                                             <button type="button" class="btn btn-success" id="confirmSaveButton">
-                                                Ya, Simpan
+                                                {{__('profile.buttons.confirm')}}
                                             </button>
                                         </div>
                                     </div>

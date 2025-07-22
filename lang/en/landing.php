@@ -34,6 +34,7 @@ return[
     'testi_2_teks' => 'Awesome pick-up service! Recycling made easy. Transparent prices. Hope the coverage area grows soon.',
     'testi_3_teks' => 'Cardboard and bottles no longer pile up. Now I just schedule a pick-up and earn cash—kids are learning to sort waste too!',
 
+    'teks_FAQ' =>  'Any questions? Dont worry! we are here to help', 
     //FAQ
     'faq_1_q' => 'What is Sapu Jagat?',
     'faq_1_a' => 'Sapu Jagat is a waste exchange application that allows users to exchange waste for certain rewards. Waste is picked up directly by our drivers.',
