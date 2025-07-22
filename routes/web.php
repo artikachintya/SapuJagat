@@ -72,7 +72,6 @@ Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verif
 Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend');
 
 
-
 // User Tukar Sampah
 // user step 1 : tukar sampah
 

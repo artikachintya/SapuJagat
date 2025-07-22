@@ -12,13 +12,6 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
 {
-    // public function redirectToGoogle(Request $request)
-    // {
-    //     // Simpan mode (login atau register)
-    //     Session::put('google_auth_mode', $request->query('mode', 'login'));
-    //     return Socialite::driver('google')->stateless()->redirect();
-    // }
-
     public function redirectToGoogle(Request $request)
     {
         $mode = $request->query('mode', 'login');
@@ -31,72 +24,6 @@ class GoogleController extends Controller
 
         return $redirectUrl;
     }
-
-    // public function handleGoogleCallback()
-    // {
-    //     $googleUser = Socialite::driver('google')->stateless()->user();
-    //     $mode = Session::pull('google_auth_mode', 'login'); // Tarik dan hapus dari session
-
-    //     $user = User::where('email', $googleUser->email)->first();
-
-    //     if ($mode === 'register') {
-    //         if ($user) {
-    //             return redirect()->route('login')->with('error', 'Email ini sudah terdaftar, silakan login.');
-    //         }
-
-    //         $user = User::create([
-    //             'name' => $googleUser->name,
-    //             'email' => $googleUser->email,
-    //             'password' => bcrypt(Str::random(16)),
-    //             'email_verified_at' => now(),
-    //             'role' => 1,
-    //             'NIK' => null,
-    //             'phone_num' => null,
-    //             'is_google_user' => true
-    //         ]);
-
-    //         // Redirect ke login dengan pesan sukses
-    //         return redirect()->route('login')->with('success', 'Email berhasil terdaftar. Silakan login untuk melanjutkan.');
-    //     }
-
-    //     if (!$user) {
-    //         return redirect()->route('login')->with('error', 'Email Google Anda belum terdaftar.');
-    //     }
-
-    //     Auth::login($user);
-    //     return redirect()->intended('/pengguna');
-    // }
-
-    // public function handleGoogleCallback()
-    // {
-    //     $googleUser = Socialite::driver('google')->stateless()->user();
-    //     $mode = Session::pull('google_auth_mode', 'login'); // Tarik dan hapus dari session
-
-    //     $user = User::where('email', $googleUser->email)->first();
-
-    //     if (!$user) {
-    //         if ($mode === 'register') {
-    //             $user = User::create([
-    //                 'name' => $googleUser->name,
-    //                 'email' => $googleUser->email,
-    //                 'password' => bcrypt(Str::random(16)),
-    //                 'email_verified_at' => now(),
-    //                 'role' => 1,
-    //                 'NIK' => null,
-    //                 'phone_num' => null,
-    //                 'is_google_user' => true
-    //             ]);
-
-    //             return redirect()->route('login')->with('success', 'Email berhasil terdaftar. Silakan login untuk melanjutkan.');
-    //         } else {
-    //             return redirect()->route('login')->with('error', 'Email Google Anda belum terdaftar.');
-    //         }
-    //     }
-
-    //     // Jika user sudah ada, langsung login
-    //     Auth::login($user);
-    //     return redirect()->intended('/pengguna');
-    // }
 
     public function handleGoogleCallback(Request $request)
     {
