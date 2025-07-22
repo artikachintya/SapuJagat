@@ -1,7 +1,12 @@
 
 @extends('pengguna.partials.pengguna')
 
-@section('title', 'Chat')
+@section('title', __('chat.title'))
+
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('assets/css/indexpengguna.css') }}">
@@ -11,7 +16,7 @@
             <div class="back-section px-1 py-3 mb-2" style="border-bottom:1px solid rgb(237, 237, 237);">
                 <a href="{{ route('pengguna.pelacakan.index')}}" class="back-link" style="color:black; font-weight: normal;">
                     <img src="{{ asset('assets/img/panah.png') }}" alt="Back" class="back-arrow" style="width:18px;height:18px;">
-                    Kembali
+                    {{ __('chat.common.back') }}
                 </a>
             </div>
 
@@ -47,8 +52,9 @@
                 <form id="chat-form" class="chat-form">
                     @csrf
                     <input type="hidden" name="chat_id" value="{{ $chat->chat_id }}">
-                    <input type="text" name="message" class="message-input" placeholder="Ketik disini...">
-                    <button type="submit" class="send-button">Kirim</button>
+                   <input type="text" name="message" class="message-input" placeholder="{{ __('chat.common.message_placeholder') }}">
+<button type="submit" class="send-button">{{ __('chat.common.send') }}</button>
+
                 </form>
             </div>
         </div>

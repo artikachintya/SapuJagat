@@ -3,6 +3,8 @@
 return [
     'title' => 'Dashboard',
     'welcome' => 'Selamat datang, ',
+    'user' => 'Pengguna : ',
+    'type' => 'Jenis : ', 
     'breadcrumb' => [
         'home' => 'Beranda',
         'dashboard' => 'Dashboard'

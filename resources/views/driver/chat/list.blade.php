@@ -1,6 +1,6 @@
 @extends('driver.partials.driver')
 
-@section('title', 'Daftar Chat Pengguna')
+@section('title', __('list_chat.title'))
 
 @push('styles')
 <link href="{{ asset('assets/css/laporan.css') }}" rel="stylesheet">
@@ -21,11 +21,16 @@
 </style>
 @endpush
 
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
+
 @section('content')
 <main class="app-main">
     <div class="app-content-header">
         <div class="container-fluid">
-            <h3 class="mb-0"><b>Daftar Chat Pengguna</b></h3>
+            <h3 class="mb-0"><b>{{ __('list_chat.header.title') }}</b></h3>
         </div>
     </div>
 
@@ -35,7 +40,7 @@
                 <div class="card card-light mb-4">
                     <div class="card-header">
                         <div class="card-title">
-                            <b>Daftar Chat {{ Auth::check() ? Auth::user()->name : 'Driver' }}</b>
+                            <b>{{ __('list_chat.header.greeting', ['name' => Auth::check() ? Auth::user()->name : 'Driver']) }}</b>
                         </div>
                     </div>
 
@@ -45,24 +50,24 @@
                                 <div class="row align-items-center chat-card">
                                     <div class="col-12 col-md-8 mb-2 mb-md-0">
                                         <div class="text-success fw-semibold">
-                                            Nama Pengguna: {{ $chat->user->name }}
+                                            {{ __('list_chat.labels.user_name') }}: {{ $chat->user->name }}
                                         </div>
                                         @if ($chat->updated_at)
                                             <div class="text-muted">
-                                                Terakhir update: {{ $chat->updated_at->diffForHumans() }}
+                                                {{ __('list_chat.labels.last_update') }}: {{ $chat->updated_at->diffForHumans() }}
                                             </div>
                                         @endif
                                     </div>
                                     <div class="col-12 col-md-4 text-md-end">
                                         <a href="{{ route('driver.chat', ['chat_id' => $chat->chat_id]) }}"
                                             class="btn btn-outline-success lihat-chat-btn w-100 w-md-auto mt-2 mt-md-0">
-                                            Lihat Chat
+                                            {{ __('list_chat.labels.view_chat') }}
                                         </a>
                                     </div>
                                 </div>
                             @empty
                                 <div class="text-center text-muted my-4">
-                                    <p>Belum ada chat dengan pengguna.</p>
+                                    <p>{{ __('list_chat.labels.no_chats') }}</p>
                                 </div>
                             @endforelse
                         </div>

@@ -3,6 +3,8 @@
 return [
     'title' => 'Dashboard',
     'welcome' => 'Welcome, ',
+    'user' => 'User : ',
+    'type' => 'Type : ',
     'breadcrumb' => [
         'home' => 'Home',
         'dashboard' => 'Dashboard'

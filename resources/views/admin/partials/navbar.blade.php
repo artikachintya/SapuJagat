@@ -9,42 +9,70 @@
                     <i class="bi bi-list"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-md-block marginzero"><a href="#" class="nav-link">{{__('navbar.common.dashboard')}}</a></li>
+            <li class="nav-item d-none d-md-block marginzero"><a href="#"
+                    class="nav-link">{{ __('navbar.common.dashboard') }}</a></li>
         </ul>
         <!--end::Start Navbar Links-->
         <!--begin::End Navbar Links-->
         <ul class="navbar-nav ms-auto">
 
-            <!--begin::Language Menu Dropdown-->
-            <li class="nav-item dropdown user-menu marginzero">
-                <a href="#" class="nav-link">
-                    <img src="{{ asset('dashboard-assets/assets/img/indonesia.png') }}"
-                        class="user-image rounded-circle shadow" alt="User Image" />
-                </a>
-            </li>
 
-             <form action="/lang" method="POST">
+
+            <!--begin::Language Dropdown-->
+            <form action="/lang" method="POST" id="lang-form">
                 @csrf
-                <select name="lang" id="lang" onchange="this.form.submit()">
-                    <option value="en" {{-- jika app punya local english maka akan di selected, app akan secara default mengarah ke option english --}} @if (app()->getLocale() === 'en') selected @endif>
-                        English</option>
-                    <option value="id" @if (app()->getLocale() === 'id') selected @endif>Indonesia</option>
-                </select>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        {{-- Tombol bendera sesuai bahasa aktif --}}
+                        <a href="#" class="nav-link dropdown-toggle p-0" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img src="{{ asset(app()->getLocale() === 'en' ? 'assets/img/uk.png' : 'assets/img/indonesia.png') }}"
+                                class="rounded-circle shadow border" alt="Language Flag" width="32" height="32">
+                        </a>
+
+                        {{-- Dropdown pilihan bahasa --}}
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="min-width: 160px;">
+                            {{-- English --}}
+                            <li>
+                                <button type="submit" name="lang" value="en"
+                                    class="dropdown-item d-flex align-items-center gap-2">
+                                    <img src="{{ asset('assets/img/uk.png') }}" alt="English" width="20"
+                                        height="20">
+                                    English
+                                </button>
+                            </li>
+
+                            {{-- Indonesia --}}
+                            <li>
+                                <button type="submit" name="lang" value="id"
+                                    class="dropdown-item d-flex align-items-center gap-2">
+                                    <img src="{{ asset('assets/img/indonesia.png') }}" alt="Indonesia" width="20"
+                                        height="20">
+                                    Indonesia
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </form>
+            <!--end::Language Dropdown-->
+
+
             <!--end::User Menu Dropdown-->
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu marginzero">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic) : asset('assets/img/default-profile.webp') }} class="user-image rounded-circle shadow"
-                        alt="User Image" style="object-fit: cover;" />
+                    <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic) : asset('assets/img/default-profile.webp') }}
+                        class="user-image rounded-circle shadow" alt="User Image" style="object-fit: cover;" />
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <!--begin::Menu Footer-->
                     <li class="user-footer">
-                        <a href="{{ route('admin.profile') }}" class="btn btn-default btn-flat">{{__('navbar.common.profile')}}</a>
+                        <a href="{{ route('admin.profile') }}"
+                            class="btn btn-default btn-flat">{{ __('navbar.common.profile') }}</a>
                         <a href="{{ route('logout') }}" class="btn btn-danger btn-flat float-end"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            {{__('navbar.common.sign_out')}}
+                            {{ __('navbar.common.sign_out') }}
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
@@ -85,8 +113,9 @@
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-header" style="padding:0;">
                     <a href="{{ route('admin.profile') }}" class="nav-link">
-                        <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic) : asset('assets/img/default-profile.webp') }} class="user-image rounded-circle shadow"
-                            alt="User Image" style="width: 30px; height: 30px;" />
+                        <img src={{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic) : asset('assets/img/default-profile.webp') }}
+                            class="user-image rounded-circle shadow" alt="User Image"
+                            style="width: 30px; height: 30px;" />
                         <span class="ps-3 d-md-inline">{{ Auth::user()->name }}</span>
                     </a>
                 </li>
@@ -95,49 +124,49 @@
                     <a href="{{ route('admin.dashboard') }}"
                         class="nav-link {{ Route::is('admin.dashboard') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-house"></i>
-                        <p>{{__('navbar.common.dashboard')}}</p>
+                        <p>{{ __('navbar.common.dashboard') }}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.jenis-sampah.index') }}"
                         class="nav-link {{ Route::is('admin.jenis-sampah.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-trash"></i>
-                        <p>{{__('navbar.admin.waste_types')}}</p>
+                        <p>{{ __('navbar.admin.waste_types') }}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.histori.index') }}"
                         class="nav-link {{ Route::is('admin.histori.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-clock-history"></i>
-                        <p>{{__('navbar.common.history')}}</p>
+                        <p>{{ __('navbar.common.history') }}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.persetujuan.index') }}"
                         class="nav-link {{ Route::is('admin.persetujuan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-check2-circle"></i>
-                        <p>{{__('navbar.admin.approval')}}</p>
+                        <p>{{ __('navbar.admin.approval') }}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.penugasan.index') }}"
                         class="nav-link {{ Route::is('admin.penugasan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-check2-circle"></i>
-                        <p>{{__('navbar.admin.assignment')}}</p>
+                        <p>{{ __('navbar.admin.assignment') }}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.laporan.index') }}"
                         class="nav-link {{ Route::is('admin.laporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-exclamation-diamond"></i>
-                        <p>{{__('navbar.common.reports')}}</p>
+                        <p>{{ __('navbar.common.reports') }}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.print-data.index') }}"
                         class="nav-link {{ Route::is('admin.print-data.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-printer"></i>
-                        <p>{{__('navbar.admin.print_data')}}</p>
+                        <p>{{ __('navbar.admin.print_data') }}</p>
                     </a>
                 </li>
             </ul>

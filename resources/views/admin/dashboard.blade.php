@@ -366,12 +366,12 @@
                                             <div>
                                                 <small>
                                                     Order ID : {{ $order->order_id }}<br>
-                                                    Jenis :
+                                                    {{ __('dashboard_admin.type') }}
                                                     @foreach($order->details as $detail)
                                                         {{ $detail->trash->name ?? '-' }}@if(!$loop->last), @endif
                                                     @endforeach
                                                     <br>
-                                                    Pengguna : {{ $order->user->name ?? '-' }}
+                                                    {{ __('dashboard_admin.user') }} {{ $order->user->name ?? '-' }}
                                                 </small>
                                             </div>
 

@@ -1,6 +1,6 @@
 @extends('driver.partials.driver')
 
-@section('title', 'Driver Dashboard')
+@section('title', __('dashboard_driver.title'))
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('pickup-driver/style.css') }}">
@@ -9,6 +9,12 @@
 @push('scripts')
     <script src="{{ asset('pickup-driver/script.js') }}"></script>
 @endpush
+
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
+
 
 @push('styles')
     <link href="{{ asset('assets/css/laporan.css') }}" rel="stylesheet">
@@ -20,7 +26,6 @@
 
         .star-rating i {
             color: #616161;
-            /* Warna default bintang kosong */
             cursor: pointer;
             transition: color 0.2s;
             padding: 0 2px;
@@ -30,18 +35,15 @@
         .star-rating i:hover,
         .star-rating i:hover~i {
             color: #FFD700;
-            /* Warna kuning emas */
             text-shadow: 0 0 2px rgba(255, 215, 0, 0.5);
         }
 
         .star-rating i.fa-star {
             color: #FFD700;
-            /* Warna untuk bintang terisi */
         }
 
         .star-rating i.fa-star-o {
             color: #616161;
-            /* Warna untuk bintang kosong */
         }
 
         .modal-content {
@@ -70,13 +72,11 @@
     <script src="{{ asset('assets/js/histori-user.js') }}"></script>
 @endpush
 
-
-
 @section('content')
     <main class="app-main">
         <div class="app-content-header">
             <div class="container-fluid">
-                <h3 class="mb-0"><b>Daftar Penjemputan Order</b></h3>
+                <h3 class="mb-0"><b>{{ __('dashboard_driver.header.title') }}</b></h3>
             </div>
         </div>
 
@@ -90,7 +90,7 @@
                                     @if (session('success'))
                                         {{ session('success') }}
                                     @else
-                                        Daftar Penjemputan {{ Auth::check() ? Auth::user()->name : 'Pengemudi' }}
+                                        {{ __('dashboard_driver.header.greeting', ['name' => Auth::check() ? Auth::user()->name : 'Pengemudi']) }}
                                     @endif
                                 </b>
                             </div>
@@ -103,52 +103,48 @@
                                         @php
                                             if (isset($pickup->arrival_date)) {
                                                 $badgeClass = 'bg-success';
-                                                $label = 'Selesai';
+                                                $label = __('dashboard_driver.status.completed');
                                             } elseif ($pickup->start_time) {
                                                 $badgeClass = 'bg-warning text-dark';
-                                                $label = 'Dalam Penjemputan';
+                                                $label = __('dashboard_driver.status.in_progress');
                                             } elseif ($pickup->pick_up_date) {
                                                 $badgeClass = 'bg-warning text-dark';
-                                                $label = 'Berhasil Diambil';
+                                                $label = __('dashboard_driver.status.picked_up');
                                             } else {
                                                 $badgeClass = 'bg-secondary';
-                                                $label = 'Menunggu Pengambilan';
+                                                $label = __('dashboard_driver.status.waiting');
                                             }
-
                                         @endphp
 
                                         <div class="row align-items-center">
                                             <div class="col-12 col-md-8 mb-2 mb-md-0">
                                                 <span class="badge {{ $badgeClass }}">{{ $label }}</span>
                                                 <div class="text-muted">
-                                                    {{ \Carbon\Carbon::parse($pickup->order->date_time_request)->translatedFormat('l, d M Y') }}
+                                                    {{ \Carbon\Carbon::parse($pickup->order->date_time_request)->translatedFormat(__('dashboard_driver.date_format')) }}
                                                 </div>
-                                                <div class="text-success fw-semibold text-truncate "
+                                                <div class="text-success fw-semibold text-truncate"
                                                     style="max-width: 100%;">
-                                                    Nama Pengguna: {{ $pickup->order->user->name }}
+                                                    {{ __('dashboard_driver.labels.user_name') }}: {{ $pickup->order->user->name }}
                                                 </div>
-                                                <div class="text-success fw-semibold text-truncate text-dark "
+                                                <div class="text-success fw-semibold text-truncate text-dark"
                                                     style="max-width: 100%;">
-                                                    {{-- <p class="col user-address text-dark fs-5"> --}}
                                                     {{ $pickup?->order?->user?->info?->address ?? 'No address' }},
                                                     {{ $pickup?->order?->user?->info?->city ?? 'city' }},
-                                                    {{ $pickup?->order?->user?->info?->province ?? 'province' }}
-                                                    ,
+                                                    {{ $pickup?->order?->user?->info?->province ?? 'province' }},
                                                     {{ $pickup?->order?->user?->info?->postal_code ?? 'postal_code' }}
-                                                    {{-- </p> --}}
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4 text-md-end mb-4">
                                                 <a href="{{ route('driver.pickup.detail', $pickup->pick_up_id) }}"
                                                     class="btn btn-outline-success lihat-detail-btn w-100 w-md-auto mt-2 mt-md-0">
-                                                    Lihat Detail
+                                                    {{ __('dashboard_driver.labels.view_details') }}
                                                 </a>
                                             </div>
                                         </div>
                                     @endforeach
                                 @else
                                     <div class="text-center text-muted my-4">
-                                        <p>Tidak ada penjemputan</p>
+                                        <p>{{ __('dashboard_driver.labels.no_pickups') }}</p>
                                     </div>
                                 @endif
                             </div>
