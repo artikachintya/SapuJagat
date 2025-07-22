@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chat</title>
+    <title>{{__('chat.title')}}</title>
     <link rel="stylesheet" href="{{ asset('assets/css/indexdriver.css') }}">
 </head>
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
 <body>
     {{-- <div class="back-section px-1 py-5 mb-2"
         style="height:50px; border-bottom:1px solid rgb(255, 255, 255); padding:10px; background-color:#0f2900;">
@@ -36,7 +40,7 @@
                 alt="Back"
                 style="width:18px; height:20px; object-fit: contain;">
 
-            <span style="line-height: 1; font-size: 16px;">Kembali</span>
+            <span style="line-height: 1; font-size: 16px;">{{ __('chat.common.back') }}</span>
         </a>
     </div>
 
@@ -66,8 +70,8 @@
         <form id="chat-form" class="chat-input-form">
             @csrf
             <input type="hidden" name="chat_id" value="{{ $chat->chat_id }}">
-            <input type="text" name="message" class="chat-input" placeholder="Ketik pesan..." autocomplete="off">
-            <button type="submit" class="send-button">Kirim</button>
+            <input type="text" name="message" class="chat-input" placeholder="{{ __('chat.common.message_placeholder') }}" autocomplete="off">
+            <button type="submit" class="send-button">{{ __('chat.common.send') }}</button>
         </form>
     </div>
 

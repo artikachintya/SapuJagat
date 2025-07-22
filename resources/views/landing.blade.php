@@ -34,14 +34,6 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <form action="/lang" method="POST">
-                @csrf
-                <select name="lang" id="lang" onchange="this.form.submit()">
-                    <option value="en" {{-- jika app punya local english maka akan di selected, app akan secara default mengarah ke option english --}} @if (app()->getLocale() === 'en') selected @endif>
-                        English</option>
-                    <option value="id" @if (app()->getLocale() === 'id') selected @endif>Indonesia</option>
-                </select>
-            </form>
 
             <div class="collapse navbar-collapse" id="navitems">
                 <!-- LEFT SIDE -->
@@ -59,6 +51,46 @@
                         <a class="nav-link" href="#footer-section">{{ __('landing.kontak') }}</a>
                     </li>
                 </ul>
+
+                     <!--begin::Language Dropdown-->
+            <form action="/lang" method="POST" id="lang-form">
+                @csrf
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        {{-- Tombol bendera sesuai bahasa aktif --}}
+                        <a href="#" class="nav-link dropdown-toggle p-0" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img src="{{ asset(app()->getLocale() === 'en' ? 'assets/img/uk.png' : 'assets/img/indonesia.png') }}"
+                                class="rounded-circle shadow border" alt="Language Flag" width="32" height="32">
+                        </a>
+
+                        {{-- Dropdown pilihan bahasa --}}
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="min-width: 160px;">
+                            {{-- English --}}
+                            <li>
+                                <button type="submit" name="lang" value="en"
+                                    class="dropdown-item d-flex align-items-center gap-2">
+                                    <img src="{{ asset('assets/img/uk.png') }}" alt="English" width="20"
+                                        height="20">
+                                    English
+                                </button>
+                            </li>
+
+                            {{-- Indonesia --}}
+                            <li>
+                                <button type="submit" name="lang" value="id"
+                                    class="dropdown-item d-flex align-items-center gap-2">
+                                    <img src="{{ asset('assets/img/indonesia.png') }}" alt="Indonesia" width="20"
+                                        height="20">
+                                    Indonesia
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </form>
+            <!--end::Language Dropdown-->
+
 
                 <!-- RIGHT SIDE -->
                 <div class="d-flex gap-2">
@@ -244,12 +276,12 @@
                 <div class="col-lg-5 col-xxl-5 d-flex flex-column justify-content-center align-items-start">
                     <!-- Mobile version -->
                     <h4 class="fw-bolder tagline d-block d-lg-none fs-2 text-center mx-3 mb-3">
-                        Ada pertanyaan? Tenang, kami siap membantu!
+                        {{ __('landing.teks_FAQ') }}
                     </h4>
 
                     <!-- Desktop version -->
                     <h1 class="fw-bold tagline d-none d-lg-block display-4 mx-5">
-                        Ada pertanyaan? Tenang, kami siap membantu!
+                        {{ __('landing.teks_FAQ') }}
                     </h1>
                 </div>
 

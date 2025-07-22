@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pengguna;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreLaporanRequest;
 use App\Models\Report;
 
 use Carbon\Carbon;
@@ -44,21 +45,16 @@ class LaporanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreLaporanRequest $request)
     {
-        // Validate input
-        $validated = $request->validate([
-            'laporan' => 'required|string',
-            'gambar' => 'nullable|image|max:2048',
-        ]);
+        $validated = $request->validated();
 
-        // Prepare data
+        // Prepare data 
         $data = [
             'user_id' => Auth::check() ? Auth::user()->user_id : 0,
             'date_time_report' => now(),
             'report_message' => $validated['laporan'],
         ];
-
 
         // Handle image upload
         if ($request->hasFile('gambar')) {
@@ -69,7 +65,9 @@ class LaporanController extends Controller
         // Save to database
         Report::create($data);
 
-        return redirect()->route('pengguna.laporan.index') ->with('success', 'Laporan berhasil dikirim.');
+        return redirect()
+            ->route('pengguna.laporan.index')
+            ->with('success', 'Laporan berhasil dikirim.');
     }
 
     /**

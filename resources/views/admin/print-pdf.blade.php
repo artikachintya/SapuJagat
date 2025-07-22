@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Laporan PDF</title>
+    <title>{{ __('print_pdf.title') }}</title>
     <style>
         body {
             font-family: sans-serif;
@@ -44,27 +44,27 @@
 </head>
 
 <body>
-    <h2>Laporan Kategori: {{ ucfirst($category) }}</h2>
-    <p>Periode: {{ $start_date }} s/d {{ $end_date }}</p>
+    <h2>{{ __('print_pdf.header.report_category', ['category' => ucfirst($category)]) }}</h2>
+    <p>{{ __('print_pdf.header.period', ['start_date' => $start_date, 'end_date' => $end_date]) }}</p>
 
-    <strong>From</strong>
+    <strong>{{ __('print_pdf.header.from') }}</strong>
     <address>
         {{ $admin->name }}<br>
-        Phone: {{ $admin->phone_num }}<br>
-        Email: {{ $admin->email }}
+        {{ __('print_pdf.contact_info.phone', ['phone' => $admin->phone_num]) }}<br>
+        {{ __('print_pdf.contact_info.email', ['email' => $admin->email]) }}
     </address>
 
     <table>
         <thead>
             <tr>
-                <th>No</th>
+                <th>{{ __('print_pdf.table.no') }}</th>
                 @if ($category === 'order')
-                    <th>Nama Sampah</th>
-                    <th>Type</th>
-                    <th>Total Berat</th>
+                    <th>{{ __('print_pdf.table.columns.order.trash_name') }}</th>
+                    <th>{{ __('print_pdf.table.columns.order.type') }}</th>
+                    <th>{{ __('print_pdf.table.columns.order.total_weight') }}</th>
                 @elseif ($category === 'withdraw')
-                    <th>Bank</th>
-                    <th>Total Withdraw</th>
+                    <th>{{ __('print_pdf.table.columns.withdraw.bank') }}</th>
+                    <th>{{ __('print_pdf.table.columns.withdraw.total_amount') }}</th>
                 @endif
             </tr>
         </thead>
@@ -87,11 +87,23 @@
             <tfoot>
                 <tr>
                     @if ($category === 'order')
-                        <td colspan="3" style="text-align: right;"><strong>Total Berat:</strong></td>
-                        <td><strong>{{ number_format($data->sum('total_weight'), 0, ',', '.') }}</strong></td>
+                        <td colspan="3" style="text-align: right;">
+                            <strong>{{ __('print_pdf.table.footer.order.total_label') }}</strong>
+                        </td>
+                        <td>
+                            <strong>
+                                {{ __('print_pdf.table.footer.order.total_value', ['total' => number_format($data->sum('total_weight'), 0, ',', '.')]) }}
+                            </strong>
+                        </td>
                     @elseif ($category === 'withdraw')
-                        <td colspan="2" style="text-align: right;"><strong>Total Withdraw:</strong></td>
-                        <td><strong>Rp {{ number_format($data->sum('total_amount'), 0, ',', '.') }}</strong></td>
+                        <td colspan="2" style="text-align: right;">
+                            <strong>{{ __('print_pdf.table.footer.withdraw.total_label') }}</strong>
+                        </td>
+                        <td>
+                            <strong>
+                                {{ __('print_pdf.table.footer.withdraw.total_value', ['total' => number_format($data->sum('total_amount'), 0, ',', '.')]) }}
+                            </strong>
+                        </td>
                     @endif
                 </tr>
             </tfoot>

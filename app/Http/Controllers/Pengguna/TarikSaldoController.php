@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Pengguna;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\StoreWithdrawalRequest;
 use App\Models\UserInfo;
 use App\Models\Withdrawal;
 use Auth;
@@ -40,25 +41,9 @@ class TarikSaldoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreWithdrawalRequest $requests)
     {
-        $request->validate([
-            'amount' => 'required|numeric|min:50000',
-            'bank' => 'required|string|max:50',
-            'number' => 'required|string|max:30',
-        ], [
-            'amount.required' => 'Nominal penarikan wajib diisi.',
-            'amount.numeric' => 'Nominal harus berupa angka.',
-            'amount.min' => 'Nominal minimal penarikan adalah Rp50.000.',
-
-            'bank.required' => 'Nama bank wajib diisi.',
-            'bank.string' => 'Nama bank harus berupa teks.',
-            'bank.max' => 'Nama bank maksimal 50 karakter.',
-
-            'number.required' => 'Nomor rekening wajib diisi.',
-            'number.string' => 'Nomor rekening harus berupa teks.',
-            'number.max' => 'Nomor rekening maksimal 30 karakter.',
-        ]);
+        $request = $requests->validated();
 
         $user = auth()->user();
 
@@ -80,19 +65,19 @@ class TarikSaldoController extends Controller
         );
 
         // Cek apakah saldo cukup
-        if ($userInfo->balance < $request->amount) {
+        if ($userInfo->balance < $request['amount']) {
             return redirect()->back()->withErrors(['Saldo tidak mencukupi untuk penarikan ini.']);
         }
 
         // Kurangi saldo
-        $userInfo->balance -= $request->amount;
+        $userInfo->balance -= $request['amount'];
         $userInfo->save();
 
         Withdrawal::create([
             'user_id' => auth()->id(),
-            'withdrawal_balance' => $request->amount,
-            'bank' => $request->bank,
-            'number' => $request->number,
+            'withdrawal_balance' => $request['amount'],
+            'bank' => $request['bank'],
+            'number' => $request['number'],
             'datetime' => now(),
         ]);
 

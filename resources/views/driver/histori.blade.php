@@ -1,6 +1,11 @@
 @extends('driver.partials.driver')
 
-@section('title', 'Histori Penjemputan')
+@section('title', __('history_driver.title'))
+
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
 
 @push('styles')
     <link href="{{ asset('assets/css/laporan.css') }}" rel="stylesheet">
@@ -40,7 +45,7 @@
                                     @if (session('success'))
                                         {{ session('success') }}
                                     @else
-                                        Histori Penukaran {{ Auth::check() ? Auth::user()->name : 'Pengguna' }}
+                                        {{ __('history_driver.header.greeting', ['name' => Auth::check() ? Auth::user()->name : 'Pengguna']) }}
                                     @endif
                                 </b>
                             </div>
@@ -63,21 +68,17 @@
                                                     @php
                                                         if (!$pickup->pick_up_date) {
                                                             $badgeClass = 'bg-secondary';
-                                                            $label = 'Menunggu';
-                                                        } elseif (!$pickup->pick_up_date) {
-                                                            $badgeClass = 'bg-secondary';
-                                                            $label = 'Dalam Penjemputan'; // or any label you want
+                                                            $label = __('history_driver.status.waiting');
                                                         } elseif (!$pickup->arrival_date) {
                                                             $badgeClass = 'bg-warning';
-                                                            $label = 'Dalam Pengantaran';
+                                                            $label = __('history_driver.status.in_delivery');
                                                         } elseif ($pickup->arrival_date) {
                                                             $badgeClass = 'bg-success';
-                                                            $label = 'Selesai';
+                                                            $label = __('history_driver.status.completed');
                                                         } else {
                                                             $badgeClass = 'bg-secondary';
-                                                            $label = 'Menunggu';
+                                                            $label = __('history_driver.status.waiting');
                                                         }
-
                                                     @endphp
 
 
@@ -90,7 +91,7 @@
                                                     <div>
                                                         @if ($pickup->arrival_date)
                                                             <div class="text-muted">
-                                                                {{ \Carbon\Carbon::parse($pickup->arrival_date)->translatedFormat('l, d M Y') }}
+                                                                {{ \Carbon\Carbon::parse($pickup->arrival_date)->translatedFormat(__('history_driver.date_format')) }}
                                                             </div>
                                                         @endif
                                                         <div class="text-success fw-semibold text-truncate"
@@ -115,7 +116,7 @@
                                                         data-user="{{ $pickup->order->user->name }}"
                                                         data-photo="{{ asset('storage/' . $pickup->photos) }}"
                                                         data-photos="{{ asset('storage/') }}">
-                                                        Lihat Detail
+                                                        {{ __('history_driver.labels.view_details') }}
                                                     </button>
                                                 </div>
                                             </div>
@@ -123,7 +124,7 @@
                                         {{-- end for each --}}
                                     @else
                                         <div class="text-center text-muted my-4">
-                                            <p>Tidak ada histori penjemputan tersedia.</p>
+                                            <p>{{ __('history_driver.labels.no_history') }}</p>
                                         </div>
                                     @endif
                                 </div>
@@ -138,14 +139,16 @@
                                                     {{-- <span class="badge {{ $badgeClass }}">
                                                     {{ $label }} --}}
                                                     </span><br>
-                                                    <strong>Waktu Penjemputan: <br><span
+                                                    <strong>{{ __('history_driver.labels.pickup_time') }}:<br> <span
                                                             id="modal-start"></span></strong><br>
-                                                    <strong>Waktu Pengambilan Sampah:<br> <span
+                                                    <strong>{{ __('history_driver.labels.waste_pickup_time') }}:<br> <span
                                                             id="modal-pickup"></span></strong><br>
-                                                    <strong>Waktu Pengantaran Selesai:<br> <span
+                                                    <strong>{{ __('history_driver.labels.completion_time') }}:<br> <span
                                                             id="modal-arrival"></span></strong><br>
-                                                    <strong>Alamat:<br> <span id="modal-address"></span></strong><br>
-                                                    <strong>Pemesan:<br> <span id="modal-user"></span></strong><br>
+                                                    <strong>{{ __('history_driver.labels.address') }}:<br> <span
+                                                            id="modal-address"></span></strong><br>
+                                                    <strong>{{ __('history_driver.labels.customer') }}:<br> <span
+                                                            id="modal-user"></span></strong><br>
                                                 </div>
                                                 <button class="close-btn btn btn-sm btn-light"
                                                     style="font-size: 1.25rem; line-height: 1; padding: 0 10px;">&times;</button>
@@ -156,7 +159,7 @@
                                             <div class="bg-light p-2 mb-2" id="modal-summary"></div>
                                         </div> --}}
                                             <div>
-                                                <strong>Foto Bukti<strong>
+                                                <strong>{{ __('history_driver.labels.evidence_photo') }}<strong>
                                                         <img id="modal-photo" src="" alt="Foto Bukti"
                                                             class="img-fluid mb-2" />
                                                         <div class="bg-light p-2" id="photo-none"></div>

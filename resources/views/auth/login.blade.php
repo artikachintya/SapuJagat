@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
 
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk - Sapu Jagat</title>
+    <title>{{ __('login.title')}}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -21,8 +26,7 @@
                 <div class="quote-box">
                     <img src="{{ asset('Auth/images/card-image.png') }}" alt="Quote Background" class="quote-image">
                     <div class="quote-text">
-                        <p>"Tidak ada tindakan kecil jika dilakukan bersama. Pilah sampah hari ini, selamatkan dunia
-                            untuk generasi esok!"</p>
+                        <p>{{ __('login.quote')}}</p>
                         <p class="author">~By Copitol~</p>
                     </div>
                 </div>
@@ -30,7 +34,7 @@
 
             <div class="right">
                 <img src="Auth/images/logo.png" class="mobile-logo" alt="Logo">
-                <h2>Masuk</h2>
+                <h2>{{ __('login.login')}}</h2>
 
                 @if (session('error'))
                     <div class="overlay" id="error-overlay">
@@ -63,22 +67,22 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <label>Email</label>
-                    <input type="email" name="email" value='{{ old('email') ?? ''}}' required placeholder="Masukkan email Anda">
+                    <input type="email" name="email" value={{ old('email') }} required placeholder="Masukkan email Anda">
 
                     <label>Kata Sandi</label>
-                    <input type="password" name="password" value='{{ old('password') ?? ''}}' required placeholder="Masukkan password Anda">
+                    <input type="password" name="password" value={{ old('password') }} required placeholder="Masukkan password Anda">
 
                     <div class="checkbox-group">
                         <label class="remember-me">
                             <input type="checkbox" name="remember">
-                            <span>Ingat saya</span>
+                            <span>{{ __('login.remember_me')}}</span>
                         </label>
-                        <a href="{{ route('password.request') }}" class="forgot-link">Lupa kata sandi?</a>
+                        <a href="{{ route('password.request') }}" class="forgot-link">{{ __('login.forgot_password')}}</a>
                     </div>
 
-                    <button type="submit" class="btn-primary">Masuk</button>
+                    <button type="submit" class="btn-primary">{{ __('login.login')}}</button>
 
-                    <div class="divider"><span>atau</span></div>
+                    <div class="divider"><span>{{ __('login.divider')}}</span></div>
 
                     <div class="btn-group">
                         <form method="GET" action="{{ route('auth.google') }}">
@@ -86,10 +90,10 @@
                                 onclick="window.location='{{ route('auth.google', ['mode' => 'login']) }}'">
                                 <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"
                                     style="height: 18px; margin-right: 8px;">
-                                Masuk dengan Google
+                                {{ __('login.google_login')}}
                             </button>
                         </form>
-                        <a href="{{ route('register') }}" class="btn-secondary">Belum punya akun</a>
+                        <a href="{{ route('register') }}" class="btn-secondary">{{ __('login.no_account')}}</a>
                     </div>
                 </form>
 
@@ -97,15 +101,15 @@
                     <div id="otpModal" class="modal" style="display:flex;">
                         <div class="modal-content">
                             <button class="close-btn" onclick="closeOtpModal()">×</button>
-                            <h2>Masukkan OTP</h2>
+                            <h2>{{ __('login.otp_title')}}</h2>
                             <form method="POST" action="{{ route('otp.verify') }}">
                                 @csrf
                                 <input type="text" name="otp" maxlength="6" required placeholder="Kode OTP">
-                                <button type="submit" class="btn-verify">Verifikasi</button>
+                                <button type="submit" class="btn-verify">{{ __('login.verify')}}</button>
                             </form>
 
                             <div class="resend-otp-section">
-                                <button id="resendBtn" class="btn-resend" disabled>Kirim ulang kode (60 detik)</button>
+                                <button id="resendBtn" class="btn-resend" disabled>{{ __('login.resend_otp')}}</button>
                             </div>
                         </div>
                     </div>
