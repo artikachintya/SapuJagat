@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\StoreJenisSampahRequest;
 use App\Models\Order;
 use App\Models\Trash;
 use App\Models\Withdrawal;
@@ -28,30 +29,15 @@ class JenisSampahController extends Controller
         return view('admin.jenis', compact('trashes'));
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreJenisSampahRequest $requestRaw)
     {
         /* ----------------------------------------------------------
         | 1. VALIDATE INPUT
         * ---------------------------------------------------------*/
-        $request->validate([
-            'name'         => 'required|string|max:255',
-            'photos'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'type'         => 'required|string|max:255',
-            'price_per_kg' => 'required|numeric',
-            'max_weight'   => 'nullable|numeric',
-        ]);
+        $request = $requestRaw->validated();
 
         /* ----------------------------------------------------------
         | 2. CREATE NEW RECORD

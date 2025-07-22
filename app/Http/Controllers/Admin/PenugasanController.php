@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\StorePenugasanRequest;
 use App\Models\Order;
 use App\Models\Penugasan;
 use App\Models\Pickup;
@@ -42,25 +43,14 @@ class PenugasanController extends Controller
         return view('admin.penugasan', compact('penugasans','drivers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePenugasanRequest $request)
     {
         // 1. Validasi input
-        $data = $request->validate([
-            'order_id' => 'required|exists:orders,order_id',
-            'user_id'  => 'required|exists:users,user_id',
-            'status'   => 'nullable|in:0,1',   // default nanti di‑set 0
-        ]);
+        $data = $request->validated();
 
         // 2. Simpan ke DB
         $penugasan = Penugasan::create([
@@ -83,31 +73,6 @@ class PenugasanController extends Controller
             ->back()
             ->with('success', "Penugasan #{$penugasan->penugasan_id} berhasil dibuat.");
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-
-    }
-
 
     /**
      * Remove the specified resource from storage.

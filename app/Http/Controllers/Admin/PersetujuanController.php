@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\StorePersetujuanRequest;
 use App\Models\Approval;
 use App\Models\Order;
 use Carbon\Carbon;
@@ -50,14 +51,9 @@ class PersetujuanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePersetujuanRequest $request)
     {
-        $data = $request->validate([
-            'order_id' => 'required|exists:orders,order_id',
-            'user_id'  => 'required|exists:users,user_id',
-            'notes' => 'required|string',
-            'approval_status' => 'required|in:0,1,2',
-        ]);
+        $data = $request->validated();
 
         $order = Order::with('user')->where('order_id', $data['order_id'])->firstOrFail();
         $custId = $order->user->user_id;

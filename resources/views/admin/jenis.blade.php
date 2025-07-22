@@ -174,6 +174,15 @@
         @endif
         <div class="row">
             <div class="col-md-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             <div class="card mb-4 recap">
                 <div class="card-header">
                     <h5 class="card-title">Rekapan Jenis Sampah Bulanan</h5>
