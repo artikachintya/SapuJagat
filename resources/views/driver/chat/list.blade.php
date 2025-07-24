@@ -59,7 +59,11 @@
                                         @endif
                                     </div>
                                     <div class="col-12 col-md-4 text-md-end">
-                                        <a href="{{ route('driver.chat', ['chat_id' => $chat->chat_id]) }}"
+                                        {{-- <a href="{{ route('driver.chat', ['chat_id' => $chat->chat_id]) }}"
+                                            class="btn btn-outline-success lihat-chat-btn w-100 w-md-auto mt-2 mt-md-0">
+                                            {{ __('list_chat.labels.view_chat') }}
+                                        </a> --}}
+                                        <a href="{{ URL::signedRoute('driver.chat', ['chat_id' => $chat->chat_id]) }}"
                                             class="btn btn-outline-success lihat-chat-btn w-100 w-md-auto mt-2 mt-md-0">
                                             {{ __('list_chat.labels.view_chat') }}
                                         </a>
