@@ -75,6 +75,12 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_id');
     }
 
+    
+    public function pickup()
+    {
+        return $this->hasMany(Pickup::class, 'user_id');
+    }
+
     public function info()
     {
         return $this->hasOne(UserInfo::class, 'user_id', 'user_id');
