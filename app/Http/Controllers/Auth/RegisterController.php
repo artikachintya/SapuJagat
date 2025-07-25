@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\StoreRegisterRequest;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -104,7 +105,7 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
 
-    public function register(RegisterRequest $request)
+    public function register(StoreRegisterRequest $request)
     {
         $validated = $request->validated();
 

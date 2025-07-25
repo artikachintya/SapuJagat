@@ -103,7 +103,6 @@ Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->g
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
 });
 
-
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('jenis-sampah', JenisSampahController::class);
