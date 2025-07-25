@@ -4,14 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Chat extends Model
 {
+    // protected $primaryKey = 'chat_id';
+    // public $timestamps = false;
+
+    use HasFactory;
+
+    protected $table = 'chats';
     protected $primaryKey = 'chat_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
     public $timestamps = false;
 
     protected $fillable = [

@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Driver\DriverProfileController;
 use App\Http\Controllers\Driver\HistoriDriver;
 use App\Http\Controllers\ChatController;
+use Illuminate\Support\Facades\URL;
 
 use App\Http\Middleware\AdminOnly;
 
@@ -45,6 +46,8 @@ Route::get('/', function () {
             return redirect('/pengguna');
         } elseif ($user->role == 2) {
             return redirect('/admin');
+        }elseif ($user->role == 3) {
+            return redirect('/driver');
         }
     }
     return view('landing');
@@ -143,7 +146,12 @@ Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->g
 });
 
 Route::middleware(['auth','driver'])->prefix('driver')->name('driver.')->group(function () {
-    Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('chat');
+    // Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('chat');
+    // Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('chat');
+    Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])
+    ->name('chat')
+    ->middleware(['signed']);
+
     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
     // Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
     // Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('pengguna.chat.send');
