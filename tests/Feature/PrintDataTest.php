@@ -18,36 +18,167 @@ use Tests\TestCase;
 class PrintDataTest extends TestCase
 {
     use RefreshDatabase;
+    protected $admin, $driver, $trash, $order, $user;
 
-    private function admin()
-    {
-        return User::factory()->create(['role' =>2]);
-    }
-
-    /* PD‑001 ─ Halaman Print‑Data dapat dimuat */
+    /** @test */
     public function test_admin_can_open_print_data_page()
     {
-        $response = $this->actingAs($this->admin())->get('admin/print-data');
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('admin/print-data');
 
         $response->assertStatus(200)
-                 ->assertSee('Start Date')
-                 ->assertSee('End Date')
+                 ->assertSee('Tanggal Mulai')
+                 ->assertSee('Tanggal Akhir')
                  ->assertSee('Kategori')
                  ->assertSee('Tampilkan');
     }
 
-    /* PD‑002 ─ Tombol Tampilkan non‑aktif (banner default) */
+    /** @test */
     public function test_preview_shows_default_banner_when_no_filter()
     {
-        $response = $this->actingAs($this->admin())->get('admin/print-data');
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-        $response->assertSee('Silakan pilih kategori di atas');
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('admin/print-data');
+
+        $response->assertSee('Pilih Kategori');
     }
 
-    /* PD‑003 ─ Validasi rentang tanggal salah */
+    /** @test */
     public function test_invalid_date_range_returns_error_message()
-{
-    Session::start(); // start session for CSRF + flash
+    {
+    Session::start();
+
+    $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
 
     $payload = [
         '_token'     => csrf_token(),
@@ -56,7 +187,7 @@ class PrintDataTest extends TestCase
         'category'   => 'order',
     ];
 
-    $response = $this->actingAs($this->admin())
+    $response = $this->actingAs($this->admin)
                     ->from(route('admin.print-data.index'))
                     ->post(route('admin.print-data.filter'), $payload);
 
@@ -66,39 +197,119 @@ class PrintDataTest extends TestCase
         'end_date' => '2025-07-10',
         'category' => 'order',
     ]);
-}
-
-    /* PD‑004 ─ Dropdown kategori memuat semua opsi */
-    public function test_category_dropdown_contains_expected_options()
-    {
-        $response = $this->actingAs($this->admin())->get('admin/print-data');
-
-        $response->assertSee('Sampah')
-                 ->assertSee('Withdraw');
     }
 
-    /* PD‑005 ─ Kategori Sampah menampilkan tabel rekap */
-    public function test_preview_waste_category_shows_table()
+    /** @test */
+    public function test_category_dropdown_contains_expected_options()
     {
-        $trash = Trash::factory()->create([
-            'name' => 'Botol Plastik'
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
         ]);
 
-        // Create order and associated models
-        $order = Order::factory()->create();
-        Pickup::factory()->create(['order_id' => $order->order_id]);
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('admin/print-data');
+
+        $response->assertSee('Sampah')
+                 ->assertSee('Penarikan');
+    }
+
+    /** @test */
+    public function test_preview_waste_category_shows_table()
+    {
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        Pickup::factory()->create(['order_id' => $this->order->order_id]);
+
         Approval::factory()->create([
-            'order_id' => $order->order_id,
+            'order_id' => $this->order->order_id,
             'approval_status' => 1,
             'date_time' => '2025-07-15',
         ]);
-        OrderDetail::factory()->create([
-            'order_id' => $order->order_id,
-            'trash_id' => $trash->trash_id,
-            'quantity' => 5,
-        ]);
 
-        $response = $this->actingAs($this->admin())
+        $response = $this->actingAs($this->admin)
             ->withSession([
                 'start_date' => '2025-07-10',
                 'end_date'   => '2025-07-20',
@@ -112,12 +323,56 @@ class PrintDataTest extends TestCase
     }
 
 
-    /* PD‑006 ─ Kategori Withdraw menampilkan tabel */
+    /** @test */
     public function test_preview_withdraw_category_shows_table()
     {
-        // Create a withdraw manually
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
         Withdrawal::create([
-            'user_id' => $this->admin()->user_id, // or use an existing user_id
+            'user_id' => $this->user->user_id,
             'number' => '1234567890',
             'bank' => 'BCA',
             'withdrawal_balance' => 100000,
@@ -130,7 +385,7 @@ class PrintDataTest extends TestCase
             'category'   => 'Withdraw',
         ];
 
-        $response = $this->actingAs($this->admin())
+        $response = $this->actingAs($this->admin)
                         ->post('admin/print-data/preview', $payload);
 
         $response->assertSee('Bank')
@@ -139,34 +394,169 @@ class PrintDataTest extends TestCase
     }
 
 
-    /* PD‑007 ─ Tidak ada data → pesan kosong */
+    /** @test */
     public function test_preview_no_data_shows_not_found_message()
     {
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
         $payload = [
             'start_date' => '2024-01-01',
             'end_date'   => '2024-01-31',
             'category'   => 'Sampah',
         ];
 
-        $response = $this->actingAs($this->admin())
+        $response = $this->actingAs($this->admin)
                          ->post('admin/print-data/preview', $payload);
 
         $response->assertSee('Tidak ada data pada rentang tersebut');
     }
 
-    /* PD‑008 ─ Tanggal header = hari ini */
+    /** @test */
     public function test_header_date_is_today()
     {
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
         Carbon::setTestNow('2025-07-16');
 
-        $response = $this->actingAs($this->admin())->get('admin/print-data');
+        $response = $this->actingAs($this->admin)->get('admin/print-data');
 
         $response->assertSee('16/07/2025');
     }
 
-    /* PD‑009 ─ Tombol Print muncul setelah data ditampilkan */
+    /** @test */
     public function test_print_button_visible_after_preview()
     {
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
         Trash::factory()->create(['name' => 'test']);
         $payload = [
             'start_date' => '2025-07-10',
@@ -174,16 +564,61 @@ class PrintDataTest extends TestCase
             'category'   => 'Sampah',
         ];
 
-        $response = $this->actingAs($this->admin())
+        $response = $this->actingAs($this->admin)
                          ->post('admin/print-data/preview', $payload);
 
         $response->assertSee('Print');
     }
 
-    /* PD‑010 ─ Simulasi klik Print (cek route /print) */
+    /** @test */
     public function test_print_route_returns_ok()
     {
-        $response = $this->actingAs($this->admin())
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)
             ->withSession([
                 'start_date' => '2025-07-01',
                 'end_date' => '2025-07-31',
@@ -192,23 +627,59 @@ class PrintDataTest extends TestCase
             ->get(route('admin.print-data.index'));
 
         $response->assertStatus(200)
-                ->assertSee('Sapu Jagat, Inc.'); // or other static text from the Blade
+                ->assertSee('Sapu Jagat, Inc.');
     }
 
 
-    /* PD‑011 ─ Header perusahaan & kontak muncul */
+    /** @test */
     public function test_company_header_information_displayed()
 {
-    // Arrange: create a dummy order so the page actually shows something
-    $admin = $this->admin();
+    $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-    Order::factory()->create([
-        'date_time_request' => '2025-07-15',
-        'user_id' => $admin->user_id,
-    ]);
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
 
-    // Act
-    $response = $this->actingAs($admin)
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+    $response = $this->actingAs($this->admin)
         ->withSession([
             'category' => 'order',
             'start_date' => '2025-07-01',
@@ -216,30 +687,71 @@ class PrintDataTest extends TestCase
         ])
         ->get('/admin/print-data');
 
-    // Assert
     $response->assertStatus(200)
              ->assertSee('Sapu Jagat, Inc.')
              ->assertSee('Phone')
-             ->assertSee($admin->email);
+             ->assertSee($this->admin->email);
 }
 
 
 
-    /* PD‑012 ─ Reset filter mengembalikan banner default */
+    /** @test */
     public function test_reset_filter_returns_to_default_banner()
     {
-        // Step 1: preview with data
-        Trash::factory()->create(['name' => 'test']);
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
         $payload = [
             'start_date' => '2025-07-10',
             'end_date'   => '2025-07-20',
             'category'   => 'Sampah',
         ];
-        $this->actingAs($this->admin())->post('admin/print-data/preview', $payload);
+        $this->actingAs($this->admin)->post('admin/print-data/preview', $payload);
 
-        // Step 2: akses ulang halaman tanpa session preview (reset)
-        $response = $this->actingAs($this->admin())->get('admin/print-data?reset=1');
+        $response = $this->actingAs($this->admin)->get('admin/print-data?reset=1');
 
-        $response->assertSee('Silakan pilih kategori di atas');
+        $response->assertSee('Pilih Kategori');
     }
 }
