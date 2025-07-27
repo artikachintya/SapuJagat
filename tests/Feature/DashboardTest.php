@@ -29,9 +29,9 @@ class DashboardTest extends TestCase
         $response = $this->actingAs($this->user)->get('/pengguna');
         $response->assertStatus(200);
         $response->assertSee('Saldo');
-        $response->assertSee("Hi, {$this->user->name}!");
+        $response->assertSee("Hai, {$this->user->name}!");
     }
-    
+
     /** @test */
     public function tombol_tukar_sampah_mengarahkan_ke_halaman_penukaran()
     {
@@ -66,18 +66,18 @@ class DashboardTest extends TestCase
     }
 
     /** @test */
-    // public function tombol_ganti_bahasa_mengubah_tampilan()
-    // {
-    //     $this->user = User::create([
-    //         'name' => 'Tester6',
-    //         'email' => 'tester6@example.com',
-    //         'password' => bcrypt('password'),
-    //         'role' => 1,
-    //     ]);
+    public function tombol_ganti_bahasa_mengubah_tampilan()
+    {
+        $this->user = User::create([
+            'name' => 'Tester6',
+            'email' => 'tester6@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
 
-    //     $response = $this->actingAs($this->user)->get('/dashboard?lang=id');
-    //     $response->assertSee('Bahasa');
-    // }
+        $response = $this->actingAs($this->user)->get('/pengguna?lang=id');
+        $response->assertSee("Hai, {$this->user->name}!");
+    }
 
     /** @test */
     public function navigasi_menu_sidebar_berfungsi()

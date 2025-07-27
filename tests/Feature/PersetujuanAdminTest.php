@@ -8,27 +8,30 @@ use App\Models\OrderDetail;
 use App\Models\Pickup;
 use App\Models\Trash;
 use App\Models\User;
+use App\Models\UserInfo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Session;
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class PersetujuanAdminTest extends TestCase
 {
     use RefreshDatabase;
 
-    /* helper */
-    private function admin()
-    {
-        return User::factory()->create(['role' => 2]);
-    }
+    protected $admin, $driver, $trash, $order, $user;
 
-    /* ----------------------------------------------------------------
-       AP‑001  Halaman Persetujuan dapat dimuat
-    ---------------------------------------------------------------- */
+    /** @test */
     public function test_admin_can_open_persetujuan_page()
     {
-        $response = $this->actingAs($this->admin())->get('admin/persetujuan');
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('admin/persetujuan');
 
         $response->assertStatus(200)
                  ->assertSee('Daftar Transaksi')
@@ -37,12 +40,75 @@ class PersetujuanAdminTest extends TestCase
                  ->assertSee('Penukaran Hari Ini');
     }
 
-    /* ----------------------------------------------------------------
-       AP‑002  Kartu Transaksi Disetujui menampilkan hitungan benar
-    ---------------------------------------------------------------- */
+    /** @test */
     public function test_card_approved_count_is_correct()
     {
-        // Create 3 APPROVED orders
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'address' => 'Jl.Kanak-kanak',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'address' => 'Jl.Kanak-kanak',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'address' => 'Jl.Kanak-kanak',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        UserInfo::create([
+            'user_id' => $this->user->user_id,
+            'address' => 'Jl. Kekanak-kanakan No.2',
+            'province' => 'Jawa Timur',
+            'city' => 'Jambi',
+            'postal_code' => '40382',
+            'balance' => '30000'
+        ]);
+
+        Approval::factory()->create([
+            'order_id' => $this->order->order_id,
+            'approval_status' => 2,
+        ]);
+
+        PickUp::factory()->create([
+            'order_id' => $this->order->order_id,
+        ]);
+
         for ($i = 0; $i < 3; $i++) {
             $order = Order::factory()->create();
 
@@ -56,7 +122,6 @@ class PersetujuanAdminTest extends TestCase
             ]);
         }
 
-        // Create 2 REJECTED orders
         for ($i = 0; $i < 2; $i++) {
             $order = Order::factory()->create();
 
@@ -70,22 +135,84 @@ class PersetujuanAdminTest extends TestCase
             ]);
         }
 
-        // Act as admin and get the response
-        $response = $this->actingAs($this->admin())->get('admin/persetujuan');
+        $response = $this->actingAs($this->admin)->get('admin/persetujuan');
 
-        // Check that the HTML has the label and correct number
         $response->assertSeeInOrder([
             'Transaksi Disetujui',
             '3'
         ]);
     }
 
-    /* ----------------------------------------------------------------
-       AP‑003  Kartu Transaksi Ditolak menampilkan hitungan benar
-    ---------------------------------------------------------------- */
+    /** @test */
     public function test_card_rejected_count_is_correct()
     {
-        // Create 2 REJECTED orders with pickUps
+
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'address' => 'Jl.Kanak-kanak',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'address' => 'Jl.Kanak-kanak',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'address' => 'Jl.Kanak-kanak',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        UserInfo::create([
+            'user_id' => $this->user->user_id,
+            'address' => 'Jl. Kekanak-kanakan No.2',
+            'province' => 'Jawa Timur',
+            'city' => 'Jambi',
+            'postal_code' => '40382',
+            'balance' => '30000'
+        ]);
+
+        Approval::factory()->create([
+            'order_id' => $this->order->order_id,
+            'approval_status' => 2,
+        ]);
+
+        PickUp::factory()->create([
+            'order_id' => $this->order->order_id,
+        ]);
+
         for ($i = 0; $i < 2; $i++) {
             $order = Order::factory()->create();
 
@@ -99,22 +226,83 @@ class PersetujuanAdminTest extends TestCase
             ]);
         }
 
-        // Act as admin and hit the correct URL
-        $response = $this->actingAs($this->admin())->get('/admin/persetujuan');
+        $response = $this->actingAs($this->admin)->get('/admin/persetujuan');
 
-        // Assert "Transaksi Ditolak" and the count 2 appear in order
         $response->assertSeeInOrder([
             'Transaksi Ditolak',
             '2'
         ]);
     }
 
-    /* ----------------------------------------------------------------
-       AP‑004  Kartu Penukaran Hari Ini menghitung transaksi hari ini
-    ---------------------------------------------------------------- */
+    /** @test */
     public function test_card_today_exchange_count()
     {
-        // 2 transactions with today's request date and pick up
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'address' => 'Jl.Kanak-kanak',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'address' => 'Jl.Kanak-kanak',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'address' => 'Jl.Kanak-kanak',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        UserInfo::create([
+            'user_id' => $this->user->user_id,
+            'address' => 'Jl. Kekanak-kanakan No.2',
+            'province' => 'Jawa Timur',
+            'city' => 'Jambi',
+            'postal_code' => '40382',
+            'balance' => '30000'
+        ]);
+
+        Approval::factory()->create([
+            'order_id' => $this->order->order_id,
+            'approval_status' => 2,
+        ]);
+
+        PickUp::factory()->create([
+            'order_id' => $this->order->order_id,
+        ]);
+
         for ($i = 0; $i < 2; $i++) {
             $order = Order::factory()->create([
                 'date_time_request' => now(),
@@ -125,7 +313,6 @@ class PersetujuanAdminTest extends TestCase
             ]);
         }
 
-        // 1 transaction with yesterday's date (should NOT be counted)
         $orderYesterday = Order::factory()->create([
             'date_time_request' => now()->subDay(),
         ]);
@@ -134,81 +321,153 @@ class PersetujuanAdminTest extends TestCase
             'order_id' => $orderYesterday->order_id,
         ]);
 
-        // Access correct route
-        $response = $this->actingAs($this->admin())->get('/admin/persetujuan');
+        $response = $this->actingAs($this->admin)->get('/admin/persetujuan');
 
-        // Assert the card shows 2 for today's exchanges
         $response->assertSeeInOrder([
             'Penukaran Hari Ini',
             '2'
         ]);
     }
 
-
-    /* ----------------------------------------------------------------
-       AP‑005  Tabel menampilkan daftar transaksi pending
-    ---------------------------------------------------------------- */
+    /** @test */
     public function test_table_shows_pending_transactions()
     {
-        // Create trash
-        $trash = Trash::factory()->create(['name' => 'Botol Plastik']);
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'address' => 'Jl.Kanak-kanak',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-        // Create the order
-        $order = Order::factory()->create();
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'address' => 'Jl.Kanak-kanak',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
 
-        // Create approval with status = 2 (Pending)
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'address' => 'Jl.Kanak-kanak',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        UserInfo::create([
+            'user_id' => $this->user->user_id,
+            'address' => 'Jl. Kekanak-kanakan No.2',
+            'province' => 'Jawa Timur',
+            'city' => 'Jambi',
+            'postal_code' => '40382',
+            'balance' => '30000'
+        ]);
+
         Approval::factory()->create([
-            'order_id' => $order->order_id,
+            'order_id' => $this->order->order_id,
             'approval_status' => 2,
         ]);
 
-        // Create pickup to satisfy whereHas('pickUp')
         PickUp::factory()->create([
-            'order_id' => $order->order_id,
+            'order_id' => $this->order->order_id,
         ]);
 
-        // Attach trash via order detail
-        OrderDetail::factory()->create([
-            'order_id' => $order->order_id,
-            'trash_id' => $trash->trash_id,
-        ]);
+        $response = $this->actingAs($this->admin)->get('/admin/persetujuan');
 
-        // Hit the correct route
-        $response = $this->actingAs($this->admin())->get('/admin/persetujuan');
-
-        // Assert the table row contains expected data
         $response->assertSee('Pending');
         $response->assertSee('Botol Plastik');
     }
 
-
-    /* ----------------------------------------------------------------
-       AP‑006  Pesan “No data available” jika tidak ada pending
-    ---------------------------------------------------------------- */
-    // public function test_no_data_message_when_no_pending()
-    // {
-    //     // hanya approved & rejected
-    //     Transaksi::factory()->create(['status' => 'APPROVED']);
-
-    //     $response = $this->actingAs($this->admin())->get('/persetujuan');
-
-    //     $response->assertSee('No data available in table');
-    // }
-
-    /* ----------------------------------------------------------------
-       AP‑007  Respon setujui (Approve)
-    ---------------------------------------------------------------- */
+    /** @test */
     public function test_admin_can_approve_transaction()
     {
-        Session::start();
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'address' => 'Jl.Kanak-kanak',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-        $order = Order::factory()->create();
-        $user = User::factory()->create(['role' => 2]);
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'address' => 'Jl.Kanak-kanak',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
 
-        $response = $this->withoutExceptionHandling()->actingAs($user)->post(route('admin.persetujuan.store'), [
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'address' => 'Jl.Kanak-kanak',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        UserInfo::create([
+            'user_id' => $this->user->user_id,
+            'address' => 'Jl. Kekanak-kanakan No.2',
+            'province' => 'Jawa Timur',
+            'city' => 'Jambi',
+            'postal_code' => '40382',
+            'balance' => '30000'
+        ]);
+
+        $response = $this->actingAs($this->admin)->post(route('admin.persetujuan.store'), [
             '_token'          => csrf_token(),
-            'order_id'        => $order->order_id,
-            'user_id'         => $user->user_id,  
+            'order_id'        => $this->order->order_id,
+            'user_id'         => $this->user->user_id,
             'approval_status' => 1,
             'notes'           => 'Disetujui oleh admin',
         ]);
@@ -216,27 +475,68 @@ class PersetujuanAdminTest extends TestCase
         $response->assertRedirect();
 
         $this->assertDatabaseHas('approvals', [
-            'order_id'        => $order->order_id,
-            'user_id'         => $user->user_id,
+            'order_id'        => $this->order->order_id,
+            'user_id'         => $this->user->user_id,
             'approval_status' => 1,
             'notes'           => 'Disetujui oleh admin',
         ]);
     }
 
-    /* ----------------------------------------------------------------
-       AP‑008  Respon tolak (Reject)
-    ---------------------------------------------------------------- */
+
+    /** @test */
     public function test_admin_can_reject_transaction()
     {
         Session::start();
 
-        $order = Order::factory()->create();
-        $user = User::factory()->create(['role' => 2]);
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-        $response = $this->withoutExceptionHandling()->actingAs($user)->post(route('admin.persetujuan.store'), [
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->withoutExceptionHandling()->actingAs($this->admin)->post(route('admin.persetujuan.store'), [
             '_token'          => csrf_token(),
-            'order_id'        => $order->order_id,
-            'user_id'         => $user->user_id,  
+            'order_id'        => $this->order->order_id,
+            'user_id'         => $this->user->user_id,
             'approval_status' => 0,
             'notes'           => 'Ditolak oleh admin',
         ]);
@@ -244,28 +544,66 @@ class PersetujuanAdminTest extends TestCase
         $response->assertRedirect();
 
         $this->assertDatabaseHas('approvals', [
-            'order_id'        => $order->order_id,
-            'user_id'         => $user->user_id,
+            'order_id'        => $this->order->order_id,
+            'user_id'         => $this->user->user_id,
             'approval_status' => 0,
             'notes'           => 'Ditolak oleh admin',
         ]);
     }
 
 
-    /* ----------------------------------------------------------------
-       AP‑009  Respon pending (kembali / tetap pending)
-    ---------------------------------------------------------------- */
+    /** @test */
     public function test_admin_can_keep_transaction_pending()
     {
-        Session::start();
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-        $order = Order::factory()->create();
-        $user = User::factory()->create(['role' => 2]);
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
 
-        $response = $this->withoutExceptionHandling()->actingAs($user)->post(route('admin.persetujuan.store'), [
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->withoutExceptionHandling()->actingAs($this->admin)->post(route('admin.persetujuan.store'), [
             '_token'          => csrf_token(),
-            'order_id'        => $order->order_id,
-            'user_id'         => $user->user_id,  
+            'order_id'        => $this->order->order_id,
+            'user_id'         => $this->user->user_id,
             'approval_status' => 2,
             'notes'           => 'Dipending oleh admin',
         ]);
@@ -273,52 +611,10 @@ class PersetujuanAdminTest extends TestCase
         $response->assertRedirect();
 
         $this->assertDatabaseHas('approvals', [
-            'order_id'        => $order->order_id,
-            'user_id'         => $user->user_id,
+            'order_id'        => $this->order->order_id,
+            'user_id'         => $this->user->user_id,
             'approval_status' => 2,
             'notes'           => 'Dipending oleh admin',
         ]);
     }
-
-    /* ----------------------------------------------------------------
-       AP‑010  Search filter
-    ---------------------------------------------------------------- */
-    // public function test_search_filter_works()
-    // {
-    //     Transaksi::factory()->create(['status' => 'PENDING', 'id' => 111]);
-    //     Transaksi::factory()->create(['status' => 'PENDING', 'id' => 222]);
-
-    //     $response = $this->actingAs($this->admin())
-    //                      ->get('/persetujuan?search=111');
-
-    //     $response->assertSee('111')
-    //              ->assertDontSee('222');
-    // }
-
-    // /* ----------------------------------------------------------------
-    //    AP‑011  Pagination maksimal 10 baris
-    // ---------------------------------------------------------------- */
-    // public function test_first_page_shows_max_10_rows()
-    // {
-    //     Transaksi::factory()->count(11)->create(['status' => 'PENDING']);
-
-    //     $response = $this->actingAs($this->admin())->get('/persetujuan');
-
-    //     $this->assertCount(10, $response->viewData('transaksi'));
-    // }
-
-    // /* ----------------------------------------------------------------
-    //    AP‑012  Next / Previous pagination
-    // ---------------------------------------------------------------- */
-    // public function test_pagination_next_and_previous_links()
-    // {
-    //     Transaksi::factory()->count(15)->create(['status' => 'PENDING']);
-    //     $admin = $this->admin();
-
-    //     $page1 = $this->actingAs($admin)->get('/persetujuan?page=1');
-    //     $page1->assertSee('?page=2');
-
-    //     $page2 = $this->actingAs($admin)->get('/persetujuan?page=2');
-    //     $page2->assertSee('?page=1');
-    // }
 }

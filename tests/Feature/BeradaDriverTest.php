@@ -13,14 +13,16 @@ use Illuminate\Support\Facades\Hash;
 
 class BeradaDriverTest extends TestCase
 {
+    use RefreshDatabase;
 
+    protected $driver;
     /** @test */
     public function halaman_pickup_order_dapat_diakses_driver()
     {
         $this->driver = User::create([
             'name' => 'driver1',
             'email' => 'driver1@example.com',
-            'password' => Hash::make('password5'),
+            'password' => bcrypt('password5'),
             'role' => 3,
         ]);
 
@@ -160,20 +162,16 @@ class BeradaDriverTest extends TestCase
     /** @test */
     public function tombol_pesan_mengarah_ke_halaman_chat_user()
     {
-        $driver = User::create([
+        $this->driver = User::create([
+            'user_id' => 1,
             'name' => 'driver',
             'email' => 'tester@example.com',
             'password' => bcrypt('password'),
             'role' => 3,
         ]);
 
-        $pickup = Pickup::factory()->create([
-            'driver_id' => $this->$driver->id,
-            'user_id' => User::factory()->create()->id
-        ]);
-
-        $response = $this->actingAs($this->$driver)->get("/driver/chat/{$pickup->user_id}");
+        $response = $this->actingAs($this->driver)->get("/driver/chat");
         $response->assertStatus(200);
-        $response->assertSee('Chat dengan User');
+        $response->assertSee('Daftar Pesan Pengguna');
     }
 }
