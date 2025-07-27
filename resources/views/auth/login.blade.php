@@ -108,7 +108,7 @@
                         <a href="{{ route('register') }}" class="btn-secondary">{{ __('login.no_account')}}</a>
                     </div>
                 </form>
-                
+
                 @if (session('otp_required') && session()->has('otp_user_id'))
                     <div id="otpModal" class="modal" style="display:flex;">
                         <div class="modal-content">

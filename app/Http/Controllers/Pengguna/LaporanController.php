@@ -63,7 +63,17 @@ class LaporanController extends Controller
         }
 
         // Save to database
-        Report::create($data);
+        $laporan = Report::create($data);
+
+        activity('create_laporan') // nama log bisa kamu atur sesuai keinginan
+            ->causedBy(Auth::user())
+            ->performedOn($laporan)
+            ->withProperties([
+                'report_id' => $laporan->report_id ?? null,
+                'report_message' => $laporan->report_message,
+            ])
+            ->log('User mengirim laporan');
+
 
         return redirect()
             ->route('pengguna.laporan.index')

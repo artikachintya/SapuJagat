@@ -20,14 +20,14 @@ class TarikSaldoController extends Controller
         $user = Auth::user();
         $totalBalance = $user->info->balance ?? 0;
 
-         $monthlyWithdrawals = $user
+        $monthlyWithdrawals = $user
             ? $user->withdrawals()
-                    ->whereMonth('datetime', now()->month)
-                    ->whereYear('datetime', now()->year)
-                    ->sum('withdrawal_balance')
-            :0;
+                ->whereMonth('datetime', now()->month)
+                ->whereYear('datetime', now()->year)
+                ->sum('withdrawal_balance')
+            : 0;
 
-        return view('pengguna.TarikSaldo',compact('totalBalance','monthlyWithdrawals'));
+        return view('pengguna.TarikSaldo', compact('totalBalance', 'monthlyWithdrawals'));
     }
 
     /**
@@ -47,6 +47,15 @@ class TarikSaldoController extends Controller
 
         $user = auth()->user();
 
+        if ($user->role != 1) {
+            activity('update_saldo')
+                ->causedBy($user)
+                ->withProperties(['reason' => 'Role tidak diizinkan'])
+                ->log('Gagal tarik saldo: role tidak diizinkan');
+
+            return redirect()->back()->withErrors(['Anda tidak memiliki akses untuk melakukan penarikan.']);
+        }
+
         // Cek apakah role = 1
         if ($user->role != 1) {
             return redirect()->back()->withErrors(['Anda tidak memiliki akses untuk melakukan penarikan.']);
@@ -54,8 +63,8 @@ class TarikSaldoController extends Controller
 
         // Ambil data user_info
         $userInfo = UserInfo::firstOrCreate(
-        ['user_id' => $user->user_id],
-        [
+            ['user_id' => $user->user_id],
+            [
                 'address' => '-',
                 'province' => '-',
                 'city' => '-',
@@ -63,6 +72,18 @@ class TarikSaldoController extends Controller
                 'balance' => 0,
             ]
         );
+
+        if ($userInfo->balance < $request['amount']) {
+            activity('update_saldo')
+                ->causedBy($user)
+                ->withProperties([
+                    'attempted_amount' => $request['amount'],
+                    'current_balance' => $userInfo->balance,
+                ])
+                ->log('Gagal tarik saldo: saldo tidak mencukupi');
+
+            return redirect()->back()->withErrors(['Saldo tidak mencukupi untuk penarikan ini.']);
+        }
 
         // Cek apakah saldo cukup
         if ($userInfo->balance < $request['amount']) {
@@ -73,13 +94,24 @@ class TarikSaldoController extends Controller
         $userInfo->balance -= $request['amount'];
         $userInfo->save();
 
-        Withdrawal::create([
+        $withdrawal = Withdrawal::create([
             'user_id' => auth()->id(),
             'withdrawal_balance' => $request['amount'],
             'bank' => $request['bank'],
             'number' => $request['number'],
             'datetime' => now(),
         ]);
+
+        activity('update_saldo')
+            ->causedBy($user)
+            ->performedOn($withdrawal)
+            ->withProperties([
+                'amount' => $request['amount'],
+                'bank' => $request['bank'],
+                'number' => $request['number'],
+            ])
+            ->log('Berhasil mengajukan penarikan saldo');
+
 
         return redirect()->back()->with('success', 'Permintaan penarikan berhasil diajukan.');
     }

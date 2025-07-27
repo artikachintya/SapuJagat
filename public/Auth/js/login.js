@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const errorOverlay = document.getElementById('error-overlay');
     const successOverlay = document.getElementById('success-overlay');
     const otpModal = document.getElementById('otpModal');
@@ -62,24 +62,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 startCountdown(parseInt(expiry, 10));
             } else {
                 // If no expiry exists, enable the button immediately
-                 resendBtn.disabled = false;
-                 resendBtn.textContent = "Kirim ulang kode";
+                resendBtn.disabled = false;
+                resendBtn.textContent = "Kirim ulang kode";
             }
         };
 
         // Resend Button Click Handler
-        resendBtn.addEventListener("click", function() {
+        resendBtn.addEventListener("click", function () {
             resendBtn.disabled = true;
             resendBtn.textContent = "Mengirim ulang...";
 
             fetch(window.otpConfig.resendUrl, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": window.otpConfig.csrfToken,
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                })
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": window.otpConfig.csrfToken,
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.expires_at) {
@@ -121,7 +121,7 @@ function closeOtpModal() {
             // Hide the modal only after the server confirms
             modal.style.display = 'none';
             // Clear the timer from storage so it doesn't resume if the user logs in again
-            sessionStorage.removeItem('otpExpiry'); 
+            sessionStorage.removeItem('otpExpiry');
         } else {
             // If the server fails, alert the user but maybe don't close the modal
             alert('Could not close the OTP prompt. Please try again.');
@@ -130,4 +130,14 @@ function closeOtpModal() {
         console.error('Error closing OTP modal:', error);
         alert('An error occurred. Please refresh the page.');
     });
+}
+
+function closeSuccessPopup() {
+    const overlay = document.getElementById('success-overlay');
+    if (!overlay) return;
+    overlay.style.transition = 'opacity 0.5s ease';
+    overlay.style.opacity = '0';
+    setTimeout(() => {
+        overlay.style.display = 'none';
+    }, 500);
 }
