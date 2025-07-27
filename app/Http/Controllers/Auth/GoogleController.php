@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
+use Spatie\Activitylog\Facades\LogActivity;
+use Spatie\Activitylog\Models\Activity;
 
 class GoogleController extends Controller
 {
@@ -34,21 +36,38 @@ class GoogleController extends Controller
 
         if ($user) {
             if ($mode === 'register') {
-                // Email sudah terdaftar saat daftar, jangan login
                 return redirect()->route('login')->with('error', 'Email ini sudah terdaftar, silakan login.');
             }
 
-            // Jika mode login, cek apakah user memang dari Google
             if (!$user->is_google_user) {
+                activity('authentication')
+                    ->causedBy($user)
+                    ->withProperties([
+                        'email' => $user->email,
+                        'reason' => 'not a google user',
+                        'ip' => $request->ip(),
+                    ])
+                    ->log("Gagal login Google: {$user->name} bukan pengguna Google");
+
                 return redirect()->route('login')->with('error', 'Email ini terdaftar tidak dengan akun google. Silakan login dengan email dan password.');
             }
 
-            // Login user Google
             Auth::login($user);
+
+            // ✅ Logging login Google
+            activity('authentication')
+                ->causedBy($user)
+                ->withProperties([
+                    'role' => 'user',
+                    'method' => 'google-oauth',
+                    'name' => $user->name,
+                    'ip' => $request->ip(),
+                ])
+                ->log("Login dengan Google oleh {$user->name} (user)");
+
             return redirect()->intended('/pengguna');
         }
 
-        // Kalau user belum ada, tapi mode daftar, buat akun
         if ($mode === 'register') {
             $user = User::create([
                 'name' => $googleUser->name,
@@ -64,8 +83,17 @@ class GoogleController extends Controller
             return redirect()->route('login')->with('success', 'Email berhasil terdaftar. Silakan login untuk melanjutkan.');
         }
 
-        // Kalau user belum ada dan mode login, tampilkan error
+        activity('authentication')
+            ->withProperties([
+                'email' => $googleUser->getEmail(),
+                'reason' => 'google account not registered',
+                'ip' => $request->ip(),
+            ])
+            ->log("Gagal login Google: akun belum terdaftar ({$googleUser->getEmail()})");
+
         return redirect()->route('login')->with('error', 'Email Google Anda belum terdaftar.');
     }
+
+
 
 }

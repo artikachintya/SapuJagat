@@ -9,6 +9,9 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Spatie\Activitylog\Facades\LogActivity;
+use Spatie\Activitylog\Models\Activity;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -24,6 +27,7 @@ class LoginController extends Controller
     {
         return '/pengguna';
     }
+
     protected function loggedOut(Request $request)
     {
         return redirect('/login');
@@ -31,6 +35,28 @@ class LoginController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
+        $email = $request->input('email');
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            activity('authentication')
+                ->withProperties([
+                    'email' => $email,
+                    'reason' => 'email not found',
+                    'ip' => $request->ip(),
+                ])
+                ->log("Gagal login: Email tidak ditemukan ($email)");
+        } else {
+            activity('authentication')
+                ->causedBy($user)
+                ->withProperties([
+                    'email' => $email,
+                    'reason' => 'invalid password',
+                    'ip' => $request->ip(),
+                ])
+                ->log("Gagal login: Password salah untuk {$user->name}");
+        }
+
         throw ValidationException::withMessages([
             $this->username() => [trans('auth.failed')]
         ]);
@@ -38,7 +64,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        // Hapus semua session OTP saat membuka login (kecuali saat redirect setelah submit OTP)
         if (!session()->has('otp_verification')) {
             Session::forget(['otp_required', 'otp_user_id', 'otp_code', 'otp_expires_at']);
         }
@@ -50,8 +75,8 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
+        // Jika role = 1 (pengguna biasa), kirim OTP
         if ($user->role == 1) {
-            // Jika role = 1 (pengguna biasa), kirim OTP
             $otp = random_int(100000, 999999);
 
             session([
@@ -69,7 +94,18 @@ class LoginController extends Controller
             return redirect()->route('login');
         }
 
-        // Jika bukan role 1 (admin/driver), langsung masuk
+        activity('authentication')
+            ->causedBy($user)
+            ->withProperties([
+                'role' => $this->getRoleName($user->role),
+                'method' => 'email-password',
+                'name' => $user->name,
+                'ip' => $request->ip(),
+            ])
+            ->log("Login berhasil sebagai {$user->name} ({$this->getRoleName($user->role)})");
+
+
+        // Redirect sesuai role
         if ($user->role == 1) {
             return redirect()->intended('/pengguna');
         } elseif ($user->role == 2) {
@@ -78,4 +114,39 @@ class LoginController extends Controller
             return redirect()->intended('/driver');
         }
     }
+
+    /**
+     * Mengembalikan nama role dari nilai numerik
+     */
+    private function getRoleName($role)
+    {
+        return match ($role) {
+            1 => 'user',
+            2 => 'admin',
+            3 => 'driver',
+            default => 'unknown',
+        };
+    }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+
+        // Logging sebelum logout
+        activity('authentication')
+            ->causedBy($user)
+            ->withProperties([
+                'role' => $this->getRoleName($user->role ?? 1),
+                'name' => $user->name,
+                'ip' => $request->ip(),
+            ])
+            ->log("Logout oleh {$user->name} ({$this->getRoleName($user->role ?? 1)})");
+
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
+    }
+
 }

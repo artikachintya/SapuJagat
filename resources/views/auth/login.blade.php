@@ -14,6 +14,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{{ asset('Auth/css/login.css') }}">
+    <script>
+        window.otpConfig = {
+            resendUrl: "{{ route('otp.resend') }}",
+            cancelUrl: "{{ route('otp.cancel') }}",
+            csrfToken: "{{ csrf_token() }}",
+            // Pass the initial expiration time as a Unix timestamp if it exists
+            initialExpiresAt: @json(session('otp_expires_at') ? session('otp_expires_at')->timestamp : null)
+        };
+    </script>
 </head>
 
 <body>
@@ -67,17 +76,20 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <label>Email</label>
-                    <input type="email" name="email" value='{{ old('email') ?? ''}}' required placeholder="Masukkan email Anda">
+                    <input type="email" name="email" value='{{ old('email') ?? ''}}' required
+                        placeholder="Masukkan email Anda">
 
                     <label>Kata Sandi</label>
-                    <input type="password" name="password" value='{{ old('password') ?? '' }}' required placeholder="Masukkan password Anda">
+                    <input type="password" name="password" value='{{ old('password') ?? '' }}' required
+                        placeholder="Masukkan password Anda">
 
                     <div class="checkbox-group">
                         <label class="remember-me">
                             <input type="checkbox" name="remember">
                             <span>{{ __('login.remember_me')}}</span>
                         </label>
-                        <a href="{{ route('password.request') }}" class="forgot-link">{{ __('login.forgot_password')}}</a>
+                        <a href="{{ route('password.request') }}"
+                            class="forgot-link">{{ __('login.forgot_password')}}</a>
                     </div>
 
                     <button type="submit" class="btn-primary">{{ __('login.login')}}</button>
@@ -96,10 +108,11 @@
                         <a href="{{ route('register') }}" class="btn-secondary">{{ __('login.no_account')}}</a>
                     </div>
                 </form>
-
+                
                 @if (session('otp_required') && session()->has('otp_user_id'))
                     <div id="otpModal" class="modal" style="display:flex;">
                         <div class="modal-content">
+                            {{-- Ensure the close button calls the correct function --}}
                             <button class="close-btn" onclick="closeOtpModal()">×</button>
                             <h2>{{ __('login.otp_title')}}</h2>
                             <form method="POST" action="{{ route('otp.verify') }}">
@@ -107,7 +120,6 @@
                                 <input type="text" name="otp" maxlength="6" required placeholder="Kode OTP">
                                 <button type="submit" class="btn-verify">{{ __('login.verify')}}</button>
                             </form>
-
                             <div class="resend-otp-section">
                                 <button id="resendBtn" class="btn-resend" disabled>{{ __('login.resend_otp')}}</button>
                             </div>
