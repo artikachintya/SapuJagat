@@ -91,6 +91,7 @@
 @section('content')
 
 
+<<<<<<< HEAD
     <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
@@ -104,6 +105,64 @@
                             <li class="breadcrumb-item active" aria-current="page">{{ __('penugasan_driver.dashboard') }}
                             </li>
                         </ol>
+=======
+<main class="app-main">
+<!--begin::App Content Header-->
+<div class="app-content-header">
+    <!--begin::Container-->
+    <div class="container-fluid">
+    <!--begin::Row-->
+    <div class="row page-title">
+        <div class="col-sm">
+        <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+        </ol>
+        </div>
+    </div>
+    <!--end::Row-->
+    </div>
+    <!--end::Container-->
+</div>
+<div class="app-content">
+    <!--begin::Container-->
+    <div class="container-fluid">
+    <!-- Info boxes -->
+    <!-- /.row -->
+    <!--begin::Row-->
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <div class="row">
+            <div class="col-md-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            <div class="card mb-4 recap">
+                <div class="card-header">
+                    <h5 class="card-title">Penugasan</h5>
+                    <div class="card-tools">
+                        <a href="{{ route('admin.penugasan.archive') }}" class="btn btn-warning btn-sm">
+                            Arsip Penugasan
+                        </a>
+
+                        {{-- <a href="{{route('admin.jenis-sampah.create')}}" class="btn btn-success">Buat Sampah</a> --}}
+                        <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                        </button>
+
+>>>>>>> 11104922eba3ab90fdb13e81fcf1a143609ed8cf
                     </div>
                 </div>
                 <!--end::Row-->
