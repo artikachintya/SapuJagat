@@ -6,54 +6,67 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StoreResetPassword;
+use Illuminate\Support\Facades\Log;
+
 class ResetPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
-
     use ResetsPasswords;
 
-    /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
     protected $redirectTo = '/login';
 
     protected function rules()
     {
-
-        return [
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => [
-                'required',
-                'string',
-                'min:8', // minimal 8 karakter
-                'regex:/[A-Z]/', // harus mengandung huruf kapital
-                'regex:/[!@#$%^&*(),.?":{}|<>]/', // harus mengandung karakter spesial
-                'confirmed', // cocok dengan konfirmasi password
-            ],
-
-        ];
+        return (new StoreResetPassword())->rules();
     }
+
     protected function validationErrorMessages()
     {
-        return [
-            'password.regex' => 'Password harus mengandung minimal satu huruf kapital dan satu karakter spesial.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
-            'password.min' => 'Password harus minimal 8 karakter.',
-            'email.required' => 'Email harus diisi.',
-            'email.email' => 'Format email tidak valid.',
-        ];
+        return (new StoreResetPassword())->messages();
+    }
+
+    protected function sendResetResponse(Request $request, $response): RedirectResponse
+    {
+        // Logging sukses
+        activity('authentication')
+            ->withProperties([
+                'email' => $request->email,
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ])
+            ->log('User berhasil reset password');
+
+        return redirect()->route('login')->with('success', trans($response));
+    }
+
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        // Logging gagal
+        activity('authentication')
+            ->withProperties([
+                'email' => $request->email,
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'status' => $response
+            ])
+            ->log('User gagal reset password');
+
+        return redirect()->back()
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => trans($response)]);
+    }
+
+    protected function resetPassword($user, $password)
+    {
+        $user->password = Hash::make($password);
+        $user->setRememberToken(Str::random(60));
+        $user->save();
+
+        event(new PasswordReset($user));
     }
 }
-

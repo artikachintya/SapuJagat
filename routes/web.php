@@ -71,10 +71,11 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 //Buat Route otpnya
 Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
 
-//Route opt resend
+//Route otp resend
 Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend');
 
-
+//Route otp cancel
+Route::post('/otp/cancel', [OtpController::class, 'cancel'])->name('otp.cancel');
 
 // User Tukar Sampah
 // user step 1 : tukar sampah
@@ -106,7 +107,6 @@ Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->g
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
 });
-
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
