@@ -39,7 +39,7 @@ class LoginTest extends TestCase
     public function google_login_redirects_to_google_provider()
     {
         $response = $this->get('/auth/google');
-        $response->assertRedirect(); // arahkan ke halaman Google
+        $response->assertRedirect(); 
     }
 
     /** @test */

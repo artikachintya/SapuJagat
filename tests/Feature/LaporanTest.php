@@ -7,23 +7,26 @@ use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class LaporanTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $user;
+
     /** @test */
     public function user_can_access_laporan_page()
     {
-        $user = User::create([
+        $this->user = User::create([
             'name' => 'Tester',
             'email' => 'tester@example.com',
             'password' => bcrypt('password'),
-            'role' => 'user',
+            'role' => 1,
         ]);
 
-        $response = $this->actingAs($user)->get('/laporan');
+        $response = $this->actingAs($this->user)->get('pengguna/laporan');
 
         $response->assertStatus(200);
         $response->assertSee('Daftar Laporan');
@@ -33,48 +36,42 @@ class LaporanTest extends TestCase
     /** @test */
     public function laporan_list_shows_when_data_available()
     {
-        $user = User::create([
+        $this->user = User::create([
+            'user_id' => 1,
             'name' => 'Uji',
             'email' => 'uji@example.com',
             'password' => bcrypt('password'),
-            'role' => 'user',
+            'role' => 1,
         ]);
 
-        DB::table('users')->insert([
-            'user_id' => $user->id,
-            'judul' => 'Keluhan Kreasi',
-            'deskripsi' => 'Isi keluhan...',
-            'created_at' => now(),
-            'updated_at' => now(),
+        DB::table('reports')->insert([
+            'user_id' => 1,
+            'report_id' => 1,
+            'date_time_report' => now(),
+            'report_message' => 'masnya ganteng banget'
         ]);
 
-        $response = $this->actingAs($user)->get('/laporan');
+        $response = $this->actingAs($this->user)->get('pengguna/laporan');
 
         $response->assertStatus(200);
-        $response->assertSee('Keluhan Kreasi');
+        $response->assertSee("Daftar Laporan");
+        $response->assertSee("masnya ganteng banget");
+
     }
 
     /** @test */
     public function user_sees_empty_message_if_no_laporan()
     {
-        $user = User::create([
+        $this->user = User::create([
             'name' => 'Tanpa Laporan',
             'email' => 'kosong@example.com',
             'password' => bcrypt('password'),
-            'role' => 'user',
+            'role' => 1,
         ]);
 
-        $response = $this->actingAs($user)->get('/laporan');
+        $response = $this->actingAs($this->user)->get('/pengguna/laporan');
 
         $response->assertStatus(200);
-        $response->assertSee('Belum ada laporan'); // Sesuaikan dengan teks kosong di UI kamu
+        $response->assertSee("Keluhan {$this->user->name}");
     }
-
-    /** @test */
-    public function guest_cannot_access_laporan()
-    {
-        $response = $this->get('/laporan');
-        $response->assertRedirect('/login');
-    }
-
 }

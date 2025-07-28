@@ -3,207 +3,472 @@
 namespace Tests\Feature;
 
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Penugasan;
 use App\Models\Pickup;
+use App\Models\Trash;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Session;
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class PenugasanAdminTest extends TestCase
 {
     use RefreshDatabase;
+    protected $admin, $driver, $trash, $order, $user;
 
-    private function admin()
-    {
-        return User::factory()->create(['role' => 2]);
-    }
-
-    /* AS‑001 ─ Halaman Penugasan dapat dimuat */
+    /** @test */
     public function test_admin_can_open_penugasan_page()
     {
-        $response = $this->actingAs($this->admin())->get('admin/penugasan');
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('admin/penugasan');
 
         $response->assertStatus(200)
-                 ->assertSee('Penugasan');
+                ->assertSee('Penugasan');
     }
 
-    /* AS‑002 ─ Tabel menampilkan order menunggu penugasan */
+    /** @test */
     public function test_table_shows_orders_without_driver()
     {
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-        // Create an order that doesn't have any penugasan (so it should show in the list)
-        $order = Order::factory()->create();
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
 
-        $response = $this->actingAs($this->admin())->get('admin/penugasan');
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
 
-        // Assert the order is shown
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('admin/penugasan');
+
         $response->assertStatus(200);
-        $response->assertSee((string) $order->order_id); // from blade: {{$penugasan->order_id}}
+        $response->assertSee((string) $this->order->order_id);
 
-        // Assert driver section says "Belum Ada"
-        $response->assertSee('Belum Ada'); // from blade: @empty Belum Ada @endforelse
+        $response->assertSee('Belum Ada');
     }
 
-
-    /* AS‑003 ─ Kolom Driver “Belum Ada” */
+    /** @test */
     public function test_driver_column_shows_belum_ada()
     {
-        // Buat order tanpa driver, penugasan, dan approval
-        $order = Order::factory()->create();
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-        $response = $this->actingAs($this->admin())->get('admin/penugasan');
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('admin/penugasan');
 
         $response->assertStatus(200);
-        $response->assertSee((string) $order->order_id); // Pastikan order muncul
-        $response->assertSee('Belum Ada'); // Pastikan kolom driver menampilkan "Belum Ada"
+        $response->assertSee((string) $this->order->order_id);
+        $response->assertSee('Belum Ada');
     }
 
 
-    /* AS‑004 ─ Status Penugasan “belum ada” */
+    /** @test */
     public function test_status_column_shows_belum_ada()
     {
-        // Order yang tidak memiliki penugasan
-        $order = Order::factory()->create();
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-        $response = $this->actingAs($this->admin())->get('admin/penugasan');
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('admin/penugasan');
 
         $response->assertStatus(200);
-        $response->assertSee((string) $order->order_id);
-        $response->assertSee('Belum Ada'); // sesuai blade @empty / fallback
+        $response->assertSee((string) $this->order->order_id);
+        $response->assertSee('Belum Ada');
     }
 
 
-    /* AS‑005 ─ Tombol Buat Penugasan aktif */
+    /** @test */
     public function test_create_assignment_button_enabled_when_no_driver()
     {
-        Order::factory()->create();
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-        $response = $this->actingAs($this->admin())->get('admin/penugasan');
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('admin/penugasan');
 
         $response->assertSee('Buat Penugasan');
     }
 
-    /* AS‑006 ─ Klik Buat Penugasan membuka form (cek route GET create) */
+    /** @test */
     public function test_create_assignment_form_can_be_opened()
     {
-        $order = Order::factory()->create();
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
 
-        $response = $this->actingAs($this->admin())->get('admin/penugasan');
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
+
+        $response = $this->actingAs($this->admin)->get('admin/penugasan');
 
         $response->assertStatus(200);
         $response->assertSee('Buat Penugasan');
-        $response->assertSee('Pilih Driver');
+        $response->assertSee('Pilih Pengemudi');
     }
 
 
-    /* AS‑007 ─ Menyimpan penugasan */
+    /** @test */
     public function test_store_assignment_updates_driver_and_status()
 {
-    $order = Order::factory()->create();
-    $driver = User::factory()->create(['role' => 3]);
+    $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
 
     Session::start();
 
-    $response = $this->actingAs($this->admin())
+    $response = $this->actingAs($this->admin)
         ->post(route('admin.penugasan.store'), [
             '_token'   => csrf_token(),
-            'order_id' => $order->order_id,
-            'user_id'  => $driver->user_id,
+            'order_id' => $this->order->order_id,
+            'user_id'  => $this->driver->user_id,
         ]);
 
 
-    $response->assertRedirect(); // default 302 redirect
+    $response->assertRedirect();
 
     $this->assertDatabaseHas('penugasans', [
-        'order_id' => $order->order_id,
-        'user_id'  => $driver->user_id,
+        'order_id' => $this->order->order_id,
+        'user_id'  => $this->driver->user_id,
         'status'   => 0,
     ]);
 
     $this->assertDatabaseHas('pick_ups', [
-        'order_id' => $order->order_id,
-        'user_id'  => $driver->user_id,
+        'order_id' => $this->order->order_id,
+        'user_id'  => $this->driver->user_id,
     ]);
 }
 
-    /* AS‑008 ─ Tombol Hapus Tugas hanya untuk order dengan driver */
+    /** @test */
     public function test_delete_button_shown_when_assignment_exists()
     {
-        $driver = User::factory()->create(['role' => 3]);
-        $order = Order::factory()->create();
+        $this->driver = User::create([
+            'user_id' => 2,
+            'name' => 'Driver Sapu Jagat',
+            'email' => 'driver1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 3,
+        ]);
+
+        $this->admin = User::create([
+            'user_id' => 1,
+            'name' => 'Admin Sapu Jagat',
+            'email' => 'driver@example.com',
+            'password' => bcrypt('password'),
+            'role' => 2,
+        ]);
+
+        $this->user = User::create([
+            'user_id' => 3,
+            'name' => 'User Sapu Jagat',
+            'email' => 'driver3@example.com',
+            'password' => bcrypt('password'),
+            'role' => 1,
+        ]);
+
+        $this->trash = Trash::create([
+            'name' => 'Botol Plastik',
+            'type' => 'Anorganik',
+            'photos' => 'image1.jpg',
+            'price_per_kg' => 4300,
+        ]);
+
+        $this->order = Order::create([
+            'user_id' => $this->user->user_id,
+            'photo' => 'image1.jpg',
+            'date_time_request' => now(),
+            'pickup_time' => now(),
+            'status' => 1,
+        ]);
+
+        OrderDetail::create([
+            'order_id' => $this->order->order_id,
+            'trash_id' => $this->trash->trash_id,
+            'quantity' => 2,
+        ]);
 
         Penugasan::factory()->create([
-            'order_id' => $order->order_id,
-            'user_id'  => $driver->user_id,
+            'order_id' => $this->order->order_id,
+            'user_id'  => $this->driver->user_id,
             'status'   => 0,
         ]);
 
-        $response = $this->actingAs($this->admin())->get('admin/penugasan');
+        $response = $this->actingAs($this->admin)->get('admin/penugasan');
 
         $response->assertSee('Hapus Tugas');
     }
-
-    /* AS‑009 ─ Hapus penugasan mengembalikan status Belum Ada */
-// public function test_delete_assignment_removes_penugasan_and_pickup()
-// {
-//     $admin = $this->admin();
-//     $driver = User::factory()->create(['role' => 3]);
-//     $order = Order::factory()->create();
-
-//     $penugasan = Penugasan::factory()->create([
-//         'order_id' => $order->order_id,
-//         'user_id'  => $driver->user_id,
-//     ]);
-
-//     // $this->actingAs($admin)
-//     //     ->delete("admin/penugasan/{$penugasan->getKey()}");
-//     $response = $this->actingAs($this->admin())->delete(route('admin.penugasan.destroy', $penugasan));
-//     dump('Penugasan after delete:', Penugasan::find($penugasan->penugasan_id));
-//     dump('Pickup count after delete:', Pickup::where('penugasan_id', $penugasan->penugasan_id)->count());
-
-//     $this->assertDatabaseMissing('penugasans', [
-//         'penugasan_id' => $penugasan->penugasan_id,
-//     ]);
-
-//     $this->assertDatabaseMissing('pick_ups', [
-//         'penugasan_id' => $penugasan->penugasan_id,
-//     ]);
-// }
-
-
-    /* AS‑010 ─ Search filter */
-    // public function test_search_filter_orders()
-    // {
-    //     Order::factory()->create(['id' => 101, 'driver_id' => null]);
-    //     Order::factory()->create(['id' => 202, 'driver_id' => null]);
-
-    //     $response = $this->actingAs($this->admin())->get('/penugasan?search=101');
-    //     $response->assertSee('101')
-    //              ->assertDontSee('202');
-    // }
-
-    // /* AS‑011 ─ Pagination maksimal 10 baris */
-    // public function test_first_page_shows_maximum_10_rows()
-    // {
-    //     Order::factory()->count(11)->create(['driver_id' => null]);
-
-    //     $response = $this->actingAs($this->admin())->get('/penugasan');
-
-    //     $this->assertCount(10, $response->viewData('orders'));
-    // }
-
-    // /* AS‑012 ─ Tombol Next/Previous pagination */
-    // public function test_next_and_previous_pagination_links_work()
-    // {
-    //     Order::factory()->count(15)->create(['driver_id' => null]);
-    //     $admin = $this->admin();
-
-    //     $page1 = $this->actingAs($admin)->get('/penugasan?page=1');
-    //     $page1->assertSee('?page=2');
-
-    //     $page2 = $this->actingAs($admin)->get('/penugasan?page=2');
-    //     $page2->assertSee('?page=1');
-    // }
 }

@@ -56,7 +56,7 @@ class RegisterTest extends TestCase
     /** @test */
     public function registration_fails_when_required_fields_are_missing()
     {
-        $response = $this->from('/register')->post('/register', []); // semua kosong
+        $response = $this->from('/register')->post('/register', []); 
 
         $response->assertRedirect('/register');
         $response->assertSessionHasErrors(['name']);

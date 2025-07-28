@@ -304,7 +304,7 @@
 
                                                     <td>{{ $order->user->name ?? '-' }}</td>
 
-                                                    <td>{{ $order->pickup->user->name ?? '-' }}</td>
+                                                    <td>{{ $order->pickup?->user?->name ?? '-' }}</td>
 
                                                     <td>
                                                         @foreach ($order->details as $detail)
@@ -349,7 +349,7 @@
                                                                             <p><strong>{{ __('persetujuan.user') }}:</strong>
                                                                                 {{ $order->user->name }}</p>
                                                                             <p><strong>{{ __('persetujuan.collector') }}:</strong>
-                                                                                {{ $order->pickup->user->name }}</p>
+                                                                                {{ $order->pickup?->user?->name ?? '-' }}</p>
                                                                             <p><strong>{{ __('persetujuan.request_date') }}</strong>
                                                                                 {{ $order->pickup->start_time ?? '-' }},
                                                                                 {{ $order->pickup->pick_up_date ?? '-' }}
