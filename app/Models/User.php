@@ -23,7 +23,7 @@ class User extends Authenticatable
     public $incrementing = true;
     protected $keyType = 'int';
     protected static $logOnlyDirty = true; // Hanya log jika nilai berubah
-    protected static $logName = 'update';
+    protected static $logName = 'user_activity';
 
     protected static $logAttributes = [
         'name',
@@ -47,7 +47,7 @@ class User extends Authenticatable
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "User dengan ID {$this->getKey()} melakukan {$eventName} pada akun utama.";
+        return "User dengan ID {$this->getKey()} melakukan {$eventName} pada akun.";
     }
 
     public function getActivitylogOptions(): LogOptions

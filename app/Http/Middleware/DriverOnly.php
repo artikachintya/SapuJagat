@@ -13,16 +13,28 @@ class DriverOnly
             return $next($request);
         }
 
-        abort(403, 'Unauthorized - Driver Only');
+        $user = Auth::user();
+        $roleId = $user->role ?? null;
+        $roleName = $this->getRoleName($roleId);
 
         activity('unauthorized_access')
-            ->causedBy(Auth::user())
+            ->causedBy($user)
             ->withProperties([
                 'attempted_url' => $request->fullUrl(),
-                'role' => Auth::user()->role ?? 'guest',
+                'role' => $roleName,
             ])
-            ->log('User mencoba mengakses halaman khusus driver');
+            ->log('Akses ditolak: halaman khusus driver');
 
         abort(403, 'Unauthorized - Driver Only');
+    }
+
+    private function getRoleName($roleId)
+    {
+        return match ($roleId) {
+            1 => 'user',
+            2 => 'admin',
+            3 => 'driver',
+            default => 'guest',
+        };
     }
 }

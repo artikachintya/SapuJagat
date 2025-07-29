@@ -13,16 +13,27 @@ class AdminOnly
             return $next($request);
         }
 
-        abort(403, 'Unauthorized - Admin Only');
+        $roleId = Auth::check() ? Auth::user()->role : null;
+        $roleName = $this->getRoleName($roleId);
 
         activity('unauthorized_access')
-            ->causedBy(Auth::user())
+            ->causedBy(Auth::check() ? Auth::user() : null)
             ->withProperties([
                 'attempted_url' => $request->fullUrl(),
-                'role' => Auth::user()->role ?? 'guest',
+                'role' => $roleName,
             ])
-            ->log('User mencoba mengakses halaman khusus admin');
+            ->log('Akses ditolak: halaman khusus admin');
 
         abort(403, 'Unauthorized - Admin Only');
+    }
+
+    private function getRoleName($roleId)
+    {
+        return match ($roleId) {
+            1 => 'user',
+            2 => 'admin',
+            3 => 'driver',
+            default => 'guest',
+        };
     }
 }
