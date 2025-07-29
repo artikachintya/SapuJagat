@@ -41,63 +41,64 @@
                             </div>
                         @endif
 
-                        <table class="table table-striped align-middle">
-                            <colgroup>
-                                <col style="width: 5%;"> {{-- No --}}
-                                <col style="width: 30%;"> {{-- Judul --}}
-                                <col style="width: 25%;"> {{-- Lokasi --}}
-                                <col style="width: 20%;"> {{-- Waktu --}}
-                                <col style="width: 20%;"> {{-- Aksi --}}
-                            </colgroup>
+                        <div class="table-responsive">
+                            <table class="table table-striped align-middle">
+                                <colgroup>
+                                    <col style="width: 5%;"> {{-- No --}}
+                                    <col style="width: 30%;"> {{-- Judul --}}
+                                    <col style="width: 25%;"> {{-- Lokasi --}}
+                                    <col style="width: 20%;"> {{-- Waktu --}}
+                                    <col style="width: 20%;"> {{-- Aksi --}}
+                                </colgroup>
 
-                            <thead>
-                                <tr>
-                                    <th>{{ __('penugasan_arsip.table.headers.no') }}</th>
-                                    <th>{{ __('penugasan_arsip.table.headers.order_id') }}</th>
-                                    <th>{{ __('penugasan_arsip.table.headers.user_name') }}</th>
-                                    <th>{{ __('penugasan_arsip.table.headers.driver') }}</th>
-                                    <th>{{ __('penugasan_arsip.table.headers.actions') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($penugasans as $item)
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>#{{ $item->order->order_id ?? '-' }}</td>
-                                        <td>{{ $item->order->user->name ?? '-' }}</td>
-                                        <td>{{ $item->user->name ?? '-' }}</td>
-                                        <td style="width: 1%; white-space: nowrap;">
-                                            <div class="d-flex gap-2">
-                                                <form action="{{ route('admin.penugasan.restore', $item->penugasan_id) }}"
-                                                    method="POST" style="display: inline;">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-success btn-sm">
-                                                        <i class="bi bi-arrow-clockwise"></i> {{ __('penugasan_arsip.table.buttons.restore') }}
-                                                    </button>
-                                                </form>
-
-                                                <form
-                                                    action="{{ route('admin.penugasan.forceDelete', $item->penugasan_id) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('{{ __('penugasan_arsip.alerts.delete_confirmation') }}')"
-                                                    style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">
-                                                        <i class="bi bi-trash3"></i> {{ __('penugasan_arsip.table.buttons.permanent_delete') }}
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
+                                        <th>{{ __('penugasan_arsip.table.headers.no') }}</th>
+                                        <th>{{ __('penugasan_arsip.table.headers.order_id') }}</th>
+                                        <th>{{ __('penugasan_arsip.table.headers.user_name') }}</th>
+                                        <th>{{ __('penugasan_arsip.table.headers.driver') }}</th>
+                                        <th>{{ __('penugasan_arsip.table.headers.actions') }}</th>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center text-white">{{ __('penugasan_arsip.table.empty') }}</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @forelse ($penugasans as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>#{{ $item->order->order_id ?? '-' }}</td>
+                                            <td>{{ $item->order->user->name ?? '-' }}</td>
+                                            <td>{{ $item->user->name ?? '-' }}</td>
+                                            <td style="width: 1%; white-space: nowrap;">
+                                                <div class="d-flex gap-2">
+                                                    <form action="{{ route('admin.penugasan.restore', $item->penugasan_id) }}"
+                                                        method="POST" style="display: inline;">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-success btn-sm">
+                                                            <i class="bi bi-arrow-clockwise"></i> {{ __('penugasan_arsip.table.buttons.restore') }}
+                                                        </button>
+                                                    </form>
 
+                                                    <form
+                                                        action="{{ route('admin.penugasan.forceDelete', $item->penugasan_id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('{{ __('penugasan_arsip.alerts.delete_confirmation') }}')"
+                                                        style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="bi bi-trash3"></i> {{ __('penugasan_arsip.table.buttons.permanent_delete') }}
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center text-white">{{ __('penugasan_arsip.table.empty') }}</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

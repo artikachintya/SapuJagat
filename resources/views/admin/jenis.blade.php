@@ -215,241 +215,250 @@
                             <div class="card-body">
                                 <!--begin::Row-->
                                 <div class="row d-flex align-items-stretch">
-                                    <table id="jenis-sampah" class="table table-striped align-middle"
-                                        style="background-color:black;">
-                                        <thead>
-                                            <tr>
-                                                <th>{{ __('trash_management.table.headers.id') }}</th>
-                                                <th>{{ __('trash_management.table.headers.image') }}</th>
-                                                <th>{{ __('trash_management.table.headers.name') }}</th>
-                                                <th>{{ __('trash_management.table.headers.type') }}</th>
-                                                <th>{{ __('trash_management.table.headers.price') }}</th>
-                                                <th>{{ __('trash_management.table.headers.max_weight') }}</th>
-                                                <th>{{ __('trash_management.table.headers.actions') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($trashes as $trash)
+                                    <div class="table-responsive">
+                                        <table id="jenis-sampah" class="table table-striped align-middle"
+                                            style="background-color:black;">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $trash->trash_id }}</td>
-                                                    <td><img src="{{ asset('assets/img/' . $trash->photos) }}"
-                                                            alt="Foto Sampah" class="img-fluid" style="max-height: 150px;">
-                                                    </td>
-                                                    <td>{{ $trash->name }}</td>
-                                                    <td>{{ $trash->type }}</td>
-                                                    <td>{{ $trash->price_per_kg }}</td>
-                                                    <td>{{ $trash->max_weight }} kg</td>
-                                                    <td>
-                                                        <div class="d-flex flex-column gap-2 align-items-center">
-                                                            {{-- EDIT button – opens edit modal --}}
-                                                            <button type="button"
-                                                                class="btn btn-primary btn-sm w-75 btn-edit"
-                                                                data-bs-toggle="modal" data-bs-target="#editTrashModal"
-                                                                data-id="{{ $trash->trash_id }}"
-                                                                data-name="{{ $trash->name }}"
-                                                                data-price_per_kg="{{ $trash->price_per_kg }}"
-                                                                data-max_weight="{{ $trash->max_weight }}"
-                                                                data-type="{{ $trash->type }}"
-                                                                data-photo="{{ $trash->photos }}">
-                                                                {{ __('trash_management.table.buttons.update') }}
-                                                            </button>
-
-                                                            {{-- DELETE button – opens delete modal --}}
-                                                            <button type="button"
-                                                                class="btn btn-danger btn-sm w-75 btn-delete"
-                                                                data-id="{{ $trash->trash_id }}"
-                                                                data-action="{{ route('admin.jenis-sampah.destroy', $trash->trash_id) }}"
-                                                                data-bs-toggle="modal" data-bs-target="#deleteTrashModal">
-                                                                {{ __('trash_management.table.buttons.delete') }}
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                    <!-- EDIT MODAL -->
-                                                    <div class="modal fade" id="editTrashModal" tabindex="-1"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered">
-                                                            <div class="modal-content text-white"
-                                                                style="background:#34a853;">
-                                                                <div class="modal-header border-0">
-                                                                    <h2 class="modal-title fw-bold w-100 text-center">
-                                                                        {{ __('trash_management.modals.edit.title') }}</h2>
-                                                                    <button type="button" class="btn-close btn-close-white"
-                                                                        data-bs-dismiss="modal"></button>
-                                                                </div>
-
-                                                                <form id="editTrashForm" method="POST"
-                                                                    enctype="multipart/form-data">
-                                                                    @csrf
-                                                                    @method('PUT') {{-- will remain for update --}}
-                                                                    <div class="modal-body">
-
-                                                                        <div class="mb-3">
-                                                                            <label
-                                                                                class="form-label">{{ __('trash_management.modals.create.fields.name') }}</label>
-                                                                            <input type="text" name="name"
-                                                                                class="form-control" required>
-                                                                        </div>
-
-                                                                        <div class="mb-3">
-                                                                            <label
-                                                                                class="form-label">{{ __('trash_management.modals.create.fields.image') }}</label>
-
-                                                                            {{-- give the input an ID --}}
-                                                                            <input type="file" id="photoInput"
-                                                                                name="photos" class="form-control"
-                                                                                accept="image/*">
-
-                                                                            {{-- the preview image --}}
-                                                                            <img id="photoPreview" src=""
-                                                                                alt="Foto Sampah" class="img-fluid mt-2"
-                                                                                style="max-height:150px;display:none;">
-                                                                        </div>
-
-                                                                        <div class="mb-3">
-                                                                            <label
-                                                                                class="form-label">{{ __('trash_management.modals.create.fields.type') }}</label>
-                                                                            <input type="text" name="type"
-                                                                                class="form-control" required>
-                                                                            </select>
-                                                                        </div>
-
-                                                                        <div class="mb-3">
-                                                                            <label
-                                                                                class="form-label">{{ __('trash_management.modals.create.fields.price') }}</label>
-                                                                            <input type="number" name="price_per_kg"
-                                                                                class="form-control" required>
-                                                                        </div>
-
-                                                                        <div class="mb-3">
-                                                                            <label
-                                                                                class="form-label">{{ __('trash_management.modals.create.fields.max_weight') }}</label>
-                                                                            <input type="number" name="max_weight"
-                                                                                class="form-control">
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="modal-footer border-0">
-                                                                        <button type="submit"
-                                                                            class="btn btn-light w-100 fw-bold">{{ __('trash_management.modals.edit.submit') }}</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- CREATE MODAL -->
-                                                    <div class="modal fade" id="createTrashModal" tabindex="-1"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered">
-                                                            <div class="modal-content text-white"
-                                                                style="background:#34a853;">
-                                                                <div class="modal-header border-0">
-                                                                    <h2 class="modal-title w-100 text-center fw-bold">
-                                                                        {{ __('trash_management.modals.create.title') }}
-                                                                    </h2>
-                                                                    <button type="button"
-                                                                        class="btn-close btn-close-white"
-                                                                        data-bs-dismiss="modal"></button>
-                                                                </div>
-
-                                                                <form id="createTrashForm"
-                                                                    action="{{ route('admin.jenis-sampah.store') }}"
-                                                                    method="POST" enctype="multipart/form-data">
-                                                                    @csrf
-
-                                                                    <div class="modal-body">
-
-                                                                        <div class="mb-3">
-                                                                            <label
-                                                                                class="form-label">{{ __('trash_management.modals.create.fields.name') }}</label>
-                                                                            <input type="text" name="name"
-                                                                                class="form-control" required>
-                                                                        </div>
-
-                                                                        <div class="mb-3">
-                                                                            <label
-                                                                                class="form-label">{{ __('trash_management.modals.create.fields.image') }}</label>
-                                                                            <input type="file" id="createPhotoInput"
-                                                                                name="photos" class="form-control"
-                                                                                accept="image/*">
-                                                                            <img id="createPhotoPreview" src=""
-                                                                                alt="Preview Gambar"
-                                                                                class="img-fluid mt-2"
-                                                                                style="max-height:150px;display:none;">
-                                                                        </div>
-
-                                                                        <div class="mb-3">
-                                                                            <label
-                                                                                class="form-label">{{ __('trash_management.modals.create.fields.type') }}</label>
-                                                                            <input type="text" name="type"
-                                                                                class="form-control" required>
-                                                                        </div>
-
-                                                                        <div class="mb-3">
-                                                                            <label
-                                                                                class="form-label">{{ __('trash_management.modals.create.fields.price') }}</label>
-                                                                            <input type="number" name="price_per_kg"
-                                                                                class="form-control" required>
-                                                                        </div>
-
-                                                                        <div class="mb-3">
-                                                                            <label
-                                                                                class="form-label">{{ __('trash_management.modals.create.fields.max_weight') }}</label>
-                                                                            <input type="number" name="max_weight"
-                                                                                class="form-control">
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="modal-footer border-0">
-                                                                        <button type="submit"
-                                                                            class="btn btn-light w-100 fw-bold">{{ __('trash_management.modals.create.submit') }}</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <!-- DELETE MODAL -->
-                                                    <div class="modal fade" id="deleteTrashModal" tabindex="-1"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered">
-                                                            <div class="modal-content text-center text-white"
-                                                                style="background:#34a853;">
-                                                                <div class="modal-body">
-                                                                    <i
-                                                                        class="bi bi-exclamation-triangle-fill display-3 text-danger"></i>
-                                                                    <h2 class="fw-bold mt-2">
-                                                                        {{ __('trash_management.modals.delete.title') }}
-                                                                    </h2>
-                                                                    <p>{{ __('trash_management.modals.delete.message') }}
-                                                                    </p>
-
-                                                                    <div class="d-flex justify-content-center gap-3">
-                                                                        <button class="btn btn-light btn-lg px-5"
-                                                                            data-bs-dismiss="modal">
-                                                                            {{ __('trash_management.modals.delete.buttons.cancel') }}
-                                                                        </button>
-
-                                                                        <form id="deleteTrashForm" method="POST">
-                                                                            @csrf
-                                                                            @method('DELETE')
-                                                                            <button type="submit"
-                                                                                class="btn btn-danger btn-lg px-5">
-                                                                                {{ __('trash_management.modals.delete.buttons.confirm') }}
-                                                                            </button>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <th>{{ __('trash_management.table.headers.id') }}</th>
+                                                    <th>{{ __('trash_management.table.headers.image') }}</th>
+                                                    <th>{{ __('trash_management.table.headers.name') }}</th>
+                                                    <th>{{ __('trash_management.table.headers.type') }}</th>
+                                                    <th>{{ __('trash_management.table.headers.price') }}</th>
+                                                    <th>{{ __('trash_management.table.headers.max_weight') }}</th>
+                                                    <th>{{ __('trash_management.table.headers.actions') }}</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($trashes as $trash)
+                                                    <tr>
+                                                        <td>{{ $trash->trash_id }}</td>
+                                                        <td>
+                                                            <img src="{{ asset('assets/img/' . $trash->photos) }}"
+                                                                alt="Foto Sampah"
+                                                                class="img-fluid"
+                                                                style="max-height: 150px;"
+                                                                onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
+                                                        </td>
+                                                        <td>{{ $trash->name }}</td>
+                                                        <td>{{ $trash->type }}</td>
+                                                        <td>{{ $trash->price_per_kg }}</td>
+                                                        <td>{{ $trash->max_weight }} kg</td>
+                                                        <td>
+                                                            <div class="d-flex flex-column gap-2 align-items-center">
+                                                                {{-- EDIT button – opens edit modal --}}
+                                                                <button type="button"
+                                                                    class="btn btn-primary btn-sm w-75 btn-edit"
+                                                                    data-bs-toggle="modal" data-bs-target="#editTrashModal"
+                                                                    data-id="{{ $trash->trash_id }}"
+                                                                    data-name="{{ $trash->name }}"
+                                                                    data-price_per_kg="{{ $trash->price_per_kg }}"
+                                                                    data-max_weight="{{ $trash->max_weight }}"
+                                                                    data-type="{{ $trash->type }}"
+                                                                    data-photo="{{ $trash->photos }}">
+                                                                    {{ __('trash_management.table.buttons.update') }}
+                                                                </button>
+
+                                                                {{-- DELETE button – opens delete modal --}}
+                                                                <button type="button"
+                                                                    class="btn btn-danger btn-sm w-75 btn-delete"
+                                                                    data-id="{{ $trash->trash_id }}"
+                                                                    data-action="{{ route('admin.jenis-sampah.destroy', $trash->trash_id) }}"
+                                                                    data-bs-toggle="modal" data-bs-target="#deleteTrashModal">
+                                                                    {{ __('trash_management.table.buttons.delete') }}
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <!-- EDIT MODAL -->
+                                                        <div class="modal fade" id="editTrashModal" tabindex="-1"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content text-white"
+                                                                    style="background:#34a853;">
+                                                                    <div class="modal-header border-0">
+                                                                        <h2 class="modal-title fw-bold w-100 text-center">
+                                                                            {{ __('trash_management.modals.edit.title') }}</h2>
+                                                                        <button type="button" class="btn-close btn-close-white"
+                                                                            data-bs-dismiss="modal"></button>
+                                                                    </div>
+
+                                                                    <form id="editTrashForm" method="POST"
+                                                                        enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        @method('PUT') {{-- will remain for update --}}
+                                                                        <div class="modal-body">
+
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label">{{ __('trash_management.modals.create.fields.name') }}</label>
+                                                                                <input type="text" name="name"
+                                                                                    class="form-control" required>
+                                                                            </div>
+
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label">{{ __('trash_management.modals.create.fields.image') }}</label>
+
+                                                                                {{-- give the input an ID --}}
+                                                                                <input type="file" id="photoInput"
+                                                                                    name="photos" class="form-control"
+                                                                                    accept="image/*">
+
+                                                                                {{-- the preview image --}}
+                                                                                <img id="photoPreview"
+                                                                                    src=""
+                                                                                    alt="Foto Sampah Tidak Ada"
+                                                                                    class="img-fluid mt-2"
+                                                                                    style="max-height:150px; display:none;"
+                                                                                    onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
+                                                                            </div>
+
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label">{{ __('trash_management.modals.create.fields.type') }}</label>
+                                                                                <input type="text" name="type"
+                                                                                    class="form-control" required>
+                                                                                </select>
+                                                                            </div>
+
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label">{{ __('trash_management.modals.create.fields.price') }}</label>
+                                                                                <input type="number" name="price_per_kg"
+                                                                                    class="form-control" required>
+                                                                            </div>
+
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label">{{ __('trash_management.modals.create.fields.max_weight') }}</label>
+                                                                                <input type="number" name="max_weight"
+                                                                                    class="form-control">
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="modal-footer border-0">
+                                                                            <button type="submit"
+                                                                                class="btn btn-light w-100 fw-bold">{{ __('trash_management.modals.edit.submit') }}</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- CREATE MODAL -->
+                                                        <div class="modal fade" id="createTrashModal" tabindex="-1"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content text-white"
+                                                                    style="background:#34a853;">
+                                                                    <div class="modal-header border-0">
+                                                                        <h2 class="modal-title w-100 text-center fw-bold">
+                                                                            {{ __('trash_management.modals.create.title') }}
+                                                                        </h2>
+                                                                        <button type="button"
+                                                                            class="btn-close btn-close-white"
+                                                                            data-bs-dismiss="modal"></button>
+                                                                    </div>
+
+                                                                    <form id="createTrashForm"
+                                                                        action="{{ route('admin.jenis-sampah.store') }}"
+                                                                        method="POST" enctype="multipart/form-data">
+                                                                        @csrf
+
+                                                                        <div class="modal-body">
+
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label">{{ __('trash_management.modals.create.fields.name') }}</label>
+                                                                                <input type="text" name="name"
+                                                                                    class="form-control" required>
+                                                                            </div>
+
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label">{{ __('trash_management.modals.create.fields.image') }}</label>
+                                                                                <input type="file" id="createPhotoInput"
+                                                                                    name="photos" class="form-control"
+                                                                                    accept="image/*">
+                                                                                <img id="createPhotoPreview" src=""
+                                                                                    alt="Preview Gambar"
+                                                                                    class="img-fluid mt-2"
+                                                                                    style="max-height:150px;display:none;">
+                                                                            </div>
+
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label">{{ __('trash_management.modals.create.fields.type') }}</label>
+                                                                                <input type="text" name="type"
+                                                                                    class="form-control" required>
+                                                                            </div>
+
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label">{{ __('trash_management.modals.create.fields.price') }}</label>
+                                                                                <input type="number" name="price_per_kg"
+                                                                                    class="form-control" required>
+                                                                            </div>
+
+                                                                            <div class="mb-3">
+                                                                                <label
+                                                                                    class="form-label">{{ __('trash_management.modals.create.fields.max_weight') }}</label>
+                                                                                <input type="number" name="max_weight"
+                                                                                    class="form-control">
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="modal-footer border-0">
+                                                                            <button type="submit"
+                                                                                class="btn btn-light w-100 fw-bold">{{ __('trash_management.modals.create.submit') }}</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- DELETE MODAL -->
+                                                        <div class="modal fade" id="deleteTrashModal" tabindex="-1"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content text-center text-white"
+                                                                    style="background:#34a853;">
+                                                                    <div class="modal-body">
+                                                                        <i
+                                                                            class="bi bi-exclamation-triangle-fill display-3 text-danger"></i>
+                                                                        <h2 class="fw-bold mt-2">
+                                                                            {{ __('trash_management.modals.delete.title') }}
+                                                                        </h2>
+                                                                        <p>{{ __('trash_management.modals.delete.message') }}
+                                                                        </p>
+
+                                                                        <div class="d-flex justify-content-center gap-3">
+                                                                            <button class="btn btn-light btn-lg px-5"
+                                                                                data-bs-dismiss="modal">
+                                                                                {{ __('trash_management.modals.delete.buttons.cancel') }}
+                                                                            </button>
+
+                                                                            <form id="deleteTrashForm" method="POST">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button type="submit"
+                                                                                    class="btn btn-danger btn-lg px-5">
+                                                                                    {{ __('trash_management.modals.delete.buttons.confirm') }}
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <!--end::Row-->
                             </div>

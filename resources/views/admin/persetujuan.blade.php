@@ -163,10 +163,6 @@
                 <!--begin::Row-->
                 <div class="row page-title">
                     <div class="col-sm">
-                        <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ __('persetujuan.dashboard') }}</li>
-                        </ol>
                     </div>
                 </div>
                 <!--end::Row-->
@@ -266,252 +262,254 @@
                             <div class="card-body">
                                 <!--begin::Row-->
                                 <div class="row d-flex align-items-stretch">
-                                    <table id="jenis-sampah" class="table table-striped align-middle"
-                                        style="background-color:black;">
-                                        <thead>
-                                            <tr>
-                                                <th>{{ __('persetujuan.status') }}</th>
-                                                <th>{{ __('persetujuan.date_time') }}</th>
-                                                <th>{{ __('persetujuan.order_id') }}</th>
-                                                <th>{{ __('persetujuan.user') }}</th>
-                                                <th>{{ __('persetujuan.collector') }}</th>
-                                                <th>{{ __('persetujuan.trash') }}</th>
-                                                <th>{{ __('persetujuan.actions') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($orders as $order)
+                                    <div class="table-responsive">
+                                        <table id="jenis-sampah" class="table table-striped align-middle"
+                                            style="background-color:black;">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ optional($order->approval)->approval_status == 2
-                                                        ? __('persetujuan.pending')
-                                                        : __('persetujuan.not_approved') }}
-                                                    </td>
-                                                    <td>
-                                                        {{ __('persetujuan.user_request') }}:
-                                                        {{ $order->date_time_request }}<br>
-                                                        {{ __('persetujuan.pickup_schedule') }}:
-                                                        {{ $order->pickup_time }}<br>
-                                                        {{ __('persetujuan.collector_start') }}:
-                                                        {{ $order->pickup->start_time ?? __('persetujuan.not_yet') }}<br>
-                                                        {{ __('persetujuan.trash_collected') }}:
-                                                        {{ $order->pickup->pick_up_date ?? __('persetujuan.not_yet') }}<br>
-                                                        {{ __('persetujuan.trash_arrived') }}:
-                                                        {{ $order->pickup->arrival_date ?? __('persetujuan.not_yet') }}<br>
-                                                    </td>
-                                                    </td>
+                                                    <th>{{ __('persetujuan.status') }}</th>
+                                                    <th>{{ __('persetujuan.date_time') }}</th>
+                                                    <th>{{ __('persetujuan.order_id') }}</th>
+                                                    <th>{{ __('persetujuan.user') }}</th>
+                                                    <th>{{ __('persetujuan.collector') }}</th>
+                                                    <th>{{ __('persetujuan.trash') }}</th>
+                                                    <th>{{ __('persetujuan.actions') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($orders as $order)
+                                                    <tr>
+                                                        <td>{{ optional($order->approval)->approval_status == 2
+                                                            ? __('persetujuan.pending')
+                                                            : __('persetujuan.not_approved') }}
+                                                        </td>
+                                                        <td>
+                                                            {{ __('persetujuan.user_request') }}:
+                                                            {{ $order->date_time_request }}<br>
+                                                            {{ __('persetujuan.pickup_schedule') }}:
+                                                            {{ $order->pickup_time }}<br>
+                                                            {{ __('persetujuan.collector_start') }}:
+                                                            {{ $order->pickup->start_time ?? __('persetujuan.not_yet') }}<br>
+                                                            {{ __('persetujuan.trash_collected') }}:
+                                                            {{ $order->pickup->pick_up_date ?? __('persetujuan.not_yet') }}<br>
+                                                            {{ __('persetujuan.trash_arrived') }}:
+                                                            {{ $order->pickup->arrival_date ?? __('persetujuan.not_yet') }}<br>
+                                                        </td>
+                                                        </td>
 
-                                                    <td>{{ $order->order_id }}</td>
+                                                        <td>{{ $order->order_id }}</td>
 
-                                                    <td>{{ $order->user->name ?? '-' }}</td>
+                                                        <td>{{ $order->user->name ?? '-' }}</td>
 
-                                                    <td>{{ $order->pickup?->user?->name ?? '-' }}</td>
+                                                        <td>{{ $order->pickup?->user?->name ?? '-' }}</td>
 
-                                                    <td>
-                                                        @foreach ($order->details as $detail)
-                                                            {{ $detail->trash->name ?? 'Jenis Tidak Diketahui' }}:
-                                                            {{ $detail->quantity }} kg<br>
-                                                        @endforeach
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex flex-column gap-2 align-items-center">
-                                                            <button type="button" class="btn btn-sm"
-                                                                style="background-color: #E5F5E0" data-bs-toggle="modal"
-                                                                data-bs-target="#detailModal{{ $order->order_id }}">
-                                                                {{__('persetujuan.respond')}}
-                                                            </button>
-                                                        </div>
-                                                    </td>
+                                                        <td>
+                                                            @foreach ($order->details as $detail)
+                                                                {{ $detail->trash->name ?? 'Jenis Tidak Diketahui' }}:
+                                                                {{ $detail->quantity }} kg<br>
+                                                            @endforeach
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex flex-column gap-2 align-items-center">
+                                                                <button type="button" class="btn btn-sm"
+                                                                    style="background-color: #E5F5E0" data-bs-toggle="modal"
+                                                                    data-bs-target="#detailModal{{ $order->order_id }}">
+                                                                    {{__('persetujuan.respond')}}
+                                                                </button>
+                                                            </div>
+                                                        </td>
 
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="detailModal{{ $order->order_id }}"
-                                                        tabindex="-1" aria-labelledby="modalLabel{{ $order->order_id }}"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                                                            <div class="modal-content rounded-4">
-                                                                <div
-                                                                    class="modal-header bg-success text-white rounded-top-4">
-                                                                    <h5 class="modal-title"
-                                                                        id="modalLabel{{ $order->order_id }}">Detail Order
-                                                                        #{{ $order->order_id }}</h5>
-                                                                    <button type="button" class="btn-close bg-white"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="detailModal{{ $order->order_id }}"
+                                                            tabindex="-1" aria-labelledby="modalLabel{{ $order->order_id }}"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                                                <div class="modal-content rounded-4">
+                                                                    <div
+                                                                        class="modal-header bg-success text-white rounded-top-4">
+                                                                        <h5 class="modal-title"
+                                                                            id="modalLabel{{ $order->order_id }}">Detail Order
+                                                                            #{{ $order->order_id }}</h5>
+                                                                        <button type="button" class="btn-close bg-white"
+                                                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
 
-                                                                <div class="modal-body text-dark bg-light">
+                                                                    <div class="modal-body text-dark bg-light">
 
-                                                                    <div class="row mb-3">
-                                                                        <div class="col-md-6">
-                                                                            <p><strong>{{ __('persetujuan.order_id') }}:</strong>
-                                                                                {{ $order->order_id }}</p>
-                                                                            <p><strong>{{ __('persetujuan.admin') }}:</strong>
-                                                                                {{ $order->approval->user->name ?? '-' }}
-                                                                            </p>
-                                                                            <p><strong>{{ __('persetujuan.user') }}:</strong>
-                                                                                {{ $order->user->name }}</p>
-                                                                            <p><strong>{{ __('persetujuan.collector') }}:</strong>
-                                                                                {{ $order->pickup?->user?->name ?? '-' }}</p>
-                                                                            <p><strong>{{ __('persetujuan.request_date') }}</strong>
-                                                                                {{ $order->pickup->start_time ?? '-' }},
-                                                                                {{ $order->pickup->pick_up_date ?? '-' }}
-                                                                            </p>
-                                                                            <p><strong>{{ __('persetujuan.pickup_date') }}:</strong>
-                                                                                {{ $order->pickup->pick_up_date ?? '-' }}
-                                                                            </p>
-                                                                            <p><strong>{{ __('persetujuan.completion_date') }}:</strong>
-                                                                                {{ $order->pickup->arrival_date ?? '-' }}
-                                                                            </p>
-                                                                            <p><strong>{{ __('persetujuan.latest_admin_response') }}:</strong>
-                                                                                {{ $order->approval->date_time ?? '-' }}
-                                                                            </p>
-                                                                        </div>
-
-                                                                        <div class="col-md-6">
-                                                                            <p><strong>{{ __('persetujuan.trash_types') }}:</strong>
-                                                                                @foreach ($order->details as $detail)
-                                                                                    {{ $detail->trash->name }}:
-                                                                                    {{ $detail->quantity }} KG<br>
-                                                                                @endforeach
-                                                                            </p>
-                                                                            @php $total = 0; @endphp
-                                                                            @foreach ($order->details as $detail)
-                                                                                @php $total += $detail->trash->price_per_kg * $detail->quantity; @endphp
-                                                                            @endforeach
-                                                                            <p><strong>{{ __('persetujuan.trash_weight') }}:</strong>
-                                                                                {{ $order->details->sum('quantity') }} KG
-                                                                            </p>
-                                                                            <p><strong>{{ __('persetujuan.total_price') }}:</strong>
-                                                                                Rp
-                                                                                {{ number_format($total, 0, ',', '.') }}
-                                                                            </p>
-                                                                            <p><strong>{{ __('persetujuan.collector_notes') }}:</strong>
-                                                                            </p>
-                                                                            <div
-                                                                                class="bg-success-subtle text-dark p-2 rounded">
-                                                                                {{ $order->pickup->notes ?? '-' }}</div>
-                                                                            <p class="mt-3"><strong>Status:</strong></p>
-                                                                            @php
-                                                                                $statusText = __(
-                                                                                    'persetujuan.no_response',
-                                                                                );
-                                                                                $statusColor = 'bg-secondary-subtle';
-
-                                                                                if ($order->approval) {
-                                                                                    switch (
-                                                                                        $order->approval
-                                                                                            ->approval_status
-                                                                                    ) {
-                                                                                        case 0:
-                                                                                            $statusText = __(
-                                                                                                'persetujuan.rejected',
-                                                                                            );
-                                                                                            $statusColor =
-                                                                                                'bg-danger-subtle text-danger';
-                                                                                            break;
-                                                                                        case 1:
-                                                                                            $statusText = __(
-                                                                                                'persetujuan.approved',
-                                                                                            );
-                                                                                            $statusColor =
-                                                                                                'bg-success-subtle text-success';
-                                                                                            break;
-                                                                                        case 2:
-                                                                                            $statusText = __(
-                                                                                                'persetujuan.waiting',
-                                                                                            );
-                                                                                            $statusColor =
-                                                                                                'bg-warning-subtle text-warning';
-                                                                                            break;
-                                                                                    }
-                                                                                }
-                                                                            @endphp
-
-                                                                            <div
-                                                                                class="p-2 rounded fw-bold {{ $statusColor }}">
-                                                                                {{ $statusText }}
+                                                                        <div class="row mb-3">
+                                                                            <div class="col-md-6">
+                                                                                <p><strong>{{ __('persetujuan.order_id') }}:</strong>
+                                                                                    {{ $order->order_id }}</p>
+                                                                                <p><strong>{{ __('persetujuan.admin') }}:</strong>
+                                                                                    {{ $order->approval->user->name ?? '-' }}
+                                                                                </p>
+                                                                                <p><strong>{{ __('persetujuan.user') }}:</strong>
+                                                                                    {{ $order->user->name }}</p>
+                                                                                <p><strong>{{ __('persetujuan.collector') }}:</strong>
+                                                                                    {{ $order->pickup?->user?->name ?? '-' }}</p>
+                                                                                <p><strong>{{ __('persetujuan.request_date') }}</strong>
+                                                                                    {{ $order->pickup->start_time ?? '-' }},
+                                                                                    {{ $order->pickup->pick_up_date ?? '-' }}
+                                                                                </p>
+                                                                                <p><strong>{{ __('persetujuan.pickup_date') }}:</strong>
+                                                                                    {{ $order->pickup->pick_up_date ?? '-' }}
+                                                                                </p>
+                                                                                <p><strong>{{ __('persetujuan.completion_date') }}:</strong>
+                                                                                    {{ $order->pickup->arrival_date ?? '-' }}
+                                                                                </p>
+                                                                                <p><strong>{{ __('persetujuan.latest_admin_response') }}:</strong>
+                                                                                    {{ $order->approval->date_time ?? '-' }}
+                                                                                </p>
                                                                             </div>
 
-                                                                        </div>
-                                                                    </div>
+                                                                            <div class="col-md-6">
+                                                                                <p><strong>{{ __('persetujuan.trash_types') }}:</strong>
+                                                                                    @foreach ($order->details as $detail)
+                                                                                        {{ $detail->trash->name }}:
+                                                                                        {{ $detail->quantity }} KG<br>
+                                                                                    @endforeach
+                                                                                </p>
+                                                                                @php $total = 0; @endphp
+                                                                                @foreach ($order->details as $detail)
+                                                                                    @php $total += $detail->trash->price_per_kg * $detail->quantity; @endphp
+                                                                                @endforeach
+                                                                                <p><strong>{{ __('persetujuan.trash_weight') }}:</strong>
+                                                                                    {{ $order->details->sum('quantity') }} KG
+                                                                                </p>
+                                                                                <p><strong>{{ __('persetujuan.total_price') }}:</strong>
+                                                                                    Rp
+                                                                                    {{ number_format($total, 0, ',', '.') }}
+                                                                                </p>
+                                                                                <p><strong>{{ __('persetujuan.collector_notes') }}:</strong>
+                                                                                </p>
+                                                                                <div
+                                                                                    class="bg-success-subtle text-dark p-2 rounded">
+                                                                                    {{ $order->pickup->notes ?? '-' }}</div>
+                                                                                <p class="mt-3"><strong>Status:</strong></p>
+                                                                                @php
+                                                                                    $statusText = __(
+                                                                                        'persetujuan.no_response',
+                                                                                    );
+                                                                                    $statusColor = 'bg-secondary-subtle';
 
-                                                                    <div class="row mb-4 text-center">
-                                                                        <div class="col-md-6">
-                                                                            <p class="fw-bold">
-                                                                                {{ __('persetujuan.user_evidence') }}</p>
-                                                                            @if ($order->photo)
-                                                                                <img src="{{ asset('storage/' . $order->photo) }}"
-                                                                                    class="img-fluid rounded shadow"
-                                                                                    style="max-height: 200px;">
-                                                                            @else
-                                                                                <p>{{ __('persetujuan.no_photo') }}</p>
-                                                                            @endif
+                                                                                    if ($order->approval) {
+                                                                                        switch (
+                                                                                            $order->approval
+                                                                                                ->approval_status
+                                                                                        ) {
+                                                                                            case 0:
+                                                                                                $statusText = __(
+                                                                                                    'persetujuan.rejected',
+                                                                                                );
+                                                                                                $statusColor =
+                                                                                                    'bg-danger-subtle text-danger';
+                                                                                                break;
+                                                                                            case 1:
+                                                                                                $statusText = __(
+                                                                                                    'persetujuan.approved',
+                                                                                                );
+                                                                                                $statusColor =
+                                                                                                    'bg-success-subtle text-success';
+                                                                                                break;
+                                                                                            case 2:
+                                                                                                $statusText = __(
+                                                                                                    'persetujuan.waiting',
+                                                                                                );
+                                                                                                $statusColor =
+                                                                                                    'bg-warning-subtle text-warning';
+                                                                                                break;
+                                                                                        }
+                                                                                    }
+                                                                                @endphp
+
+                                                                                <div
+                                                                                    class="p-2 rounded fw-bold {{ $statusColor }}">
+                                                                                    {{ $statusText }}
+                                                                                </div>
+
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="col-md-6">
-                                                                            <p class="fw-bold">
-                                                                                {{ __('persetujuan.collector_evidence') }}
+
+                                                                        <div class="row mb-4 text-center">
+                                                                            <div class="col-md-6">
+                                                                                <p class="fw-bold">
+                                                                                    {{ __('persetujuan.user_evidence') }}</p>
+                                                                                @if ($order->photo)
+                                                                                    <img src="{{ asset('storage/' . $order->photo) }}"
+                                                                                        class="img-fluid rounded shadow"
+                                                                                        style="max-height: 200px;">
+                                                                                @else
+                                                                                    <p>{{ __('persetujuan.no_photo') }}</p>
+                                                                                @endif
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <p class="fw-bold">
+                                                                                    {{ __('persetujuan.collector_evidence') }}
+                                                                                </p>
+                                                                                @if ($order->pickup_photos)
+                                                                                    <img src="{{ asset('storage/' . $order->pickup_photos) }}"
+                                                                                        class="img-fluid rounded shadow"
+                                                                                        style="max-height: 200px;">
+                                                                                @else
+                                                                                    <p>{{ __('persetujuan.no_photo') }}</p>
+                                                                                @endif
+                                                                            </div>
+                                                                        </div>
+
+                                                                        @if ($order->approval)
+                                                                            <hr>
+                                                                            <p><strong>{{ __('persetujuan.previous_admin_response') }}</strong>
                                                                             </p>
-                                                                            @if ($order->pickup_photos)
-                                                                                <img src="{{ asset('storage/' . $order->pickup_photos) }}"
-                                                                                    class="img-fluid rounded shadow"
-                                                                                    style="max-height: 200px;">
-                                                                            @else
-                                                                                <p>{{ __('persetujuan.no_photo') }}</p>
-                                                                            @endif
-                                                                        </div>
-                                                                    </div>
+                                                                            <div class="bg-light border p-2 rounded">
+                                                                                {{ $order->approval->notes }}
+                                                                            </div>
+                                                                        @endif
 
-                                                                    @if ($order->approval)
                                                                         <hr>
-                                                                        <p><strong>{{ __('persetujuan.previous_admin_response') }}</strong>
-                                                                        </p>
-                                                                        <div class="bg-light border p-2 rounded">
-                                                                            {{ $order->approval->notes }}
-                                                                        </div>
-                                                                    @endif
 
-                                                                    <hr>
+                                                                        <form action="{{ route('admin.persetujuan.store') }}"
+                                                                            method="POST">
+                                                                            @csrf
+                                                                            <input type="hidden" name="order_id"
+                                                                                value="{{ $order->order_id }}">
+                                                                            <input type="hidden" name="user_id"
+                                                                                value="{{ auth()->user()->user_id }}">
+                                                                            <input type="hidden" name="approval_status"
+                                                                                id="approval_status" value="">
 
-                                                                    <form action="{{ route('admin.persetujuan.store') }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        <input type="hidden" name="order_id"
-                                                                            value="{{ $order->order_id }}">
-                                                                        <input type="hidden" name="user_id"
-                                                                            value="{{ auth()->user()->user_id }}">
-                                                                        <input type="hidden" name="approval_status"
-                                                                            id="approval_status" value="">
+                                                                            <div class="mb-3">
+                                                                                <label for="notes"
+                                                                                    class="form-label fw-bold">{{ __('persetujuan.write_admin_response') }}</label>
+                                                                                <textarea name="notes" class="form-control bg-success-subtle" rows="4"
+                                                                                    placeholder="{{ __('persetujuan.response_placeholder') }}" required></textarea>
+                                                                            </div>
 
-                                                                        <div class="mb-3">
-                                                                            <label for="notes"
-                                                                                class="form-label fw-bold">{{ __('persetujuan.write_admin_response') }}</label>
-                                                                            <textarea name="notes" class="form-control bg-success-subtle" rows="4"
-                                                                                placeholder="{{ __('persetujuan.response_placeholder') }}" required></textarea>
-                                                                        </div>
+                                                                            <div class="d-flex justify-content-around">
+                                                                                <button type="submit" class="btn px-4"
+                                                                                    style="background-color: #006B4F; color: white;"
+                                                                                    name="approval_status"
+                                                                                    value="1">{{ __('persetujuan.approve') }}</button>
+                                                                                <button type="submit" class="btn px-4"
+                                                                                    style="background-color: #5C2E00; color: white;"
+                                                                                    name="approval_status"
+                                                                                    value="0">{{ __('persetujuan.reject') }}</button>
+                                                                                <button type="submit" class="btn px-4"
+                                                                                    style="background-color: #777000; color: white;"
+                                                                                    name="approval_status"
+                                                                                    value="2">{{ __('persetujuan.pending_action') }}</button>
+                                                                            </div>
+                                                                        </form>
 
-                                                                        <div class="d-flex justify-content-around">
-                                                                            <button type="submit" class="btn px-4"
-                                                                                style="background-color: #006B4F; color: white;"
-                                                                                name="approval_status"
-                                                                                value="1">{{ __('persetujuan.approve') }}</button>
-                                                                            <button type="submit" class="btn px-4"
-                                                                                style="background-color: #5C2E00; color: white;"
-                                                                                name="approval_status"
-                                                                                value="0">{{ __('persetujuan.reject') }}</button>
-                                                                            <button type="submit" class="btn px-4"
-                                                                                style="background-color: #777000; color: white;"
-                                                                                name="approval_status"
-                                                                                value="2">{{ __('persetujuan.pending_action') }}</button>
-                                                                        </div>
-                                                                    </form>
-
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <!--end::Row-->
                             </div>
