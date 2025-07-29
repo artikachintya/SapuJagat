@@ -54,61 +54,63 @@
         {{ __('print_pdf.contact_info.email', ['email' => $admin->email]) }}
     </address>
 
-    <table>
-        <thead>
-            <tr>
-                <th>{{ __('print_pdf.table.no') }}</th>
-                @if ($category === 'order')
-                    <th>{{ __('print_pdf.table.columns.order.trash_name') }}</th>
-                    <th>{{ __('print_pdf.table.columns.order.type') }}</th>
-                    <th>{{ __('print_pdf.table.columns.order.total_weight') }}</th>
-                @elseif ($category === 'withdraw')
-                    <th>{{ __('print_pdf.table.columns.withdraw.bank') }}</th>
-                    <th>{{ __('print_pdf.table.columns.withdraw.total_amount') }}</th>
-                @endif
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($data as $index => $item)
+    <div class="table-responsive">
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ $index + 1 }}</td>
+                    <th>{{ __('print_pdf.table.no') }}</th>
                     @if ($category === 'order')
-                        <td>{{ $item->trash_name }}</td>
-                        <td>{{ $item->type }}</td>
-                        <td>{{ number_format($item->total_weight, 0, ',', '.') }}</td>
+                        <th>{{ __('print_pdf.table.columns.order.trash_name') }}</th>
+                        <th>{{ __('print_pdf.table.columns.order.type') }}</th>
+                        <th>{{ __('print_pdf.table.columns.order.total_weight') }}</th>
                     @elseif ($category === 'withdraw')
-                        <td>{{ $item->bank }}</td>
-                        <td>Rp {{ number_format($item->total_amount, 0, ',', '.') }}</td>
+                        <th>{{ __('print_pdf.table.columns.withdraw.bank') }}</th>
+                        <th>{{ __('print_pdf.table.columns.withdraw.total_amount') }}</th>
                     @endif
                 </tr>
-            @endforeach
-        </tbody>
-        @if ($data->isNotEmpty())
-            <tfoot>
-                <tr>
-                    @if ($category === 'order')
-                        <td colspan="3" style="text-align: right;">
-                            <strong>{{ __('print_pdf.table.footer.order.total_label') }}</strong>
-                        </td>
-                        <td>
-                            <strong>
-                                {{ __('print_pdf.table.footer.order.total_value', ['total' => number_format($data->sum('total_weight'), 0, ',', '.')]) }}
-                            </strong>
-                        </td>
-                    @elseif ($category === 'withdraw')
-                        <td colspan="2" style="text-align: right;">
-                            <strong>{{ __('print_pdf.table.footer.withdraw.total_label') }}</strong>
-                        </td>
-                        <td>
-                            <strong>
-                                {{ __('print_pdf.table.footer.withdraw.total_value', ['total' => number_format($data->sum('total_amount'), 0, ',', '.')]) }}
-                            </strong>
-                        </td>
-                    @endif
-                </tr>
-            </tfoot>
-        @endif
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($data as $index => $item)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        @if ($category === 'order')
+                            <td>{{ $item->trash_name }}</td>
+                            <td>{{ $item->type }}</td>
+                            <td>{{ number_format($item->total_weight, 0, ',', '.') }}</td>
+                        @elseif ($category === 'withdraw')
+                            <td>{{ $item->bank }}</td>
+                            <td>Rp {{ number_format($item->total_amount, 0, ',', '.') }}</td>
+                        @endif
+                    </tr>
+                @endforeach
+            </tbody>
+            @if ($data->isNotEmpty())
+                <tfoot>
+                    <tr>
+                        @if ($category === 'order')
+                            <td colspan="3" style="text-align: right;">
+                                <strong>{{ __('print_pdf.table.footer.order.total_label') }}</strong>
+                            </td>
+                            <td>
+                                <strong>
+                                    {{ __('print_pdf.table.footer.order.total_value', ['total' => number_format($data->sum('total_weight'), 0, ',', '.')]) }}
+                                </strong>
+                            </td>
+                        @elseif ($category === 'withdraw')
+                            <td colspan="2" style="text-align: right;">
+                                <strong>{{ __('print_pdf.table.footer.withdraw.total_label') }}</strong>
+                            </td>
+                            <td>
+                                <strong>
+                                    {{ __('print_pdf.table.footer.withdraw.total_value', ['total' => number_format($data->sum('total_amount'), 0, ',', '.')]) }}
+                                </strong>
+                            </td>
+                        @endif
+                    </tr>
+                </tfoot>
+            @endif
+        </table>
+    </div>
 </body>
 
 </html>
