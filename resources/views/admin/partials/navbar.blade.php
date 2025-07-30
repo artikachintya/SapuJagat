@@ -163,6 +163,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('admin.user-lists.index') }}"
+                        class="nav-link {{ Route::is('admin.user-lists.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                        <i class="nav-icon bi bi-list"></i>
+                        <p>{{ 'User Lists' }}</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.print-data.index') }}"
                         class="nav-link {{ Route::is('admin.print-data.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-printer"></i>

@@ -5,4 +5,5 @@
 protected $routeMiddleware = [
     'auth' => \App\Http\Middleware\Authenticate::class,
     'admin' => \App\Http\Middleware\AdminOnly::class,
+    'active.user' => \App\Http\Middleware\ActiveUserOnly::class,
 ];

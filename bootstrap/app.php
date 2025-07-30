@@ -12,11 +12,16 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
+            'active.user' => \App\Http\Middleware\ActiveUserOnly::class,
             'admin' => \App\Http\Middleware\AdminOnly::class,
             'pengguna' => \App\Http\Middleware\PenggunaOnly::class,
             'driver' => \App\Http\Middleware\DriverOnly::class,
         ]);
+        $middleware->appendToGroup('web', [
+            \App\Http\Middleware\ActiveUserOnly::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->create();

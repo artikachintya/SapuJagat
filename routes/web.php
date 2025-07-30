@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PersetujuanController;
 use App\Http\Controllers\Admin\PrintDataController;
 use App\Http\Controllers\Admin\ResponLaporan;
 
+use App\Http\Controllers\Admin\UserListController;
 use App\Http\Controllers\Driver\PickUpController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Pengguna\Histori;
@@ -114,11 +115,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // soft delete
     Route::get('jenis-sampah-arsip', [JenisSampahController::class, 'archive'])->name('jenis-sampah.arsip');
     Route::post('jenis-sampah-restore/{id}', [JenisSampahController::class, 'restore'])->name('jenis-sampah.restore');
-   // forcedelete
-   Route::delete('jenis-sampah/{id}/force-delete', [JenisSampahController::class, 'forceDelete'])->name('jenis-sampah.force-delete');
-
+    // forcedelete
+    Route::delete('jenis-sampah/{id}/force-delete', [JenisSampahController::class, 'forceDelete'])->name('jenis-sampah.force-delete');
 
     Route::resource('penugasan', PenugasanController::class);
+    Route::resource('user-lists', UserListController::class);
     Route::get('penugasan-arsip', [PenugasanController::class, 'archive'])->name('penugasan.archive');
     Route::post('penugasan/{id}/restore', [PenugasanController::class, 'restore'])->name('penugasan.restore');
     Route::delete('penugasan/{id}/force', [PenugasanController::class, 'forceDelete'])->name('penugasan.forceDelete');
