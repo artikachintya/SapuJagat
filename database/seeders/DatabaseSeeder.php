@@ -2,23 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Trash;
-use App\Models\Report;
-use App\Models\ChatDetail;
-use App\Models\Response;
-use App\Models\UserInfo;
-use App\Models\UserLicense;
-use App\Models\Withdrawal;
-use App\Models\Rating;
-use App\Models\PickUp;
-use App\Models\OrderDetail;
-use App\Models\Order;
-use App\Models\Chat;
-use App\Models\Approval;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+// 1. Pastikan use statement ini tetap ada
+use Spatie\Activitylog\ActivitylogStatus;
+
+// ... (use statement untuk model lainnya)
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,12 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // 2. Panggil kelas menggunakan helper app() untuk menonaktifkan log
+        app(ActivitylogStatus::class)->disable();
+
         $this->call([
             UserSeeder::class,
-            // UserInfoSeeder::class,
-            // UserLicenseSeeder::class,
-            // AdminSeeder::class,
-            // DriverSeeder::class,
             TrashSeeder::class,
             ChatSeeder::class,
             ReportSeeder::class,
@@ -46,5 +33,8 @@ class DatabaseSeeder extends Seeder
             RatingSeeder::class,
             PenugasanSeeder::class,
         ]);
+
+        // 3. Aktifkan kembali log dengan cara yang sama
+        app(ActivitylogStatus::class)->enable();
     }
 }

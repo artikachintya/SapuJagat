@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Facades\Activity as SpatieLog;
+
 
 class PrintDataController extends Controller
 {
@@ -96,6 +100,17 @@ class PrintDataController extends Controller
         }
 
         $admin = Auth::user();
+
+        activity('generate_pdf')
+            ->causedBy($admin)
+            ->withProperties([
+                'category' => $category,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent()
+            ])
+            ->log("Admin {$admin->name} generated a PDF report for category: {$category}");
 
         $pdf = Pdf::loadView('admin.print-pdf', compact('admin', 'category', 'start_date', 'end_date', 'data'));
 
