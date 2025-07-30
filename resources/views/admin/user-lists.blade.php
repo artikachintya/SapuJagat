@@ -31,6 +31,45 @@
     #laporanTable td {
         color: #ffffff !important;
     }
+    
+    #laporanTabledua {
+        --bs-table-bg: #026733;
+        --bs-table-color: #ffffff;
+        --bs-table-striped-bg: #006837;
+        --bs-table-striped-color: #ffffff;
+        --bs-table-hover-bg: #075c31;
+        --bs-table-hover-color: #ffffff;
+        --bs-table-border-color: #01733d;
+    }
+
+    #laporanTabledua thead th {
+        background-color: #02341c;
+        color: #ffffff;
+    }
+
+    #laporanTabledua td {
+        color: #ffffff !important;
+    }
+    
+    
+    #laporanTabletiga {
+        --bs-table-bg: #026733;
+        --bs-table-color: #ffffff;
+        --bs-table-striped-bg: #006837;
+        --bs-table-striped-color: #ffffff;
+        --bs-table-hover-bg: #075c31;
+        --bs-table-hover-color: #ffffff;
+        --bs-table-border-color: #01733d;
+    }
+
+    #laporanTabletiga thead th {
+        background-color: #02341c;
+        color: #ffffff;
+    }
+
+    #laporanTabletiga td {
+        color: #ffffff !important;
+    }
 
     .dataTables_wrapper .dataTables_length label,
     .dataTables_wrapper .dataTables_filter label {
@@ -49,6 +88,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         new DataTable('#laporanTable');
+        new DataTable('#laporanTabledua');
+        new DataTable('#laporanTabletiga');
     });
 </script>
 @endpush
@@ -148,6 +189,159 @@
                                             style="background-color: #E5F5E0"
                                             data-bs-toggle="log"
                                             data-bs-target="#detaillogagamtercinta{{ $user->user_id }}">
+                                        buat agam tercinta
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-1">
+            <div class="card-header text-white" style="background-color: #0e6b3b">
+                <h5 class="card-title">{{ 'Driver Lists' }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="laporanTabledua" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{'id'}}</th>
+                                <th>{{'name'}}</th>
+                                <th>{{'phone num'}}</th>
+                                <th>{{'status'}}</th>
+                                <th>{{'action'}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($drivers as $driver)
+                            <tr>
+                                <!-- Modal -->
+                                <div class="modal fade" id="detailModal{{ $driver->user_id }}" tabindex="-1" aria-labelledby="modalLabel{{ $driver->user_id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-success text-white">
+                                                <h5 class="modal-title" id="modalLabel{{ $driver->user_id }}">
+                                                    {{ __('response_admin.modal.title', ['id' => $driver->user_id]) }}
+                                                </h5>
+                                                <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-dark">
+                                                <p><strong>{{ 'id user' }}:</strong> {{ $driver->user_id }}</p>
+                                                <p><strong>{{ 'name' }}:</strong> {{ $driver->name }}</p>
+                                                <p><strong>{{ 'number' }}:</strong> {{ $driver->phone_num }}</p>
+                                                <p><strong>{{ 'status' }}:</strong> {{ $driver->status == 0 ? 'Active' : 'Blocked' }}</p>
+                                                @if ($driver->profile_pic)
+                                                    <p><strong>{{ __('response_admin.modal.fields.photo') }}:</strong></p>
+                                                    <img src="{{ asset('storage/' . $driver->profile_pic) }}" alt="Foto Bukti" class="img-fluid mb-3 rounded shadow" style="max-height: 300px;"
+                                                        onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
+                                                @endif
+                                            </div>
+                                            <form action="{{ route('admin.user-lists.update', $driver->user_id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="status" value="{{ $driver->status == 0 ? 1 : 0 }}">
+                                                <button type="submit" class="btn {{ $driver->status == 0 ? 'btn-danger' : 'btn-success' }}">
+                                                    {{ $driver->status == 0 ? 'Block' : 'Unblock' }}
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <td>{{ $driver->user_id }}</td>
+                                <td>{{ $driver->name }}</td>
+                                <td>{{ $driver->phone_num }}</td>
+                                <td>{{ $driver->status == 0 ? 'Active' : 'Blocked' }}</td>
+                                <td>
+                                    <button type="button"
+                                            class="btn btn-sm"
+                                            style="background-color: #E5F5E0"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#detailModal{{ $driver->user_id }}">
+                                        {{ $driver->status == 0 ? 'Block' : 'Unblock' }}
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-sm"
+                                            style="background-color: #E5F5E0"
+                                            data-bs-toggle="log"
+                                            data-bs-target="#detaillogagamtercinta{{ $driver->user_id }}">
+                                        buat agam tercinta
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-1">
+            <div class="card-header text-white" style="background-color: #0e6b3b">
+                <h5 class="card-title">{{ 'Admin Lists' }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="laporanTabletiga" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{'id'}}</th>
+                                <th>{{'name'}}</th>
+                                <th>{{'phone num'}}</th>
+                                <th>{{'status'}}</th>
+                                <th>{{'action'}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($admins as $admin)
+                            <tr>
+                                <!-- Modal -->
+                                <div class="modal fade" id="detailModal{{ $admin->user_id }}" tabindex="-1" aria-labelledby="modalLabel{{ $admin->user_id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-success text-white">
+                                                <h5 class="modal-title" id="modalLabel{{ $admin->user_id }}">
+                                                    {{ __('response_admin.modal.title', ['id' => $admin->user_id]) }}
+                                                </h5>
+                                                <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-dark">
+                                                <p><strong>{{ 'id user' }}:</strong> {{ $admin->user_id }}</p>
+                                                <p><strong>{{ 'name' }}:</strong> {{ $admin->name }}</p>
+                                                <p><strong>{{ 'number' }}:</strong> {{ $admin->phone_num }}</p>
+                                                <p><strong>{{ 'status' }}:</strong> {{ $admin->status == 0 ? 'Active' : 'Blocked' }}</p>
+                                                @if ($admin->profile_pic)
+                                                    <p><strong>{{ __('response_admin.modal.fields.photo') }}:</strong></p>
+                                                    <img src="{{ asset('storage/' . $admin->profile_pic) }}" alt="Foto Bukti" class="img-fluid mb-3 rounded shadow" style="max-height: 300px;"
+                                                        onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
+                                                @endif
+                                            </div>
+                                            <form action="{{ route('admin.user-lists.update', $admin->user_id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="status" value="{{ $admin->status == 0 ? 1 : 0 }}">
+                                                <button type="submit" class="btn {{ $admin->status == 0 ? 'btn-danger' : 'btn-success' }}">
+                                                    {{ $admin->status == 0 ? 'Block' : 'Unblock' }}
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <td>{{ $admin->user_id }}</td>
+                                <td>{{ $admin->name }}</td>
+                                <td>{{ $admin->phone_num }}</td>
+                                <td>{{ $admin->status == 0 ? 'Active' : 'Blocked' }}</td>
+                                <td>
+                                    <button type="button"
+                                            class="btn btn-sm"
+                                            style="background-color: #E5F5E0"
+                                            data-bs-toggle="log"
+                                            data-bs-target="#detaillogagamtercinta{{ $admin->user_id }}">
                                         buat agam tercinta
                                     </button>
                                 </td>
