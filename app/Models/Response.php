@@ -50,6 +50,18 @@ class Response extends Model
      * Mendefinisikan opsi untuk activity log.
      * * @return \Spatie\Activitylog\LogOptions
      */
+
+    protected static function booted()
+    {
+        if (app()->runningInConsole() && !app()->runningUnitTests()) {
+            static::creating(function () {
+                activity()->disableLogging();
+            });
+            static::created(function () {
+                activity()->enableLogging();
+            });
+        }
+    }
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

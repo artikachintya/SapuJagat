@@ -47,7 +47,7 @@ Route::get('/', function () {
             return redirect('/pengguna');
         } elseif ($user->role == 2) {
             return redirect('/admin');
-        }elseif ($user->role == 3) {
+        } elseif ($user->role == 3) {
             return redirect('/driver');
         }
     }
@@ -85,7 +85,7 @@ Route::post('/otp/cancel', [OtpController::class, 'cancel'])->name('otp.cancel')
 // Route::get('/pengguna/ringkasan-pesanan', [TukarSampahController::class,'ringkasan'])->name('RingkasanPesanan2');
 // Route::post('/pengguna/ringkasan-pesanan/jemput', [TukarSampahController::class,'jemput'])->name('ringkasan.jemput');
 
-Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->group(function () {
+Route::middleware(['auth', 'pengguna'])->prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/', [PenggunaController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [PenggunaController::class, 'index'])->name('dashboard');
 
@@ -120,6 +120,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('penugasan', PenugasanController::class);
     Route::resource('user-lists', UserListController::class);
+    Route::get('user-lists/{id}/logs', [UserListController::class, 'showLog'])->name('user.logs');
     Route::get('penugasan-arsip', [PenugasanController::class, 'archive'])->name('penugasan.archive');
     Route::post('penugasan/{id}/restore', [PenugasanController::class, 'restore'])->name('penugasan.restore');
     Route::delete('penugasan/{id}/force', [PenugasanController::class, 'forceDelete'])->name('penugasan.forceDelete');
@@ -143,17 +144,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 // Chat Routes
-Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->group(function () {
+Route::middleware(['auth', 'pengguna'])->prefix('pengguna')->name('pengguna.')->group(function () {
     Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('chat');
     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 });
 
-Route::middleware(['auth','driver'])->prefix('driver')->name('driver.')->group(function () {
+Route::middleware(['auth', 'driver'])->prefix('driver')->name('driver.')->group(function () {
     // Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('chat');
     // Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])->name('chat');
     Route::get('/chat/{chat_id}', [ChatController::class, 'driverChat'])
-    ->name('chat')
-    ->middleware(['signed']);
+        ->name('chat')
+        ->middleware(['signed']);
 
     Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
     // Route::get('/chat/{chat_id}', [ChatController::class, 'userChat'])->name('pengguna.chat');
@@ -163,7 +164,7 @@ Route::middleware(['auth','driver'])->prefix('driver')->name('driver.')->group(f
 
 Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
 
-Route::middleware(['auth','driver'])->prefix('driver')->name('driver.')->group(function () {
+Route::middleware(['auth', 'driver'])->prefix('driver')->name('driver.')->group(function () {
     Route::get('/', [PickUpController::class, 'index'])->name('dashboard');
     Route::get('profile', [DriverProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [DriverProfileController::class, 'edit'])->name('profile.edit');

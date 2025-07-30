@@ -16,7 +16,7 @@ class Penugasan extends Model
     protected $table = 'penugasans';
     protected $primaryKey = 'penugasan_id';
     public $incrementing = true;
-    public $timestamps  = false;
+    public $timestamps = false;
     protected $dates = ['deleted_at'];
 
     protected $fillable = ['order_id', 'user_id', 'created_at', 'status'];
@@ -29,8 +29,8 @@ class Penugasan extends Model
     protected function setKeysForSaveQuery($query)
     {
         return $query->where('order_id', $this->order_id)
-                     ->where('user_id',  $this->user_id)
-                     ->where('created_at', $this->created_at);
+            ->where('user_id', $this->user_id)
+            ->where('created_at', $this->created_at);
     }
 
     public function order(): BelongsTo
@@ -41,6 +41,18 @@ class Penugasan extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
+    protected static function booted()
+    {
+        if (app()->runningInConsole() && !app()->runningUnitTests()) {
+            static::creating(function () {
+                activity()->disableLogging();
+            });
+            static::created(function () {
+                activity()->enableLogging();
+            });
+        }
     }
 
     public function getActivitylogOptions(): LogOptions

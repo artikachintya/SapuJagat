@@ -30,6 +30,18 @@ class Approval extends Model
         return $this->belongsTo(Order::class, 'order_id');
     }
 
+    protected static function booted()
+    {
+        if (app()->runningInConsole() && !app()->runningUnitTests()) {
+            static::creating(function () {
+                activity()->disableLogging();
+            });
+            static::created(function () {
+                activity()->enableLogging();
+            });
+        }
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -48,7 +60,7 @@ class Approval extends Model
 
     private function getStatusString($status): string
     {
-        return match((int) $status) {
+        return match ((int) $status) {
             0 => 'menolak',
             1 => 'menyetujui',
             2 => 'menunda',
@@ -57,7 +69,7 @@ class Approval extends Model
 
     private function getRoleName($role): string
     {
-        return match((int) $role) {
+        return match ((int) $role) {
             1 => 'pengguna',
             2 => 'admin',
             3 => 'driver',

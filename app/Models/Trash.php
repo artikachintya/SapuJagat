@@ -27,6 +27,18 @@ class Trash extends Model
 
     protected $dates = ['deleted_at'];
 
+    protected static function booted()
+    {
+        if (app()->runningInConsole() && !app()->runningUnitTests()) {
+            static::creating(function () {
+                activity()->disableLogging();
+            });
+            static::created(function () {
+                activity()->enableLogging();
+            });
+        }
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
