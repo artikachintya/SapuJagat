@@ -13,17 +13,12 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, LogsActivity;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-
     protected $primaryKey = 'user_id';
     public $incrementing = true;
     protected $keyType = 'int';
+
     protected static $logOnlyDirty = true; // Hanya log jika nilai berubah
-    protected static $logName = 'update';
+    protected static $logName = 'user_activity';
 
     protected static $logAttributes = [
         'name',
@@ -32,8 +27,19 @@ class User extends Authenticatable
         'phone_num',
         'profile_pic'
     ];
+
     protected static function booted()
     {
+        // Nonaktifkan logging saat seeder/factory berjalan
+        if (app()->runningInConsole() && !app()->runningUnitTests()) {
+            static::creating(function () {
+                activity()->disableLogging();
+            });
+            static::created(function () {
+                activity()->enableLogging();
+            });
+        }
+
         static::updating(function ($model) {
             if (!$model->isDirty(self::$logAttributes)) {
                 activity()->disableLogging();
@@ -47,7 +53,7 @@ class User extends Authenticatable
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "User dengan ID {$this->getKey()} melakukan {$eventName} pada akun utama.";
+        return "User dengan ID {$this->getKey()} melakukan {$eventName} pada akun.";
     }
 
     public function getActivitylogOptions(): LogOptions
@@ -72,21 +78,11 @@ class User extends Authenticatable
         'is_google_user',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -95,7 +91,6 @@ class User extends Authenticatable
             'status' => 'boolean',
         ];
     }
-
 
     public function sendPasswordResetNotification($token)
     {
@@ -112,7 +107,6 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_id');
     }
 
-
     public function pickup()
     {
         return $this->hasMany(Pickup::class, 'user_id');
@@ -123,7 +117,6 @@ class User extends Authenticatable
         return $this->hasOne(UserInfo::class, 'user_id', 'user_id');
     }
 
-    // Di model User
     public function sentMessages()
     {
         return $this->hasMany(ChatDetail::class, 'user_id');
