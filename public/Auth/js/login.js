@@ -109,24 +109,25 @@ function closeOtpModal() {
     const modal = document.getElementById('otpModal');
     if (!modal) return;
 
-    // Call the server to cancel the OTP session
     fetch(window.otpConfig.cancelUrl, {
         method: 'POST',
         headers: {
-            'X-CSRF-TOKEN': window.otpConfig.csrfToken,
-            'Content-Type': 'application/json'
-        }
-    }).then(response => {
+            'Content-Type': 'application/json', // Jangan hanya pakai X-CSRF-TOKEN saja
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            _token: window.otpConfig.csrfToken // Kirim token sebagai body juga
+        })
+    })
+    .then(response => {
         if (response.ok) {
-            // Hide the modal only after the server confirms
             modal.style.display = 'none';
-            // Clear the timer from storage so it doesn't resume if the user logs in again
             sessionStorage.removeItem('otpExpiry');
         } else {
-            // If the server fails, alert the user but maybe don't close the modal
             alert('Could not close the OTP prompt. Please try again.');
         }
-    }).catch(error => {
+    })
+    .catch(error => {
         console.error('Error closing OTP modal:', error);
         alert('An error occurred. Please refresh the page.');
     });
