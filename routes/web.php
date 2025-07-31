@@ -136,6 +136,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         return redirect()->route('admin.print-data.index')
             ->with('error', 'Akses langsung ke halaman PDF tidak diperbolehkan.');
     });
+    Route::post('/jenis-sampah/import', [JenisSampahController::class, 'import'])->name('jenis-sampah.import');
 
     Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');

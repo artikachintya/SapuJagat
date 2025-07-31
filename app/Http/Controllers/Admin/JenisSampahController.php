@@ -165,4 +165,42 @@ class JenisSampahController extends Controller
         return back()->with('success', 'Data dihapus permanen.');
     }
 
+    public function import(Request $request)
+    {
+        $request->validate([
+            'csv_file' => 'required|mimes:csv,txt|max:2048',
+        ]);
+
+        $file = $request->file('csv_file');
+        $csv = array_map('str_getcsv', file($file));
+        $header = array_map('trim', $csv[0]); // baris pertama = header
+        unset($csv[0]); // buang header dari data
+
+        $inserted = 0;
+        $skipped = 0;
+
+        foreach ($csv as $row) {
+            $row = array_map('trim', $row);
+            $data = array_combine($header, $row);
+
+            // Cek apakah nama sudah ada
+            if (Trash::where('name', $data['name'])->exists()) {
+                $skipped++;
+                $duplicatesList[] = $data['name'];
+                continue;
+            }
+
+            Trash::create([
+                'name'            => $data['name'],
+                'type'            => $data['type'],
+                'price_per_kg'    => $data['price_per_kg'],
+                'max_weight'      => $data['max_weight'],
+                'photos'          => $data['photos'],
+            ]);
+            $inserted++;
+        }
+        // dd($inserted, $duplicatesList, $skipped);
+        return redirect()->back()->with('success', "$inserted data berhasil diimport, $skipped duplikat diabaikan.");
+    }
+
 }

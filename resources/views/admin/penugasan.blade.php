@@ -158,8 +158,6 @@
                         <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
                         <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
                         </button>
-
->>>>>>> 11104922eba3ab90fdb13e81fcf1a143609ed8cf
                     </div>
                 </div>
                 <!--end::Row-->
