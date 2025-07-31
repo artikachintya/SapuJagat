@@ -6,10 +6,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Notifications\CustomResetPassword;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +22,41 @@ class User extends Authenticatable
     protected $primaryKey = 'user_id';
     public $incrementing = true;
     protected $keyType = 'int';
+    protected static $logOnlyDirty = true; // Hanya log jika nilai berubah
+    protected static $logName = 'update';
+
+    protected static $logAttributes = [
+        'name',
+        'NIK',
+        'email',
+        'phone_num',
+        'profile_pic'
+    ];
+    protected static function booted()
+    {
+        static::updating(function ($model) {
+            if (!$model->isDirty(self::$logAttributes)) {
+                activity()->disableLogging();
+            }
+        });
+
+        static::updated(function ($model) {
+            activity()->enableLogging();
+        });
+    }
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "User dengan ID {$this->getKey()} melakukan {$eventName} pada akun utama.";
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(self::$logAttributes)
+            ->logOnlyDirty()
+            ->useLogName(self::$logName);
+    }
 
     protected $fillable = [
         'user_id',
@@ -75,7 +112,7 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_id');
     }
 
-    
+
     public function pickup()
     {
         return $this->hasMany(Pickup::class, 'user_id');
@@ -94,6 +131,6 @@ class User extends Authenticatable
 
     public function license()
     {
-         return $this->hasOne(UserLicense::class, 'user_id', 'user_id');
+        return $this->hasOne(UserLicense::class, 'user_id', 'user_id');
     }
 }

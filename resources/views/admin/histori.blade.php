@@ -70,64 +70,66 @@
 
             <div class="card mt-1">
                 <div class="card-body">
-                    <table id="laporanTable" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th class="text-center">{{ __('history_admin.table.columns.order_id') }}</th>
-                                <th class="text-center">{{ __('history_admin.table.columns.user_id') }}</th>
-                                <th class="text-center">{{ __('history_admin.table.columns.trash_type') }}</th>
-                                <th class="text-center">{{ __('history_admin.table.columns.quantity') }}</th>
-                                <th class="text-center">{{ __('history_admin.table.columns.cost') }}</th>
-                                <th class="text-center">{{ __('history_admin.table.columns.completion_date') }}</th>
-                                <th class="text-center">{{ __('history_admin.table.columns.approval_date') }}</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">{{ __('history_admin.table.columns.action') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($orders as $order)
+                    <div class="table-responsive">
+                        <table id="laporanTable" class="table table-striped">
+                            <thead>
                                 <tr>
-                                    <td class="text-center">{{ $order->order_id }}</td>
-                                    <td class="text-center">{{ $order->user_id }}</td>
-                                    <td class="text-center">{{ $order->details->pluck('trash.name')->join(', ') }}</td>
-                                    <td class="text-center">{{ $order->details->sum('quantity') }} Kg</td>
-                                    <td class="text-center">
-                                        Rp{{ number_format(
-                                            $order->details->sum(fn($detail) => $detail->quantity * ($detail->trash->price_per_kg ?? 0)),
-                                            0,
-                                            ',',
-                                            '.',
-                                        ) }}
-                                    </td>
-                                    <td class="text-center">{{ $order->pickup->arrival_date ?? '-' }}</td>
-                                    <td class="text-center">{{ $order->approval->date_time ?? '-' }}</td>
-                                    <td class="text-center">
-                                        @if ($order->approval)
-                                            @if ($order->approval->status === 1)
-                                                <span
-                                                    class="badge bg-success">{{ __('history_admin.table.statuses.completed') }}</span>
-                                            @elseif($order->approval->status === 0)
-                                                <span
-                                                    class="badge bg-danger">{{ __('history_admin.table.statuses.rejected') }}</span>
+                                    <th class="text-center">{{ __('history_admin.table.columns.order_id') }}</th>
+                                    <th class="text-center">{{ __('history_admin.table.columns.user_id') }}</th>
+                                    <th class="text-center">{{ __('history_admin.table.columns.trash_type') }}</th>
+                                    <th class="text-center">{{ __('history_admin.table.columns.quantity') }}</th>
+                                    <th class="text-center">{{ __('history_admin.table.columns.cost') }}</th>
+                                    <th class="text-center">{{ __('history_admin.table.columns.completion_date') }}</th>
+                                    <th class="text-center">{{ __('history_admin.table.columns.approval_date') }}</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">{{ __('history_admin.table.columns.action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($orders as $order)
+                                    <tr>
+                                        <td class="text-center">{{ $order->order_id }}</td>
+                                        <td class="text-center">{{ $order->user_id }}</td>
+                                        <td class="text-center">{{ $order->details->pluck('trash.name')->join(', ') }}</td>
+                                        <td class="text-center">{{ $order->details->sum('quantity') }} Kg</td>
+                                        <td class="text-center">
+                                            Rp{{ number_format(
+                                                $order->details->sum(fn($detail) => $detail->quantity * ($detail->trash->price_per_kg ?? 0)),
+                                                0,
+                                                ',',
+                                                '.',
+                                            ) }}
+                                        </td>
+                                        <td class="text-center">{{ $order->pickup->arrival_date ?? '-' }}</td>
+                                        <td class="text-center">{{ $order->approval->date_time ?? '-' }}</td>
+                                        <td class="text-center">
+                                            @if ($order->approval)
+                                                @if ($order->approval->status === 1)
+                                                    <span
+                                                        class="badge bg-success">{{ __('history_admin.table.statuses.completed') }}</span>
+                                                @elseif($order->approval->status === 0)
+                                                    <span
+                                                        class="badge bg-danger">{{ __('history_admin.table.statuses.rejected') }}</span>
+                                                @else
+                                                    <span
+                                                        class="badge bg-warning text-dark">{{ __('history_admin.table.statuses.in_process') }}</span>
+                                                @endif
                                             @else
                                                 <span
-                                                    class="badge bg-warning text-dark">{{ __('history_admin.table.statuses.in_process') }}</span>
+                                                    class="badge bg-secondary">{{ __('history_admin.table.statuses.no_approval') }}</span>
                                             @endif
-                                        @else
-                                            <span
-                                                class="badge bg-secondary">{{ __('history_admin.table.statuses.no_approval') }}</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#detailModal{{ $order->order_id }}">
-                                            {{ __('history_admin.table.buttons.details') }}
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#detailModal{{ $order->order_id }}">
+                                                {{ __('history_admin.table.buttons.details') }}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -237,14 +239,16 @@
                                     <div>
                                         <p><strong>{{ __('history_admin.modal.fields.user_proof') }}</strong></p>
                                         <img src="{{ asset('storage/' . $order->photo) }}" alt="Bukti Pengguna"
-                                            style="width: 350px; height: auto;">
+                                            style="width: 350px; height: auto;"
+                                            onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
                                     </div>
 
                                     <div>
                                         <p><strong>{{ __('history_admin.modal.fields.driver_proof') }}</strong></p>
                                         @if (!empty($order->pickup->photos))
                                             <img src="{{ asset('storage/' . $order->pickup->photos) }}"
-                                                alt="Bukti Pengantaran" style="width: 350px; height: auto;">
+                                                alt="Bukti Pengantaran" style="width: 350px; height: auto;"
+                                                onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
                                         @else
                                             <p>{{ __('history_admin.modal.no_photo') }}</p>
                                         @endif

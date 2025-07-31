@@ -14,5 +14,15 @@ class AdminOnly
         }
 
         abort(403, 'Unauthorized - Admin Only');
+
+        activity('unauthorized_access')
+            ->causedBy(Auth::user())
+            ->withProperties([
+                'attempted_url' => $request->fullUrl(),
+                'role' => Auth::user()->role ?? 'guest',
+            ])
+            ->log('User mencoba mengakses halaman khusus admin');
+
+        abort(403, 'Unauthorized - Admin Only');
     }
 }

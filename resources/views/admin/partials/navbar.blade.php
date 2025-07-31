@@ -151,7 +151,7 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.penugasan.index') }}"
                         class="nav-link {{ Route::is('admin.penugasan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
-                        <i class="nav-icon bi bi-check2-circle"></i>
+                        <i class="nav-icon bi bi-check-circle"></i>
                         <p>{{ __('navbar.admin.assignment') }}</p>
                     </a>
                 </li>
@@ -160,6 +160,13 @@
                         class="nav-link {{ Route::is('admin.laporan.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
                         <i class="nav-icon bi bi-exclamation-diamond"></i>
                         <p>{{ __('navbar.common.reports') }}</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.user-lists.index') }}"
+                        class="nav-link {{ Route::is('admin.user-lists.*') ? 'navigationbuttonactive' : 'navigationbutton' }}">
+                        <i class="nav-icon bi bi-list"></i>
+                        <p>{{ 'User Lists' }}</p>
                     </a>
                 </li>
                 <li class="nav-item">

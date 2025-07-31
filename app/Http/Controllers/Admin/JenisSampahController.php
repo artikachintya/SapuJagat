@@ -34,25 +34,21 @@ class JenisSampahController extends Controller
      */
     public function store(StoreJenisSampahRequest $requestRaw)
     {
-        /* ----------------------------------------------------------
-        | 1. VALIDATE INPUT
-        * ---------------------------------------------------------*/
-        $request = $requestRaw->validated();
 
         /* ----------------------------------------------------------
         | 2. CREATE NEW RECORD
         * ---------------------------------------------------------*/
         $trash = new Trash;
-        $trash->name   = $request->name;
-        $trash->type  = $request->type;          // adjust if your column name differs
-        $trash->price_per_kg  = $request->price_per_kg;
-        $trash->max_weight    = $request->max_weight;    // nullable OK
+        $trash->name   = $requestRaw->name;
+        $trash->type  = $requestRaw->type;          // adjust if your column name differs
+        $trash->price_per_kg  = $requestRaw->price_per_kg;
+        $trash->max_weight    = $requestRaw->max_weight;    // nullable OK
 
         /* ----------------------------------------------------------
         | 3. HANDLE FILE UPLOAD (optional)
         * ---------------------------------------------------------*/
-        if ($request->hasFile('photos')) {
-            $file      = $request->file('photos');
+        if ($requestRaw->hasFile('photos')) {
+            $file      = $requestRaw->file('photos');
             $filename  = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('assets/img'), $filename);
 
@@ -86,16 +82,8 @@ class JenisSampahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(StoreJenisSampahRequest $request, $id)
     {
-        // 1. Validasi input
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'photos' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'type' => 'required|string|max:255',
-            'price_per_kg' => 'required|numeric',
-            'max_weight' => 'nullable|numeric',
-        ]);
 
         // 2. Ambil data berdasarkan ID
         $trash = Trash::findOrFail($id);

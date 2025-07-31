@@ -173,53 +173,71 @@ public function updateStatus(PickUp $pickup, Request $request)
         'status' => 'required|in:start_jemput,pick_up,arrival'
     ]);
 
+    $driver = Auth::user(); // Ambil driver yang login
+
     if ($request->status === 'start_jemput') {
         $pickup->start_time = now();
+        $pickup->save();
 
+        activity('update_pickup')
+            ->causedBy($driver)
+            ->performedOn($pickup)
+            ->withProperties([
+                'pickup_id' => $pickup->pick_up_id,
+                'order_id' => $pickup->order_id,
+                'status' => 'start_jemput',
+            ])
+            ->log("Driver {$driver->name} memulai penjemputan untuk order ID {$pickup->order_id}.");
+        
     } elseif ($request->status === 'pick_up') {
         $pickup->pick_up_date = now();
+        $pickup->save();
 
+        activity('update_pickup')
+            ->causedBy($driver)
+            ->performedOn($pickup)
+            ->withProperties([
+                'pickup_id' => $pickup->pick_up_id,
+                'order_id' => $pickup->order_id,
+                'status' => 'pick_up',
+            ])
+            ->log("Driver {$driver->name} mengambil sampah dari order ID {$pickup->order_id}.");
+        
     } elseif ($request->status === 'arrival') {
-        // Validasi & Upload foto
+        // Validasi & Upload Foto
         $request->validate([
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Simpan waktu tiba
         $pickup->arrival_date = now();
-
-        // Simpan foto ke storage
         $path = $request->file('photo')->store('proofs', 'public');
         $pickup->photos = $path;
+        $pickup->save();
 
-
-        // Tandai penugasan selesai
-        // DB::table('penugasans')
-        //     ->where('order_id', $pickup->order_id)
-        //     ->where('user_id', $pickup->user_id)
-        //     ->update([
-        //         'status' => 1,
-        //         // 'updated_at' => now()
-        //     ]);
-
+        // Update status penugasan jadi selesai
         Penugasan::where('order_id', $pickup->order_id)
-    ->where('user_id', $pickup->user_id)
-    ->update(['status' => 1]);
+            ->where('user_id', $pickup->user_id)
+            ->update(['status' => 1]);
 
-    }
-
-    $pickup->save();
-
-    // Tampilkan popup "selesai" hanya jika status arrival
-    if ($request->status === 'arrival') {
+        activity('update_pickup')
+            ->causedBy($driver)
+            ->performedOn($pickup)
+            ->withProperties([
+                'pickup_id' => $pickup->pick_up_id,
+                'order_id' => $pickup->order_id,
+                'status' => 'arrival',
+                'photo_path' => $path
+            ])
+            ->log("Driver {$driver->name} menyelesaikan penjemputan order ID {$pickup->order_id}.");
+        
         return redirect()
             ->route('driver.pickup.detail', $pickup->pick_up_id)
             ->with('finished', true);
     }
 
-    // Untuk status lain, hanya reload halaman detail tanpa popup
     return redirect()->route('driver.pickup.detail', $pickup->pick_up_id);
 }
+
 
 public function uploadProof($id, Request $request)
 {

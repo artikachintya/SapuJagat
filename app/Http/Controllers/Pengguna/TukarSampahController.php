@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Support\Facades\Log;
+
 
 class TukarSampahController extends Controller
 {
@@ -30,22 +34,22 @@ class TukarSampahController extends Controller
 
     public function submit(Request $request)
     {
-         // 🔒 Cek alamat user dulu
-            $user = Auth::user();
+        // 🔒 Cek alamat user dulu
+        $user = Auth::user();
 
-            if ($user->role === 1) {
-                $info = $user->info;
+        if ($user->role === 1) {
+            $info = $user->info;
 
-                if (
-                    empty($info?->address) ||
-                    empty($info?->province) ||
-                    empty($info?->city) ||
-                    empty($info?->postal_code)
-                ) {
-                    // Kalau alamat belum lengkap, redirect balik dengan flag session
-                    return redirect()->back()->with('incomplete_address', true);
-                }
+            if (
+                empty($info?->address) ||
+                empty($info?->province) ||
+                empty($info?->city) ||
+                empty($info?->postal_code)
+            ) {
+                // Kalau alamat belum lengkap, redirect balik dengan flag session
+                return redirect()->back()->with('incomplete_address', true);
             }
+        }
 
         $validated = $request->validate([
             'trash' => 'required|array',
@@ -149,6 +153,16 @@ class TukarSampahController extends Controller
         }
 
         Session::forget(['data_tukar_sampah']);
+
+        activity('create_order')
+            ->causedBy(Auth::user())
+            ->performedOn($order)
+            ->withProperties([
+                'order_id' => $order->order_id,
+                'pickup_time' => $order->pickup_time,
+                'total_items' => count($data),
+            ])
+            ->log('User melakukan pemesanan sampah');
 
         return redirect()->route('pengguna.pelacakan.index')->with('success', 'Pesanan penjemputan berhasil dikirim!');
     }

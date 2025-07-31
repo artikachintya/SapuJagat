@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PersetujuanController;
 use App\Http\Controllers\Admin\PrintDataController;
 use App\Http\Controllers\Admin\ResponLaporan;
 
+use App\Http\Controllers\Admin\UserListController;
 use App\Http\Controllers\Driver\PickUpController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Pengguna\Histori;
@@ -71,10 +72,11 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 //Buat Route otpnya
 Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
 
-//Route opt resend
+//Route otp resend
 Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend');
 
-
+//Route otp cancel
+Route::post('/otp/cancel', [OtpController::class, 'cancel'])->name('otp.cancel');
 
 // User Tukar Sampah
 // user step 1 : tukar sampah
@@ -107,18 +109,17 @@ Route::middleware(['auth','pengguna'])->prefix('pengguna')->name('pengguna.')->g
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
 });
 
-
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('jenis-sampah', JenisSampahController::class);
     // soft delete
     Route::get('jenis-sampah-arsip', [JenisSampahController::class, 'archive'])->name('jenis-sampah.arsip');
     Route::post('jenis-sampah-restore/{id}', [JenisSampahController::class, 'restore'])->name('jenis-sampah.restore');
-   // forcedelete
-   Route::delete('jenis-sampah/{id}/force-delete', [JenisSampahController::class, 'forceDelete'])->name('jenis-sampah.force-delete');
-
+    // forcedelete
+    Route::delete('jenis-sampah/{id}/force-delete', [JenisSampahController::class, 'forceDelete'])->name('jenis-sampah.force-delete');
 
     Route::resource('penugasan', PenugasanController::class);
+    Route::resource('user-lists', UserListController::class);
     Route::get('penugasan-arsip', [PenugasanController::class, 'archive'])->name('penugasan.archive');
     Route::post('penugasan/{id}/restore', [PenugasanController::class, 'restore'])->name('penugasan.restore');
     Route::delete('penugasan/{id}/force', [PenugasanController::class, 'forceDelete'])->name('penugasan.forceDelete');
