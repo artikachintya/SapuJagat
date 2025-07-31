@@ -31,7 +31,6 @@ class RegisterController extends Controller
         try {
             event(new Registered($user = $this->create($validated)));
 
-            // ✅ Logging berhasil register
             activity('authentication')
                 ->causedBy($user)
                 ->withProperties([
@@ -42,7 +41,6 @@ class RegisterController extends Controller
 
             return redirect($this->redirectPath())->with('success', 'Pendaftaran berhasil!');
         } catch (\Exception $e) {
-            // ❌ Logging gagal register
             activity('authentication')
                 ->withProperties([
                     'email' => $validated['email'] ?? null,
