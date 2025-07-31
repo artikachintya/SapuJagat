@@ -52,7 +52,7 @@
 
             @if(!$isSent)
                 <div class="sender-name">
-                    <img src="{{ asset('assets/img/profile.jpg') }}" alt="Profile">
+                    <img src="{{ $message->user->profile_pic }}" alt="Profile">
                     {{ $message->user->name ?? 'Pelanggan' }}
                 </div>
             @endif
@@ -138,7 +138,7 @@
                         if (!isSent && message.user) {
                             messagesContainer.append(`
                                 <div class="sender-name">
-                                    <img src="{{ asset('assets/img/profile.jpg') }}" alt="Profile">
+                                    <img src="${message.user.profile_pic}" alt="Profile">
                                     ${message.user.name}
                                 </div>
                             `);
