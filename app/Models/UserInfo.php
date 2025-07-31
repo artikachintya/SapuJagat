@@ -17,13 +17,9 @@ class UserInfo extends Model
     protected $keyType = 'int';
     public $timestamps = false;
 
-    // ✅ Hanya log ketika ada perubahan data (dirty attributes)
     protected static $logOnlyDirty = true;
-
-    // ✅ Nama untuk log yang dicatat
     protected static $logName = 'update';
 
-    // ✅ Atribut yang dicatat jika berubah
     protected static $logAttributes = [
         'address',
         'province',
@@ -32,32 +28,46 @@ class UserInfo extends Model
         'balance'
     ];
 
-    // ✅ Hindari pencatatan log jika tidak ada perubahan (di luar logOnlyDirty)
     protected static function booted()
     {
+        // Nonaktifkan logging saat dijalankan dari seeder atau factory
+        if (app()->runningInConsole() && !app()->runningUnitTests()) {
+            static::creating(function () {
+                activity()->disableLogging();
+            });
+
+            static::created(function () {
+                activity()->enableLogging();
+            });
+
+            static::updating(function () {
+                activity()->disableLogging();
+            });
+
+            static::updated(function () {
+                activity()->enableLogging();
+            });
+
+            return; // hentikan listener di bawah ini saat di console
+        }
+
+        // Listener normal saat berjalan bukan di CLI
         static::updating(function ($model) {
-            // Jangan log jika tidak ada atribut yang berubah
             if (!$model->isDirty(self::$logAttributes)) {
                 activity()->disableLogging();
             }
         });
 
-        static::updated(function ($model) {
+        static::updated(function () {
             activity()->enableLogging();
         });
     }
 
-    /**
-     * Deskripsi untuk log perubahan.
-     */
     public function getDescriptionForEvent(string $eventName): string
     {
         return "User dengan ID {$this->getKey()} mengubah data tambahan: {$eventName}.";
     }
 
-    /**
-     * Opsi logging dari spatie.
-     */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -75,9 +85,6 @@ class UserInfo extends Model
         'balance',
     ];
 
-    /**
-     * Relasi ke User
-     */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
