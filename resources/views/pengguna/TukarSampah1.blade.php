@@ -4,6 +4,7 @@
 
 @section('content')
 
+{{-- localization --}}
 @php
     $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
     app()->setLocale($currLang);
@@ -29,12 +30,10 @@
                     <div class="rounded-circle bg-success text-white px-3 py-1" style="border: 1px solid #005A32;">1</div>
                     <div class="border-top flex-grow-1"></div>
                     <div class="rounded-circle bg-light px-3 py-1 border" style="border: 1px solid #005A32;">2</div>
-                    {{-- <div class="border-top flex-grow-1"></div>
-                    <div class="rounded-circle bg-light px-3 py-1 border">3</div> --}}
                 </div>
             </div>
         <h2 class="text-hijau-kecil mb-4" style="padding-left: 8px;">{{__('trash_exchange.labels.select_trash')}}</h2>
-
+        {{-- error message --}}
         @if ($errors->any())
             <div class="alert alert-danger mx-3">
                 <ul class="mb-0">
@@ -65,10 +64,6 @@
                                 <div class="d-flex justify-content-center align-items-center">
                                     <button type="button" class="btn btn-outline-green btn-lg px-3" onclick="updateQuantity({{ $item->trash_id }}, -1)">-</button>
 
-                                    {{-- <div>
-                                        <input type="number" name="trash[{{ $item->trash_id }}][quantity]" id="qty-{{ $item->trash_id }}" value="0" min="0" max="{{ $item->max_weight }}"  class="form-control mx-3 text-center input-centered custom-input-green" readonly>
-                                    </div> --}}
-
                                     <div class="input-wrapper mx-3">
                                         <input type="text"
                                             name="trash[{{ $item->trash_id }}][quantity]"
@@ -98,7 +93,12 @@
                         <div class="card text-center border custom-green-border">
                             <div class="card-body">
                                 <!-- Gambar sampah -->
-                                <img src="{{ asset('assets/img/' . $item->photos) }}" alt="{{ $item->name }}" class="img-fluid mb-2" style="height: 150px; object-fit: contain;">
+                                {{-- <img src="{{ asset('assets/img/' . $item->photos) }}" alt="{{ $item->name }}" class="img-fluid mb-2" style="height: 150px; object-fit: contain;"> --}}
+                                <img src="{{ asset('assets/img/' . ($item->photos === '-' ? 'lainnya.jpg' : $item->photos)) }}"
+                                alt="{{ $item->name }}"
+                                class="img-fluid mb-2"
+                                style="height: 150px; object-fit: contain;">
+
 
                                 <!-- Nama dan harga -->
                                 <h5>{{ $item->name }}</h5>
@@ -196,50 +196,3 @@
     </script>
 
 @endsection
-
- {{-- <script>
-        function updateQuantity(id, change) {
-            const qtyInput = document.getElementById('qty-' + id);
-            let qty = parseInt(qtyInput.value) + change;
-            qty = qty < 0 ? 0 : qty;
-            qtyInput.value = qty;
-        }
-
-        document.querySelector('form').addEventListener('submit', function (e) {
-            let totalQty = 0;
-            const maxQty = 10;
-            let hasExceeded = false;
-
-            document.querySelectorAll('input[type="number"]').forEach(input => {
-                const qty = parseInt(input.value);
-                if (qty > maxQty) {
-                    hasExceeded = true;
-                }
-                totalQty += qty;
-            });
-
-            if (totalQty === 0) {
-                e.preventDefault();
-                alert("Maaf sayang, kamu belum memilih jenis sampah dan berat apapun:(");
-            } else if (hasExceeded) {
-                e.preventDefault();
-                alert("Maaf sayang, setiap jenis sampah maksimal 10kg yaa, jangan lebih huhu:( ");
-            }
-        });
-    </script> --}}
- {{-- ini pop up <script>
-        document.querySelector('form').addEventListener('submit', function (e) {
-            let totalQty = 0;
-
-            // Loop semua input quantity
-            document.querySelectorAll('input[name^="trash"][name$="[quantity]"]').forEach(input => {
-                const qty = parseInt(input.value) || 0;
-                totalQty += qty;
-            });
-
-            if (totalQty < 3) {
-                e.preventDefault();
-                alert("Minimal total sampah yang bisa ditukar adalah 3 kg yaa :)");
-            }
-        });
-    </script> --}}
