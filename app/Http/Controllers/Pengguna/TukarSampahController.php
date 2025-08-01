@@ -34,9 +34,10 @@ class TukarSampahController extends Controller
 
     public function submit(Request $request)
     {
-        // 🔒 Cek alamat user dulu
+        // Cek alamat user dulu
         $user = Auth::user();
 
+        // Pastikan pengguna sudah melengkapi alamat (khusus untuk role 1)
         if ($user->role === 1) {
             $info = $user->info;
 
@@ -47,10 +48,12 @@ class TukarSampahController extends Controller
                 empty($info?->postal_code)
             ) {
                 // Kalau alamat belum lengkap, redirect balik dengan flag session
+                // Jika belum lengkap, kembalikan ke halaman sebelumnya dengan notifikasi
                 return redirect()->back()->with('incomplete_address', true);
             }
         }
 
+        // Validasi bahwa data sampah dipilih sebagai array
         $validated = $request->validate([
             'trash' => 'required|array',
         ]);
@@ -59,13 +62,15 @@ class TukarSampahController extends Controller
         $data = [];
         $totalQty = 0; // Tambahkan variabel untuk menghitung total kuantitas
 
+        // Proses setiap item sampah yang dikirim
         foreach ($trashItems as $trashId => $item) {
             $qty = (int) $item['quantity'];
 
+            // Validasi maksimal berat per jenis sampah lebih dari 10 kg
             if ($qty > 10) {
                 return back()->withErrors(['quantity' => 'Maksimal berat untuk setiap jenis sampah adalah 10 kg.'])->withInput();
             }
-
+            // Jika berat > 0, masukkan ke dalam array data
             if ($qty > 0) {
                 $trash = Trash::find($trashId);
                 $data[] = [
@@ -78,19 +83,20 @@ class TukarSampahController extends Controller
                 $totalQty += $qty; // Tambahkan ke total kuantitas
             }
         }
-
+        // Jika tidak ada sampah yang dipilih
         if (count($data) === 0) {
             return back()->withErrors(['quantity' => 'Silakan pilih dan tentukan jumlah sampah terlebih dahulu sebelum melanjutkan proses penukaran.'])->withInput();
         }
-
+        // Validasi minimal total berat = 3 kg
         if ($totalQty < 3) {
             return back()->withErrors(['quantity' => 'Mohon maaf, penukaran tidak dapat diproses. Total berat sampah harus minimal 3 kg.'])->withInput();
         }
-
+        // Simpan data ke session untuk diproses di langkah selanjutnya
         Session::put('data_tukar_sampah', $data);
         return redirect()->route('pengguna.RingkasanPesanan2');
     }
 
+    // menampilkan ringkasan pesanan sampah
     public function ringkasan()
     {
         $data = Session::get('data_tukar_sampah', []);
@@ -99,6 +105,7 @@ class TukarSampahController extends Controller
         return view('pengguna.RingkasanPesanan2', compact('data', 'photoPath'));
     }
 
+    // proses penjemputan: validasi, simpan ke database, dan log aktivitas.
     public function jemput(Request $request)
     {
         $existingOrder = Order::where('user_id', Auth::id())
@@ -130,10 +137,6 @@ class TukarSampahController extends Controller
             return redirect()->back()->with('error', 'Data pesanan tidak ditemukan.');
         }
 
-        // $request->validate([
-        //     'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        // ]);
-
         $photoPath = $request->file('photo')->store('uploads', 'public');
 
         $order = Order::create([
@@ -144,6 +147,7 @@ class TukarSampahController extends Controller
             'status' => false,
         ]);
 
+        // Simpan detail item pesanan
         foreach ($data as $item) {
             OrderDetail::create([
                 'order_id' => $order->order_id,
@@ -152,8 +156,10 @@ class TukarSampahController extends Controller
             ]);
         }
 
+        // Hapus data dari session setelah disimpan
         Session::forget(['data_tukar_sampah']);
 
+        // Log aktivitas menggunakan Spatie Activity Log
         activity('create_order')
             ->causedBy(Auth::user())
             ->performedOn($order)
@@ -164,10 +170,16 @@ class TukarSampahController extends Controller
             ])
             ->log('User melakukan pemesanan sampah');
 
+        // Redirect ke halaman pelacakan dengan notifikasi sukses
         return redirect()->route('pengguna.pelacakan.index')->with('success', 'Pesanan penjemputan berhasil dikirim!');
     }
+}
 
-    // public function store(Request $request)
+// $request->validate([
+        //     'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        // ]);
+        
+  // public function store(Request $request)
     // {
     //     // Buat order baru
     //     $order = new Order();
@@ -179,5 +191,3 @@ class TukarSampahController extends Controller
     //     return redirect()->route('pengguna.pelacakan.index')
     //         ->with('success', 'Pesanan berhasil dibuat.');
     // }
-
-}
