@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Pengguna;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SubmitTukarSampahRequest;
+use App\Http\Requests\JemputSampahRequest;
 use Illuminate\Http\Request;
 use App\Models\Trash;
 
@@ -32,7 +34,7 @@ class TukarSampahController extends Controller
         return view('pengguna.TukarSampah1', compact('sampahOrganik', 'sampahAnorganik'));
     }
 
-    public function submit(Request $request)
+    public function submit(SubmitTukarSampahRequest $request)
     {
         // Cek alamat user dulu
         $user = Auth::user();
@@ -53,10 +55,10 @@ class TukarSampahController extends Controller
             }
         }
 
-        // Validasi bahwa data sampah dipilih sebagai array
-        $validated = $request->validate([
-            'trash' => 'required|array',
-        ]);
+        // // data sampah dipilih sebagai array
+        // $validated = $request->validate([
+        //     'trash' => 'required|array',
+        // ]);
 
         $trashItems = $request->input('trash');
         $data = [];
@@ -106,7 +108,7 @@ class TukarSampahController extends Controller
     }
 
     // proses penjemputan: validasi, simpan ke database, dan log aktivitas.
-    public function jemput(Request $request)
+    public function jemput(JemputSampahRequest $request)
     {
         $existingOrder = Order::where('user_id', Auth::id())
             ->where('status', false)
@@ -122,11 +124,11 @@ class TukarSampahController extends Controller
                 ->with('error', 'Anda masih memiliki pesanan yang sedang diproses.');
         }
 
-        // Validasi dasar
-        $request->validate([
-            'pickup_time' => 'required|string',
-            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        // // Validasi dasar
+        // $request->validate([
+        //     'pickup_time' => 'required|string',
+        //     'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        // ]);
 
         // Log untuk debug sementara
         logger('Data request: ', $request->all());
@@ -175,19 +177,4 @@ class TukarSampahController extends Controller
     }
 }
 
-// $request->validate([
-        //     'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        // ]);
-        
-  // public function store(Request $request)
-    // {
-    //     // Buat order baru
-    //     $order = new Order();
-    //     $order->user_id = Auth::id();
-    //     $order->status = false; // aktif
-    //     $order->date_time_request = now();
-    //     $order->save();
 
-    //     return redirect()->route('pengguna.pelacakan.index')
-    //         ->with('success', 'Pesanan berhasil dibuat.');
-    // }
