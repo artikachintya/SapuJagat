@@ -16,7 +16,8 @@ class TrashFactory extends Factory
             'type' => $this->faker->randomElement(['Organik', 'Anorganik']),
             'price_per_kg' => $this->faker->randomFloat(2, 1000, 100000),
             'max_weight' => $this->faker->numberBetween(10, 100),
-            'photos' => "-",
+            'photos' => 'lainnya.jpg',
+            // 'photos' => '-',
         ];
     }
 }

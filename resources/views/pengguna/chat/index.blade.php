@@ -33,7 +33,8 @@
                     @else
                         <div class="driver-message">
                             <div class="message-content">
-                                <img src="{{ asset('assets/img/profile.jpg') }}" alt="Foto Profil" class="profile-img">
+                                {{-- <img src="{{ asset('assets/img/profile.jpg') }}" alt="Foto Profil" class="profile-img"> --}}
+                                <img src="{{ $message->user->profile_pic }}" alt="Foto Profil" class="profile-img">
                                 <div class="message-bubble">
                                     <div class="message-info">
                                         <span class="sender-name">{{ $message->user->name }}</span>
@@ -116,7 +117,7 @@
                             wrapper.append(`
                                 <div class="driver-message">
                                     <div class="message-content">
-                                        <img src="{{ asset('assets/img/profile.jpg') }}" alt="Foto Profil" class="profile-img">
+                                        <img src="${message.user.profile_pic}" alt="Foto Profil" class="profile-img">
                                         <div class="message-bubble">
                                             <div class="message-info">
                                                 <span class="sender-name">${message.user.name}</span>

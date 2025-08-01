@@ -72,7 +72,7 @@ class UserSeeder extends Seeder
         // 10 Drivers (role 3) dengan nama Driver1..Driver10 dan license
         for ($i = 1; $i <= 10; $i++) {
             $driver = User::factory()->driver()->create([
-                'name' => "Driver{$i}",
+                'name' => "driver{$i}",
                 'email' => "drivers{$i}@example.com",
             ]);
 
