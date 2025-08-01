@@ -14,10 +14,13 @@ class ApprovalFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_id' => Order::factory(),
-            'user_id' => User::factory(),
-            'date_time' => now(),
-            'approval_status' => $this->faker->boolean,
+            // 'order_id' => Order::factory(),
+            // 'user_id' => User::factory(),
+            // 'date_time' => now(),
+            // 'approval_status' => $this->faker->boolean,
+            // 'notes' => $this->faker->sentence,
+            'date_time' => now()->setDate(2025, 8, rand(1, 28)),
+            'approval_status' => $this->faker->boolean(70), // 70% disetujui
             'notes' => $this->faker->sentence,
         ];
     }
