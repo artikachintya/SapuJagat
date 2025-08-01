@@ -11,13 +11,16 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
+    # Menampilkan halaman chat untuk pengguna (role 1).
+    # Hanya pengguna atau driver terkait yang bisa mengakses chat.
     public function userChat($chat_id)
     {
         $chat = Chat::findOrFail($chat_id);
+        // Validasi apakah user saat ini adalah salah satu pihak dalam chat
         if (Auth::id() !== $chat->user_id && Auth::id() !== $chat->driver_id) {
             return redirect()->back()->with('error', 'Anda tidak memiliki akses ke chat ini.');
         }
-
+        // Ambil semua detail pesan dalam urutan naik berdasarkan waktu
         $messages = ChatDetail::where('chat_id', $chat->chat_id)
             ->orderBy('date_time', 'asc')
             ->get();
@@ -25,55 +28,39 @@ class ChatController extends Controller
         return view('pengguna.chat.index', compact('messages', 'chat'));
     }
 
-    // ini masih kena celah
-    // public function driverChat($chat_id)
-    // {
-    //     $chat = Chat::findOrFail($chat_id);
-    //     if (Auth::id() !== $chat->user_id && Auth::id() !== $chat->driver_id) {
-    //         return redirect()->back()->with('error', 'Anda tidak memiliki akses ke chat ini.');
-    //     }
-
-    //     $messages = ChatDetail::where('chat_id', $chat->chat_id)
-    //         ->orderBy('date_time', 'asc')
-    //         ->get();
-    //     $pickupId = request('pickup_id');
-
-    //     return view('driver.chat.index', compact('messages', 'chat','pickupId'));
-    // }
-
     public function driverChat($chat_id)
-{
-    $chat = Chat::findOrFail($chat_id);
+    {
+        $chat = Chat::findOrFail($chat_id);
 
-    // Cek apakah user login adalah driver (role 3)
-    if (Auth::user()->role !== 3) {
-        return abort(403, 'Hanya driver yang dapat mengakses halaman ini.');
+        // Cek apakah user login adalah driver (role 3)
+        if (Auth::user()->role !== 3) {
+            return abort(403, 'Hanya driver yang dapat mengakses halaman ini.');
+        }
+
+        // Pastikan driver hanya bisa akses chat miliknya
+        if (Auth::id() !== $chat->driver_id) {
+            return abort(403, 'Anda tidak memiliki akses ke chat ini.');
+        }
+        // Ambil detail pesan
+        $messages = ChatDetail::where('chat_id', $chat->chat_id)
+            ->orderBy('date_time', 'asc')
+            ->get();
+
+        $pickupId = request('pickup_id');
+
+        return view('driver.chat.index', compact('messages', 'chat', 'pickupId'));
     }
 
-    // Pastikan driver hanya bisa akses chat miliknya
-    if (Auth::id() !== $chat->driver_id) {
-        return abort(403, 'Anda tidak memiliki akses ke chat ini.');
-    }
-
-    $messages = ChatDetail::where('chat_id', $chat->chat_id)
-        ->orderBy('date_time', 'asc')
-        ->get();
-
-    $pickupId = request('pickup_id');
-
-    return view('driver.chat.index', compact('messages', 'chat', 'pickupId'));
-}
-
-
-
-    // Kirim pesan
+    // Kirim pesan, Menyimpan pesan baru ke database dan mengirimkan response JSON.
     public function sendMessage(Request $request)
     {
+        // Validasi input
         $request->validate([
             'message' => 'required|string',
             'chat_id' => 'required|exists:chats,chat_id',
         ]);
 
+        // Simpan pesan baru
         ChatDetail::create([
             'chat_id' => $request->chat_id,
             'user_id' => Auth::id(),
@@ -112,6 +99,7 @@ class ChatController extends Controller
         return response()->json($messages);
     }
 
+    // Menampilkan daftar semua chat yang dimiliki oleh driver saat ini.
     public function driverChatList()
     {
         $driverId = Auth::id(); // Ambil ID driver yang sedang login
@@ -125,3 +113,19 @@ class ChatController extends Controller
     }
 
 }
+
+    // ini masih kena celah
+    // public function driverChat($chat_id)
+    // {
+    //     $chat = Chat::findOrFail($chat_id);
+    //     if (Auth::id() !== $chat->user_id && Auth::id() !== $chat->driver_id) {
+    //         return redirect()->back()->with('error', 'Anda tidak memiliki akses ke chat ini.');
+    //     }
+
+    //     $messages = ChatDetail::where('chat_id', $chat->chat_id)
+    //         ->orderBy('date_time', 'asc')
+    //         ->get();
+    //     $pickupId = request('pickup_id');
+
+    //     return view('driver.chat.index', compact('messages', 'chat','pickupId'));
+    // }

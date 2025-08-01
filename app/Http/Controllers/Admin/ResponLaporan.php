@@ -12,6 +12,9 @@ class ResponLaporan extends Controller
     /**
      * Display a listing of the resource.
      */
+    // Menampilkan daftar laporan pengguna beserta responnya
+    // Fungsi ini akan mengambil semua data laporan dan me-load relasi user pelapor dan admin yang memberi respon.
+    // Data diurutkan berdasarkan waktu laporan secara menurun (terbaru di atas).
     public function index()
     {
         $reports = Report::with(['user', 'response.user']) // eager load user pelapor dan admin responder
@@ -22,6 +25,8 @@ class ResponLaporan extends Controller
         return view('admin.response-admin', compact('reports'));
     }
 
+    // Menyimpan respon admin terhadap laporan pengguna.
+    // Menggunakan Form Request `StoreReportResponseRequest` untuk validasi otomatis.
     public function store(StoreReportResponseRequest $request)
     {
         $validated = $request->validated();
