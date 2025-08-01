@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Rating;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +25,9 @@ class RatingSeeder extends Seeder
         //         'star_rating' => 5,
         //     ],
         // ]);
-        Rating::factory()->count(10)->create();
+        if (Order::count() > 0) {
+            Rating::factory()->count(10)->create();
+        }
     }
 }
 
