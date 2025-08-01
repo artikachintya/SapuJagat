@@ -1,13 +1,13 @@
 @extends('admin.partials.admin')
 
-@section('title', __('response_admin.title'))
+@section('title', __('user_list.title'))
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.css">
 @endpush
 
 @php
-    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    $currLang = session()->get('lang', 'id');
     app()->setLocale($currLang);
 @endphp
 
@@ -50,7 +50,6 @@
         #laporanTabledua td {
             color: #ffffff !important;
         }
-
 
         #laporanTabletiga {
             --bs-table-bg: #026733;
@@ -100,14 +99,14 @@
             <div class="app-content-header">
                 <div class="row page-title">
                     <div class="col-sm mt-3 mb-0">
-                        <h3>{{ 'Block and Activate Page' }}</h3>
+                        <h3>{{ __('user_list.page_title') }}</h3>
                     </div>
                 </div>
             </div>
 
             @if (session('success'))
                 <div class="alert alert-success mt-3">
-                    {{ __('response_admin.alerts.success', ['message' => session('success')]) }}
+                    {{ __('user_list.alerts.success', ['message' => session('success')]) }}
                 </div>
             @endif
             @if ($errors->any())
@@ -122,18 +121,18 @@
 
             <div class="card mt-1">
                 <div class="card-header text-white" style="background-color: #0e6b3b">
-                    <h5 class="card-title">{{ 'User Lists' }}</h5>
+                    <h5 class="card-title">{{ __('user_list.user_lists') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="laporanTable" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>{{'id'}}</th>
-                                    <th>{{'name'}}</th>
-                                    <th>{{'phone num'}}</th>
-                                    <th>{{'status'}}</th>
-                                    <th>{{'action'}}</th>
+                                    <th>{{ __('user_list.table_headers.id') }}</th>
+                                    <th>{{ __('user_list.table_headers.name') }}</th>
+                                    <th>{{ __('user_list.table_headers.phone_num') }}</th>
+                                    <th>{{ __('user_list.table_headers.status') }}</th>
+                                    <th>{{ __('user_list.table_headers.action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -146,19 +145,19 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-success text-white">
                                                         <h5 class="modal-title" id="modalLabel{{ $user->user_id }}">
-                                                            {{ __('response_admin.modal.title', ['id' => $user->user_id]) }}
+                                                            {{ __('user_list.modal.title', ['id' => $user->user_id]) }}
                                                         </h5>
                                                         <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body text-dark">
-                                                        <p><strong>{{ 'id user' }}:</strong> {{ $user->user_id }}</p>
-                                                        <p><strong>{{ 'name' }}:</strong> {{ $user->name }}</p>
-                                                        <p><strong>{{ 'number' }}:</strong> {{ $user->phone_num }}</p>
-                                                        <p><strong>{{ 'status' }}:</strong>
-                                                            {{ $user->status == 0 ? 'Active' : 'Blocked' }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.id_user') }}:</strong> {{ $user->user_id }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.name') }}:</strong> {{ $user->name }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.number') }}:</strong> {{ $user->phone_num }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.status') }}:</strong>
+                                                            {{ $user->status == 0 ? __('user_list.status.active') : __('user_list.status.blocked') }}</p>
                                                         @if ($user->profile_pic)
-                                                            <p><strong>{{ __('response_admin.modal.fields.photo') }}:</strong></p>
+                                                            <p><strong>{{ __('user_list.modal.fields.photo') }}:</strong></p>
                                                             <img src="{{ asset('storage/' . $user->profile_pic) }}" alt="Foto Bukti"
                                                                 class="img-fluid mb-3 rounded shadow" style="max-height: 300px;"
                                                                 onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
@@ -172,7 +171,7 @@
                                                             value="{{ $user->status == 0 ? 1 : 0 }}">
                                                         <button type="submit"
                                                             class="btn {{ $user->status == 0 ? 'btn-danger' : 'btn-success' }}">
-                                                            {{ $user->status == 0 ? 'Block' : 'Unblock' }}
+                                                            {{ $user->status == 0 ? __('user_list.buttons.block') : __('user_list.buttons.unblock') }}
                                                         </button>
                                                     </form>
                                                 </div>
@@ -182,15 +181,15 @@
                                         <td>{{ $user->user_id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->phone_num }}</td>
-                                        <td>{{ $user->status == 0 ? 'Active' : 'Blocked' }}</td>
+                                        <td>{{ $user->status == 0 ? __('user_list.status.active') : __('user_list.status.blocked') }}</td>
                                         <td>
                                             <button type="button" class="btn btn-sm" style="background-color: #E5F5E0"
                                                 data-bs-toggle="modal" data-bs-target="#detailModal{{ $user->user_id }}">
-                                                {{ $user->status == 0 ? 'Block' : 'Unblock' }}
+                                                {{ $user->status == 0 ? __('user_list.buttons.block') : __('user_list.buttons.unblock') }}
                                             </button>
                                             <a href="{{ route('admin.user.logs', ['id' => $user->user_id]) }}"
                                                 class="btn btn-sm btn-info">
-                                                Log
+                                                {{ __('user_list.buttons.log') }}
                                             </a>
                                         </td>
                                     </tr>
@@ -203,18 +202,18 @@
 
             <div class="card mt-1">
                 <div class="card-header text-white" style="background-color: #0e6b3b">
-                    <h5 class="card-title">{{ 'Driver Lists' }}</h5>
+                    <h5 class="card-title">{{ __('user_list.driver_lists') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="laporanTabledua" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>{{'id'}}</th>
-                                    <th>{{'name'}}</th>
-                                    <th>{{'phone num'}}</th>
-                                    <th>{{'status'}}</th>
-                                    <th>{{'action'}}</th>
+                                    <th>{{ __('user_list.table_headers.id') }}</th>
+                                    <th>{{ __('user_list.table_headers.name') }}</th>
+                                    <th>{{ __('user_list.table_headers.phone_num') }}</th>
+                                    <th>{{ __('user_list.table_headers.status') }}</th>
+                                    <th>{{ __('user_list.table_headers.action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -227,19 +226,19 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-success text-white">
                                                         <h5 class="modal-title" id="modalLabel{{ $driver->user_id }}">
-                                                            {{ __('response_admin.modal.title', ['id' => $driver->user_id]) }}
+                                                            {{ __('user_list.modal.title', ['id' => $driver->user_id]) }}
                                                         </h5>
                                                         <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body text-dark">
-                                                        <p><strong>{{ 'id user' }}:</strong> {{ $driver->user_id }}</p>
-                                                        <p><strong>{{ 'name' }}:</strong> {{ $driver->name }}</p>
-                                                        <p><strong>{{ 'number' }}:</strong> {{ $driver->phone_num }}</p>
-                                                        <p><strong>{{ 'status' }}:</strong>
-                                                            {{ $driver->status == 0 ? 'Active' : 'Blocked' }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.id_user') }}:</strong> {{ $driver->user_id }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.name') }}:</strong> {{ $driver->name }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.number') }}:</strong> {{ $driver->phone_num }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.status') }}:</strong>
+                                                            {{ $driver->status == 0 ? __('user_list.status.active') : __('user_list.status.blocked') }}</p>
                                                         @if ($driver->profile_pic)
-                                                            <p><strong>{{ __('response_admin.modal.fields.photo') }}:</strong></p>
+                                                            <p><strong>{{ __('user_list.modal.fields.photo') }}:</strong></p>
                                                             <img src="{{ asset('storage/' . $driver->profile_pic) }}"
                                                                 alt="Foto Bukti" class="img-fluid mb-3 rounded shadow"
                                                                 style="max-height: 300px;"
@@ -254,7 +253,7 @@
                                                             value="{{ $driver->status == 0 ? 1 : 0 }}">
                                                         <button type="submit"
                                                             class="btn {{ $driver->status == 0 ? 'btn-danger' : 'btn-success' }}">
-                                                            {{ $driver->status == 0 ? 'Block' : 'Unblock' }}
+                                                            {{ $driver->status == 0 ? __('user_list.buttons.block') : __('user_list.buttons.unblock') }}
                                                         </button>
                                                     </form>
                                                 </div>
@@ -264,15 +263,15 @@
                                         <td>{{ $driver->user_id }}</td>
                                         <td>{{ $driver->name }}</td>
                                         <td>{{ $driver->phone_num }}</td>
-                                        <td>{{ $driver->status == 0 ? 'Active' : 'Blocked' }}</td>
+                                        <td>{{ $driver->status == 0 ? __('user_list.status.active') : __('user_list.status.blocked') }}</td>
                                         <td>
                                             <button type="button" class="btn btn-sm" style="background-color: #E5F5E0"
                                                 data-bs-toggle="modal" data-bs-target="#detailModal{{ $driver->user_id }}">
-                                                {{ $driver->status == 0 ? 'Block' : 'Unblock' }}
+                                                {{ $driver->status == 0 ? __('user_list.buttons.block') : __('user_list.buttons.unblock') }}
                                             </button>
                                             <a href="{{ route('admin.user.logs', ['id' => $driver->user_id]) }}"
                                                 class="btn btn-sm btn-info">
-                                                Log
+                                                {{ __('user_list.buttons.log') }}
                                             </a>
                                         </td>
                                     </tr>
@@ -285,18 +284,18 @@
 
             <div class="card mt-1">
                 <div class="card-header text-white" style="background-color: #0e6b3b">
-                    <h5 class="card-title">{{ 'Admin Lists' }}</h5>
+                    <h5 class="card-title">{{ __('user_list.admin_lists') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="laporanTabletiga" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>{{'id'}}</th>
-                                    <th>{{'name'}}</th>
-                                    <th>{{'phone num'}}</th>
-                                    <th>{{'status'}}</th>
-                                    <th>{{'action'}}</th>
+                                    <th>{{ __('user_list.table_headers.id') }}</th>
+                                    <th>{{ __('user_list.table_headers.name') }}</th>
+                                    <th>{{ __('user_list.table_headers.phone_num') }}</th>
+                                    <th>{{ __('user_list.table_headers.status') }}</th>
+                                    <th>{{ __('user_list.table_headers.action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -309,19 +308,19 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-success text-white">
                                                         <h5 class="modal-title" id="modalLabel{{ $admin->user_id }}">
-                                                            {{ __('response_admin.modal.title', ['id' => $admin->user_id]) }}
+                                                            {{ __('user_list.modal.title', ['id' => $admin->user_id]) }}
                                                         </h5>
                                                         <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body text-dark">
-                                                        <p><strong>{{ 'id user' }}:</strong> {{ $admin->user_id }}</p>
-                                                        <p><strong>{{ 'name' }}:</strong> {{ $admin->name }}</p>
-                                                        <p><strong>{{ 'number' }}:</strong> {{ $admin->phone_num }}</p>
-                                                        <p><strong>{{ 'status' }}:</strong>
-                                                            {{ $admin->status == 0 ? 'Active' : 'Blocked' }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.id_user') }}:</strong> {{ $admin->user_id }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.name') }}:</strong> {{ $admin->name }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.number') }}:</strong> {{ $admin->phone_num }}</p>
+                                                        <p><strong>{{ __('user_list.table_headers.status') }}:</strong>
+                                                            {{ $admin->status == 0 ? __('user_list.status.active') : __('user_list.status.blocked') }}</p>
                                                         @if ($admin->profile_pic)
-                                                            <p><strong>{{ __('response_admin.modal.fields.photo') }}:</strong></p>
+                                                            <p><strong>{{ __('user_list.modal.fields.photo') }}:</strong></p>
                                                             <img src="{{ asset('storage/' . $admin->profile_pic) }}"
                                                                 alt="Foto Bukti" class="img-fluid mb-3 rounded shadow"
                                                                 style="max-height: 300px;"
@@ -336,7 +335,7 @@
                                                             value="{{ $admin->status == 0 ? 1 : 0 }}">
                                                         <button type="submit"
                                                             class="btn {{ $admin->status == 0 ? 'btn-danger' : 'btn-success' }}">
-                                                            {{ $admin->status == 0 ? 'Block' : 'Unblock' }}
+                                                            {{ $admin->status == 0 ? __('user_list.buttons.block') : __('user_list.buttons.unblock') }}
                                                         </button>
                                                     </form>
                                                 </div>
@@ -346,11 +345,11 @@
                                         <td>{{ $admin->user_id }}</td>
                                         <td>{{ $admin->name }}</td>
                                         <td>{{ $admin->phone_num }}</td>
-                                        <td>{{ $admin->status == 0 ? 'Active' : 'Blocked' }}</td>
+                                        <td>{{ $admin->status == 0 ? __('user_list.status.active') : __('user_list.status.blocked') }}</td>
                                         <td>
                                             <a href="{{ route('admin.user.logs', ['id' => $admin->user_id]) }}"
                                                 class="btn btn-sm btn-info">
-                                                Log
+                                                {{ __('user_list.buttons.log') }}
                                             </a>
                                         </td>
                                     </tr>

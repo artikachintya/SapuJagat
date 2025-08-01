@@ -17,7 +17,7 @@
     $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
     app()->setLocale($currLang);
 @endphp
-
+~
 @section('content')
 @if ($pickup)
     <main class="app-main">
@@ -96,7 +96,7 @@
                                 {{ __('pickup_detail.buttons.waste_picked') }}
                             </button>
                         </form>
-                    @else
+                    @else~
                         <!-- Penjemputan Selesai -->
                         <form method="POST" action="{{ route('driver.pickup.update-status', $pickup->pick_up_id) }}" enctype="multipart/form-data">
                             @csrf
