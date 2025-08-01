@@ -96,7 +96,7 @@
                                 {{ __('pickup_detail.buttons.waste_picked') }}
                             </button>
                         </form>
-                    @else
+                    @else~
                         <!-- Penjemputan Selesai -->
                         <form method="POST" action="{{ route('driver.pickup.update-status', $pickup->pick_up_id) }}" enctype="multipart/form-data">
                             @csrf

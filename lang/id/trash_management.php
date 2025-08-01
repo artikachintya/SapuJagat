@@ -48,10 +48,11 @@ return [
             'title' => 'HAPUS DATA',
             'message' => 'Apakah Anda yakin ingin menghapus data ini?',
             'buttons' => [
-                'cancel' => 'Batalkan',
+            'cancel' => 'Batalkan',
                 'confirm' => 'Konfirmasi'
             ]
-        ]
+        ],
+        'uploadCSV' => 'Unggah File',
     ],
     'alerts' => [
         'success' => 'Operasi berhasil diselesaikan'

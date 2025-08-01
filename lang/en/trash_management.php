@@ -51,7 +51,8 @@ return [
                 'cancel' => 'Cancel',
                 'confirm' => 'Confirm'
             ]
-        ]
+        ],
+        'uploadCSV' => 'Upload File',
     ],
     'alerts' => [
         'success' => 'Operation completed successfully'

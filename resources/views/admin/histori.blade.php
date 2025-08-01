@@ -104,10 +104,10 @@
                                         <td class="text-center">{{ $order->approval->date_time ?? '-' }}</td>
                                         <td class="text-center">
                                             @if ($order->approval)
-                                                @if ($order->approval->status === 1)
+                                                @if ($order->approval->approval_status === 1)
                                                     <span
                                                         class="badge bg-success">{{ __('history_admin.table.statuses.completed') }}</span>
-                                                @elseif($order->approval->status === 0)
+                                                @elseif($order->approval->approval_status === 0)
                                                     <span
                                                         class="badge bg-danger">{{ __('history_admin.table.statuses.rejected') }}</span>
                                                 @else
@@ -168,10 +168,10 @@
                                 </p>
                                 <p><strong>Status:</strong>
                                     @if ($order->approval)
-                                        @if ($order->approval->status === 1)
+                                        @if ($order->approval->approval_status === 1)
                                             <span
                                                 class="badge bg-success">{{ __('history_admin.table.statuses.completed') }}</span>
-                                        @elseif($order->approval->status === 0)
+                                        @elseif($order->approval->approval_status === 0)
                                             <span
                                                 class="badge bg-danger">{{ __('history_admin.table.statuses.rejected') }}</span>
                                         @else

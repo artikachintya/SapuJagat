@@ -75,13 +75,13 @@
 
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <label>Email</label>
+                    <label>{{__('login.email')}}</label>
                     <input type="email" name="email" value='{{ old('email') ?? ''}}' required
-                        placeholder="Masukkan email Anda">
+                        placeholder="{{ __('login.email_placeholder') }}">
 
-                    <label>Kata Sandi</label>
+                    <label>{{__('login.password')}}</label>
                     <input type="password" name="password" value='{{ old('password') ?? '' }}' required
-                        placeholder="Masukkan password Anda">
+                        placeholder="{{__('login.password_placeholder')}}">
 
                     <div class="checkbox-group">
                         <label class="remember-me">

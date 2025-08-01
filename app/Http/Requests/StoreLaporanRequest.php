@@ -8,7 +8,7 @@ class StoreLaporanRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // or apply authorization logic
+        return true;
     }
 
     public function rules(): array
@@ -22,11 +22,10 @@ class StoreLaporanRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'laporan.required' => 'Isi laporan wajib diisi.',
-            'laporan.string'   => 'Isi laporan harus berupa teks.',
-
-            'gambar.image'     => 'File yang diunggah harus berupa gambar.',
-            'gambar.max'       => 'Ukuran gambar maksimal 2MB.',
+            'laporan.required' => __('request_laporan.validation.laporan.required'),
+            'laporan.string'   => __('request_laporan.validation.laporan.string'),
+            'gambar.image'     => __('request_laporan.validation.gambar.image'),
+            'gambar.max'       => __('request_laporan.validation.gambar.max'),
         ];
     }
 }

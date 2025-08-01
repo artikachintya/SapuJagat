@@ -1,6 +1,11 @@
 @extends('admin.partials.admin')
 
-@section('title', 'Log Pengguna')
+@section('title', __('log.title'))
+
+@php
+    $currLang = session()->get('lang', 'id');
+    app()->setLocale($currLang);
+@endphp
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.css">
@@ -73,33 +78,33 @@
             <div class="app-content-header">
                 <div class="row page-title">
                     <div class="col-sm mt-3 mb-0">
-                        <h3>Log Pengguna{{ $user->name ? ' - ' . $user->name : '' }}</h3>
+                        <h3>{{ __('log.page_title') }}{{ $user->name ? ' - ' . $user->name : '' }}</h3>
                     </div>
                 </div>
             </div>
 
             @if (session('success'))
                 <div class="alert alert-success mt-3">
-                    {{ session('success') }}
+                    {{ __('log.success_message', ['message' => session('success')]) }}
                 </div>
             @endif
 
             <div class="card mt-3">
                 <div class="card-body">
-                    {{-- Tombol Kembali --}}
+                    {{-- Back Button --}}
                     <a href="{{ route('admin.user-lists.index') }}" class="btn btn-success mb-3">
-                        <i class="bi bi-arrow-left-circle"></i> Kembali ke Daftar Pengguna
+                        <i class="bi bi-arrow-left-circle"></i> {{ __('log.back_button') }}
                     </a>
 
-                    {{-- Tabel Log --}}
+                    {{-- Log Table --}}
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered text-white" id="logTable">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Log Name</th>
-                                    <th>Description</th>
-                                    <th>Properties</th>
+                                    <th>{{ __('log.table_headers.date') }}</th>
+                                    <th>{{ __('log.table_headers.log_name') }}</th>
+                                    <th>{{ __('log.table_headers.description') }}</th>
+                                    <th>{{ __('log.table_headers.properties') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -116,7 +121,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center text-white">Tidak ada log tersedia untuk pengguna ini.</td>
+                                        <td colspan="4" class="text-center text-white">{{ __('log.no_logs') }}</td>
                                     </tr>
                                 @endforelse
                             </tbody>

@@ -8,7 +8,7 @@ class StoreWithdrawalRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // or add role checks here
+        return true;
     }
 
     public function rules(): array
@@ -23,16 +23,16 @@ class StoreWithdrawalRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'amount.required' => 'Nominal penarikan wajib diisi.',
-            'amount.numeric'  => 'Nominal harus berupa angka.',
-            'amount.min'      => 'Nominal minimal penarikan adalah Rp50.000.',
+            'amount.required' => __('request_withdraw.validation.amount.required'),
+            'amount.numeric' => __('request_withdraw.validation.amount.numeric'),
+            'amount.min' => __('request_withdraw.validation.amount.min'),
 
-            'bank.required'   => 'Nama bank wajib diisi.',
-            'bank.in' => 'Bank harus salah satu dari: BCA, MANDIRI, atau BRI.',
+            'bank.required' => __('request_withdraw.validation.bank.required'),
+            'bank.in' => __('request_withdraw.validation.bank.in'),
 
-            'number.required' => 'Nomor rekening wajib diisi.',
-            'number.string'   => 'Nomor rekening harus berupa teks.',
-            'number.max'      => 'Nomor rekening maksimal 30 karakter.',
+            'number.required' => __('request_withdraw.validation.number.required'),
+            'number.string' => __('request_withdraw.validation.number.string'),
+            'number.max' => __('request_withdraw.validation.number.max'),
         ];
     }
 }

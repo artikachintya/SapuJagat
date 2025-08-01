@@ -6,19 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRegisterRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -42,24 +34,28 @@ class StoreRegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Nama lengkap wajib diisi.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah terdaftar.',
-            'password.required' => 'Kata sandi wajib diisi.',
-            'password.min' => 'Kata sandi harus minimal 8 karakter.',
-            'password.regex' => 'Kata sandi harus mengandung huruf besar dan karakter spesial.',
-            'address.required' => 'Alamat wajib diisi.',
-            'province.required' => 'Provinsi wajib dipilih.',
-            'city.required' => 'Kota wajib dipilih.',
-            'postal_code.required' => 'Kode pos wajib diisi.',
-            'postal_code.digits_between' => 'Kode pos harus 4–6 digit.',
-            'NIK.required' => 'NIK wajib diisi.',
-            'NIK.digits' => 'NIK harus terdiri dari 16 digit.',
-            'NIK.unique' => 'NIK ini sudah terdaftar.',
-            'phone_num.required' => 'Nomor telepon wajib diisi.',
-            'phone_num.digits_between' => 'Nomor telepon harus 8–15 digit.',
-            'phone_num.unique' => 'Nomor telepon ini sudah digunakan.'
+            'name.required' => __('request_register.validation.name.required'),
+            'name.max' => __('request_register.validation.name.max'),
+            'email.required' => __('request_register.validation.email.required'),
+            'email.email' => __('request_register.validation.email.email'),
+            'email.unique' => __('request_register.validation.email.unique'),
+            'password.required' => __('request_register.validation.password.required'),
+            'password.min' => __('request_register.validation.password.min'),
+            'password.regex' => __('request_register.validation.password.regex'),
+            'address.required' => __('request_register.validation.address.required'),
+            'address.max' => __('request_register.validation.address.max'),
+            'province.required' => __('request_register.validation.province.required'),
+            'province.max' => __('request_register.validation.province.max'),
+            'city.required' => __('request_register.validation.city.required'),
+            'city.max' => __('request_register.validation.city.max'),
+            'postal_code.required' => __('request_register.validation.postal_code.required'),
+            'postal_code.digits_between' => __('request_register.validation.postal_code.digits_between'),
+            'NIK.required' => __('request_register.validation.NIK.required'),
+            'NIK.digits' => __('request_register.validation.NIK.digits'),
+            'NIK.unique' => __('request_register.validation.NIK.unique'),
+            'phone_num.required' => __('request_register.validation.phone_num.required'),
+            'phone_num.digits_between' => __('request_register.validation.phone_num.digits_between'),
+            'phone_num.unique' => __('request_register.validation.phone_num.unique'),
         ];
     }
 }

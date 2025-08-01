@@ -8,7 +8,7 @@ class StoreResetPassword extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // allow all users
+        return true;
     }
 
     public function rules(): array
@@ -30,11 +30,14 @@ class StoreResetPassword extends FormRequest
     public function messages(): array
     {
         return [
-            'password.regex' => 'Password harus mengandung minimal satu huruf kapital dan satu karakter spesial.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
-            'password.min' => 'Password harus minimal 8 karakter.',
-            'email.required' => 'Email harus diisi.',
-            'email.email' => 'Format email tidak valid.',
+            'token.required' => __('request_reset.validation.token.required'),
+            'email.required' => __('request_reset.validation.email.required'),
+            'email.email' => __('request_reset.validation.email.email'),
+            'password.required' => __('request_reset.validation.password.required'),
+            'password.string' => __('request_reset.validation.password.string'),
+            'password.min' => __('request_reset.validation.password.min'),
+            'password.regex' => __('request_reset.validation.password.regex'),
+            'password.confirmed' => __('request_reset.validation.password.confirmed'),
         ];
     }
 }

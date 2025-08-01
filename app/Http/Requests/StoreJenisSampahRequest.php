@@ -25,24 +25,24 @@ class StoreJenisSampahRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'         => 'Nama sampah wajib diisi.',
-            'name.string'           => 'Nama sampah harus berupa teks.',
-            'name.max'              => 'Nama sampah maksimal 255 karakter.',
+            'name.required'         => __('request_jenis_sampah.name.required'),
+            'name.string'           => __('request_jenis_sampah.name.string'),
+            'name.max'              => __('request_jenis_sampah.name.max'),
 
-            'photos.required'       => 'Foto sampah wajib diunggah.',
-            'photos.image'          => 'File harus berupa gambar.',
-            'photos.mimes'          => 'Format gambar harus jpg, jpeg, png, atau webp.',
-            'photos.max'            => 'Ukuran gambar maksimal 2MB.',
+            'photos.required'       => __('request_jenis_sampah.photos.required'),
+            'photos.image'          => __('request_jenis_sampah.photos.image'),
+            'photos.mimes'          => __('request_jenis_sampah.photos.mimes'),
+            'photos.max'            => __('request_jenis_sampah.photos.max'),
 
-            'type.required'         => 'Jenis sampah wajib diisi.',
-            'type.string'           => 'Jenis sampah harus berupa teks.',
-            'type.max'              => 'Jenis sampah maksimal 255 karakter.',
+            'type.required'         => __('request_jenis_sampah.type.required'),
+            'type.string'           => __('request_jenis_sampah.type.string'),
+            'type.max'              => __('request_jenis_sampah.type.max'),
 
-            'price_per_kg.required' => 'Harga per kg wajib diisi.',
-            'price_per_kg.numeric'  => 'Harga per kg harus berupa angka.',
+            'price_per_kg.required' => __('request_jenis_sampah.price_per_kg.required'),
+            'price_per_kg.numeric'  => __('request_jenis_sampah.price_per_kg.numeric'),
 
-            'max_weight.required'   => 'Berat maksimal wajib diisi.',
-            'max_weight.numeric'    => 'Berat maksimal harus berupa angka.',
+            'max_weight.required'   => __('request_jenis_sampah.max_weight.required'),
+            'max_weight.numeric'    => __('request_jenis_sampah.max_weight.numeric'),
         ];
     }
 }
