@@ -99,11 +99,13 @@
                                     @foreach ($orderlist as $order)
                                         @php
                                             // Status badge logic
+                                            // dd($order->approval);
                                             if (!isset($order->approval)) {
                                                 $badgeClass = 'bg-secondary';
                                                 $label = __('history_user.status.no_approval');
                                             } else {
-                                                $status = $order->approval->status;
+                                                $status = $order->approval->approval_status;
+
                                                 if (is_null($status)) {
                                                     $badgeClass = 'bg-secondary';
                                                     $label = __('history_user.status.in_process');
@@ -160,7 +162,7 @@
                                                 </div>
                                                 <div class="col-6 text-end">
                                                     <span class="fw-semibold text-success">
-                                                        @if ($order->approval && $order->approval->status === 1)
+                                                        @if ($order->approval && $order->approval->approval_status === 1)
                                                             Rp{{ number_format($total, 0, ',', '.') }}
                                                         @else
                                                             Rp0
@@ -217,14 +219,14 @@
                                             <div class="bg-light p-2 mb-2" id="modal-summary"></div>
                                         </div>
                                         <div class="mb-2">
-                                            <h6>{{ __('history_user.modal.rating') }}</h6>
+                                            {{-- <h6>{{ __('history_user.modal.rating') }}</h6>
                                             <div id="rating-stars" class="star-rating">
                                                 <i class="far fa-star" data-value="1"></i>
                                                 <i class="far fa-star" data-value="2"></i>
                                                 <i class="far fa-star" data-value="3"></i>
                                                 <i class="far fa-star" data-value="4"></i>
                                                 <i class="far fa-star" data-value="5"></i>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
