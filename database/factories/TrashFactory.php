@@ -12,12 +12,17 @@ class TrashFactory extends Factory
     public function definition()
     {
         return [
+            // 'name' => $this->faker->word,
+            // 'type' => $this->faker->randomElement(['Organik', 'Anorganik']),
+            // 'price_per_kg' => $this->faker->randomFloat(2, 1000, 100000),
+            // 'max_weight' => $this->faker->numberBetween(10, 100),
+            // 'photos' => 'lainnya.jpg',
+            // // 'photos' => '-',
             'name' => $this->faker->word,
             'type' => $this->faker->randomElement(['Organik', 'Anorganik']),
             'price_per_kg' => $this->faker->randomFloat(2, 1000, 100000),
-            'max_weight' => $this->faker->numberBetween(10, 100),
+            'max_weight' => 10, // SET FIXED VALUE
             'photos' => 'lainnya.jpg',
-            // 'photos' => '-',
         ];
     }
 }

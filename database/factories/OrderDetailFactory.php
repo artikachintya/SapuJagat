@@ -19,9 +19,11 @@ class OrderDetailFactory extends Factory
     {
         return [
             'order_id' => Order::factory(),
-            // 'trash_id' => Trash::factory(),
-            'trash_id' => Trash::inRandomOrder()->first()->trash_id,
+            'trash_id' => Trash::inRandomOrder()->first()?->trash_id ?? Trash::factory(),
             'quantity' => $this->faker->numberBetween(1, 100),
+            // 'trash_id' => Trash::factory(),
+            // 'trash_id' => Trash::inRandomOrder()->first()->trash_id,
+            // 'quantity' => $this->faker->numberBetween(1, 100),
         ];
     }
 }
