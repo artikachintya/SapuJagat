@@ -52,7 +52,9 @@
 
             @if(!$isSent)
                 <div class="sender-name">
-                    <img src="{{ $message->user->profile_pic }}" alt="Profile">
+                    {{-- <img src="{{ $message->user->profile_pic }}" alt="Profile"> --}}
+                    <img src="{{ $message->user->profile_pic ? asset('storage/' . $message->user->profile_pic) : asset('assets/img/default-profile.webp') }}" alt="Profile">
+
                     {{ $message->user->name ?? 'Pelanggan' }}
                 </div>
             @endif
@@ -135,10 +137,22 @@
                         }).replace(':', '.');
 
 
+                        // if (!isSent && message.user) {
+                        //     messagesContainer.append(`
+                        //         <div class="sender-name">
+                        //             <img src="${message.user.profile_pic}" alt="Profile">
+                        //             ${message.user.name}
+                        //         </div>
+                        //     `);
+                        // }
                         if (!isSent && message.user) {
+                            const profilePic = message.user.profile_pic
+                                ? `/storage/${message.user.profile_pic}`
+                                : `/assets/img/default-profile.webp`;
+
                             messagesContainer.append(`
                                 <div class="sender-name">
-                                    <img src="${message.user.profile_pic}" alt="Profile">
+                                    <img src="${profilePic}" alt="Profile">
                                     ${message.user.name}
                                 </div>
                             `);
