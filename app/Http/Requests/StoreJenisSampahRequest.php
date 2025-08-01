@@ -13,13 +13,21 @@ class StoreJenisSampahRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        $rules = [
             'name'         => 'required|string|max:255',
-            'photos'       => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             'type'         => 'required|string|max:255',
             'price_per_kg' => 'required|numeric',
             'max_weight'   => 'required|numeric',
         ];
+
+        if ($this->isMethod('post')) {
+            $rules['photos'] = 'required|image|mimes:jpg,jpeg,png,webp|max:2048';
+        } else {
+            // On PUT/PATCH (edit), photo is optional
+            $rules['photos'] = 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048';
+        }
+
+        return $rules;
     }
 
     public function messages(): array
