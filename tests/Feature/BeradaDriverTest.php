@@ -22,7 +22,7 @@ class BeradaDriverTest extends TestCase
         $this->driver = User::create([
             'name' => 'driver1',
             'email' => 'driver1@example.com',
-            'password' => bcrypt('password5'),
+            'password' => Hash::make('password5'),
             'role' => 3,
         ]);
 

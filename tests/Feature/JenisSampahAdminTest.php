@@ -104,7 +104,7 @@ class JenisSampahAdminTest extends TestCase
                         ->put("/admin/jenis-sampah/{$item->trash_id}", [
                             'name'          => $item->name,
                             'type'          => $item->type,
-                            'price_per_kg'  => 2000,
+                            'price_per_kg'  => 1000,
                             'max_weight'    => $item->max_weight,
                         ]);
 
@@ -112,7 +112,7 @@ class JenisSampahAdminTest extends TestCase
 
         $this->assertDatabaseHas('trashes', [
             'trash_id'      => $item->trash_id,
-            'price_per_kg'  => 2000,
+            'price_per_kg'  => 1000,
         ]);
     }
 
