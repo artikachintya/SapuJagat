@@ -77,7 +77,7 @@ class PelacakanController extends Controller
         }
 
         $penugasan = null;
-        $driver_photo = null; // default
+        $driver_photo = asset('assets/img/default-profile.webp'); // default
 
         if ($order) {
             $penugasan = Penugasan::where('order_id', $order->order_id)
