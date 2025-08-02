@@ -60,7 +60,7 @@ class StoreDriverProfileRequest extends FormRequest
             'phone_num.digits_between' => __('request_register.validation.phone_num.digits_between'),
             'phone_num.unique' => __('request_register.validation.phone_num.unique'),
             'license_plate.required' => 'Nomor plat wajib diisi.',
-            'license_plate.string' => 'Nomor plat harus berupa teks.',,
+            'license_plate.string' => 'Nomor plat harus berupa teks.',
             'profile_pic.image' => 'File foto profil harus berupa gambar.',
             'profile_pic.mimes' => 'Format gambar harus jpeg, jpg, png, atau webp.',
             'profile_pic.max' => 'Ukuran gambar maksimal 2MB.',
