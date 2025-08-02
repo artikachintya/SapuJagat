@@ -29,7 +29,7 @@ class SubmitTukarSampahRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'trash.required' => 'Silakan pilih jenis sampah yang ingin ditukar.',
+            'trash.required' => __('submittukarsampah_user.trash_required'),
         ];
     }
 }
