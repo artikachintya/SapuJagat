@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\GetMessagesRequest;
+use App\Http\Requests\SendMessageRequest;
 
 class ChatController extends Controller
 {
@@ -52,14 +54,8 @@ class ChatController extends Controller
     }
 
     // Kirim pesan, Menyimpan pesan baru ke database dan mengirimkan response JSON.
-    public function sendMessage(Request $request)
+    public function sendMessage(SendMessageRequest $request)
     {
-        // Validasi input
-        $request->validate([
-            'message' => 'required|string',
-            'chat_id' => 'required|exists:chats,chat_id',
-        ]);
-
         // Simpan pesan baru
         ChatDetail::create([
             'chat_id' => $request->chat_id,
@@ -73,14 +69,8 @@ class ChatController extends Controller
     }
 
     // Ambil pesan
-    public function getMessages(Request $request)
+    public function getMessages(GetMessagesRequest $request)
     {
-        // $messages = ChatDetail::with('user')
-        //     ->where('chat_id', $request->chat_id)
-        //     ->orderBy('date_time', 'asc')
-        //     ->get();
-
-        // return response()->json($messages);
         $messages = ChatDetail::with('user')
             ->where('chat_id', $request->chat_id)
             ->orderBy('date_time', 'asc')
@@ -129,3 +119,10 @@ class ChatController extends Controller
 
     //     return view('driver.chat.index', compact('messages', 'chat','pickupId'));
     // }
+
+    // $messages = ChatDetail::with('user')
+        //     ->where('chat_id', $request->chat_id)
+        //     ->orderBy('date_time', 'asc')
+        //     ->get();
+
+        // return response()->json($messages);

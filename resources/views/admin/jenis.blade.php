@@ -51,7 +51,7 @@
 
 @push('scripts')
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script> --}}
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap5.js"></script>
 
@@ -159,15 +159,6 @@
             <div class="container-fluid">
                 <!--begin::Row-->
                 <div class="row page-title">
-                    <div class="col-sm">
-                        <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">{{ __('trash_management.breadcrumb.home') }}</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                {{ __('trash_management.breadcrumb.dashboard') }}</a></li>
-                        </ol>
-
-                    </div>
                 </div>
                 <!--end::Row-->
             </div>
@@ -189,23 +180,33 @@
                 <div class="row">
                     <div class="col-md-12">
                         @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="card mb-4 recap">
                             <div class="card-header">
                                 <h5 class="card-title">{{ __('trash_management.card.title') }}</h5>
                                 <div class="card-tools">
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#importCsvModal">
+                                        Import CSV
+                                    </button>
+                                    {{-- <form action="{{ route('admin.jenis-sampah.import') }}" method="POST"
+                                        enctype="multipart/form-data" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-primary">Import CSV</button>
+                                        <input type="file" name="csv_file" accept=".csv" required>
+                                    </form> --}}
+
                                     <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#createTrashModal">
                                         {{ __('trash_management.card.buttons.create') }}
                                     </button>
-
                                     <a href="{{ route('admin.jenis-sampah.arsip') }}" class="btn btn-warning btn-sm">
                                         {{ __('trash_management.card.buttons.archive') }}
                                     </a>
@@ -235,8 +236,7 @@
                                                         <td>{{ $trash->trash_id }}</td>
                                                         <td>
                                                             <img src="{{ asset('assets/img/' . $trash->photos) }}"
-                                                                alt="Foto Sampah"
-                                                                class="img-fluid"
+                                                                alt="Foto Sampah" class="img-fluid"
                                                                 style="max-height: 150px;"
                                                                 onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
                                                         </td>
@@ -264,7 +264,8 @@
                                                                     class="btn btn-danger btn-sm w-75 btn-delete"
                                                                     data-id="{{ $trash->trash_id }}"
                                                                     data-action="{{ route('admin.jenis-sampah.destroy', $trash->trash_id) }}"
-                                                                    data-bs-toggle="modal" data-bs-target="#deleteTrashModal">
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteTrashModal">
                                                                     {{ __('trash_management.table.buttons.delete') }}
                                                                 </button>
                                                             </div>
@@ -277,8 +278,10 @@
                                                                     style="background:#34a853;">
                                                                     <div class="modal-header border-0">
                                                                         <h2 class="modal-title fw-bold w-100 text-center">
-                                                                            {{ __('trash_management.modals.edit.title') }}</h2>
-                                                                        <button type="button" class="btn-close btn-close-white"
+                                                                            {{ __('trash_management.modals.edit.title') }}
+                                                                        </h2>
+                                                                        <button type="button"
+                                                                            class="btn-close btn-close-white"
                                                                             data-bs-dismiss="modal"></button>
                                                                     </div>
 
@@ -298,19 +301,18 @@
                                                                             <div class="mb-3">
                                                                                 <label
                                                                                     class="form-label">{{ __('trash_management.modals.create.fields.image') }}</label>
+                                                                                    <!-- Hidden input to keep the old image path -->
+                                                                                    <input type="hidden" name="old_image" value="{{ $trash->image }}">
 
-                                                                                {{-- give the input an ID --}}
-                                                                                <input type="file" id="photoInput"
-                                                                                    name="photos" class="form-control"
-                                                                                    accept="image/*">
+                                                                                    <!-- File input for new photo -->
+                                                                                    <input type="file" id="photoInput" name="photos" class="form-control" accept="image/*">
 
-                                                                                {{-- the preview image --}}
-                                                                                <img id="photoPreview"
-                                                                                    src=""
-                                                                                    alt="Foto Sampah Tidak Ada"
-                                                                                    class="img-fluid mt-2"
-                                                                                    style="max-height:150px; display:none;"
-                                                                                    onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
+                                                                                    <!-- Preview of existing image -->
+                                                                                    <img id="photoPreview"
+                                                                                        src="{{ $trash->image ? asset('storage/' . $trash->image) : asset('assets/img/default.png') }}"
+                                                                                        class="img-fluid mt-2"
+                                                                                        style="max-height:150px;"
+                                                                                        onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
                                                                             </div>
 
                                                                             <div class="mb-3">
@@ -378,11 +380,11 @@
                                                                             <div class="mb-3">
                                                                                 <label
                                                                                     class="form-label">{{ __('trash_management.modals.create.fields.image') }}</label>
-                                                                                <input type="file" id="createPhotoInput"
-                                                                                    name="photos" class="form-control"
-                                                                                    accept="image/*">
-                                                                                <img id="createPhotoPreview" src=""
-                                                                                    alt="Preview Gambar"
+                                                                                <input type="file"
+                                                                                    id="createPhotoInput" name="photos"
+                                                                                    class="form-control" accept="image/*">
+                                                                                <img id="createPhotoPreview"
+                                                                                    src="" alt="Preview Gambar"
                                                                                     class="img-fluid mt-2"
                                                                                     style="max-height:150px;display:none;">
                                                                             </div>
@@ -471,5 +473,34 @@
             </div>
         </div>
         <!--end::App Content-->
+        <!-- IMPORT CSV MODAL -->
+<div class="modal fade" id="importCsvModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-white" style="background:#34a853;">
+            <div class="modal-header border-0">
+                <h2 class="modal-title w-100 text-center fw-bold">
+                    Import CSV
+                </h2>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="{{ route('admin.jenis-sampah.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="csv_file" class="form-label">{{ __('trash_management.modals.uploadCSV') }}</label>
+                        <input type="file" name="csv_file" class="form-control" accept=".csv" required>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="submit" class="btn btn-light w-100 fw-bold">
+                        Import CSV
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
     </main>
 @endsection

@@ -1,6 +1,11 @@
 <!-- resources/views/auth/otp.blade.php -->
 <!DOCTYPE html>
 <html>
+
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
 <head>
     <meta charset="UTF-8">
     <title>{{ __('otp.title') }}</title>

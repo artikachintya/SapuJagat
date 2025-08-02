@@ -23,13 +23,13 @@ class StoreReportResponseRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'report_id.required'        => 'Laporan wajib dipilih.',
-            'report_id.exists'          => 'Laporan tidak ditemukan.',
-            'user_id.required'          => 'User wajib dipilih.',
-            'user_id.exists'            => 'User tidak valid.',
-            'response_message.required' => 'Pesan tanggapan wajib diisi.',
-            'response_message.string'   => 'Pesan harus berupa teks.',
-            'response_message.max'      => 'Pesan maksimal 255 karakter.',
+            'report_id.required'        => __('request_report.validation.report_id.required'),
+            'report_id.exists'          => __('request_report.validation.report_id.exists'),
+            'user_id.required'          => __('request_report.validation.user_id.required'),
+            'user_id.exists'            => __('request_report.validation.user_id.exists'),
+            'response_message.required' => __('request_report.validation.response_message.required'),
+            'response_message.string'   => __('request_report.validation.response_message.string'),
+            'response_message.max'      => __('request_report.validation.response_message.max'),
         ];
     }
 }

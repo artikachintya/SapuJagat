@@ -8,7 +8,7 @@ class StorePenugasanRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // allow access, handle auth with middleware
+        return true;
     }
 
     public function rules(): array
@@ -23,11 +23,11 @@ class StorePenugasanRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'order_id.required' => 'Order wajib dipilih.',
-            'order_id.exists'   => 'Order tidak ditemukan.',
-            'user_id.required'  => 'User wajib dipilih.',
-            'user_id.exists'    => 'User tidak ditemukan.',
-            'status.in'         => 'Status harus bernilai 0 atau 1.',
+            'order_id.required' => __('request_penugasan.validation.order_id.required'),
+            'order_id.exists'   => __('request_penugasan.validation.order_id.exists'),
+            'user_id.required'  => __('request_penugasan.validation.user_id.required'),
+            'user_id.exists'    => __('request_penugasan.validation.user_id.exists'),
+            'status.in'         => __('request_penugasan.validation.status.in'),
         ];
     }
 }

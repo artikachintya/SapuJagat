@@ -24,14 +24,14 @@ class StorePersetujuanRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'order_id.required'        => 'Order harus dipilih.',
-            'order_id.exists'          => 'Order tidak valid.',
-            'user_id.required'         => 'User harus dipilih.',
-            'user_id.exists'           => 'User tidak valid.',
-            'notes.required'           => 'Catatan wajib diisi.',
-            'notes.string'             => 'Catatan harus berupa teks.',
-            'approval_status.required' => 'Status persetujuan wajib diisi.',
-            'approval_status.in'       => 'Status persetujuan harus 0 (ditolak), 1 (disetujui), atau 2 (revisi).',
+            'order_id.required'        => __('request_persetujuan.validation.order_id.required'),
+            'order_id.exists'          => __('request_persetujuan.validation.order_id.exists'),
+            'user_id.required'         => __('request_persetujuan.validation.user_id.required'),
+            'user_id.exists'           => __('request_persetujuan.validation.user_id.exists'),
+            'notes.required'           => __('request_persetujuan.validation.notes.required'),
+            'notes.string'             => __('request_persetujuan.validation.notes.string'),
+            'approval_status.required' => __('request_persetujuan.validation.approval_status.required'),
+            'approval_status.in'       => __('request_persetujuan.validation.approval_status.in'),
         ];
     }
 }

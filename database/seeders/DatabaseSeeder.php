@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\UserLicense;
 use Illuminate\Database\Seeder;
 // 1. Pastikan use statement ini tetap ada
 use Spatie\Activitylog\ActivitylogStatus;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
+            // UserLicense::class,
             TrashSeeder::class,
             ChatSeeder::class,
             ReportSeeder::class,

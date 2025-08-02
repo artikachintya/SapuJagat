@@ -81,8 +81,8 @@ class PenugasanController extends Controller
     {
         $penugasan = Penugasan::findOrFail($id);
 
-        // Hapus terlebih dahulu Pickup yang berelasi dengan penugasan ini
-        // Pickup::where('penugasan_id', $penugasan->penugasan_id)->delete();
+         // Soft delete: pickup juga ikut dihapus
+        Pickup::where('penugasan_id', $penugasan->penugasan_id)->delete();
 
         // Soft delete: tidak menghapus permanen
         $penugasan->delete();
@@ -98,6 +98,9 @@ class PenugasanController extends Controller
     public function restore($id){
         $penugasan = Penugasan::withTrashed()->findOrFail($id);
         $penugasan->restore();
+        Pickup::withTrashed()
+        ->where('penugasan_id', $penugasan->penugasan_id)
+        ->restore();
         return redirect()->route('admin.penugasan.archive')->with('success', 'Penugasan berhasil dipulihkan.');
     }
 

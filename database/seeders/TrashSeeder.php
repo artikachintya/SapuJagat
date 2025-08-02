@@ -94,6 +94,8 @@ class TrashSeeder extends Seeder
         ]);
 
          // Faker 10 tambahan
-        \App\Models\Trash::factory(10)->create();
+        // \App\Models\Trash::factory(10)->create();
+        // Factory tambahan
+        Trash::factory(10)->create(['max_weight' => 10]);
     }
 }
