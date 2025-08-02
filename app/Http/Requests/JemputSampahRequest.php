@@ -30,10 +30,10 @@ class JemputSampahRequest extends FormRequest
     public function messages()
     {
         return [
-            'photo.required' => 'Silakan unggah bukti pesanan terlebih dahulu.',
-            'photo.image' => 'Bukti pesanan harus berupa gambar.',
-            'photo.mimes' => 'Format gambar tidak valid. Harus berupa file dengan format jpeg, jpg, atau png.',
-            'photo.max' => 'Ukuran gambar terlalu besar. Maksimum 5MB.',
+            'photo.required' => __('jemputsampah_user.photo_required'),
+            'photo.image' => __('jemputsampah_user.photo_image'),
+            'photo.mimes' => __('jemputsampah_user.photo_mimes'),
+            'photo.max' => __('jemputsampah_user.photo_max'),
         ];
     }
 }
