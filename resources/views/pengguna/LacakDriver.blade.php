@@ -48,7 +48,9 @@
         <div class="card p-4 shadow-sm" style="background-color:#f5fcf7;">
             <div class="tracking-container">
                 <div class="driver-info">
-                    <img src="{{ asset('LacakDriver/assets/Driver-Face.jpeg') }}" alt="Driver" class="driver-photo" />
+                    @if ($driver_photo)
+                        <img src="{{ $driver_photo }}" alt="Driver" class="driver-photo" />
+                    @endif
                     <div class="driver-details">
                         <h2>{{ $order->pickup?->user?->name ?? 'Nama Driver Tidak Diketahui' }}</h2>
                         <p>{{ $order->pickup?->user?->license?->license_plate ?? 'Plat Nomor Tidak Diketahui' }}</p>

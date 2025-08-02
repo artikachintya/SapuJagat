@@ -76,7 +76,20 @@ class PelacakanController extends Controller
             );
         }
 
-        return view('pengguna.LacakDriver', compact('order', 'approval', 'approval_icon', 'chat'));
+        $penugasan = null;
+        $driver_photo = null; // default
+
+        if ($order) {
+            $penugasan = Penugasan::where('order_id', $order->order_id)
+                ->with('user') // pastikan eager load relasi user (driver)
+                ->first();
+
+            if ($penugasan && $penugasan->user && $penugasan->user->profile_pic) {
+                $driver_photo = asset('storage/' . $penugasan->user->profile_pic);
+            }
+        }
+
+        return view('pengguna.LacakDriver', compact('order', 'approval', 'approval_icon', 'chat', 'driver_photo'));
     }
     /**
      * Show the form for creating a new resource.
