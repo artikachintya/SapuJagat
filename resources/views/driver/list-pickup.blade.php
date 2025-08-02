@@ -19,42 +19,6 @@
 @push('styles')
     <link href="{{ asset('assets/css/laporan.css') }}" rel="stylesheet">
     <style>
-        .star-rating {
-            font-size: 24px;
-            margin: 10px 0;
-        }
-
-        .star-rating i {
-            color: #616161;
-            cursor: pointer;
-            transition: color 0.2s;
-            padding: 0 2px;
-        }
-
-        .star-rating i.selected,
-        .star-rating i:hover,
-        .star-rating i:hover~i {
-            color: #FFD700;
-            text-shadow: 0 0 2px rgba(255, 215, 0, 0.5);
-        }
-
-        .star-rating i.fa-star {
-            color: #FFD700;
-        }
-
-        .star-rating i.fa-star-o {
-            color: #616161;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 600px;
-            width: 95%;
-            margin: 0 auto;
-        }
-
         @media (max-width: 576px) {
             .lihat-detail-btn {
                 font-size: 14px;
@@ -124,7 +88,7 @@
                                                 </div>
                                                 <div class="text-success fw-semibold text-truncate"
                                                     style="max-width: 100%;">
-                                                    {{ __('dashboard_driver.labels.user_name') }}: {{ $pickup->order->user->name }}
+                                                   {{ $pickup->order->user->name }}
                                                 </div>
                                                 <div class="text-success fw-semibold text-truncate text-dark"
                                                     style="max-width: 100%;">

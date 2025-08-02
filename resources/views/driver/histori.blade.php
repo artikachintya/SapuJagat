@@ -16,6 +16,17 @@
             background-repeat: no-repeat !important;
             background-position: center !important;
         }
+
+        @media (max-width: 576px) {
+            .lihat-detail-btn {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+
+            .modal-content {
+                padding: 15px;
+            }
+        }
     </style>
 @endpush
 
@@ -26,13 +37,6 @@
 @section('content')
     <main class="app-main">
         <!--begin::App Content Header-->
-        {{-- <div class="app-content-header">
-            <!--begin::Container-->
-            <div class="container-fluid">
-                <h3 class="mb-0"><b>Daftar Histori</b></h3>
-            </div>
-            <!--end::Container-->
-        </div> --}}
         <div class="app-content">
             <!--begin::Container-->
             <div class="container-fluid">
@@ -61,65 +65,54 @@
                                     {{-- <pre>{{ dd($orderlist[0]) }}</pre> --}}
                                     @if ($pickuplist->count())
                                         @foreach ($pickuplist as $pickup)
-                                            <div class="mb-3 p-3 rounded"
-                                                style="background-color: #f9fdf9; border: 1px solid #d4ecd4;">
-                                                <div class="d-flex justify-content-between align-items-start mb-2">
 
-                                                    @php
-                                                        if (!$pickup->pick_up_date) {
-                                                            $badgeClass = 'bg-secondary';
-                                                            $label = __('history_driver.status.waiting');
-                                                        } elseif (!$pickup->arrival_date) {
-                                                            $badgeClass = 'bg-warning';
-                                                            $label = __('history_driver.status.in_delivery');
-                                                        } elseif ($pickup->arrival_date) {
-                                                            $badgeClass = 'bg-success';
-                                                            $label = __('history_driver.status.completed');
-                                                        } else {
-                                                            $badgeClass = 'bg-secondary';
-                                                            $label = __('history_driver.status.waiting');
-                                                        }
-                                                    @endphp
+                                            <div class="mb-3 p-3 rounded" style="background-color: #f9fdf9; border: 1px solid #d4ecd4;">
+    <div class="d-flex justify-content-between align-items-start mb-2">
+        @php
+            if (isset($pickup->arrival_date)) {
+                $badgeClass = 'bg-success';
+                $label = __('dashboard_driver.status.completed');
+            } elseif ($pickup->start_time) {
+                $badgeClass = 'bg-warning text-dark';
+                $label = __('dashboard_driver.status.in_progress');
+            } elseif ($pickup->pick_up_date) {
+                $badgeClass = 'bg-warning text-dark';
+                $label = __('dashboard_driver.status.picked_up');
+            } else {
+                $badgeClass = 'bg-secondary';
+                $label = __('dashboard_driver.status.waiting');
+            }
+        @endphp
 
+        <span class="badge {{ $badgeClass }}">
+            {{ $label }}
+        </span>
+    </div>
 
-                                                    <span class="badge {{ $badgeClass }}">
-                                                        {{ $label }}
-                                                    </span>
+    <div>
+        @if ($pickup->arrival_date)
+            <div class="text-muted">
+                {{ \Carbon\Carbon::parse($pickup->arrival_date)->translatedFormat(__('history_driver.date_format')) }}
+            </div>
+        @endif
 
-                                                </div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        @if ($pickup->arrival_date)
-                                                            <div class="text-muted">
-                                                                {{ \Carbon\Carbon::parse($pickup->arrival_date)->translatedFormat(__('history_driver.date_format')) }}
-                                                            </div>
-                                                        @endif
-                                                        <div class="text-success fw-semibold text-truncate"
-                                                            style="max-width: 75%;">
-                                                            {{-- @php
-                                                            $trashNames = $order->details
-                                                                ->pluck('trash.name')
-                                                                ->unique()
-                                                                ->toArray();
-                                                            $trashSummary = implode(', ', $trashNames);
-                                                        @endphp
-                                                        {{ $trashSummary }} --}}
-                                                            {{ $pickup->order->user->name }}
-                                                        </div>
-                                                    </div>
-                                                    <button class="btn btn-outline-success lihat-detail-btn"
-                                                        style="white-space: nowrap;"
-                                                        data-arrival="{{ $pickup->arrival_date }}"
-                                                        data-pickup="{{ $pickup->pick_up_date }}"
-                                                        data-start="{{ $pickup->start_time }}"
-                                                        data-address="{{ $pickup->order->user->info->address }}, {{ $pickup->order->user->info->city }}, {{ $pickup->order->user->info->province }}, {{ $pickup->order->user->info->postal_code }}"
-                                                        data-user="{{ $pickup->order->user->name }}"
-                                                        data-photo="{{ asset('storage/' . $pickup->photos) }}"
-                                                        data-photos="{{ asset('storage/') }}">
-                                                        {{ __('history_driver.labels.view_details') }}
-                                                    </button>
-                                                </div>
-                                            </div>
+        <div class="text-success fw-semibold text-truncate" style="max-width: 100%;">
+            {{ $pickup->order->user->name }}
+        </div>
+    </div>
+
+    <!-- Tombol dengan lebar penuh -->
+    <button class="btn btn-outline-success lihat-detail-btn w-100 mt-3"
+        data-arrival="{{ $pickup->arrival_date }}"
+        data-pickup="{{ $pickup->pick_up_date }}"
+        data-start="{{ $pickup->start_time }}"
+        data-address="{{ $pickup->order->user->info->address }}, {{ $pickup->order->user->info->city }}, {{ $pickup->order->user->info->province }}, {{ $pickup->order->user->info->postal_code }}"
+        data-user="{{ $pickup->order->user->name }}"
+        data-photo="{{ asset('storage/' . $pickup->photos) }}"
+        data-photos="{{ asset('storage/') }}">
+        {{ __('history_driver.labels.view_details') }}
+    </button>
+</div>
                                         @endforeach
                                         {{-- end for each --}}
                                     @else
@@ -135,9 +128,6 @@
                                         <div class="modal-content">
                                             <div class="d-flex justify-content-between align-items-start mb-2">
                                                 <div>
-                                                    {{-- <span class="badge bg-success mb-1" id="modal-status">Selesai</span><br> --}}
-                                                    {{-- <span class="badge {{ $badgeClass }}">
-                                                    {{ $label }} --}}
                                                     </span><br>
                                                     <strong>{{ __('history_driver.labels.pickup_time') }}:<br> <span
                                                             id="modal-start"></span></strong><br>
@@ -153,21 +143,12 @@
                                                 <button class="close-btn btn btn-sm btn-light"
                                                     style="font-size: 1.25rem; line-height: 1; padding: 0 10px;">&times;</button>
                                             </div>
-
-                                            {{-- <div>
-                                            <h6>Ringkasan Penukaran</h6>
-                                            <div class="bg-light p-2 mb-2" id="modal-summary"></div>
-                                        </div> --}}
                                             <div>
                                                 <strong>{{ __('history_driver.labels.evidence_photo') }}<strong>
                                                         <img id="modal-photo" src="" alt="Foto Bukti"
                                                             class="img-fluid mb-2" />
                                                         <div class="bg-light p-2" id="photo-none"></div>
                                             </div>
-                                            {{-- <div>
-                                        <h6> - <b id="response-time"></b></h6>
-                                        <div class="bg-light p-2" id="modal-response"></div>
-                                    </div> --}}
                                         </div>
                                     </div>
                                 @endif

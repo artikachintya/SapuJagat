@@ -37,8 +37,6 @@
     app()->setLocale($currLang);
 @endphp
 
-
-
 @section('content')
     <main class="app-main">
         <!-- Main Content -->
@@ -46,14 +44,6 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-        <i class="bi bi-check-circle-fill me-2"></i>
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
-
                         <div class="card card-report p-4">
                             <!-- Card Title -->
                             <div class="card-title mb-4">
@@ -81,13 +71,13 @@
 
                                             <input type="file" name="profile_pic" id="profile_pic_upload" class="d-none">
                                             <br>
+                                        </div>
                                             @error('profile_pic')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
-                                        </div>
                                         {{-- </div> --}}
                                         <div class="mb-3">
-                                            <label class="form-label"><strong> Name </strong></label>
+                                            <label class="form-label"><strong> {{__('profile.fields.full_name')}} </strong></label>
                                             <input type="text" class="form-control border-0 p-2" name="name"
                                                 value="{{ $user->name }}">
                                             @error('name')
@@ -95,20 +85,20 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label"><strong> NIK </strong></label>
+                                            <label class="form-label"><strong> {{__('profile.fields.nik')}} </strong></label>
                                             <input type="text" class="form-control border-0 p-2" name="NIK"
                                                 value="{{ $user->NIK }}" disabled>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label"><strong> Email </strong></label>
+                                            <label class="form-label"><strong> {{__('profile.fields.email')}} </strong></label>
                                             <input type="email" class="form-control border-0 p-2" name="email"
-                                                value="{{ $user->email }}">
+                                                value="{{ $user->email }}" disabled>
                                             @error('email')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label"><strong> Password </strong></label>
+                                            <label class="form-label"><strong> {{__('profile.fields.password')}} </strong></label>
                                             <input type="password" class="form-control border-0 p-2" name="password"
                                                 id="password" placeholder="********">
                                             @error('password')
@@ -116,7 +106,7 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label"><strong> Phone Number </strong></label>
+                                            <label class="form-label"><strong> {{__('profile.fields.phone')}} </strong></label>
                                             <input type="text" class="form-control border-0 p-2" name="phone_num"
                                                 value="{{ $user->phone_num }}">
                                             @error('phone_num')
@@ -124,7 +114,7 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label"><strong> License Plate </strong></label>
+                                            <label class="form-label"><strong> {{__('profile.fields.license_plate')}}</strong></label>
                                             <input type="text" class="form-control border-0 p-2" name="license_plate"
                                                 value="{{ optional($user->license)->license_plate }}"
                                                 placeholder="Masukkan plat nomor">
@@ -132,7 +122,7 @@
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-success">{{__('profile.buttons.save')}}</button>
                                     </div>
                                     <!-- Right: Quotes Image -->
                                     <div class="col-md-4 d-flex align-items-center justify-content-center">

@@ -104,7 +104,7 @@ Route::middleware(['auth', 'pengguna'])->prefix('pengguna')->name('pengguna.')->
     Route::resource('laporan', LaporanController::class);
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::post('/profile/save', [ProfileController::class, 'save'])->name('profile.save');
+    Route::patch('/profile/save', [ProfileController::class, 'save'])->name('profile.save');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
 });
@@ -141,7 +141,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');
+    Route::patch('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');
 });
 
 // Chat Routes

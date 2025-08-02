@@ -5,21 +5,23 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreDriverProfileRequest extends FormRequest
+class StoreAdminProfileRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         return true;
     }
 
-    public function rules(): array
+     public function rules(): array
     {
         $userId = $this->user()->id;
         $currentPhone = $this->user()->phone_num;
 
         $rules = [
             'name' => 'required|string|max:255',
-            'license_plate' => 'required|string|max:10',
             'profile_pic' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
         ];
 
@@ -56,9 +58,6 @@ class StoreDriverProfileRequest extends FormRequest
             'phone_num.required' => __('request_register.validation.phone_num.required'),
             'phone_num.digits_between' => __('request_register.validation.phone_num.digits_between'),
             'phone_num.unique' => __('request_register.validation.phone_num.unique'),
-            'license_plate.required' => 'Nomor plat wajib diisi.',
-            'license_plate.string' => 'Nomor plat harus berupa teks.',
-            'license_plate.max' => 'Nomor plat maksimal 10 karakter.',
             'profile_pic.image' => 'File foto profil harus berupa gambar.',
             'profile_pic.mimes' => 'Format gambar harus jpeg, jpg, png, atau webp.',
             'profile_pic.max' => 'Ukuran gambar maksimal 2MB.',

@@ -30,6 +30,14 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
+                         @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
                         <div class="card card-report p-4">
                             <!-- Card Title -->
                             <div class="card-title mb-4">

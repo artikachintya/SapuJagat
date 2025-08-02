@@ -20,12 +20,13 @@
                 <div class="row">
                     <div class="col-12">
                         @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-        <i class="bi bi-check-circle-fill me-2"></i>
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
+                            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
 
                         <div class="card card-report p-4">
                             <!-- Card Title -->
@@ -62,9 +63,9 @@
                                         {{ $user->phone_num ? '+62 ' . $user->phone_num : '-' }}
                                     </div>
 
-                                     <strong>{{ __('profile.fields.license_plate') }}</strong><br>
+                                    <strong>{{ __('profile.fields.license_plate') }}</strong><br>
                                     <div class="info-card">
-                                         {{ $user->license->license_plate ?? '-' }}
+                                        {{ $user->license->license_plate ?? '-' }}
                                     </div>
 
                                     <a href="{{ route('driver.profile.edit') }}" class="btn btn-success mt-3">

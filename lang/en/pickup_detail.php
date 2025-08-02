@@ -15,7 +15,9 @@ return [
         'upload_section' => [
             'title' => 'Upload Delivery Evidence',
             'preview' => 'Preview'
-        ]
+        ],
+        'delivery_notes' => 'Delivery Notes',
+
     ],
     'buttons' => [
         'start_pickup' => 'Start Pickup',

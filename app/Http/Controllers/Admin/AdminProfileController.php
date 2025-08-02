@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAdminProfileRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,21 +22,17 @@ class AdminProfileController extends Controller
         return view('admin.edit-profile', compact('user'));
     }
 
-    public function save(Request $request)
+    public function save(StoreAdminProfileRequest $request)
     {
         $user = Auth::user();
         $user->name = $request->name;
-        // $user->NIK = $request->NIK;
-        $user->email = $request->email;
-        $user->phone_num = $request->phone_num;
-        // dd($request);
-
-        if ($request->filled('NIK')) {
-            $user->NIK = $request->NIK;
-        }
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
+        }
+
+        if ($request->filled('phone_num')) {
+        $user->phone_num = $request->phone_num;
         }
 
         // dd($request->profile_pic);
@@ -46,7 +43,7 @@ class AdminProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin.profile');
+        return redirect()->route('admin.profile')->with('success', 'Profile updated successfully!');
     }
 
 }
