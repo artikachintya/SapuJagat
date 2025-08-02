@@ -34,7 +34,9 @@
                         <div class="driver-message">
                             <div class="message-content">
                                 {{-- <img src="{{ asset('assets/img/profile.jpg') }}" alt="Foto Profil" class="profile-img"> --}}
-                                <img src="{{ $message->user->profile_pic }}" alt="Foto Profil" class="profile-img">
+                                {{-- <img src="{{ $message->user->profile_pic }}" alt="Foto Profil" class="profile-img"> --}}
+                                <img src="{{ $message->user->profile_pic ? asset('storage/' . $message->user->profile_pic) : asset('assets/img/default-profile.webp') }}" alt="Foto Profil" class="profile-img">
+
                                 <div class="message-bubble">
                                     <div class="message-info">
                                         <span class="sender-name">{{ $message->user->name }}</span>
@@ -114,10 +116,28 @@
                                     </div>
                                 `);
                             } else {
+                            // wrapper.append(`
+                            //     <div class="driver-message">
+                            //         <div class="message-content">
+                            //             <img src="${message.user.profile_pic}" alt="Foto Profil" class="profile-img">
+                            //             <div class="message-bubble">
+                            //                 <div class="message-info">
+                            //                     <span class="sender-name">${message.user.name}</span>
+                            //                 </div>
+                            //                 <p class="message-text">${message.detail_chat}</p>
+                            //                 <span class="message-time">${time}</span>
+                            //             </div>
+                            //         </div>
+                            //     </div>
+                            // `);
+                            const profilePic = message.user.profile_pic
+                                ? `/storage/${message.user.profile_pic}`
+                                : `/assets/img/default-profile.webp`;
+
                             wrapper.append(`
                                 <div class="driver-message">
                                     <div class="message-content">
-                                        <img src="${message.user.profile_pic}" alt="Foto Profil" class="profile-img">
+                                        <img src="${profilePic}" alt="Foto Profil" class="profile-img">
                                         <div class="message-bubble">
                                             <div class="message-info">
                                                 <span class="sender-name">${message.user.name}</span>
@@ -128,6 +148,7 @@
                                     </div>
                                 </div>
                             `);
+
                             }
                         });
 

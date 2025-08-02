@@ -108,6 +108,11 @@
                     </label>
                 </div>
 
+                <!-- Tampilkan pesan error validasi -->
+                @error('photo')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
+                
                 <!-- Preview Gambar -->
                 <div class="mt-2">
                     <img id="photo-preview" src="#" alt="Preview Gambar" style="display: none; max-height: 200px; border: 1px solid #ccc; padding: 4px;">

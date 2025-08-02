@@ -446,13 +446,16 @@
                                                                                 <p class="fw-bold">
                                                                                     {{ __('persetujuan.collector_evidence') }}
                                                                                 </p>
-                                                                                @if ($order->pickup_photos)
-                                                                                    <img src="{{ asset('storage/' . $order->pickup_photos) }}"
+                                                                                @if (!empty($order->pickup->photos))
+                                                                                    <img src="{{ asset('storage/' . $order->pickup->photos) }}"
+                                                                                        alt="Bukti Pengantaran"
                                                                                         class="img-fluid rounded shadow"
-                                                                                        style="max-height: 200px;">
+                                                                                        style="max-height: 200px;"
+                                                                                        onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
                                                                                 @else
                                                                                     <p>{{ __('persetujuan.no_photo') }}</p>
                                                                                 @endif
+
                                                                             </div>
                                                                         </div>
 

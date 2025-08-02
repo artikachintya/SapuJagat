@@ -159,15 +159,6 @@
             <div class="container-fluid">
                 <!--begin::Row-->
                 <div class="row page-title">
-                    <div class="col-sm">
-                        <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">{{ __('trash_management.breadcrumb.home') }}</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                {{ __('trash_management.breadcrumb.dashboard') }}</a></li>
-                        </ol>
-
-                    </div>
                 </div>
                 <!--end::Row-->
             </div>
@@ -310,18 +301,18 @@
                                                                             <div class="mb-3">
                                                                                 <label
                                                                                     class="form-label">{{ __('trash_management.modals.create.fields.image') }}</label>
+                                                                                    <!-- Hidden input to keep the old image path -->
+                                                                                    <input type="hidden" name="old_image" value="{{ $trash->image }}">
 
-                                                                                {{-- give the input an ID --}}
-                                                                                <input type="file" id="photoInput"
-                                                                                    name="photos" class="form-control"
-                                                                                    accept="image/*">
+                                                                                    <!-- File input for new photo -->
+                                                                                    <input type="file" id="photoInput" name="photos" class="form-control" accept="image/*">
 
-                                                                                {{-- the preview image --}}
-                                                                                <img id="photoPreview" src=""
-                                                                                    alt="Foto Sampah Tidak Ada"
-                                                                                    class="img-fluid mt-2"
-                                                                                    style="max-height:150px; display:none;"
-                                                                                    onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
+                                                                                    <!-- Preview of existing image -->
+                                                                                    <img id="photoPreview"
+                                                                                        src="{{ $trash->image ? asset('storage/' . $trash->image) : asset('assets/img/default.png') }}"
+                                                                                        class="img-fluid mt-2"
+                                                                                        style="max-height:150px;"
+                                                                                        onerror="this.onerror=null; this.src='{{ asset('assets/img/default.png') }}';">
                                                                             </div>
 
                                                                             <div class="mb-3">

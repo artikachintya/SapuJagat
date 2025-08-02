@@ -11,7 +11,7 @@ class ActiveUserOnly
     public function handle(Request $request, Closure $next)
 {
     // Bypass for login/register
-    if ($request->is('/','login', 'register', 'auth/google*', 'lang', 'verify-otp', 'otp/cancel')) {
+    if ($request->is('/','login', 'register', 'auth/google*', 'lang', 'verify-otp', 'otp/cancel','password/*')) {
         return $next($request);
     }
 
