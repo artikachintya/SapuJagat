@@ -169,7 +169,7 @@ Route::middleware(['auth', 'driver'])->prefix('driver')->name('driver.')->group(
     Route::get('/', [PickUpController::class, 'index'])->name('dashboard');
     Route::get('profile', [DriverProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [DriverProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('profile/save', [DriverProfileController::class, 'save'])->name('profile.save');
+    Route::patch('profile/save', [DriverProfileController::class, 'save'])->name('profile.save');
     Route::resource('histori', HistoriDriver::class);
     Route::get('/pickup/{id}', [PickupController::class, 'show'])->name('pickup.detail');
     Route::get('/chat', [ChatController::class, 'driverChatList'])->name('chat.list');
