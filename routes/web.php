@@ -104,7 +104,7 @@ Route::middleware(['auth', 'pengguna'])->prefix('pengguna')->name('pengguna.')->
     Route::resource('laporan', LaporanController::class);
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::post('/profile/save', [ProfileController::class, 'save'])->name('profile.save');
+    Route::patch('/profile/save', [ProfileController::class, 'save'])->name('profile.save');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan.rating');
 });
@@ -141,7 +141,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');
+    Route::patch('profile/save', [AdminProfileController::class, 'save'])->name('profile.save');
 });
 
 // Chat Routes
@@ -169,7 +169,7 @@ Route::middleware(['auth', 'driver'])->prefix('driver')->name('driver.')->group(
     Route::get('/', [PickUpController::class, 'index'])->name('dashboard');
     Route::get('profile', [DriverProfileController::class, 'index'])->name('profile');
     Route::get('profile/edit', [DriverProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('profile/save', [DriverProfileController::class, 'save'])->name('profile.save');
+    Route::patch('profile/save', [DriverProfileController::class, 'save'])->name('profile.save');
     Route::resource('histori', HistoriDriver::class);
     Route::get('/pickup/{id}', [PickupController::class, 'show'])->name('pickup.detail');
     Route::get('/chat', [ChatController::class, 'driverChatList'])->name('chat.list');

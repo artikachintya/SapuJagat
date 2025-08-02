@@ -15,7 +15,8 @@ return [
         'upload_section' => [
             'title' => 'Upload Bukti Pengantaran',
             'preview' => 'Preview'
-        ]
+        ],
+        'delivery_notes' => 'Catatan Pengantaran',
     ],
     'buttons' => [
         'start_pickup' => 'Mulai Menjemput',
