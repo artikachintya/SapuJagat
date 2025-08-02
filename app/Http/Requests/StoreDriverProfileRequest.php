@@ -19,7 +19,10 @@ class StoreDriverProfileRequest extends FormRequest
 
         $rules = [
             'name' => 'required|string|max:255',
-            'license_plate' => 'required|string|max:10',
+            'license_plate' => [
+                'required',
+                'regex:/^[A-Z]{1,2}[0-9]{1,4}[A-Z]{1,3}$/'
+            ],
             'profile_pic' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
         ];
 
@@ -58,10 +61,10 @@ class StoreDriverProfileRequest extends FormRequest
             'phone_num.unique' => __('request_register.validation.phone_num.unique'),
             'license_plate.required' => 'Nomor plat wajib diisi.',
             'license_plate.string' => 'Nomor plat harus berupa teks.',
-            'license_plate.max' => 'Nomor plat maksimal 10 karakter.',
             'profile_pic.image' => 'File foto profil harus berupa gambar.',
             'profile_pic.mimes' => 'Format gambar harus jpeg, jpg, png, atau webp.',
             'profile_pic.max' => 'Ukuran gambar maksimal 2MB.',
+            'license_plate.regex' => 'Format plat nomor tidak valid. Contoh: B1234XYZ',
         ];
     }
 }
