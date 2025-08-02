@@ -81,7 +81,8 @@ class ChatController extends Controller
                     'detail_chat' => $msg->detail_chat,
                     'date_time' => $msg->date_time->toIso8601String(), // ⬅ ini yang bikin jamnya konsisten
                     'user' => [
-                        'name' => optional($msg->user)->name
+                        'name' => optional($msg->user)->name,
+                        'profile_pic' => optional($msg->user)->profile_pic,
                     ]
                 ];
             });
