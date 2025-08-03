@@ -7,7 +7,7 @@ return[
     'faq' => 'FAQ',
     'kontak' => 'Kontak',
     'masuk' => 'Masuk',
-    'daftar' => 'Register',
+    'daftar' => 'Daftar',
     'fiturkami' => 'Fitur Kami',
 
     //First Section

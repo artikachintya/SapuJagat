@@ -32,6 +32,10 @@
             /* Center the image */
         }
     </style>
+@php
+      $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+      app()->setLocale($currLang);
+  @endphp
 </head>
 
 

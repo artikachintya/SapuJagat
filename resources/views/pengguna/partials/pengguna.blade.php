@@ -29,6 +29,12 @@
 
      <!-- CSS Lacak Driver -->
   <link rel="stylesheet" href="{{ asset('LacakDriver/Lacak.css') }}">
+
+  
+  @php
+      $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+      app()->setLocale($currLang);
+  @endphp
 </head>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">

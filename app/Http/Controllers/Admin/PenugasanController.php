@@ -71,7 +71,7 @@ class PenugasanController extends Controller
         // 3. Redirect back + flash
         return redirect()
             ->back()
-            ->with('success', __('success.assignment.store_success', $penugasan->penugasan_id));
+            ->with('success', __('success.assignment.store_success', ['id' => $penugasan->penugasan_id]));
     }
 
     /**

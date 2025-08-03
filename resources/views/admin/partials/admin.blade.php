@@ -42,6 +42,10 @@
     <!-- Font Awesome CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
+  @php
+      $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+      app()->setLocale($currLang);
+  @endphp
 </head>
 {{-- @if(Auth::guard('admin')->check())
     <p>Welcome, Admin: {{ Auth::guard('admin')->user()->email }}</p>
