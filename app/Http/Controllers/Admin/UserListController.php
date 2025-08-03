@@ -32,7 +32,7 @@ class UserListController extends Controller
         $user->status = $request->status;
         $user->save();
 
-        return redirect()->back()->with('success', 'User status updated.');
+        return redirect()->back()->with('success', __('success.update_user'));
     }
 
     /**

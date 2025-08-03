@@ -60,7 +60,7 @@ class JenisSampahController extends Controller
         * ---------------------------------------------------------*/
         $trash->save();
 
-        return redirect()->back()->with('success', 'Jenis sampah berhasil ditambahkan.');
+        return redirect()->back()->with('success', __('success.trash.store_success'));
     }
 
     /**
@@ -113,7 +113,7 @@ class JenisSampahController extends Controller
         $trash->save();
 
         // 6. Redirect (or return JSON if needed)
-        return redirect()->back()->with('success', 'Jenis sampah berhasil diperbarui.');
+        return redirect()->back()->with('success', __('success.trash.update_success'));
     }
 
 
@@ -131,7 +131,7 @@ class JenisSampahController extends Controller
 
         $trash->delete();   // soft‑delete if model uses SoftDeletes, otherwise hard
 
-        return back()->with('success', 'Jenis sampah berhasil dihapus.');
+        return back()->with('success', __('success.trash.delete_success'));
     }
 
     // Tampilkan yang sudah dihapus
@@ -146,7 +146,7 @@ class JenisSampahController extends Controller
     {
         $trash = Trash::onlyTrashed()->findOrFail($id);
         $trash->restore();
-        return redirect()->route('admin.jenis-sampah.index')->with('success', 'Data berhasil dipulihkan.');
+        return redirect()->route('admin.jenis-sampah.index')->with('success', __('success.trash.restore_success'));
     }
 
 
@@ -162,7 +162,7 @@ class JenisSampahController extends Controller
 
         $trash->forceDelete();
 
-        return back()->with('success', 'Data dihapus permanen.');
+        return back()->with('success', __('success.trash.force_delete_success'));
     }
 
     public function import(Request $request)
@@ -200,7 +200,7 @@ class JenisSampahController extends Controller
             $inserted++;
         }
         // dd($inserted, $duplicatesList, $skipped);
-        return redirect()->back()->with('success', "$inserted data berhasil diimport, $skipped duplikat diabaikan.");
+        return redirect()->back()->with('success', __('success.trash.import_success',  ['inserted' => $inserted,'skipped' => $skipped]));
     }
 
 }

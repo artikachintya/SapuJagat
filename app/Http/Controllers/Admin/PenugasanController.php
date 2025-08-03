@@ -71,7 +71,7 @@ class PenugasanController extends Controller
         // 3. Redirect back + flash
         return redirect()
             ->back()
-            ->with('success', "Penugasan #{$penugasan->penugasan_id} berhasil dibuat.");
+            ->with('success', __('success.assignment.store_success', $penugasan->penugasan_id));
     }
 
     /**
@@ -87,7 +87,7 @@ class PenugasanController extends Controller
         // Soft delete: tidak menghapus permanen
         $penugasan->delete();
 
-        return back()->with('success', 'Penugasan berhasil dihapus!');
+        return back()->with('success', __('success.assignment.delete_success'));
     }
 
     public function archive(){
@@ -101,7 +101,7 @@ class PenugasanController extends Controller
         Pickup::withTrashed()
         ->where('penugasan_id', $penugasan->penugasan_id)
         ->restore();
-        return redirect()->route('admin.penugasan.archive')->with('success', 'Penugasan berhasil dipulihkan.');
+        return redirect()->route('admin.penugasan.archive')->with('success', __('success.assignment.restore_success'));
     }
 
 
@@ -109,6 +109,6 @@ class PenugasanController extends Controller
         $penugasan = Penugasan::withTrashed()->findOrFail($id);
         Pickup::where('penugasan_id', $penugasan->penugasan_id)->delete(); // optional
         $penugasan->forceDelete();
-        return redirect()->route('admin.penugasan.archive')->with('success', 'Penugasan dihapus permanen.');
+        return redirect()->route('admin.penugasan.archive')->with('success', __('success.trash.force_delete_success'));
     }
 }

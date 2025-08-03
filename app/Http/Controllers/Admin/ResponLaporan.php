@@ -38,7 +38,7 @@ class ResponLaporan extends Controller
             'date_time_response' => now(),
         ]);
 
-        return redirect()->route('admin.laporan.index')->with('success', 'Respon berhasil dikirim.');
+        return redirect()->route('admin.laporan.index')->with('success', __('success.respon'));
     }
 
 }

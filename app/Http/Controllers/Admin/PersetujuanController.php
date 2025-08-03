@@ -26,7 +26,7 @@ class PersetujuanController extends Controller
                      });
                })
                ->get();
-        
+
         $transaksidisetujui = Order::whereHas('approval', function ($query) {
             $query->where('approval_status', 1);
         })->count();
@@ -101,15 +101,18 @@ class PersetujuanController extends Controller
 
         /** ───── Tentukan teks status ───── */
         $statusLabel = match ((int) $data['approval_status']) {
-            0       => 'Ditolak',
-            1       => 'Disetujui',
-            2       => 'Menunggu',
-            default => 'Diproses',
+            0       => __('success.approval.status.rejected'),
+            1       => __('success.approval.status.approved'),
+            2       => __('success.approval.status.pending'),
+            default => __('success.approval.status.processed'),
         };
         /** ───── Buat pesan flash ───── */
-        $message = "Order #{$data['order_id']} telah direspons: {$statusLabel}.";
+        // $message = "Order #{$data['order_id']} telah direspons: {$statusLabel}.";
 
-        return back()->with('success', $message);
+        return back()->with('success', __('success.approval.store_success', [
+            'order_id' => $data['order_id'],
+            'status' => $statusLabel
+        ]));
     }
 
     /**
