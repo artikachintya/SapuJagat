@@ -44,11 +44,23 @@ return [
         'success' => [
             'order_created' => 'Pesanan penjemputan berhasil dikirim!',
         ],
-        'types' => [
-            'organic' => 'Organik',
-            'inorganic' => 'Anorganik',
+       'exist' => 'Anda masih memiliki pesanan yang sedang diproses'
+    ],
+     'withdrawal' => [
+        'errors' => [
+            'unauthorized' => 'Anda tidak memiliki akses untuk melakukan penarikan.',
+            'insufficient_balance' => 'Saldo tidak mencukupi untuk penarikan ini.',
+        ],
+        'success' => [
+            'request_submitted' => 'Permintaan penarikan berhasil diajukan.',
+        ],
+        'activity' => [
+            'failed_role' => 'Gagal tarik saldo: role tidak diizinkan',
+            'failed_balance' => 'Gagal tarik saldo: saldo tidak mencukupi',
+            'success' => 'Berhasil mengajukan penarikan saldo',
         ],
     ],
+    'laporan' => 'Laporan berhasil dikirim', 
 ];
 
 

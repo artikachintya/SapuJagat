@@ -30,10 +30,18 @@ return [
             'required' => 'Nomor telepon wajib diisi.',
             'digits_between' => 'Nomor telepon harus 8-15 digit.',
         ],
+
+        'license_plate' => [
+            'required' => 'Nomor plat wajib diisi.',
+            'string' => 'Nomor plat harus berupa teks.',
+            'regex' => 'Format plat nomor tidak valid. Contoh: B1234XYZ',
+        ],
         'profile_pic' => [
-            'image' => 'File harus berupa gambar.',
+            'image' => 'Foto profil harus berupa file gambar.',
+            'mimes' => 'Format gambar harus jpeg, jpg, png, atau webp.',
             'max' => 'Ukuran gambar maksimal 2MB.',
         ],
+
     ],
     'messages' => [
         'update_success' => 'Profil berhasil diperbarui.',

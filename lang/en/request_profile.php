@@ -30,8 +30,14 @@ return [
             'required' => 'Phone number is required.',
             'digits_between' => 'Phone number must be 8-15 digits.',
         ],
+        'license_plate' => [
+            'required' => 'License plate number is required.',
+            'string' => 'License plate number must be text.',
+            'regex' => 'Invalid license plate format. Example: B1234XYZ',
+        ],
         'profile_pic' => [
-            'image' => 'File must be an image.',
+            'image' => 'Profile picture must be an image file.',
+            'mimes' => 'Image format must be jpeg, jpg, png, or webp.',
             'max' => 'Maximum image size is 2MB.',
         ],
     ],

@@ -59,12 +59,12 @@ class StoreDriverProfileRequest extends FormRequest
             'phone_num.required' => __('request_register.validation.phone_num.required'),
             'phone_num.digits_between' => __('request_register.validation.phone_num.digits_between'),
             'phone_num.unique' => __('request_register.validation.phone_num.unique'),
-            'license_plate.required' => 'Nomor plat wajib diisi.',
-            'license_plate.string' => 'Nomor plat harus berupa teks.',
-            'profile_pic.image' => 'File foto profil harus berupa gambar.',
-            'profile_pic.mimes' => 'Format gambar harus jpeg, jpg, png, atau webp.',
-            'profile_pic.max' => 'Ukuran gambar maksimal 2MB.',
-            'license_plate.regex' => 'Format plat nomor tidak valid. Contoh: B1234XYZ',
+            'license_plate.required' =>  __('request_profile.validation.license_plate.required'),
+            'license_plate.string' =>  __('request_profile.validation.license_plate.string'),
+            'profile_pic.image' =>  __('request_profile.validation.profile_pic.image'),
+            'profile_pic.mimes' =>  __('request_profile.validation.profile_pic.mimes'),
+            'profile_pic.max' =>  __('request_profile.validation.profile_pic.max'),
+            'license_plate.regex' =>  __('request_profile.validation.license_plate.regex'),
         ];
     }
 }

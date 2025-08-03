@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\StoreCSVRequest;
 use App\Http\Requests\StoreJenisSampahRequest;
 use App\Models\Order;
 use App\Models\Trash;
@@ -165,11 +165,8 @@ class JenisSampahController extends Controller
         return back()->with('success', __('success.trash.force_delete_success'));
     }
 
-    public function import(Request $request)
+    public function import(StoreCSVRequest $request)
     {
-        $request->validate([
-            'csv_file' => 'required|mimes:csv,txt|max:2048',
-        ]);
 
         $file = $request->file('csv_file');
         $csv = array_map('str_getcsv', file($file));

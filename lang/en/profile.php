@@ -48,5 +48,6 @@ return [
     ],
     'no_changes' => 'No changes detected',
     'update_success' => 'Profile updated successfully',
-    'update_error' => 'Failed to update profile'
+    'update_error' => 'Failed to update profile',
+    'pl_plat' => 'Input license plate',
 ];

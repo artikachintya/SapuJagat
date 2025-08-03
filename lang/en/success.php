@@ -48,7 +48,23 @@ return [
             'organic' => 'Organic',
             'inorganic' => 'Inorganic',
         ],
+        'exist' => 'You still have ongoing order'
     ],
+    'withdrawal' => [
+        'errors' => [
+            'unauthorized' => 'You do not have permission to make withdrawals.',
+            'insufficient_balance' => 'Insufficient balance for this withdrawal.',
+        ],
+        'success' => [
+            'request_submitted' => 'Withdrawal request successfully submitted.',
+        ],
+        'activity' => [
+            'failed_role' => 'Failed withdrawal: role not allowed',
+            'failed_balance' => 'Failed withdrawal: insufficient balance',
+            'success' => 'Successfully submitted withdrawal request',
+        ],
+    ],
+    'laporan' => 'Report sent successfully',
 ];
 
 

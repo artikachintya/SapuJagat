@@ -53,7 +53,7 @@ public function save(StoreDriverProfileRequest $request)
     }
 
 
-    return redirect()->route('driver.profile')->with('success', 'Profile updated successfully!');
+    return redirect()->route('driver.profile')->with('success', __('success.profile'));
 }
 
 

@@ -46,8 +46,9 @@ return [
     'modal' => [
         'title' => 'Konfirmasi Simpan Perubahan',
         'body' => 'Apakah Anda yakin ingin menyimpan perubahan ini?'
-    ],
+],
     'no_changes' => 'Tidak ada perubahan terdeteksi',
     'update_success' => 'Profil berhasil diperbarui',
-    'update_error' => 'Gagal memperbarui profil'
+    'update_error' => 'Gagal memperbarui profil',
+    'pl_plat' => 'Masukkan plat nomor',
 ];

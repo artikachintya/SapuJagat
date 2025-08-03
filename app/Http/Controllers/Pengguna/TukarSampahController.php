@@ -70,7 +70,7 @@ class TukarSampahController extends Controller
 
             // Validasi maksimal berat per jenis sampah lebih dari 10 kg
             if ($qty > 10) {
-                return back()->withErrors(['quantity' => 'Maksimal berat untuk setiap jenis sampah adalah 10 kg.'])->withInput();
+                return back()->withErrors(['quantity' => __('success.exchange.errors.max_weight')])->withInput();
             }
             // Jika berat > 0, masukkan ke dalam array data
             if ($qty > 0) {
@@ -87,11 +87,11 @@ class TukarSampahController extends Controller
         }
         // Jika tidak ada sampah yang dipilih
         if (count($data) === 0) {
-            return back()->withErrors(['quantity' => 'Silakan pilih dan tentukan jumlah sampah terlebih dahulu sebelum melanjutkan proses penukaran.'])->withInput();
+            return back()->withErrors(['quantity' => __('success.exchange.errors.no_selection')])->withInput();
         }
         // Validasi minimal total berat = 3 kg
         if ($totalQty < 3) {
-            return back()->withErrors(['quantity' => 'Mohon maaf, penukaran tidak dapat diproses. Total berat sampah harus minimal 3 kg.'])->withInput();
+            return back()->withErrors(['quantity' =>  __('success.exchange.errors.min_weight')])->withInput();
         }
         // Simpan data ke session untuk diproses di langkah selanjutnya
         Session::put('data_tukar_sampah', $data);
@@ -121,7 +121,7 @@ class TukarSampahController extends Controller
         // Jika masih ada pesanan aktif, redirect ke pelacakan + notifikasi
         if ($existingOrder) {
             return redirect()->route('pengguna.pelacakan.index')
-                ->with('error', 'Anda masih memiliki pesanan yang sedang diproses.');
+                ->with('error', __('success.exchange.exist'));
         }
 
         // // Validasi dasar
@@ -136,7 +136,7 @@ class TukarSampahController extends Controller
         $data = Session::get('data_tukar_sampah');
 
         if (empty($data)) {
-            return redirect()->back()->with('error', 'Data pesanan tidak ditemukan.');
+            return redirect()->back()->with('error', __('success.exchange.errors.data_not_found'));
         }
 
         $photoPath = $request->file('photo')->store('uploads', 'public');
@@ -173,7 +173,7 @@ class TukarSampahController extends Controller
             ->log('User melakukan pemesanan sampah');
 
         // Redirect ke halaman pelacakan dengan notifikasi sukses
-        return redirect()->route('pengguna.pelacakan.index')->with('success', 'Pesanan penjemputan berhasil dikirim!');
+        return redirect()->route('pengguna.pelacakan.index')->with('success', __('success.exchange.success.order_created'));
     }
 }
 
