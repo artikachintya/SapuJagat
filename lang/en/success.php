@@ -65,6 +65,24 @@ return [
         ],
     ],
     'laporan' => 'Report sent successfully',
+    'google' => 'This account login with Google. Please continue via Google.',
+    'alerts' => [
+        'already_registered' => 'This email is already registered, please login.',
+        'non_google_account' => 'This email is registered without Google. Please login with email and password.',
+        'registration_success' => 'Email successfully registered. Please login to continue.',
+        'not_registered' => 'Your Google account is not registered yet.',
+         'success' => 'Pendaftaran berhasil!',
+        'error' => 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.',
+        'user_not_found' => 'User not found',
+        'otp_resent' => 'OTP resent',
+        'otp_failed' => 'Failed to resend OTP',
+        'otp_invalid' => 'Invalid or expired OTP',
+        'role_invalid' => 'Unrecognized role',
+    ],
+    'messages' => [
+        'otp_resent' => 'OTP has been resent',
+        'cancel_success' => 'OTP process cancelled',
+    ],
 ];
 
 

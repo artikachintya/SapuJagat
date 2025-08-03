@@ -22,7 +22,7 @@ class OtpController extends Controller
 
         return view('auth.otp');
     }
-    
+
     // ✨ NEW METHOD: To handle cancellation of OTP
     public function cancel(Request $request)
     {
@@ -49,7 +49,7 @@ class OtpController extends Controller
                 ])
                 ->log('Gagal kirim ulang OTP: user tidak ditemukan');
 
-            return response()->json(['message' => 'User tidak ditemukan'], 404);
+            return response()->json(['message' => __('success.alerts.user_not_found')], 404);
         }
 
         try {
@@ -72,10 +72,10 @@ class OtpController extends Controller
                     'ip' => $request->ip(),
                 ])
                 ->log('OTP dikirim ulang');
-            
+
             // ✨ CHANGE: Return the new expiration timestamp to the client
             return response()->json([
-                'message' => 'OTP dikirim ulang',
+                'message' => __('success.alerts.otp_resent'),
                 'expires_at' => $expiresAt->timestamp // Send as Unix timestamp
             ]);
 
@@ -90,7 +90,7 @@ class OtpController extends Controller
                 ->log('Gagal mengirim ulang OTP');
 
             Log::error('Gagal kirim ulang OTP: ' . $e->getMessage());
-            return response()->json(['message' => 'Gagal mengirim ulang OTP'], 500);
+            return response()->json(['message' => __('success.alerts.otp_failed')], 500);
         }
     }
 
@@ -113,7 +113,7 @@ class OtpController extends Controller
                 ])
                 ->log('OTP verifikasi gagal');
 
-            return back()->withErrors(['otp' => 'OTP salah atau kedaluwarsa.']);
+            return back()->withErrors(['otp' => __('success.alerts.otp_invalid')]);
         }
 
         $user = User::find(session('otp_user_id'));
@@ -141,7 +141,7 @@ class OtpController extends Controller
                 return redirect('/driver');
             default:
                 Auth::logout();
-                return redirect()->route('login')->with('error', 'Role tidak dikenali.');
+                return redirect()->route('login')->with('error', __('success.alerts.role_invalid'));
         }
     }
 }
