@@ -1,4 +1,8 @@
 @extends('layouts.app')
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
 
 @section('body-class', 'bg-reset-password')
 @section('content')
@@ -21,7 +25,7 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label for="email" class="form-label" style="font-family: 'Inria Sans', sans-serif;">{{ __('Alamat Email') }}</label>
+                                <label for="email" class="form-label" style="font-family: 'Inria Sans', sans-serif;">{{ __('Email') }}</label>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
@@ -37,7 +41,7 @@
                                     style="background-color: #4CAF50; transition: 0.3s; font-family: 'Inria Sans', sans-serif;"
                                     onmouseover="this.style.backgroundColor='#388E3C'"
                                     onmouseout="this.style.backgroundColor='#4CAF50'">
-                                    {{ __('Kirim Link Reset Password') }}
+                                    {{ __('reset_password.link') }}
                                 </button>
                             </div>
                         </form>
