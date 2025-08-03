@@ -8,8 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Sapu Jagat</title>
-    {{ config('app.name', 'laravel') }}
+    {{-- <title>Sapu Jagat</title>
+    {{ config('app.name', 'laravel') }} --}}
+
+    <title>{{ config('app.name', 'Sapu Jagat') }}</title>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.googleapis.com/css2?family=Inria+Sans&display=swap" rel="stylesheet">
