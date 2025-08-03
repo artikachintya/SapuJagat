@@ -49,7 +49,7 @@ class LaporanController extends Controller
     {
         $validated = $request->validated();
 
-        // Prepare data 
+        // Prepare data
         $data = [
             'user_id' => Auth::check() ? Auth::user()->user_id : 0,
             'date_time_report' => now(),
@@ -77,7 +77,7 @@ class LaporanController extends Controller
 
         return redirect()
             ->route('pengguna.laporan.index')
-            ->with('success', 'Laporan berhasil dikirim.');
+            ->with('success', __('success.laporan'));
     }
 
     /**

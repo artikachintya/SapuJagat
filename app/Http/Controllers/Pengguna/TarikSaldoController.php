@@ -53,12 +53,12 @@ class TarikSaldoController extends Controller
                 ->withProperties(['reason' => 'Role tidak diizinkan'])
                 ->log('Gagal tarik saldo: role tidak diizinkan');
 
-            return redirect()->back()->withErrors(['Anda tidak memiliki akses untuk melakukan penarikan.']);
+            return redirect()->back()->withErrors([__('success.withdrawal.errors.unauthorized')]);
         }
 
         // Cek apakah role = 1
         if ($user->role != 1) {
-            return redirect()->back()->withErrors(['Anda tidak memiliki akses untuk melakukan penarikan.']);
+            return redirect()->back()->withErrors([__('success.withdrawal.errors.unauthorized')]);
         }
 
         // Ambil data user_info
@@ -82,12 +82,12 @@ class TarikSaldoController extends Controller
                 ])
                 ->log('Gagal tarik saldo: saldo tidak mencukupi');
 
-            return redirect()->back()->withErrors(['Saldo tidak mencukupi untuk penarikan ini.']);
+            return redirect()->back()->withErrors([__('success.withdrawal.errors.insufficient_balance')]);
         }
 
         // Cek apakah saldo cukup
         if ($userInfo->balance < $request['amount']) {
-            return redirect()->back()->withErrors(['Saldo tidak mencukupi untuk penarikan ini.']);
+            return redirect()->back()->withErrors([__('success.withdrawal.errors.insufficient_balance')]);
         }
 
         // Kurangi saldo
@@ -113,7 +113,7 @@ class TarikSaldoController extends Controller
             ->log('Berhasil mengajukan penarikan saldo');
 
 
-        return redirect()->back()->with('success', 'Permintaan penarikan berhasil diajukan.');
+        return redirect()->back()->with('success', __('success.withdrawal.success.request_submitted'));
     }
 
     /**

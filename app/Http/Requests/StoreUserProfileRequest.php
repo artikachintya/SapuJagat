@@ -18,7 +18,7 @@ class StoreUserProfileRequest extends FormRequest
        public function rules(): array
     {
          $userId = $this->user()->id;
-         $user= $this->user(); 
+         $user= $this->user();
          $currentEmail = $this->user()->email;
         $currentPhone = $this->user()->phone_num;
 
@@ -28,7 +28,7 @@ class StoreUserProfileRequest extends FormRequest
             'province' => 'required|string|max:100',
             'city' => 'required|string|max:100',
             'postal_code' => 'required|digits_between:4,6',
-
+            'profile_pic' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
         ];
 
 
@@ -95,6 +95,11 @@ class StoreUserProfileRequest extends FormRequest
             'phone_num.required' => __('request_register.validation.phone_num.required'),
             'phone_num.digits_between' => __('request_register.validation.phone_num.digits_between'),
             'phone_num.unique' => __('request_register.validation.phone_num.unique'),
+
+            'profile_pic.image' =>  __('request_profile.validation.profile_pic.image'),
+            'profile_pic.mimes' =>  __('request_profile.validation.profile_pic.mimes'),
+            'profile_pic.max' =>  __('request_profile.validation.profile_pic.max'),
         ];
+
     }
 }

@@ -5,6 +5,11 @@
 @endphp
 
 @section('body-class', 'bg-reset-password')
+
+@php
+    $currLang = session()->get('lang', 'id'); //ini yang en itu klo ga ada parameter lang, diganti default en
+    app()->setLocale($currLang);
+@endphp
 @section('content')
     <div class="container">
         <div class="row justify-content-center">

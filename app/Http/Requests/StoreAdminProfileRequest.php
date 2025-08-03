@@ -58,9 +58,9 @@ class StoreAdminProfileRequest extends FormRequest
             'phone_num.required' => __('request_register.validation.phone_num.required'),
             'phone_num.digits_between' => __('request_register.validation.phone_num.digits_between'),
             'phone_num.unique' => __('request_register.validation.phone_num.unique'),
-            'profile_pic.image' => 'File foto profil harus berupa gambar.',
-            'profile_pic.mimes' => 'Format gambar harus jpeg, jpg, png, atau webp.',
-            'profile_pic.max' => 'Ukuran gambar maksimal 2MB.',
+            'profile_pic.image' => __('request_profile.validation.profile_pic.image'),
+            'profile_pic.mimes' =>  __('request_profile.validation.profile_pic.mimes'),
+            'profile_pic.max' =>  __('request_profile.validation.profile_pic.max'),
         ];
     }
 }

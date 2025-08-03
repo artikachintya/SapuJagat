@@ -117,7 +117,7 @@
                                             <label class="form-label"><strong> {{__('profile.fields.license_plate')}}</strong></label>
                                             <input type="text" class="form-control border-0 p-2" name="license_plate"
                                                 value="{{ optional($user->license)->license_plate }}"
-                                                placeholder="Masukkan plat nomor">
+                                                placeholder="{{ __('profile.pl_plat') }}">
                                             @error('license_plate')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
