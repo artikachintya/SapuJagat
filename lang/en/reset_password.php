@@ -8,5 +8,5 @@ return [
     'placeholder_password' => 'Enter new password',
     'placeholder_confirm' => 'Repeat your new password',
     'button' => 'Reset Password',
-    'link'=> 'Send Link To Reset Password'
+    'link' => 'Send Link To Reset Password',
 ];
