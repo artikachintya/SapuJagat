@@ -36,7 +36,7 @@ class GoogleController extends Controller
 
         if ($user) {
             if ($mode === 'register') {
-                return redirect()->route('login')->with('error', 'Email ini sudah terdaftar, silakan login.');
+                return redirect()->route('login')->with('error', __('success.alerts.already_registered'));
             }
 
             if (!$user->is_google_user) {
@@ -49,7 +49,7 @@ class GoogleController extends Controller
                     ])
                     ->log("Gagal login Google: {$user->name} bukan pengguna Google");
 
-                return redirect()->route('login')->with('error', 'Email ini terdaftar tidak dengan akun google. Silakan login dengan email dan password.');
+                return redirect()->route('login')->with(__('success.alerts.non_google_account'));
             }
 
             Auth::login($user);
@@ -80,7 +80,7 @@ class GoogleController extends Controller
                 'is_google_user' => true
             ]);
 
-            return redirect()->route('login')->with('success', 'Email berhasil terdaftar. Silakan login untuk melanjutkan.');
+            return redirect()->route('login')->with('success', __('success.alerts.registration_success'));
         }
 
         activity('authentication')
@@ -91,7 +91,7 @@ class GoogleController extends Controller
             ])
             ->log("Gagal login Google: akun belum terdaftar ({$googleUser->getEmail()})");
 
-        return redirect()->route('login')->with('error', 'Email Google Anda belum terdaftar.');
+        return redirect()->route('login')->with('error', __('success.alerts.not_registered'));
     }
 
 

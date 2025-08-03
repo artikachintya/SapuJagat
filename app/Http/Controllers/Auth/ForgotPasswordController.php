@@ -31,7 +31,7 @@ class ForgotPasswordController extends Controller
 
         if ($user && $user->is_google_user) {
             return back()->withErrors([
-                'email' => 'Akun ini menggunakan login Google. Silakan login melalui Google.'
+                'email' => __('success.google')
             ]);
         }
 

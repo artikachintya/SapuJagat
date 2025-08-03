@@ -39,7 +39,7 @@ class RegisterController extends Controller
                 ])
                 ->log('User berhasil mendaftar akun');
 
-            return redirect($this->redirectPath())->with('success', 'Pendaftaran berhasil!');
+            return redirect($this->redirectPath())->with('success', __('success.alerts.success'));
         } catch (\Exception $e) {
             activity('authentication')
                 ->withProperties([
@@ -49,7 +49,7 @@ class RegisterController extends Controller
                 ])
                 ->log('User gagal mendaftar akun');
 
-            return redirect()->back()->withErrors(['register' => 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.']);
+            return redirect()->back()->withErrors(['register' => __('success.alerts.error')]);
         }
     }
 

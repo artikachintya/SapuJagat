@@ -34,11 +34,14 @@ use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\URL;
 
 use App\Http\Middleware\AdminOnly;
+use App\Http\Middleware\SetLanguageMiddleware;
 
 // Public routes
 // Route::get('/', function () {
 //     return view('landing');
 // });
+
+Route::middleware(SetLanguageMiddleware::class)->group(function(){
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -176,8 +179,6 @@ Route::middleware(['auth', 'driver'])->prefix('driver')->name('driver.')->group(
 
 });
 
-// Add your routes here
-
 // Add this route for updating pickup status
 Route::post('/driver/pickup/{pickup}/update-status', [PickupController::class, 'updateStatus'])->name('driver.pickup.update-status');
 Route::post('/driver/pickup/{pickup}/upload-proof', [PickupController::class, 'uploadProof'])->name('driver.pickup.upload-proof');
@@ -186,4 +187,6 @@ Route::post('/simpan-rating', [RatingController::class, 'simpan'])->name('simpan
 
 
 Route::post('/lang', LanguageController::class);
+
+});
 

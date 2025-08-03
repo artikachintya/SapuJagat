@@ -60,7 +60,27 @@ return [
             'success' => 'Berhasil mengajukan penarikan saldo',
         ],
     ],
-    'laporan' => 'Laporan berhasil dikirim', 
+    'laporan' => 'Laporan berhasil dikirim',
+
+    'google' => 'Akun ini menggunakan login Google. Silakan login melalui Google.',
+    'alerts' => [
+        'already_registered' => 'Email ini sudah terdaftar, silakan login.',
+        'non_google_account' => 'Email ini terdaftar tidak dengan akun Google. Silakan login dengan email dan password.',
+        'registration_success' => 'Email berhasil terdaftar. Silakan login untuk melanjutkan.',
+        'not_registered' => 'Akun Google Anda belum terdaftar.',
+         'success' => 'Pendaftaran berhasil!',
+        'error' => 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.',
+        'user_not_found' => 'User tidak ditemukan',
+        'otp_resent' => 'OTP dikirim ulang',
+        'otp_failed' => 'Gagal mengirim ulang OTP',
+        'otp_invalid' => 'OTP salah atau kedaluwarsa',
+        'role_invalid' => 'Role tidak dikenali',
+    ],
+
+    'messages' => [
+        'otp_resent' => 'OTP telah dikirim ulang',
+        'cancel_success' => 'Proses OTP dibatalkan',
+    ],
 ];
 
 
