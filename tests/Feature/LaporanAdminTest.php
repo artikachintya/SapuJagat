@@ -131,7 +131,8 @@ class LaporanAdminTest extends TestCase
         ]);
 
         $response->assertRedirect(route('admin.laporan.index'));
-        $response->assertSessionHas('success', 'Response send successfully');
+        // $response->assertSessionHas('success', 'Response send successfully');
+        $response->assertSessionHas('success', 'Respon berhasil dikirim.');
 
         $this->assertDatabaseHas('responses', [
             'report_id' => $report->report_id,

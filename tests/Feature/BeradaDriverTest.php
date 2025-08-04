@@ -2,14 +2,17 @@
 
 namespace Tests\Feature;
 
+use App\Models\Approval;
 use App\Models\Order;
-use App\Models\Pickup;
+use App\Models\OrderDetail;
+use App\Models\Trash;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Storage;
 
 class BeradaDriverTest extends TestCase
 {
@@ -24,6 +27,14 @@ class BeradaDriverTest extends TestCase
             'email' => 'driver1@example.com',
             'password' => Hash::make('password5'),
             'role' => 3,
+        ]);
+        $this->driver = User::create([
+            'role' => 3,
+            'name' => 'Admin1',
+            'NIK' => '1234567890',
+            'email' => 'old@example.com',
+            'phone_num' => '08123456789',
+            'password' => Hash::make('oldpassword'),
         ]);
 
         $response = $this->actingAs($this->driver)->get('/driver');
