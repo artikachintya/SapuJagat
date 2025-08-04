@@ -176,13 +176,13 @@ class UserSeeder extends Seeder
         ]);
         DB::table('users_license')->insert([
             [
-                'user_id'       => 5,
+                'user_id'       => 105,
                 'license_plate' => 'B1234XYZ',
                 'created_at'    => now(),
                 'updated_at'    => now(),
             ],
             [
-                'user_id'       => 6,
+                'user_id'       => 106,
                 'license_plate' => 'D9876LMN',
                 'created_at'    => now(),
                 'updated_at'    => now(),

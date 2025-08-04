@@ -262,7 +262,7 @@ public function widget_tugas_persetujuan_menampilkan_order_belum_selesai()
             'role' => 2,
             'name' => 'Old Name',
             'NIK' => '1234567890',
-            'email' => 'old@example.com',
+            'email' => 'new@example.com',
             'phone_num' => '08123456789',
             'password' => Hash::make('oldpassword'),
         ]);
@@ -273,11 +273,12 @@ public function widget_tugas_persetujuan_menampilkan_order_belum_selesai()
             'NIK' => '1234567890', // NIK is not editable, but still sent
             'email' => 'new@example.com',
             'phone_num' => '08987654321',
-            'password' => 'newpassword123',
-            'profile_pic' => UploadedFile::fake()->create('profile.pdf', 100),
+            'password' => 'newpasswordS8&',
+            'profile_pic' => UploadedFile::fake()->create('profile.jpg', 100),
         ];
 
-        $response = $this->actingAs($this->admin)->post(route('admin.profile.save'), $newData);
+        // Send PUT request
+        $response = $this->actingAs($this->admin)->patch(route('admin.profile.save'), $newData);
 
         $response->assertRedirect(route('admin.profile'));
 
@@ -286,7 +287,7 @@ public function widget_tugas_persetujuan_menampilkan_order_belum_selesai()
         $this->assertEquals('New Name', $this->admin->name);
         $this->assertEquals('new@example.com', $this->admin->email);
         $this->assertEquals('08987654321', $this->admin->phone_num);
-        $this->assertTrue(Hash::check('newpassword123', $this->admin->password));
+        $this->assertTrue(Hash::check('newpasswordS8&', $this->admin->password));
         $this->assertStringContainsString('profile_pictures/', $this->admin->profile_pic);
     }
 }
