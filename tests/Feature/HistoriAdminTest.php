@@ -120,6 +120,7 @@ class HistoriAdminTest extends TestCase
         ]);
 
         Approval::factory()->create([
+            'user_id' => $this->user->user_id,
             'order_id' => $this->order->order_id,
             'approval_status' => 2,
         ]);
@@ -219,6 +220,7 @@ class HistoriAdminTest extends TestCase
         $approvedAt = now();
 
         Approval::factory()->create([
+            'user_id' => $this->user->user_id,
             'order_id'          => $this->order->order_id,
             'approval_status'            => 1,
             'date_time' => $approvedAt,

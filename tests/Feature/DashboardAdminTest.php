@@ -277,19 +277,12 @@ public function widget_tugas_persetujuan_menampilkan_order_belum_selesai()
             'profile_pic' => UploadedFile::fake()->create('profile.pdf', 100),
         ];
 
-        // Send PUT request
         $response = $this->actingAs($this->admin)->post(route('admin.profile.save'), $newData);
 
-        // Assert redirect
         $response->assertRedirect(route('admin.profile'));
 
-        // Assert file was stored
-        // Storage::disk('public')->assertExists('profile_pictures/' . $newData['profile_pic']->hashName());
-
-        // Refresh user
         $this->admin->refresh();
 
-        // Assert updated values
         $this->assertEquals('New Name', $this->admin->name);
         $this->assertEquals('new@example.com', $this->admin->email);
         $this->assertEquals('08987654321', $this->admin->phone_num);

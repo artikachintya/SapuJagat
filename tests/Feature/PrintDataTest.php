@@ -304,6 +304,7 @@ class PrintDataTest extends TestCase
         Pickup::factory()->create(['order_id' => $this->order->order_id]);
 
         Approval::factory()->create([
+            'user_id' => $this->user->user_id,
             'order_id' => $this->order->order_id,
             'approval_status' => 1,
             'date_time' => '2025-07-15',
