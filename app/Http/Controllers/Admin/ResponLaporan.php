@@ -29,6 +29,9 @@ class ResponLaporan extends Controller
     // Menggunakan Form Request `StoreReportResponseRequest` untuk validasi otomatis.
     public function store(StoreReportResponseRequest $request)
     {
+
+         $currLang = session()->get('lang', 'id');
+    app()->setLocale($currLang); //
         $validated = $request->validated();
 
         \App\Models\Response::create([
