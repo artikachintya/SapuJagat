@@ -101,6 +101,7 @@ class PersetujuanAdminTest extends TestCase
         ]);
 
         Approval::factory()->create([
+            'user_id' => $this->user->user_id,
             'order_id' => $this->order->order_id,
             'approval_status' => 2,
         ]);
@@ -113,6 +114,7 @@ class PersetujuanAdminTest extends TestCase
             $order = Order::factory()->create();
 
             Approval::factory()->create([
+                'user_id' => $this->user->user_id,
                 'order_id' => $order->order_id,
                 'approval_status' => 1,
             ]);
@@ -126,6 +128,7 @@ class PersetujuanAdminTest extends TestCase
             $order = Order::factory()->create();
 
             Approval::factory()->create([
+                'user_id' => $this->user->user_id,
                 'order_id' => $order->order_id,
                 'approval_status' => 0,
             ]);
@@ -205,6 +208,7 @@ class PersetujuanAdminTest extends TestCase
         ]);
 
         Approval::factory()->create([
+            'user_id' => $this->user->user_id,
             'order_id' => $this->order->order_id,
             'approval_status' => 2,
         ]);
@@ -217,6 +221,7 @@ class PersetujuanAdminTest extends TestCase
             $order = Order::factory()->create();
 
             Approval::factory()->create([
+                'user_id' => $this->user->user_id,
                 'order_id' => $order->order_id,
                 'approval_status' => 0,
             ]);
@@ -295,6 +300,7 @@ class PersetujuanAdminTest extends TestCase
         ]);
 
         Approval::factory()->create([
+            'user_id' => $this->user->user_id,
             'order_id' => $this->order->order_id,
             'approval_status' => 2,
         ]);
@@ -390,6 +396,7 @@ class PersetujuanAdminTest extends TestCase
         ]);
 
         Approval::factory()->create([
+            'user_id' => $this->user->user_id,
             'order_id' => $this->order->order_id,
             'approval_status' => 2,
         ]);

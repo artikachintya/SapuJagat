@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Response;
-use Session;
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class LaporanAdminTest extends TestCase
@@ -20,7 +20,7 @@ class LaporanAdminTest extends TestCase
         return User::factory()->create(['role' => 2]);
     }
 
-    /* RP‑001 ─ Halaman Laporan dapat dimuat */
+    /** @test */
     public function test_admin_can_open_laporan_page()
     {
         $response = $this->actingAs($this->admin())->get('admin/laporan');
@@ -29,7 +29,7 @@ class LaporanAdminTest extends TestCase
                  ->assertSee('Daftar Laporan dari Pengguna');
     }
 
-    /* RP‑002 ─ Tabel menampilkan laporan aktif */
+    /** @test */
     public function test_table_shows_report_rows()
     {
         $report = Report::factory()->create([
@@ -43,7 +43,7 @@ class LaporanAdminTest extends TestCase
     }
 
 
-    /* RP‑003 ─ Badge "Sudah Direspon" */
+    /** @test */
     public function test_status_badge_sudah_direspon()
     {
         $admin = $this->admin();
@@ -79,7 +79,7 @@ class LaporanAdminTest extends TestCase
                 ->assertSee('Belum Direspon');
     }
 
-    /* RP‑005 ─ Tanggal direspon kosong jika pending */
+    /** @test */
     public function test_responded_at_is_dash_when_pending()
     {
         // Create a report with no response
@@ -89,13 +89,12 @@ class LaporanAdminTest extends TestCase
 
         $response = $this->actingAs($this->admin())->get('admin/laporan');
 
-        // Ensure that dash "-" is shown in the responded_at column
+
         $response->assertSee((string) $report->report_id)
                 ->assertSee('Belum direspon')
                 ->assertSee('-');
     }
 
-    /* RP‑006 ─ Tombol detail membuka halaman detail */
     public function test_detail_modal_contains_report_information()
     {
         $report = Report::factory()->forUser()->create([
@@ -114,46 +113,9 @@ class LaporanAdminTest extends TestCase
                 ->assertSee('Belum Direspon');
     }
 
-
-    /* RP‑007 ─ Pencarian filter */
-    // public function test_search_filter_reports()
-    // {
-    //     Report::factory()->create(['content' => 'driver tidak ramah']);
-    //     Report::factory()->create(['content' => 'lambat']);
-
-    //     $response = $this->actingAs($this->admin())->get('/laporan?search=ramah');
-
-    //     $response->assertSee('driver tidak ramah')
-    //              ->assertDontSee('lambat');
-    // }
-
-    // /* RP‑008 ─ Pagination maksimal 10 entri */
-    // public function test_first_page_has_max_10_rows()
-    // {
-    //     Report::factory()->count(11)->create();
-
-    //     $response = $this->actingAs($this->admin())->get('/laporan');
-
-    //     $this->assertCount(10, $response->viewData('reports'));
-    // }
-
-    // /* RP‑009 ─ Next / Previous pagination */
-    // public function test_pagination_next_and_previous_work()
-    // {
-    //     Report::factory()->count(15)->create();
-    //     $admin = $this->admin();
-
-    //     $page1 = $this->actingAs($admin)->get('/laporan?page=1');
-    //     $page1->assertSee('?page=2');
-
-    //     $page2 = $this->actingAs($admin)->get('/laporan?page=2');
-    //     $page2->assertSee('?page=1');
-    // }
-
-    /* RP‑010 ─ Status berubah ke "Sudah Direspon" setelah admin balas */
     public function test_admin_can_mark_report_as_responded()
     {
-        $admin = $this->admin(); // assume this returns a valid admin user
+        $admin = $this->admin();
 
         $report = Report::factory()->create([
             'report_message' => 'Belum sss',
@@ -169,9 +131,8 @@ class LaporanAdminTest extends TestCase
         ]);
 
         $response->assertRedirect(route('admin.laporan.index'));
-        $response->assertSessionHas('success', 'Respon berhasil dikirim.');
+        $response->assertSessionHas('success', 'Response send successfully');
 
-        // Assert response saved
         $this->assertDatabaseHas('responses', [
             'report_id' => $report->report_id,
             'user_id' => $admin->user_id,
@@ -179,7 +140,6 @@ class LaporanAdminTest extends TestCase
             'date_time_response' => now(),
         ]);
 
-        // Assert report is updated (make sure you handle this in controller or model event!)
         $this->assertDatabaseHas('responses', [
             'report_id' => $report->report_id,
         ]);
